@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Redis for Solution Sales</title>
-<meta name="description" content="Lesson 01 — what a cache actually is, and how to talk about it with a CIO.">
+<title>Redis Inside a Bank</title>
+<meta name="description" content="Lesson 01 — cache, TTL and the payment path, for people selling into digital banking.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
@@ -49,7 +49,6 @@ a{color:var(--accent)}
 .wrap{max-width:720px; margin:0 auto; padding:0 24px}
 .prose{max-width:64ch}
 
-/* ---------- header ---------- */
 .top{
   position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent);
   backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
@@ -62,34 +61,30 @@ a{color:var(--accent)}
 .dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
 .dot.on{background:var(--accent); border-color:var(--accent)}
 
-/* ---------- hero ---------- */
 .hero{padding:72px 0 56px}
 .eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
-.hero h1{font-size:clamp(38px,7vw,60px); letter-spacing:-.02em}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
 .hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
 .facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
 
-/* ---------- sections ---------- */
 section{padding:52px 0; border-top:1px solid var(--line)}
 .sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
 .sec-no b{color:var(--ink); font-weight:500}
 h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
-h3{font-size:19px; margin-bottom:10px}
+h3{font-size:18px; margin:34px 0 10px}
 .stack{display:flex; flex-direction:column; gap:20px}
 .stack p{max-width:64ch}
-.vi{
-  font-size:14.5px; color:var(--muted); border-left:2px solid var(--line);
-  padding-left:14px; max-width:60ch;
-}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
 .vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
 
-.pull{
-  margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line);
-  border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow);
-}
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
 .pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
 
-/* term grid */
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
 .terms{margin-top:34px; display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
 @media(min-width:620px){.terms{grid-template-columns:1fr 1fr}}
 .term{background:var(--surface); padding:18px 20px}
@@ -97,58 +92,70 @@ h3{font-size:19px; margin-bottom:10px}
 .term dd{margin:6px 0 0; font-size:15px; color:var(--ink-2)}
 .term dd em{display:block; margin-top:5px; font-style:normal; font-size:13.5px; color:var(--muted)}
 
-/* ---------- simulator ---------- */
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px; display:grid; grid-template-columns:minmax(0,1fr); gap:4px}
+@media(min-width:620px){.uses li{grid-template-columns:180px minmax(0,1fr); gap:20px; align-items:baseline}}
+.uses .u{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+.uses .d{font-size:15px; color:var(--ink-2)}
+
 .sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
 .sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
-button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
 button:disabled{opacity:.45; cursor:not-allowed}
 .btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
 .ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
 .ghost:hover:not(:disabled){border-color:var(--muted)}
-.sw{display:inline-flex; align-items:center; gap:9px; font-family:var(--ff-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); cursor:pointer; user-select:none; margin-left:auto}
-.sw input{appearance:none; width:38px; height:21px; border-radius:11px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
-.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:16px; height:16px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.switches{display:flex; flex-wrap:wrap; gap:8px 20px; padding:13px 18px; border-bottom:1px solid var(--line)}
+.sw{display:inline-flex; align-items:center; gap:9px; font-family:var(--ff-mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); cursor:pointer; user-select:none}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
 .sw input:checked{background:var(--fast)}
-.sw input:checked::after{transform:translateX(17px)}
+.sw input:checked::after{transform:translateX(16px)}
+.sw input:disabled{opacity:.4; cursor:not-allowed}
+.sw:has(input:disabled){opacity:.5}
 
 .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
 @media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
 .stat{background:var(--surface); padding:14px 18px}
 .stat .k{display:block; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
-.stat .v{display:block; font-family:var(--ff-mono); font-size:22px; font-variant-numeric:tabular-nums; margin-top:3px; color:var(--ink)}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:3px; color:var(--ink)}
 .stat .v.hot{color:var(--slow)} .stat .v.cool{color:var(--fast)}
 
 .track{list-style:none; margin:0; padding:8px 0}
-.lane{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 18px}
+.lane{display:grid; grid-template-columns:minmax(0,1fr) 132px; align-items:center; gap:14px; padding:9px 18px}
 .lane .name{font-size:14.5px; color:var(--ink-2); margin-bottom:6px}
 .rail{height:7px; border-radius:4px; background:var(--sunk); overflow:hidden}
 .fill{height:100%; width:0; background:var(--slow); border-radius:4px}
 .lane.hit .fill{background:var(--fast)}
-.tag{font-family:var(--ff-mono); font-size:11px; letter-spacing:.04em; text-align:right; font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+.tag{font-family:var(--ff-mono); font-size:11px; letter-spacing:.02em; text-align:right; font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
 .lane.done.hit .tag{color:var(--fast)}
 .lane.done.miss .tag{color:var(--slow)}
+
+.ledger{border-top:1px solid var(--line); display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line)}
+.led{background:var(--surface); padding:16px 18px}
+.led .k{display:block; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.led .v{display:block; font-family:var(--ff-mono); font-size:19px; font-variant-numeric:tabular-nums; margin-top:4px; color:var(--ink)}
+.flag{grid-column:1/-1; background:var(--surface); padding:0}
+.flag div{padding:13px 18px; font-family:var(--ff-mono); font-size:11.5px; letter-spacing:.06em; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
 .sim-note{padding:14px 18px 18px; font-family:var(--ff-mono); font-size:11.5px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
 
-/* ---------- quiz ---------- */
 .q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
 .q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
 .q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
 .opts{display:flex; flex-direction:column; gap:8px}
-.opt{
-  text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink);
-  padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline;
-}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
 .opt:hover:not(:disabled){border-color:var(--muted)}
 .opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
 .opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
 .opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
-.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
 .why.show{display:block}
 .why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
 .why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
 .score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
 
-/* ---------- roleplay ---------- */
 .scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
 .who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
 .who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
@@ -160,12 +167,8 @@ button:disabled{opacity:.45; cursor:not-allowed}
 .verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
 .verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
 
-/* ---------- cheat sheet ---------- */
 .lines{list-style:none; margin:0; padding:0; counter-reset:l}
-.lines li{
-  counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px;
-  padding:18px 0; border-bottom:1px solid var(--line);
-}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
 .lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
 .lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
 .lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
@@ -186,71 +189,98 @@ footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:
 <main class="wrap">
 
 <div class="hero">
-  <div class="eyebrow">Infrastructure · Cache &amp; Redis</div>
-  <h1>Why is your system so slow?</h1>
-  <p class="lede">It is the question every CIO asks in the second meeting. Nine times out of ten the honest answer is not "a bigger server" — it is a cache. And the cache they will name is Redis.</p>
-  <div class="facts"><span>12 min</span><span>No code</span><span>Ends with 5 lines you can use in a meeting</span></div>
+  <div class="eyebrow">Digital banking · Cache, TTL &amp; the payment path</div>
+  <h1>Two million taps a day, one core banking system.</h1>
+  <p class="lede">At 8pm a few hundred thousand people open your customer's banking app to look at one number. None of them are moving money. All of them are hitting a core that was licensed, sized and designed for something else entirely.</p>
+  <div class="facts"><span>14 min</span><span>No code</span><span>Ends with 5 lines you can use in a meeting</span></div>
 </div>
 
 <section>
   <div class="sec-no"><b>01</b><span>Understand</span></div>
-  <h2>The archive room and the notepad</h2>
+  <h2>The vault and the cash drawer</h2>
   <div class="stack">
-    <p>A prospect's Customer 360 dashboard takes eight seconds to load. Their IT lead blames "the server". Their current vendor has quoted a hardware upgrade. You are in the room, and you need a better question than "what's the budget?"</p>
-    <p>Here is what is actually happening. Every time somebody opens that screen, the application walks down to the database and asks the same six questions again: who is this customer, what have they bought, what is their credit limit, what tickets are open. Six questions. Every user. Every single time.</p>
-    <p>The database answers correctly. It just answers <em>slowly</em> — and it answers the exact same thing over and over.</p>
-    <p class="vi"><b>Tiếng Việt</b>Database = kho hồ sơ trung tâm của doanh nghiệp. Nó trả lời đúng, nhưng chậm, và bị hỏi đi hỏi lại cùng một câu suốt cả ngày.</p>
+    <p>A bank's mobile app crawls at the evening peak. The core banking vendor has quoted a throughput licence upgrade. The CTO is annoyed, the CFO has seen the number, and you are in the room.</p>
+    <p>Here is what is actually happening. Every time somebody opens the app home screen, it asks the core the same handful of questions: what is my balance, what were my last transactions, is my card active, do I have offers. Most of those people close the app four seconds later without doing anything. They were <em>looking</em>, not <em>transacting</em> — but the core was charged for the visit either way.</p>
+    <p class="vi"><b>Tiếng Việt</b>Core banking (T24, Flexcube…) là hệ thống ghi nhận sự thật về tiền. Nó được thiết kế cho giao dịch chi nhánh và batch cuối ngày — không phải cho vài trăm nghìn người kéo-làm-mới màn hình app lúc 8 giờ tối.</p>
   </div>
 
-  <div class="pull"><q>A database is the archive room downstairs. A cache is the notepad on your desk.</q></div>
+  <div class="pull"><q>The core is the vault. Redis is the teller's cash drawer.</q></div>
 
   <div class="stack">
-    <p>You do not walk down to the archive for a price you looked up thirty seconds ago. You wrote it on the pad. <strong>Redis</strong> is that notepad — an in-memory store that sits in front of the database and answers repeat questions in about one millisecond instead of a hundred and twenty.</p>
-    <p>Memory (RAM) is roughly a hundred times faster than disk. That is the entire trick. It is also why Redis costs more per gigabyte, and why it is never the place your customer's real records live.</p>
+    <p>Nobody opens the vault to hand over five hundred thousand đồng. The teller keeps a drawer for the routine work of the day, and the vault stays the place where the truth lives. <strong>Redis</strong> is that drawer — an in-memory store sitting in front of the core, answering the repeated, read-only questions in about one millisecond instead of a hundred and forty.</p>
+    <p>Memory is roughly a hundred times faster than disk. That is the whole mechanism. It is also why Redis is sized in gigabytes rather than terabytes, and why it never becomes the bank's system of record.</p>
   </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Cache the balance you <em>display</em>. Never cache the balance you <em>authorise against</em>.</p>
+    <p class="sub">Showing a number that is two seconds old is a display problem. Approving a debit against a number that is two seconds old is a loss, a reconciliation break, and a conversation with the regulator. Every risk officer you meet will test you on exactly this boundary — and most vendors fail it by being vague.</p>
+  </div>
+
+  <h3>Redis in a bank is not only about speed</h3>
+  <p class="prose" style="margin-bottom:20px">This is what raises you from "the fast thing" to someone the architects take seriously. Most of what Redis holds in a bank is short-lived state that expires by itself.</p>
+  <ul class="uses">
+    <li><span class="u">Session &amp; token store</span><span class="d">Every logged-in user. Auto-logout after 15 minutes of inactivity is a TTL, nothing more.</span></li>
+    <li><span class="u">OTP validity</span><span class="d">"This code expires in 60 seconds" is literally a Redis key with a 60-second TTL.</span></li>
+    <li><span class="u">Anti-brute-force</span><span class="d">"Five wrong PINs and the account locks for 15 minutes" is a counter with a TTL, checked on every attempt.</span></li>
+    <li><span class="u">Idempotency keys</span><span class="d">A customer taps Transfer twice on weak 4G. The duplicate is recognised and ignored — so the money leaves once.</span></li>
+    <li><span class="u">Fraud velocity checks</span><span class="d">"How many transfers has this account made in the last 60 seconds?" — needed in under a millisecond, inside the payment path.</span></li>
+    <li><span class="u">FX &amp; interest rates</span><span class="d">Read by everyone, changed by almost no one. The textbook cache.</span></li>
+  </ul>
 
   <dl class="terms">
-    <div class="term"><dt>Cache hit</dt><dd>The answer was already on the pad. No trip downstairs.<em>Đã có sẵn — trả lời ngay.</em></dd></div>
-    <div class="term"><dt>Cache miss</dt><dd>Not on the pad. Go to the database, then write it down for next time.<em>Chưa có — phải đi lấy, rồi ghi lại.</em></dd></div>
-    <div class="term"><dt>TTL — time to live</dt><dd>How long a note stays on the desk before it is thrown away.<em>Quá dài = số liệu cũ. Quá ngắn = lại phải đi lấy.</em></dd></div>
-    <div class="term"><dt>Hit rate</dt><dd>Share of requests answered without touching the database. The number to ask their architect for.<em>Con số bạn nên hỏi đội kỹ thuật của khách.</em></dd></div>
+    <div class="term"><dt>Cache hit / miss</dt><dd>Hit: the answer was already in the drawer. Miss: go to the core, then keep a copy.<em>Đã có sẵn / phải đi lấy rồi ghi lại.</em></dd></div>
+    <div class="term"><dt>TTL — time to live</dt><dd>How long a value survives before it deletes itself. OTP, session and account lock are all TTLs.<em>Thời hạn sống. Quá dài = số liệu cũ; quá ngắn = lại phải hỏi core.</em></dd></div>
+    <div class="term"><dt>System of record</dt><dd>The one system that decides what is true. In a bank that is the core — audited, reconciled, never the cache.<em>Nguồn sự thật duy nhất. Cache không bao giờ là nguồn này.</em></dd></div>
+    <div class="term"><dt>Cache invalidation</dt><dd>Throwing the copy away the moment the real value changes — for example the second a transaction posts.<em>Xoá bản sao ngay khi giá trị thật thay đổi.</em></dd></div>
+    <div class="term"><dt>Idempotency key</dt><dd>A unique tag on a request so that sending it twice still executes it once.<em>Bấm hai lần vẫn chỉ trừ tiền một lần.</em></dd></div>
+    <div class="term"><dt>Hit rate</dt><dd>Share of requests answered without touching the core. The single number to ask their architect for.<em>Con số nên hỏi kiến trúc sư của khách.</em></dd></div>
   </dl>
 </section>
 
 <section>
   <div class="sec-no"><b>02</b><span>See it</span></div>
-  <h2>Load the dashboard yourself</h2>
-  <p class="prose" style="margin-bottom:26px">Six queries fire every time this screen opens. Run it once with the cache off. Then switch Redis on and run it twice — the second run is the one that changes the conversation.</p>
+  <h2>Open the app at 8pm</h2>
+  <p class="prose" style="margin-bottom:26px">Six calls fire every time the home screen loads. Run it once with Redis off. Switch Redis on and run it twice — the second run is the one that changes a CFO's mind. Then send an incoming transfer and run it again: that is the part that changes a risk officer's mind.</p>
 
   <div class="sim">
     <div class="sim-bar">
-      <button class="btn" id="run">Open the dashboard</button>
-      <button class="ghost" id="clear">Clear cache</button>
-      <label class="sw"><input type="checkbox" id="cacheOn"> Redis</label>
+      <button class="btn" id="run">Open the app</button>
+      <button class="ghost" id="pay">Incoming transfer +5.000.000 ₫</button>
+      <button class="ghost" id="clear">Flush cache</button>
+    </div>
+    <div class="switches">
+      <label class="sw"><input type="checkbox" id="cacheOn"> Redis cache</label>
+      <label class="sw"><input type="checkbox" id="inval" disabled> Invalidate on write</label>
     </div>
     <div class="stats">
-      <div class="stat"><span class="k">Total time</span><span class="v" id="stTime">—</span></div>
-      <div class="stat"><span class="k">DB queries</span><span class="v hot" id="stDb">0</span></div>
+      <div class="stat"><span class="k">Screen load</span><span class="v" id="stTime">—</span></div>
+      <div class="stat"><span class="k">Core calls</span><span class="v hot" id="stDb">0</span></div>
       <div class="stat"><span class="k">Cache hits</span><span class="v cool" id="stHit">0</span></div>
       <div class="stat"><span class="k">Hit rate</span><span class="v" id="stRate">—</span></div>
     </div>
     <ol class="track" id="track"></ol>
-    <p class="sim-note">Latencies shown are realistic for a mid-size ERP dataset: ~120 ms per database read, ~1 ms per cache hit. The animation runs about 4× slower than reality so you can watch it happen.</p>
+    <div class="ledger">
+      <div class="led"><span class="k">Balance shown in app</span><span class="v" id="shown">—</span></div>
+      <div class="led"><span class="k">Balance in core banking</span><span class="v" id="truth">—</span></div>
+      <div class="flag" id="flag"></div>
+    </div>
+    <p class="sim-note">Latencies are realistic for a core banking read at peak: 70–160 ms to the core, ~1 ms from cache. Animation runs about 4× slower than reality so you can watch it happen.</p>
   </div>
 </section>
 
 <section>
   <div class="sec-no"><b>03</b><span>Test it</span></div>
   <h2>Five questions</h2>
-  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong is more useful than getting it right.</p>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in front of a CISO.</p>
   <div id="quiz"></div>
   <p class="score" id="score">0 / 5 answered</p>
 </section>
 
 <section>
   <div class="sec-no"><b>04</b><span>Use it</span></div>
-  <h2>In front of the customer</h2>
-  <p class="prose" style="margin-bottom:26px">Three moments from a real enterprise cycle. Choose what you would actually say.</p>
+  <h2>In front of the bank</h2>
+  <p class="prose" style="margin-bottom:26px">Three moments from a real banking cycle. Choose what you would actually say.</p>
   <div id="play"></div>
 </section>
 
@@ -258,63 +288,84 @@ footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:
   <div class="sec-no"><b>05</b><span>Take away</span></div>
   <h2>Five lines worth stealing</h2>
   <ol class="lines">
-    <li><div><div class="say">"Is the system slow because it is doing hard work, or because it is doing the same work repeatedly?"</div><div class="use">Opens the technical discussion without pretending to be an architect. Repetition means a cache. Hard work means something else entirely — and that is a different, larger deal.</div></div></li>
-    <li><div><div class="say">"Redis does not replace your database. It protects it."</div><div class="use">Defuses the instinct that you are attacking an existing SAP or Oracle investment. You are adding a layer in front, not swapping the system of record.</div></div></li>
-    <li><div><div class="say">"What is your cache hit rate today?"</div><div class="use">One question that tells their team you know where the number lives. If the answer is "we don't cache", you have just found the gap.</div></div></li>
-    <li><div><div class="say">"How fresh does this screen actually need to be?"</div><div class="use">Turns TTL from a technical setting into a business decision the customer owns. Product catalogue: an hour is fine. Cash position: seconds.</div></div></li>
-    <li><div><div class="say">"Caching buys you time before you pay for a bigger database licence."</div><div class="use">The CFO line. Fewer queries reaching the database defers the upgrade — that is real money on a renewal, not a spec-sheet benefit.</div></div></li>
+    <li><div><div class="say">"How much of your evening peak is people looking, not people paying?"</div><div class="use">Splits one vague performance complaint into two different deals with two different price tags. Read traffic is a cache problem. Transaction traffic is a core problem. Most vendors quote the expensive one by default.</div></div></li>
+    <li><div><div class="say">"Redis does not replace your core. It stops your core being asked the same question two million times a day."</div><div class="use">Protects their existing T24 or Flexcube investment instead of attacking it. You are adding a layer in front, not proposing a migration nobody asked for.</div></div></li>
+    <li><div><div class="say">"Nothing in the authorisation path reads from cache. Display and debit are different risks."</div><div class="use">The sentence that gets you past the risk committee. Say it before they ask, not after.</div></div></li>
+    <li><div><div class="say">"How do you handle a double tap on a bad connection today?"</div><div class="use">Idempotency. Double-debit is a headline risk at any retail bank, and almost nobody in a sales meeting asks about it. Ask it and you stop being a vendor.</div></div></li>
+    <li><div><div class="say">"If it holds sessions and OTPs, it holds personal data — let's put that on the agenda now, not in the security review."</div><div class="use">A cache full of phone numbers and session tokens is in scope for Nghị định 13/2023 and the bank's own security assessment. Raising it early is worth more than answering it late.</div></div></li>
   </ol>
-  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Năm câu này dùng nguyên văn tiếng Anh khi làm việc với C-level. Ý cốt lõi: đừng bán tốc độ, hãy bán việc <em>bỏ bớt công việc lặp lại</em> — và số tiền khách hoãn được nhờ đó.</p>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Dùng nguyên văn tiếng Anh khi làm việc với C-level ngân hàng. Ý cốt lõi: đừng bán tốc độ. Bán việc <em>gỡ tải đọc lặp lại khỏi core</em>, số tiền khách hoãn được nhờ đó, và ranh giới rủi ro mà bạn tự nêu ra trước khi họ hỏi.</p>
 </section>
 
-<footer>Tech for BD — Lesson 01 of 08 · Next: APIs &amp; integration, the question that kills most deals.</footer>
+<footer>Tech for BD — Lesson 01 of 08 · Next: APIs &amp; integration — Open Banking, ISO 20022, and the question that kills most deals.</footer>
 </main>
 
 <script>
 (function(){
 "use strict";
 var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+var vnd = new Intl.NumberFormat("vi-VN");
+function money(n){ return vnd.format(n)+" ₫"; }
 
 /* ---------- progress ---------- */
-var done = {sim:false, quiz:false, play:false};
-try{ done = Object.assign(done, JSON.parse(localStorage.getItem("tfbd-l1")||"{}")); }catch(e){}
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("tfbd-l1")||"{}")); }catch(e){}
 function paint(){
-  var keys=["sim","quiz","play"], n=0;
-  keys.forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
-  document.getElementById("progTxt").textContent = n+" / 3";
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
 }
 function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("tfbd-l1",JSON.stringify(done));}catch(e){} paint(); }
 paint();
 
 /* ---------- simulator ---------- */
-var QUERIES=["Customer profile","Contract list","Open invoices","Support tickets","Credit limit","Last 5 orders"];
-var DB_MS=120, HIT_MS=1, SCALE=4;
-var cache={}, track=document.getElementById("track");
-var runBtn=document.getElementById("run"), clearBtn=document.getElementById("clear"), cacheOn=document.getElementById("cacheOn");
+var CALLS=[
+ {k:"balance", n:"Account balance",     src:"core banking", ms:140},
+ {k:"txns",    n:"Last 10 transactions",src:"core banking", ms:160},
+ {k:"card",    n:"Card status",         src:"card system",  ms:90},
+ {k:"offers",  n:"Cashback offers",     src:"CRM",          ms:110},
+ {k:"fx",      n:"FX rates",            src:"market feed",  ms:80},
+ {k:"points",  n:"Loyalty points",      src:"loyalty",      ms:70}
+];
+var SCALE=4, HIT_MS=1;
+var cache={}, cachedBalance=null, coreBalance=12450000, ran=false;
+var track=document.getElementById("track");
+var runBtn=document.getElementById("run"), payBtn=document.getElementById("pay"), clearBtn=document.getElementById("clear");
+var cacheOn=document.getElementById("cacheOn"), inval=document.getElementById("inval");
 
 function build(){
   track.innerHTML="";
-  QUERIES.forEach(function(q){
-    var li=document.createElement("li");
-    li.className="lane";
+  CALLS.forEach(function(c){
+    var li=document.createElement("li"); li.className="lane";
     li.innerHTML='<div><div class="name"></div><div class="rail"><div class="fill"></div></div></div><div class="tag">queued</div>';
-    li.querySelector(".name").textContent=q;
+    li.querySelector(".name").textContent=c.n;
     track.appendChild(li);
   });
 }
 build();
 
 function setStats(t,db,hit){
-  document.getElementById("stTime").textContent = t===null ? "—" : t+" ms";
-  document.getElementById("stDb").textContent = db;
-  document.getElementById("stHit").textContent = hit;
-  document.getElementById("stRate").textContent = (db+hit)===0 ? "—" : Math.round(hit/(db+hit)*100)+"%";
+  document.getElementById("stTime").textContent = t===null?"—":t+" ms";
+  document.getElementById("stDb").textContent=db;
+  document.getElementById("stHit").textContent=hit;
+  document.getElementById("stRate").textContent=(db+hit)===0?"—":Math.round(hit/(db+hit)*100)+"%";
+}
+function ledger(shownVal){
+  document.getElementById("truth").textContent=money(coreBalance);
+  document.getElementById("shown").textContent = shownVal===null?"—":money(shownVal);
+  var f=document.getElementById("flag");
+  if(shownVal===null){ f.innerHTML=""; return; }
+  if(shownVal!==coreBalance){
+    f.innerHTML='<div class="stale">STALE · the customer is looking at a number that is '+money(coreBalance-shownVal)+' short. Turn on "invalidate on write" and run it again.</div>';
+  }else{
+    f.innerHTML='<div class="match">MATCHED · display agrees with the system of record.</div>';
+  }
 }
 
-function step(lane, ms, hit){
+function step(lane,ms,hit,src){
   return new Promise(function(res){
     lane.classList.add(hit?"hit":"miss");
-    lane.querySelector(".tag").textContent = hit ? "cache · "+ms+" ms" : "database · "+ms+" ms";
+    lane.querySelector(".tag").textContent = hit ? "cache · "+ms+" ms" : src+" · "+ms+" ms";
     var fill=lane.querySelector(".fill");
     var vis = reduce ? 0 : Math.max(ms*SCALE, hit?200:0);
     fill.style.transition = vis ? "width "+vis+"ms linear" : "none";
@@ -324,62 +375,82 @@ function step(lane, ms, hit){
 }
 
 async function run(){
-  runBtn.disabled=clearBtn.disabled=cacheOn.disabled=true;
-  build();
-  var lanes=track.querySelectorAll(".lane"), total=0, db=0, hit=0;
-  setStats(null,0,0);
-  for(var i=0;i<QUERIES.length;i++){
-    var on=cacheOn.checked, isHit = on && cache[QUERIES[i]]===true;
-    var ms = isHit ? HIT_MS : DB_MS;
-    await step(lanes[i], ms, isHit);
-    total+=ms; if(isHit){hit++;}else{db++; if(on) cache[QUERIES[i]]=true;}
+  runBtn.disabled=payBtn.disabled=clearBtn.disabled=cacheOn.disabled=inval.disabled=true;
+  build(); setStats(null,0,0);
+  var lanes=track.querySelectorAll(".lane"), total=0, db=0, hit=0, shown=null;
+  for(var i=0;i<CALLS.length;i++){
+    var c=CALLS[i], on=cacheOn.checked, isHit = on && cache[c.k]!==undefined;
+    var ms = isHit ? HIT_MS : c.ms;
+    await step(lanes[i], ms, isHit, c.src);
+    total+=ms;
+    if(isHit){ hit++; if(c.k==="balance") shown=cachedBalance; }
+    else{
+      db++;
+      if(c.k==="balance"){ shown=coreBalance; if(on) cachedBalance=coreBalance; }
+      if(on) cache[c.k]=true;
+    }
     setStats(total,db,hit);
   }
-  runBtn.disabled=clearBtn.disabled=cacheOn.disabled=false;
+  ledger(shown); ran=true;
+  runBtn.disabled=payBtn.disabled=clearBtn.disabled=cacheOn.disabled=false;
+  inval.disabled=!cacheOn.checked;
   runBtn.textContent="Open it again";
   mark("sim");
 }
 runBtn.addEventListener("click",run);
-clearBtn.addEventListener("click",function(){ cache={}; build(); setStats(null,0,0); runBtn.textContent="Open the dashboard"; });
-cacheOn.addEventListener("change",function(){ if(!cacheOn.checked) cache={}; });
+payBtn.addEventListener("click",function(){
+  coreBalance+=5000000;
+  if(cacheOn.checked && inval.checked){ delete cache.balance; cachedBalance=null; }
+  document.getElementById("truth").textContent=money(coreBalance);
+  if(ran) document.getElementById("flag").innerHTML='<div class="stale">Money has arrived in the core. Open the app again to see what the customer is shown.</div>';
+});
+clearBtn.addEventListener("click",function(){
+  cache={}; cachedBalance=null; ran=false; build(); setStats(null,0,0); ledger(null);
+  document.getElementById("truth").textContent="—";
+  runBtn.textContent="Open the app";
+});
+cacheOn.addEventListener("change",function(){
+  inval.disabled=!cacheOn.checked;
+  if(!cacheOn.checked){ cache={}; cachedBalance=null; }
+});
 
 /* ---------- quiz ---------- */
 var QUIZ=[
- {q:'A customer says: "the dashboard is slow, we will just buy a bigger database server." What is the sharpest first question you ask?',
-  o:["What is the budget for the upgrade?",
-     "Are you reading the same data over and over again?",
-     "Have you considered moving this to cloud?",
-     "How many concurrent users do you have?"],
+ {q:"A bank's app slows to a crawl at 8pm. The core banking vendor quotes a throughput licence upgrade. What is the sharpest first question you ask?",
+  o:["How much is the upgrade, and what is the timeline?",
+     "How much of that peak is people looking at a balance rather than moving money?",
+     "Have you considered moving the core to cloud?",
+     "How many registered app users do you have?"],
   a:1,
-  why:"Bigger hardware makes the same repeated question slightly faster. A cache removes the question entirely. Establish read-repetition before you quote anything — it decides which deal you are actually in."},
- {q:"Where does Redis keep its data, and why does that matter commercially?",
-  o:["On disk, so it survives a restart cheaply",
-     "In memory (RAM), which is fast but costs more per GB",
-     "In the cloud, so there is no infrastructure to size",
-     "In a backup archive, read on demand"],
-  a:1,
-  why:"Memory is roughly 100× faster than disk — that is the whole advantage. It is also why you size Redis in gigabytes, not terabytes, and why it never becomes the customer's system of record."},
- {q:'Their architect tells you the cache hit rate is 95%. What did they just tell you?',
-  o:["95% of the cached data is accurate",
-     "95% of requests never reached the database",
-     "The system was available 95% of the time",
-     "The cache is 95% full and needs resizing"],
-  a:1,
-  why:"Hit rate converts straight into a business sentence: 95% of the load has been lifted off the database. That is the number that justifies both the architecture and the licence deferral."},
- {q:"The finance dashboard is showing a cash figure that is ten minutes out of date. Most likely cause?",
-  o:["The database is corrupted",
-     "The TTL on that data is too long for its purpose",
-     "Redis has lost the data",
-     "A network problem between sites"],
-  a:1,
-  why:"Freshness is a business decision wearing a technical name. A product catalogue can be an hour stale. A cash position cannot be ten minutes stale. Leading that conversation is where a BD adds real value."},
- {q:"Which of these is the worst fit for caching?",
-  o:["A product catalogue page",
-     "A customer profile screen",
-     "A one-time bank transfer being written",
-     "A monthly sales report"],
+  why:"Read traffic and transaction traffic are two different problems with two very different price tags. Most of an evening peak is people looking. You only need to pay core throughput for the ones actually moving money — and separating the two is where the deal is."},
+ {q:"Which of these must never be served from cache?",
+  o:["The balance shown on the app home screen",
+     "The FX rate displayed on the transfer screen",
+     "The balance used to approve a debit",
+     "The customer's recent transaction list"],
   a:2,
-  why:"Caching helps reads that repeat. A unique write must go to the system of record, immediately and exactly once. If a vendor offers to cache your customer's transactions, that is the moment to bring in your solution architect."}
+  why:"Display can tolerate being a second old. Authorisation cannot. The system of record decides whether money moves — that boundary is non-negotiable, and it is exactly what a bank's risk team will probe. Knowing it before they ask is most of your credibility."},
+ {q:"A customer taps Transfer twice on a weak 4G connection. What stops the money leaving twice?",
+  o:["The database backup",
+     "An idempotency key, usually held in Redis",
+     "The loading spinner in the app",
+     "The core banking transaction licence"],
+  a:1,
+  why:"The app attaches a unique key to the request. The first one executes; the duplicate is recognised and ignored. It lives in Redis because it must be checked in under a millisecond on every single payment. Ask a bank how they handle double submission and watch the room change."},
+ {q:"\"Five wrong PIN attempts and the account locks for 15 minutes.\" Where does that counter normally live?",
+  o:["In the core banking system",
+     "In a Redis counter with a TTL",
+     "In the mobile app on the phone",
+     "In the audit log database"],
+  a:1,
+  why:"It has to be fast, it is per-user, and it must expire on its own — that is a TTL. Same mechanism as OTP validity and session timeout. Once you see it, you start recognising Redis in a bank's security controls, not just its performance story."},
+ {q:"The bank's security officer asks where session and OTP data is stored. Why does the answer matter commercially?",
+  o:["It doesn't — cache data is temporary, so it is out of scope",
+     "Because that cache holds personal data, so it is in scope for data protection and their security assessment",
+     "Because Redis cannot be encrypted",
+     "Because sessions are required to live in the core banking system"],
+  a:1,
+  why:"Temporary is not the same as out of scope. Session tokens, phone numbers and OTPs are personal data under Nghị định 13/2023, and a bank's security assessment will ask about encryption, retention and where the servers physically sit. Raise it yourself in the second meeting — it is the difference between a vendor and an advisor."}
 ];
 var answered=0, correct=0, quizBox=document.getElementById("quiz");
 QUIZ.forEach(function(item,qi){
@@ -395,15 +466,15 @@ QUIZ.forEach(function(item,qi){
     b.querySelector(".tx").textContent=txt;
     b.addEventListener("click",function(){
       box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
-      var right = oi===item.a;
+      var right=oi===item.a;
       b.classList.add(right?"right":"wrong");
       if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
       why.className="why show "+(right?"good":"bad");
       why.innerHTML="<b></b>";
-      why.querySelector("b").textContent = right ? "Correct" : "Not quite";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
       why.appendChild(document.createTextNode(item.why));
       answered++; if(right) correct++;
-      document.getElementById("score").textContent = answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
       if(answered===QUIZ.length) mark("quiz");
     });
     box.appendChild(b);
@@ -413,21 +484,30 @@ QUIZ.forEach(function(item,qi){
 
 /* ---------- roleplay ---------- */
 var PLAY=[
- {role:"CIO — second technical meeting",
-  line:'"We already run Oracle. Why would I add another database?"',
-  o:[{t:"Redis is much faster than Oracle.", v:"weak", f:"Two problems. You just told a man his existing investment is the slow part, and it is technically sloppy — they do different jobs. You have made him defend Oracle instead of exploring the gap."},
-     {t:"It is not a replacement. Oracle stays your system of record — Redis sits in front and absorbs the repeated reads so Oracle does less work.", v:"strong", f:"Correct architecture, and it protects his decision instead of attacking it. Follow with: which screens are opened most often? That is where the cache goes first."},
-     {t:"It comes bundled in the platform, so there is no additional licence cost.", v:"weak", f:"Leads with price and dodges the actual question. It is also not free — Redis costs memory and operations. He asked why, and you answered how much."}]},
+ {role:"CTO, digital bank — second technical meeting",
+  line:'"We already pay for the core. Why am I buying another data layer?"',
+  o:[{t:"Redis is much faster than your core banking system.", v:"weak",
+      f:"You just told him the platform he signed off on is the slow part, and it is technically sloppy — they do different jobs. Now he is defending the core instead of exploring the gap with you."},
+     {t:"You are not replacing the core — you are stopping it from being asked the same question two million times a day. The core keeps every transaction; Redis takes the read traffic that never needed to reach it.", v:"strong",
+      f:"Correct architecture, and it protects his prior decision instead of attacking it. Follow it with: which screens get opened most often? That is where the cache goes first, and it is a scoping question, not a pitch."},
+     {t:"It is open source, so there is no additional licence cost.", v:"weak",
+      f:"Leads with price and dodges the question he actually asked. It is also misleading — the software is free, the memory and the operations are not. He asked why; you answered how much."}]},
  {role:"CFO — commercial review",
-  line:'"What do I actually get for this?"',
-  o:[{t:"Sub-millisecond latency and very high throughput.", v:"weak", f:"That is a spec sheet, not a benefit. The CFO cannot approve a millisecond. Translate every technical number into either time his people stop losing or money he stops spending."},
-     {t:"Two things. The dashboard your team waits eight seconds for opens in under one — and you defer the database licence upgrade, because the database is handling far fewer queries.", v:"strong", f:"One benefit he can feel, one he can put in a budget line. That is the shape every CFO answer should take."},
-     {t:"It is the industry standard — everybody uses Redis.", v:"weak", f:"Appeal to popularity. It tells him nothing about his business and invites the obvious reply: then why is it not already in my stack?"}]},
- {role:"Customer IT lead — defensive, in front of his own CIO",
-  line:'"Caching just creates stale data problems."',
-  o:[{t:"That is not really true — Redis is very reliable.", v:"weak", f:"You argued with the one person in the room whose support you need, and you answered a data-freshness concern with a reliability claim. Different problem."},
-     {t:"Our technical team will handle that during implementation.", v:"weak", f:"Deflection. It signals you did not understand the objection, and it hands the room back to him unconvinced."},
-     {t:"You are right that it is a trade-off — that is exactly what TTL controls. Which screens can tolerate a minute of delay, and which have to be exact to the second? Let us set it per screen.", v:"strong", f:"You conceded the valid half, named the control, and turned him into a co-designer in front of his CIO. That is how a sceptical IT lead becomes your internal champion."}]}
+  line:'"Give me the business case in two lines."',
+  o:[{t:"Sub-millisecond reads and over one hundred thousand operations per second.", v:"weak",
+      f:"That is a spec sheet, not a business case. No CFO approves a millisecond. Translate every technical number into either time his customers stop losing or money he stops spending."},
+     {t:"One: the home screen opens in under a second at the evening peak instead of six — that is your app-store rating and your churn. Two: you defer the core throughput upgrade, because most of that traffic never reaches the core.", v:"strong",
+      f:"One benefit he can feel, one he can put in a budget line, and the second one has a number attached to it that came from his own vendor's quote. That is the shape every CFO answer should take."},
+     {t:"Every major bank in the region runs Redis.", v:"weak",
+      f:"Appeal to popularity. It says nothing about his business and invites the obvious reply: then why is it not already in mine?"}]},
+ {role:"Head of Risk — hostile, in front of the CTO",
+  line:'"I am not letting you cache account balances. That is how a customer gets shown the wrong number — or spends money that is not there."',
+  o:[{t:"The cache refreshes constantly, so in practice that will not happen.", v:"weak",
+      f:"You answered a control question with a promise. Risk officers do not buy promises, they buy controls — and you have just made yourself the person who will be blamed when it does happen."},
+     {t:"Our solution architects will define the caching policy during the design phase.", v:"weak",
+      f:"Deflection, in front of the CTO. It signals you did not understand the objection and hands the room back to the person who raised it, still unconvinced."},
+     {t:"You are right on the second half, and I would not argue it. Nothing in the authorisation path reads from cache — debits go to the core, always. What we cache is the balance we display, invalidated the moment a transaction posts. Different risk, different control.", v:"strong",
+      f:"You conceded the valid half, drew the boundary yourself, and named the mechanism. That turns the most sceptical person in the room into the one who explains your architecture to the committee when you are not there."}]}
 ];
 var playBox=document.getElementById("play"), played=0;
 PLAY.forEach(function(sc){
@@ -446,9 +526,7 @@ PLAY.forEach(function(sc){
     b.addEventListener("click",function(){
       box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
       b.classList.add(op.v==="strong"?"right":"wrong");
-      if(op.v!=="strong"){
-        sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
-      }
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
       v.className="verdict show "+op.v;
       v.innerHTML="<b></b>";
       v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
