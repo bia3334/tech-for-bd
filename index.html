@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redis for Solution Sales</title>
+<meta name="description" content="Lesson 01 — what a cache actually is, and how to talk about it with a CIO.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<style>
+:root{
+  --paper:#F5F7FA; --surface:#FFFFFF; --sunk:#EDF0F4;
+  --ink:#0F1720; --ink-2:#334155; --muted:#5A6875; --line:#D9E0E8;
+  --fast:#0E7C91; --fast-soft:#DCF0F4;
+  --slow:#A15B12; --slow-soft:#F7EBDC;
+  --ok:#157347; --ok-soft:#E1F0E7;
+  --no:#B02A2A; --no-soft:#FAE6E4;
+  --accent:#0E7C91;
+  --shadow:0 1px 2px rgba(15,23,32,.06), 0 8px 24px -12px rgba(15,23,32,.18);
+  --ff-display:"IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --ff-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ff-mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#0B1016; --surface:#131A22; --sunk:#0F161D;
+    --ink:#E6ECF3; --ink-2:#B7C4D2; --muted:#8B9AAA; --line:#25303B;
+    --fast:#2BC4DE; --fast-soft:#0E2A33;
+    --slow:#E9A13B; --slow-soft:#2E2416;
+    --ok:#4ADE80; --ok-soft:#12291C;
+    --no:#F87171; --no-soft:#2C1618;
+    --accent:#2BC4DE;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.8);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--ff-body); font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+/* ---------- header ---------- */
+.top{
+  position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(38px,7vw,60px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+/* ---------- sections ---------- */
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:19px; margin-bottom:10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{
+  font-size:14.5px; color:var(--muted); border-left:2px solid var(--line);
+  padding-left:14px; max-width:60ch;
+}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+.pull{
+  margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line);
+  border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow);
+}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+/* term grid */
+.terms{margin-top:34px; display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+@media(min-width:620px){.terms{grid-template-columns:1fr 1fr}}
+.term{background:var(--surface); padding:18px 20px}
+.term dt{font-family:var(--ff-mono); font-size:12.5px; font-weight:500; color:var(--ink); letter-spacing:.02em}
+.term dd{margin:6px 0 0; font-size:15px; color:var(--ink-2)}
+.term dd em{display:block; margin-top:5px; font-style:normal; font-size:13.5px; color:var(--muted)}
+
+/* ---------- simulator ---------- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.sw{display:inline-flex; align-items:center; gap:9px; font-family:var(--ff-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); cursor:pointer; user-select:none; margin-left:auto}
+.sw input{appearance:none; width:38px; height:21px; border-radius:11px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:16px; height:16px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(17px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:22px; font-variant-numeric:tabular-nums; margin-top:3px; color:var(--ink)}
+.stat .v.hot{color:var(--slow)} .stat .v.cool{color:var(--fast)}
+
+.track{list-style:none; margin:0; padding:8px 0}
+.lane{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 18px}
+.lane .name{font-size:14.5px; color:var(--ink-2); margin-bottom:6px}
+.rail{height:7px; border-radius:4px; background:var(--sunk); overflow:hidden}
+.fill{height:100%; width:0; background:var(--slow); border-radius:4px}
+.lane.hit .fill{background:var(--fast)}
+.tag{font-family:var(--ff-mono); font-size:11px; letter-spacing:.04em; text-align:right; font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
+.lane.done.hit .tag{color:var(--fast)}
+.lane.done.miss .tag{color:var(--slow)}
+.sim-note{padding:14px 18px 18px; font-family:var(--ff-mono); font-size:11.5px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+/* ---------- quiz ---------- */
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{
+  text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink);
+  padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline;
+}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+/* ---------- roleplay ---------- */
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+/* ---------- cheat sheet ---------- */
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{
+  counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px;
+  padding:18px 0; border-bottom:1px solid var(--line);
+}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <span class="brand">Tech for BD · <b>Lesson 01</b></span>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Infrastructure · Cache &amp; Redis</div>
+  <h1>Why is your system so slow?</h1>
+  <p class="lede">It is the question every CIO asks in the second meeting. Nine times out of ten the honest answer is not "a bigger server" — it is a cache. And the cache they will name is Redis.</p>
+  <div class="facts"><span>12 min</span><span>No code</span><span>Ends with 5 lines you can use in a meeting</span></div>
+</div>
+
+<section>
+  <div class="sec-no"><b>01</b><span>Understand</span></div>
+  <h2>The archive room and the notepad</h2>
+  <div class="stack">
+    <p>A prospect's Customer 360 dashboard takes eight seconds to load. Their IT lead blames "the server". Their current vendor has quoted a hardware upgrade. You are in the room, and you need a better question than "what's the budget?"</p>
+    <p>Here is what is actually happening. Every time somebody opens that screen, the application walks down to the database and asks the same six questions again: who is this customer, what have they bought, what is their credit limit, what tickets are open. Six questions. Every user. Every single time.</p>
+    <p>The database answers correctly. It just answers <em>slowly</em> — and it answers the exact same thing over and over.</p>
+    <p class="vi"><b>Tiếng Việt</b>Database = kho hồ sơ trung tâm của doanh nghiệp. Nó trả lời đúng, nhưng chậm, và bị hỏi đi hỏi lại cùng một câu suốt cả ngày.</p>
+  </div>
+
+  <div class="pull"><q>A database is the archive room downstairs. A cache is the notepad on your desk.</q></div>
+
+  <div class="stack">
+    <p>You do not walk down to the archive for a price you looked up thirty seconds ago. You wrote it on the pad. <strong>Redis</strong> is that notepad — an in-memory store that sits in front of the database and answers repeat questions in about one millisecond instead of a hundred and twenty.</p>
+    <p>Memory (RAM) is roughly a hundred times faster than disk. That is the entire trick. It is also why Redis costs more per gigabyte, and why it is never the place your customer's real records live.</p>
+  </div>
+
+  <dl class="terms">
+    <div class="term"><dt>Cache hit</dt><dd>The answer was already on the pad. No trip downstairs.<em>Đã có sẵn — trả lời ngay.</em></dd></div>
+    <div class="term"><dt>Cache miss</dt><dd>Not on the pad. Go to the database, then write it down for next time.<em>Chưa có — phải đi lấy, rồi ghi lại.</em></dd></div>
+    <div class="term"><dt>TTL — time to live</dt><dd>How long a note stays on the desk before it is thrown away.<em>Quá dài = số liệu cũ. Quá ngắn = lại phải đi lấy.</em></dd></div>
+    <div class="term"><dt>Hit rate</dt><dd>Share of requests answered without touching the database. The number to ask their architect for.<em>Con số bạn nên hỏi đội kỹ thuật của khách.</em></dd></div>
+  </dl>
+</section>
+
+<section>
+  <div class="sec-no"><b>02</b><span>See it</span></div>
+  <h2>Load the dashboard yourself</h2>
+  <p class="prose" style="margin-bottom:26px">Six queries fire every time this screen opens. Run it once with the cache off. Then switch Redis on and run it twice — the second run is the one that changes the conversation.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="run">Open the dashboard</button>
+      <button class="ghost" id="clear">Clear cache</button>
+      <label class="sw"><input type="checkbox" id="cacheOn"> Redis</label>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Total time</span><span class="v" id="stTime">—</span></div>
+      <div class="stat"><span class="k">DB queries</span><span class="v hot" id="stDb">0</span></div>
+      <div class="stat"><span class="k">Cache hits</span><span class="v cool" id="stHit">0</span></div>
+      <div class="stat"><span class="k">Hit rate</span><span class="v" id="stRate">—</span></div>
+    </div>
+    <ol class="track" id="track"></ol>
+    <p class="sim-note">Latencies shown are realistic for a mid-size ERP dataset: ~120 ms per database read, ~1 ms per cache hit. The animation runs about 4× slower than reality so you can watch it happen.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-no"><b>03</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong is more useful than getting it right.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section>
+  <div class="sec-no"><b>04</b><span>Use it</span></div>
+  <h2>In front of the customer</h2>
+  <p class="prose" style="margin-bottom:26px">Three moments from a real enterprise cycle. Choose what you would actually say.</p>
+  <div id="play"></div>
+</section>
+
+<section>
+  <div class="sec-no"><b>05</b><span>Take away</span></div>
+  <h2>Five lines worth stealing</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Is the system slow because it is doing hard work, or because it is doing the same work repeatedly?"</div><div class="use">Opens the technical discussion without pretending to be an architect. Repetition means a cache. Hard work means something else entirely — and that is a different, larger deal.</div></div></li>
+    <li><div><div class="say">"Redis does not replace your database. It protects it."</div><div class="use">Defuses the instinct that you are attacking an existing SAP or Oracle investment. You are adding a layer in front, not swapping the system of record.</div></div></li>
+    <li><div><div class="say">"What is your cache hit rate today?"</div><div class="use">One question that tells their team you know where the number lives. If the answer is "we don't cache", you have just found the gap.</div></div></li>
+    <li><div><div class="say">"How fresh does this screen actually need to be?"</div><div class="use">Turns TTL from a technical setting into a business decision the customer owns. Product catalogue: an hour is fine. Cash position: seconds.</div></div></li>
+    <li><div><div class="say">"Caching buys you time before you pay for a bigger database licence."</div><div class="use">The CFO line. Fewer queries reaching the database defers the upgrade — that is real money on a renewal, not a spec-sheet benefit.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Năm câu này dùng nguyên văn tiếng Anh khi làm việc với C-level. Ý cốt lõi: đừng bán tốc độ, hãy bán việc <em>bỏ bớt công việc lặp lại</em> — và số tiền khách hoãn được nhờ đó.</p>
+</section>
+
+<footer>Tech for BD — Lesson 01 of 08 · Next: APIs &amp; integration, the question that kills most deals.</footer>
+</main>
+
+<script>
+(function(){
+"use strict";
+var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- progress ---------- */
+var done = {sim:false, quiz:false, play:false};
+try{ done = Object.assign(done, JSON.parse(localStorage.getItem("tfbd-l1")||"{}")); }catch(e){}
+function paint(){
+  var keys=["sim","quiz","play"], n=0;
+  keys.forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent = n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("tfbd-l1",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var QUERIES=["Customer profile","Contract list","Open invoices","Support tickets","Credit limit","Last 5 orders"];
+var DB_MS=120, HIT_MS=1, SCALE=4;
+var cache={}, track=document.getElementById("track");
+var runBtn=document.getElementById("run"), clearBtn=document.getElementById("clear"), cacheOn=document.getElementById("cacheOn");
+
+function build(){
+  track.innerHTML="";
+  QUERIES.forEach(function(q){
+    var li=document.createElement("li");
+    li.className="lane";
+    li.innerHTML='<div><div class="name"></div><div class="rail"><div class="fill"></div></div></div><div class="tag">queued</div>';
+    li.querySelector(".name").textContent=q;
+    track.appendChild(li);
+  });
+}
+build();
+
+function setStats(t,db,hit){
+  document.getElementById("stTime").textContent = t===null ? "—" : t+" ms";
+  document.getElementById("stDb").textContent = db;
+  document.getElementById("stHit").textContent = hit;
+  document.getElementById("stRate").textContent = (db+hit)===0 ? "—" : Math.round(hit/(db+hit)*100)+"%";
+}
+
+function step(lane, ms, hit){
+  return new Promise(function(res){
+    lane.classList.add(hit?"hit":"miss");
+    lane.querySelector(".tag").textContent = hit ? "cache · "+ms+" ms" : "database · "+ms+" ms";
+    var fill=lane.querySelector(".fill");
+    var vis = reduce ? 0 : Math.max(ms*SCALE, hit?200:0);
+    fill.style.transition = vis ? "width "+vis+"ms linear" : "none";
+    requestAnimationFrame(function(){ fill.style.width="100%"; });
+    setTimeout(function(){ lane.classList.add("done"); res(); }, vis+(reduce?40:60));
+  });
+}
+
+async function run(){
+  runBtn.disabled=clearBtn.disabled=cacheOn.disabled=true;
+  build();
+  var lanes=track.querySelectorAll(".lane"), total=0, db=0, hit=0;
+  setStats(null,0,0);
+  for(var i=0;i<QUERIES.length;i++){
+    var on=cacheOn.checked, isHit = on && cache[QUERIES[i]]===true;
+    var ms = isHit ? HIT_MS : DB_MS;
+    await step(lanes[i], ms, isHit);
+    total+=ms; if(isHit){hit++;}else{db++; if(on) cache[QUERIES[i]]=true;}
+    setStats(total,db,hit);
+  }
+  runBtn.disabled=clearBtn.disabled=cacheOn.disabled=false;
+  runBtn.textContent="Open it again";
+  mark("sim");
+}
+runBtn.addEventListener("click",run);
+clearBtn.addEventListener("click",function(){ cache={}; build(); setStats(null,0,0); runBtn.textContent="Open the dashboard"; });
+cacheOn.addEventListener("change",function(){ if(!cacheOn.checked) cache={}; });
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:'A customer says: "the dashboard is slow, we will just buy a bigger database server." What is the sharpest first question you ask?',
+  o:["What is the budget for the upgrade?",
+     "Are you reading the same data over and over again?",
+     "Have you considered moving this to cloud?",
+     "How many concurrent users do you have?"],
+  a:1,
+  why:"Bigger hardware makes the same repeated question slightly faster. A cache removes the question entirely. Establish read-repetition before you quote anything — it decides which deal you are actually in."},
+ {q:"Where does Redis keep its data, and why does that matter commercially?",
+  o:["On disk, so it survives a restart cheaply",
+     "In memory (RAM), which is fast but costs more per GB",
+     "In the cloud, so there is no infrastructure to size",
+     "In a backup archive, read on demand"],
+  a:1,
+  why:"Memory is roughly 100× faster than disk — that is the whole advantage. It is also why you size Redis in gigabytes, not terabytes, and why it never becomes the customer's system of record."},
+ {q:'Their architect tells you the cache hit rate is 95%. What did they just tell you?',
+  o:["95% of the cached data is accurate",
+     "95% of requests never reached the database",
+     "The system was available 95% of the time",
+     "The cache is 95% full and needs resizing"],
+  a:1,
+  why:"Hit rate converts straight into a business sentence: 95% of the load has been lifted off the database. That is the number that justifies both the architecture and the licence deferral."},
+ {q:"The finance dashboard is showing a cash figure that is ten minutes out of date. Most likely cause?",
+  o:["The database is corrupted",
+     "The TTL on that data is too long for its purpose",
+     "Redis has lost the data",
+     "A network problem between sites"],
+  a:1,
+  why:"Freshness is a business decision wearing a technical name. A product catalogue can be an hour stale. A cash position cannot be ten minutes stale. Leading that conversation is where a BD adds real value."},
+ {q:"Which of these is the worst fit for caching?",
+  o:["A product catalogue page",
+     "A customer profile screen",
+     "A one-time bank transfer being written",
+     "A monthly sales report"],
+  a:2,
+  why:"Caching helps reads that repeat. A unique write must go to the system of record, immediately and exactly once. If a vendor offers to cache your customer's transactions, that is the moment to bring in your solution architect."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right = oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right ? "Correct" : "Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent = answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"CIO — second technical meeting",
+  line:'"We already run Oracle. Why would I add another database?"',
+  o:[{t:"Redis is much faster than Oracle.", v:"weak", f:"Two problems. You just told a man his existing investment is the slow part, and it is technically sloppy — they do different jobs. You have made him defend Oracle instead of exploring the gap."},
+     {t:"It is not a replacement. Oracle stays your system of record — Redis sits in front and absorbs the repeated reads so Oracle does less work.", v:"strong", f:"Correct architecture, and it protects his decision instead of attacking it. Follow with: which screens are opened most often? That is where the cache goes first."},
+     {t:"It comes bundled in the platform, so there is no additional licence cost.", v:"weak", f:"Leads with price and dodges the actual question. It is also not free — Redis costs memory and operations. He asked why, and you answered how much."}]},
+ {role:"CFO — commercial review",
+  line:'"What do I actually get for this?"',
+  o:[{t:"Sub-millisecond latency and very high throughput.", v:"weak", f:"That is a spec sheet, not a benefit. The CFO cannot approve a millisecond. Translate every technical number into either time his people stop losing or money he stops spending."},
+     {t:"Two things. The dashboard your team waits eight seconds for opens in under one — and you defer the database licence upgrade, because the database is handling far fewer queries.", v:"strong", f:"One benefit he can feel, one he can put in a budget line. That is the shape every CFO answer should take."},
+     {t:"It is the industry standard — everybody uses Redis.", v:"weak", f:"Appeal to popularity. It tells him nothing about his business and invites the obvious reply: then why is it not already in my stack?"}]},
+ {role:"Customer IT lead — defensive, in front of his own CIO",
+  line:'"Caching just creates stale data problems."',
+  o:[{t:"That is not really true — Redis is very reliable.", v:"weak", f:"You argued with the one person in the room whose support you need, and you answered a data-freshness concern with a reliability claim. Different problem."},
+     {t:"Our technical team will handle that during implementation.", v:"weak", f:"Deflection. It signals you did not understand the objection, and it hands the room back to him unconvinced."},
+     {t:"You are right that it is a trade-off — that is exactly what TTL controls. Which screens can tolerate a minute of delay, and which have to be exact to the second? Let us set it per screen.", v:"strong", f:"You conceded the valid half, named the control, and turned him into a co-designer in front of his CIO. That is how a sceptical IT lead becomes your internal champion."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong"){
+        sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      }
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>
