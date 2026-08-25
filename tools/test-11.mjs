@@ -87,6 +87,27 @@ assert.ok(b.lo > 0, "the defensible band never starts at zero");
 assert.ok(b.hi > b.lo);
 assert.ok(b.lo <= 25e6 && b.hi >= 90e6, `expected a usable band around 20m..95m, got ${m(b.lo)}..${m(b.hi)}`);
 
+// a false alarm is an alert with nothing behind it — an alert fired while the company
+// is genuinely in the red is accurate reporting, and must not be counted as noise
+const all = F.SCENARIOS.map(sc => run(sc.id, 400e6));
+all.forEach(r => {
+  assert.ok(r.falseAlarms <= r.alerts.length, r.scenario + ": more false alarms than alerts");
+  r.alerts.filter(a => !a.justified).forEach(a => {
+    assert.ok(!r.episodes.some(ep => ep.end >= a.d && ep.start <= a.d + 14),
+      r.scenario + ": alert on day " + a.d + " sits on a real shortfall and was called noise");
+  });
+});
+// with the threshold at zero nothing can fire without the account already being empty
+F.SCENARIOS.forEach(sc => {
+  const r = run(sc.id, 0);
+  assert.equal(r.falseAlarms, 0, sc.id + ": a zero threshold cannot produce a false alarm");
+});
+// the worst scenario must be loud AND right, not loud and wrong — that is the whole fix
+const worst = all.reduce((a, b) => (a.negDays >= b.negDays ? a : b));
+assert.ok(worst.negDays > 0 && worst.alerts.length > 6, "expected the worst scenario to be noisy");
+assert.ok(worst.falseAlarms * 2 < worst.alerts.length,
+  "a company in real trouble must not be diagnosed as noise: " + worst.falseAlarms + "/" + worst.alerts.length);
+
 console.log(`ok — baseline survives (low point ${m(base.minCash)}, 1 alert in 13 weeks)` +
   ` · 30 days late: ${late.episodes.length} shortfalls, threshold 0 catches ${late.caught}` +
   ` in advance, threshold 25m catches ${lateOk.caught} with ${lateOk.alerts.length} alerts` +

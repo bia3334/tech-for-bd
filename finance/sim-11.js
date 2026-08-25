@@ -133,6 +133,16 @@ function forecast(o) {
     ep.notice = early ? ep.start - early.d : 0;
   });
 
+  /* An alert is only noise if nothing follows it. Justified: a shortfall is already
+     running when it fires, or one starts within the next two periods. A run of alerts
+     through a company that is genuinely in trouble is accurate reporting, not noise. */
+  alerts.forEach(function (a) {
+    a.justified = episodes.some(function (ep) {
+      return ep.end >= a.d && ep.start <= a.d + 2 * PERIOD;
+    });
+  });
+  var falseAlarms = alerts.filter(function (a) { return !a.justified; }).length;
+
   var caught = episodes.filter(function (ep) { return ep.warnedOn !== null; }).length;
   var negDays = series.filter(function (v) { return v < 0; }).length;
 
@@ -145,6 +155,7 @@ function forecast(o) {
     alerts: alerts,
     episodes: episodes,
     caught: caught,
+    falseAlarms: falseAlarms,
     notice: episodes.length ? episodes[0].notice : 0,
     minCash: Math.min.apply(null, series),
     negDays: negDays

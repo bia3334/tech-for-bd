@@ -578,9 +578,14 @@ function render(){
       ' short at the worst point. The first hole opens on day '+ep.start+', and the earliest alert is dated day '+
       (r.alerts.length?r.alerts[0].d:"—")+
       '. An alert dated inside the hole is a post-mortem with a notification icon. Push the threshold up until every shortfall is caught before it starts.</div>';
-  } else if(r.alerts.length>6){
+  } else if(r.falseAlarms>4){
     flag.innerHTML='<div class="stale">TOO LOUD — every shortfall is caught, and it cost '+r.alerts.length+
-      ' alerts in '+weeks+' weeks. Nobody opens that many. Within a month this system is the one whose mail gets filtered, and the next real alert lands unread. Come back down until the count is something a person would actually read.</div>';
+      ' alerts in '+weeks+' weeks, '+r.falseAlarms+
+      ' of which warned about nothing that ever happened. Nobody opens that many. Within a month this system is the one whose mail gets filtered, and the next real alert lands unread. Come back down until the false ones stop.</div>';
+  } else if(r.alerts.length>6){
+    flag.innerHTML='<div class="match">LOUD, AND RIGHT — '+r.alerts.length+' alerts in '+weeks+
+      ' weeks, but only '+r.falseAlarms+' of them warned about nothing. The rest are reporting a company that really is short of money for '+
+      r.negDays+' days of the quarter. Turning the threshold down here does not reduce noise, it hides a real problem — the volume is the diagnosis, not the defect.</div>';
   } else {
     flag.innerHTML='<div class="match">USABLE — '+r.alerts.length+' alerts across '+weeks+
       ' weeks, all '+r.episodes.length+' shortfall'+(r.episodes.length===1?"":"s")+
