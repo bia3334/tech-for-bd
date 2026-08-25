@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Có lãi mà vẫn hết tiền</title>
+<meta name="description" content="Bài 01 — từ chỗ doanh thu không phải là tiền, tới ba con số quyết định một doanh nghiệp sống hay chết. Dành cho dân kỹ thuật làm dự án tài chính.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="01">
+<meta name="tfbd:tags" content="dòng tiền, CCC, DSO, DPO, khoản phải thu, runway, chiết khấu hoá đơn">
+<meta name="tfbd:level" content="Nền tảng">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- từ bấm được ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- sơ đồ vòng đời một đơn hàng ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- mô phỏng ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Bài 01</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Tài chính chuỗi cung ứng · Bài 01</div>
+  <h1>Có lãi ba tháng liền, mà tháng thứ hai không đủ tiền trả lương.</h1>
+  <p class="lede">Đây không phải là một nghịch lý, cũng không phải gian lận sổ sách. Đây là tình huống bình thường nhất của một doanh nghiệp vừa và nhỏ — và là lý do toàn bộ hệ thống bạn đang code tồn tại.</p>
+  <div class="facts"><span>15 phút</span><span>Không cần biết kế toán</span><span>Kết thúc bằng 5 câu để hỏi BA</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Nền tảng</span></div>
+  <h2>Bán được hàng không có nghĩa là có tiền</h2>
+
+  <div class="hint"><span>BẤM</span><span>Mọi từ có gạch chân chấm đều bấm được để xem giải thích đời thường, tên tiếng Anh, và chỗ nó nằm trong code của dự án. Không có gì ở đây mặc định là bạn đã biết.</span></div>
+
+  <div class="stack">
+    <p>Bắt đầu từ chỗ dân kỹ thuật hiểu sai nhiều nhất. Khi công ty giao hàng và xuất <button class="t" data-t="hoadon">hoá đơn</button>, sổ sách ghi ngay <button class="t" data-t="doanhthu">doanh thu</button> và ghi ngay <button class="t" data-t="loinhuan">lợi nhuận</button>. Ngay hôm đó. Còn tiền thì chưa về — thường là bốn mươi lăm ngày sau.</p>
+    <p>Khoảng trống giữa hai mốc đó có tên: <button class="t" data-t="phaithu">khoản phải thu</button>. Nó là tài sản trên báo cáo, nhưng bạn không trả lương nhân viên bằng khoản phải thu được.</p>
+    <p>Và ở đầu bên kia, trước khi bán được, công ty đã phải bỏ tiền mua hàng về. Hàng nằm trong kho là <button class="t" data-t="tonkho">tồn kho</button> — tiền của bạn đang nằm im dưới dạng thùng hộp.</p>
+    <p>Chỉ có đúng một thứ trong bức tranh này đang giúp bạn: <button class="t" data-t="phaitra">khoản phải trả</button> — tiền mình đang nợ nhà cung cấp. Nghe thì xấu, nhưng mỗi ngày chưa phải trả là một ngày tiền vẫn còn nằm trong tài khoản của mình.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Ngày 0 — nhập hàng</div><div class="ds">Tiền ra khỏi tài khoản, hoặc hẹn trả nhà cung cấp sau vài chục ngày.</div></div>
+    <div class="arrow">hàng nằm kho 20 ngày</div>
+    <div class="node"><div class="nm">Ngày 20 — bán hàng, xuất hoá đơn</div><div class="ds">Sổ sách ghi doanh thu và lợi nhuận ngay tại đây. Tài khoản ngân hàng vẫn không nhúc nhích.</div></div>
+    <div class="arrow">chờ khách trả 45 ngày</div>
+    <div class="node core"><div class="nm">Ngày 65 — khách thanh toán</div><div class="ds">Bây giờ mới có tiền thật. Sáu mươi lăm ngày sau khi bạn đã tiêu tiền của mình.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>Vậy nên khi giám đốc nói "công ty đang lãi mà sao lúc nào cũng thiếu tiền", điều họ đang mô tả là: <em>lợi nhuận nằm trên sổ, còn tiền đang nằm trong kho và trong túi khách hàng.</em></p>
+    <p>Cái mà hệ thống của bạn theo dõi từng ngày không phải là lợi nhuận. Nó là <button class="t" data-t="dongtien">dòng tiền</button> — tiền thật, vào ngày nó thật sự chuyển.</p>
+    <p class="vi"><b>Trong code</b>Doanh thu sinh ra một <code>Invoice</code> ở trạng thái <code>ISSUED</code>, và không sinh ra <code>CashFlowEntry</code> nào cả. Tiền chỉ xuất hiện khi có <code>InvoicePayment</code>. Hai bảng khác nhau, hai mốc thời gian khác nhau — nếu bạn suy cái này từ cái kia là hệ thống nói dối.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>Ý tưởng</span></div>
+  <h2>Cái hố ba mươi lăm ngày</h2>
+
+  <div class="stack">
+    <p>Ba khoảng thời gian ở trên có tên riêng, và chúng là ba con số mà mọi người làm tài chính đều thuộc lòng. Hàng nằm kho bao lâu là <button class="t" data-t="dio">DIO</button>. Khách trả tiền sau bao lâu là <button class="t" data-t="dso">DSO</button>. Còn mình được nợ nhà cung cấp bao lâu là <button class="t" data-t="dpo">DPO</button>.</p>
+    <p>Hai cái đầu là thời gian tiền của bạn bị kẹt. Cái thứ ba là thời gian bạn được xài tiền của người khác. Trừ đi nhau ra một con số duy nhất:</p>
+  </div>
+
+  <div class="pull"><q>CCC = DIO + DSO − DPO. Số ngày bạn phải tự bỏ tiền túi nuôi công việc kinh doanh của chính mình.</q></div>
+
+  <div class="stack">
+    <p>Đó là <button class="t" data-t="ccc">chu kỳ chuyển đổi tiền mặt</button>. Với ví dụ ở trên: 20 + 45 − 30 = 35 ngày. Mỗi vòng quay, công ty phải tự tài trợ ba mươi lăm ngày bằng tiền của mình. Nhân với quy mô đơn hàng, đó chính là số tiền công ty phải luôn có sẵn — cái mà kế toán gọi là <button class="t" data-t="vonluudong">vốn lưu động</button>.</p>
+    <p>Và đây là chỗ nó trở thành nguy hiểm: cái hố đó không đứng yên. Công ty bán càng chạy, mở càng nhiều đơn, thì số tiền bị kẹt càng lớn. <em>Doanh nghiệp có thể chết vì tăng trưởng quá nhanh.</em> Nghe vô lý, nhưng đó là nguyên nhân phá sản phổ biến hơn cả thua lỗ.</p>
+    <p>Mỗi tháng tài khoản mỏng đi bao nhiêu gọi là <button class="t" data-t="burnrate">burn rate</button>. Lấy tiền còn lại chia cho nó ra <button class="t" data-t="runway">runway</button> — còn bao nhiêu ngày nữa thì hết sạch. Đó là hai con số làm giám đốc mất ngủ, và là thứ mọi cảnh báo trong hệ thống này đang phục vụ.</p>
+    <p class="vi"><b>Trong code</b>Cả bốn con số nằm chung một bảng: <code>cash_flow_metrics</code> với các cột <code>dio_days</code>, <code>dso_days</code>, <code>dpo_days</code>, <code>ccc_days</code>, cộng <code>burn_rate</code> và <code>runway_days</code>. Job hằng đêm ghi đè bằng UPSERT, API chỉ đọc (CF-07).</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>Nguy hiểm</span></div>
+  <h2>Chỗ mà một dòng code làm sai cả bức tranh</h2>
+
+  <div class="stack">
+    <p>Bây giờ đến phần đáng để bạn nhớ khi ngồi họp. Có một cám dỗ rất tự nhiên với dân kỹ thuật: cần biểu đồ dòng tiền theo ngày, mà trong bảng chỉ có doanh thu theo tháng, thế là lấy doanh thu chia cho ba mươi.</p>
+    <p>Nó chạy. Biểu đồ lên rất đẹp. Và nó sai theo cái cách tệ nhất: biểu đồ sẽ báo an toàn đúng vào tuần công ty hết tiền, vì tiền thật không về đều mỗi ngày — nó về thành từng cục, vào những ngày đến hạn.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">Ranh giới đừng bao giờ vượt</div>
+    <p>Lợi nhuận là một ý kiến. Tiền mặt là một sự thật.</p>
+    <p class="sub">Không bao giờ suy ra dòng tiền từ doanh thu. Dòng tiền chỉ được dựng từ những ngày tiền thật sự chuyển: ngày <button class="t" data-t="hanthanhtoan">đến hạn</button> của hoá đơn, ngày ghi nhận thanh toán, ngày lịch chi trả. Một công ty có lãi vẫn chết nếu đến ngày trả lương mà tài khoản trống — mất <button class="t" data-t="thanhkhoan">thanh khoản</button> là chết, còn lỗ thì vẫn sống được nhiều năm.</p>
+  </div>
+
+  <h3>Ba con số đó còn quay lại ở đâu trong hệ thống</h3>
+  <p class="prose" style="margin-bottom:20px">Đây là phần đưa bạn từ "người code theo spec" thành người hiểu vì sao spec viết như vậy. DIO, DSO, DPO không chỉ nằm trong một màn hình báo cáo — chúng là đầu vào của gần như mọi tính năng nghiệp vụ khác.</p>
+  <ul class="uses">
+    <li><span class="u">Cảnh báo thiếu hụt tiền mặt</span><span class="d">Ngưỡng cấu hình được, so với dự báo số dư từng ngày. <code>CashAlert</code> · CF-11.</span></li>
+    <li><span class="u">Dự báo dòng tiền tương lai</span><span class="d">Dự báo dựng từ lịch thanh toán và hạn hoá đơn, chứ không phải từ đường xu hướng doanh thu. <code>ForecastRun</code>, <code>ForecastScenario</code> · CF-10.</span></li>
+    <li><span class="u">Lịch thanh toán tự động</span><span class="d">Sinh ra từ điều khoản thanh toán với từng nhà cung cấp — tức là từ DPO. <code>PaymentSchedule</code> · CF-15.</span></li>
+    <li><span class="u">Đề xuất điều khoản thanh toán tối ưu</span><span class="d">Nghe như một tính năng gợi ý mơ hồ. Thực chất nó đi kéo DPO lên mà không làm nhà cung cấp bỏ đi · CM-04.</span></li>
+    <li><span class="u">Chấm điểm tín dụng đối tác</span><span class="d">"Lịch sử thanh toán" trong bộ tiêu chí chấm điểm chính là DSO của riêng đối tác đó. <code>CreditScoringRule</code> · CM-07.</span></li>
+    <li><span class="u">Hạn mức tài trợ</span><span class="d">Một <button class="t" data-t="hanmuc">hạn mức</button> được cấp dựa trên chính khoảng thời gian tiền bị kẹt mà nó đang lấp vào · SCF-09, SCF-13.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>Tóm lại</b>Khi bạn thấy một con số về tiền trong dự án này, câu hỏi đầu tiên luôn là: con số này ghi nhận vào lúc nào — lúc xuất hoá đơn, hay lúc tiền vào tài khoản? Trả lời sai câu đó là sai cả tính năng.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>Nhìn thấy nó</span></div>
+  <h2>Chín mươi ngày của một công ty đang có lãi</h2>
+  <p class="prose" style="margin-bottom:14px">Một công ty nhỏ, mỗi tháng nhập 300 triệu tiền hàng và bán được 360 triệu. Lãi gộp 60 triệu một tháng, chi phí cố định 40 triệu. Trên sổ sách, tháng nào cũng lãi. Bắt đầu với 300 triệu trong tài khoản.</p>
+  <p class="prose" style="margin-bottom:26px">Cột màu xanh là số dư dương, cột đỏ là âm — tức là ngày công ty không trả nổi một khoản đến hạn. Kéo ba cần gạt để xem con số nào cứu được nó, hoặc bật <button class="t" data-t="chietkhau">chiết khấu hoá đơn</button> để thấy cái giá của việc lấy tiền về sớm. Và bấm <em>bán chạy gấp đôi</em> để xem điều xảy ra với một công ty đang ăn nên làm ra.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="grow" aria-pressed="false">Bán chạy gấp đôi</button>
+      <button class="ghost" id="reset">Về mặc định</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Hàng nằm kho trước khi bán<small>DIO — mua về rồi bao lâu mới bán được</small></span><span class="kv" id="vDio">20 ngày</span><input type="range" id="dio" min="0" max="45" step="5" value="20"></div>
+      <div class="knob"><span class="kl">Khách trả tiền sau<small>DSO — điều khoản thanh toán bạn cho khách</small></span><span class="kv" id="vDso">45 ngày</span><input type="range" id="dso" min="0" max="90" step="15" value="45"></div>
+      <div class="knob"><span class="kl">Mình trả nhà cung cấp sau<small>DPO — điều khoản nhà cung cấp cho bạn</small></span><span class="kv" id="vDpo">30 ngày</span><input type="range" id="dpo" min="0" max="90" step="15" value="30"></div>
+      <label class="sw"><input type="checkbox" id="disc"> Chiết khấu hoá đơn — bán khoản phải thu để lấy tiền ngay, phí 1,2% mỗi tháng ứng trước</label>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Chu kỳ chuyển đổi tiền mặt</span><span class="v" id="stCcc">—</span></div>
+      <div class="stat"><span class="k">Lãi trên sổ, ba tháng</span><span class="v" id="stProfit">—</span></div>
+      <div class="stat"><span class="k">Tiền mặt lúc thấp nhất</span><span class="v" id="stMin">—</span></div>
+      <div class="stat"><span class="k">Số ngày âm tiền</span><span class="v" id="stNeg">—</span></div>
+    </div>
+    <div class="chart" id="chart"></div>
+    <div class="axis"><span>NGÀY 0</span><span>NGÀY 30</span><span>NGÀY 60</span><span>NGÀY 90</span></div>
+    <ul class="evs" id="evs"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Mỗi 30 ngày mở một vòng kinh doanh mới. Lợi nhuận được ghi nhận vào ngày bán hàng, đúng như kế toán làm — nên nó vẫn dương kể cả trong những ngày tài khoản đã âm. Đó không phải lỗi của mô phỏng, đó chính là bài học. Phần tính toán nằm ở <code>finance/sim-ccc.js</code> và có test riêng: <code>node tools/test-ccc.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Tự kiểm tra</span></div>
+  <h2>Năm câu hỏi</h2>
+  <p class="prose" style="margin-bottom:26px">Chọn một đáp án để xem vì sao nó đúng hoặc sai. Sai ở đây rẻ hơn nhiều so với sai trong một buổi nghiệm thu.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 câu đã trả lời</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Dùng nó</span></div>
+  <h2>Ba tình huống trong dự án</h2>
+  <p class="prose" style="margin-bottom:26px">Ba câu bạn sẽ nghe thật, từ ba người khác nhau. Chọn cái bạn thực sự sẽ nói.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Mang về</span></div>
+  <h2>Năm câu đáng hỏi BA</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Con số này ghi nhận vào lúc nào — lúc xuất hoá đơn, hay lúc tiền vào tài khoản?"</div><div class="use">Câu hỏi quan trọng nhất trong cả dự án. Nó tách một cột số thành hai nghiệp vụ khác hẳn nhau, và phân nửa số bug nghiệp vụ về tiền đều bắt đầu từ chỗ không ai hỏi câu này.</div></div></li>
+    <li><div><div class="say">"DSO thực tế của khách hàng lớn nhất là bao nhiêu, chứ không phải điều khoản ghi trong hợp đồng?"</div><div class="use">Hợp đồng ghi 45 ngày, thực tế trả 70 ngày. Nếu dự báo dòng tiền dựng theo hợp đồng thì nó sai một cách có hệ thống, và luôn sai về phía lạc quan.</div></div></li>
+    <li><div><div class="say">"Cột này để null khi nào? Null ở đây nghĩa là chưa tính được, hay nghĩa là không áp dụng?"</div><div class="use">Trong dữ liệu tài chính, hai loại null đó dẫn tới hai cách hiển thị và hai cách cảnh báo hoàn toàn khác nhau. Nhầm là báo động giả — hoặc tệ hơn, im lặng đúng lúc cần kêu.</div></div></li>
+    <li><div><div class="say">"Nếu con số này sai năm phần trăm thì ai là người mất tiền?"</div><div class="use">Câu này biến một yêu cầu mơ hồ thành một mức độ ưu tiên. Sai ở màn hình dashboard là khó chịu; sai ở chỗ tính lãi hay hạn mức là mất tiền thật và có thể ra toà.</div></div></li>
+    <li><div><div class="say">"Nghiệp vụ này có căn cứ pháp lý nào không, hay là quy ước nội bộ của doanh nghiệp?"</div><div class="use">Trong dự án này rất nhiều quy tắc đến thẳng từ luật — hoá đơn không được huỷ, lãi không được tính chồng lên tiền phạt, doanh nghiệp siêu nhỏ được miễn một số ràng buộc. Cái đến từ luật thì không được phép "tối ưu" cho gọn code.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Ghi nhớ</b>Bạn không cần trở thành kế toán. Bạn chỉ cần biết đủ để nhận ra lúc nào một yêu cầu đang mô tả tiền trên sổ và lúc nào nó đang mô tả tiền trong tài khoản — và hỏi lại trước khi code.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Tra cứu</span></div>
+  <h2>Toàn bộ thuật ngữ, bằng tiếng người</h2>
+  <p class="prose" style="margin-bottom:26px">Không có gì mới ở đây — vẫn là những giải thích bên trên, gom lại một chỗ để đọc lại trước buổi họp.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Bài 01 / 08 · Tiếp theo: hoá đơn không phải là tiền, và vì sao một hoá đơn đã phát hành thì không được phép xoá.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-ccc.js"></script>
+<script>
+(function(){
+"use strict";
+function tr(n){ return (n/1e6).toFixed(1).replace(".", ",") + " tr"; }
+function sign(n){ return (n>0?"+":n<0?"−":"") + tr(Math.abs(n)); }
+
+/* ---------- từ điển ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="Trong code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- tiến độ ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l1")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l1",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- mô phỏng ---------- */
+var CCC=window.CCC, BASE=CCC.BASE;
+var dio=document.getElementById("dio"), dso=document.getElementById("dso"), dpo=document.getElementById("dpo");
+var disc=document.getElementById("disc"), chart=document.getElementById("chart"), evs=document.getElementById("evs");
+var grow=document.getElementById("grow");
+var scale=1, bars=[], zline=null;
+
+/* dựng cột một lần duy nhất — cập nhật chứ không dựng lại, để transition của CSS có cái để chạy */
+function buildChart(n){
+  if(bars.length===n) return;
+  chart.innerHTML="";
+  zline=document.createElement("div"); zline.className="zero";
+  zline.innerHTML='<span>0 \u20AB</span>';
+  chart.appendChild(zline);
+  bars=[];
+  var w=100/n;
+  for(var i=0;i<n;i++){
+    var b=document.createElement("div"); b.className="bar";
+    b.style.left=(i*w)+"%"; b.style.width=Math.max(w-0.25,0.4)+"%";
+    b.style.height="0%"; b.style.bottom="0%";
+    chart.appendChild(b); bars.push(b);
+  }
+}
+
+function render(){
+  var r=CCC.simulate(Object.assign({}, BASE, {
+    dio:+dio.value, dso:+dso.value, dpo:+dpo.value, discount:disc.checked,
+    cogs:BASE.cogs*scale, revenue:BASE.revenue*scale
+  }));
+
+  document.getElementById("vDio").textContent=dio.value+" ngày";
+  document.getElementById("vDso").textContent=dso.value+" ngày";
+  document.getElementById("vDpo").textContent=dpo.value+" ngày";
+  document.getElementById("stCcc").textContent=r.ccc+" ngày";
+  var pf=document.getElementById("stProfit");
+  pf.textContent=tr(r.profit); pf.className="v"+(r.profit<0?" hot":" cool");
+  var min=document.getElementById("stMin");
+  min.textContent=tr(r.minCash); min.className="v"+(r.minCash<0?" hot":" cool");
+  var neg=document.getElementById("stNeg");
+  neg.textContent=r.negDays+" ngày"; neg.className="v"+(r.negDays?" hot":" cool");
+
+  /* cột mọc lên hoặc thõng xuống từ đường 0 */
+  buildChart(r.series.length);
+  var top=Math.max.apply(null,r.series.concat(0));
+  var bot=Math.min.apply(null,r.series.concat(0));
+  var span=(top-bot)||1, zero=(-bot)/span*100;
+  zline.style.bottom=zero+"%";
+  r.series.forEach(function(v,i){
+    var b=bars[i], h=Math.abs(v)/span*100;
+    b.className="bar"+(v<0?" neg":"");
+    b.style.height=h+"%";
+    b.style.bottom=(v<0 ? zero-h : zero)+"%";
+    b.title="Ngày "+i+" · "+tr(v);
+  });
+
+  evs.innerHTML="";
+  var bal=BASE.cash0;
+  r.events.forEach(function(e){
+    bal+=e.amount;
+    var li=document.createElement("li"); li.className="ev";
+    li.innerHTML='<span class="d"></span><span class="n"></span><span class="a"></span>';
+    li.querySelector(".d").textContent="Ngày "+e.d;
+    li.querySelector(".n").textContent=e.label;
+    var a=li.querySelector(".a");
+    a.className="a "+(e.amount>0?"in":"out");
+    a.textContent=sign(e.amount)+"  \u2192  "+tr(bal);
+    evs.appendChild(li);
+  });
+
+  var flag=document.getElementById("flag");
+  if(r.minCash<0){
+    flag.innerHTML='<div class="stale">VỠ THANH KHOẢN — trên sổ sách công ty lãi '+tr(r.profit)+
+      ', nhưng có '+r.negDays+' ngày tài khoản âm, lúc sâu nhất thiếu '+tr(-r.minCash)+
+      '. Đó là những ngày không trả nổi lương hay tiền hàng. Thử kéo DSO xuống, kéo DPO lên, hoặc bật chiết khấu hoá đơn.</div>';
+  } else if(r.fees>0){
+    flag.innerHTML='<div class="match">SỐNG ĐƯỢC — không còn ngày nào âm tiền. Cái giá là '+tr(r.fees)+
+      ' tiền phí, nên lãi trên sổ chỉ còn '+tr(r.profit)+
+      '. Đổi một phần lợi nhuận lấy thanh khoản — với công ty đang kẹt tiền thì đó là cuộc đổi chác rất đáng.</div>';
+  } else {
+    flag.innerHTML='<div class="match">SỐNG ĐƯỢC — chu kỳ chuyển đổi tiền mặt còn '+r.ccc+
+      ' ngày, không ngày nào âm tiền. Sửa được vòng quay thì không cần đi vay.</div>';
+  }
+  mark("sim");
+}
+
+[dio,dso,dpo].forEach(function(el){ el.addEventListener("input", render); });
+disc.addEventListener("change", render);
+grow.addEventListener("click", function(){
+  scale = scale===1 ? 2 : 1;
+  grow.setAttribute("aria-pressed", scale===2);
+  grow.textContent = scale===2 ? "Về quy mô cũ" : "Bán chạy gấp đôi";
+  render();
+});
+document.getElementById("reset").addEventListener("click", function(){
+  dio.value=BASE.dio; dso.value=BASE.dso; dpo.value=BASE.dpo; disc.checked=false;
+  scale=1; grow.setAttribute("aria-pressed","false"); grow.textContent="Bán chạy gấp đôi";
+  render();
+});
+render();
+
+/* ---------- câu hỏi ---------- */
+var QUIZ=[
+ {q:"Một công ty bán đều 360 triệu mỗi tháng, lãi gộp 60 triệu, chi phí cố định 40 triệu. Trên sổ tháng nào cũng lãi. Đến tháng thứ hai không đủ tiền trả lương. Chuyện gì đang xảy ra?",
+  o:["Kế toán ghi sai sổ",
+     "Tiền của các đơn đã bán vẫn đang nằm ở khoản phải thu và trong kho, chưa về tài khoản",
+     "Công ty đang lỗ nhưng báo cáo che giấu",
+     "Chi phí cố định bị tính thiếu"],
+  a:1,
+  why:"Lợi nhuận được ghi nhận vào ngày giao hàng, còn tiền về sau đó 45 ngày. Trong lúc chờ, công ty vẫn phải trả lương, trả nhà cung cấp, nhập lô hàng mới. Không có gì sai trong sổ sách cả — chỉ là sổ sách đo một thứ, còn tài khoản ngân hàng đo một thứ khác."},
+ {q:"BA yêu cầu thêm cột ccc_days vào bảng cash_flow_metrics. Để tính được nó, tối thiểu bạn cần dữ liệu gì?",
+  o:["Chỉ cần bảng giao dịch thu chi là đủ",
+     "Số ngày hàng nằm kho, số ngày khách trả tiền, và số ngày mình trả nhà cung cấp — ba nguồn dữ liệu ở ba service khác nhau",
+     "Doanh thu và lợi nhuận của kỳ",
+     "Số dư đầu kỳ và cuối kỳ"],
+  a:1,
+  why:"CCC = DIO + DSO − DPO. DIO cần dữ liệu tồn kho (scf-service), DSO và DPO cần ngày thanh toán thực tế của cả hai chiều công nợ (credit-service). Đúng vì vậy mà bốn cột này từng bị gỡ khỏi migration V5 — lúc đó chưa có nguồn nào tính được — rồi mới quay lại ở V6."},
+ {q:"Khách hàng lớn nhất bắt đầu trả trễ đều đặn thêm 30 ngày. Con số nào xấu đi trước tiên?",
+  o:["Doanh thu",
+     "Lợi nhuận",
+     "DSO — kéo CCC lên 30 ngày, và runway ngắn lại tương ứng",
+     "DPO"],
+  a:2,
+  why:"Doanh thu và lợi nhuận không đổi một đồng nào, vì hàng vẫn bán được đúng như cũ. Thứ đổi là thời điểm tiền về. Đó là lý do một hệ thống chỉ theo dõi doanh thu sẽ không nhìn thấy gì cả, cho tới đúng ngày công ty không trả nổi lương."},
+ {q:"Cột runway_days trong cash_flow_metrics để null khi dòng tiền ròng của kỳ đang dương. Vì sao không điền 0 hay một số rất lớn cho tiện?",
+  o:["Vì kiểu dữ liệu không cho phép",
+     "Vì không cạn tiền thì không tồn tại khái niệm \"số ngày cầm cự\" — điền 0 là báo động giả, điền số lớn là ngụ ý một lời hứa mà không ai tính được",
+     "Vì null tiết kiệm dung lượng lưu trữ",
+     "Vì frontend sẽ tự xử lý"],
+  a:1,
+  why:"Đây là kiểu quyết định nghiệp vụ trông giống quyết định kỹ thuật. Null ở đây mang nghĩa \"không áp dụng\", khác hẳn null nghĩa là \"chưa tính được\". Hai loại null đó dẫn tới hai cách hiển thị và hai cách cảnh báo khác nhau — và nhầm lẫn giữa chúng là nguồn bug nghiệp vụ kinh điển."},
+ {q:"Chiết khấu hoá đơn làm lợi nhuận giảm xuống thật. Vậy vì sao doanh nghiệp vẫn dùng?",
+  o:["Vì họ tính sai chi phí",
+     "Vì nó đổi một phần lợi nhuận lấy thanh khoản — mà phá sản là chết vì hết tiền, không phải vì lỗ",
+     "Vì ngân hàng bắt buộc phải dùng",
+     "Vì nó giúp giấu lỗ trên báo cáo"],
+  a:1,
+  why:"Trong mô phỏng ở trên, bật chiết khấu làm lãi tụt từ 60 triệu xuống khoảng 40 triệu — nhưng xoá sạch những ngày âm tiền. Một công ty lãi ít vẫn sống; một công ty lãi nhiều mà không trả nổi lương đúng hạn thì mất người, mất nhà cung cấp, rồi mất luôn công ty."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Câu "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Đúng":"Chưa đúng";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" câu đã trả lời · "+correct+" câu đúng";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- tình huống ---------- */
+var PLAY=[
+ {role:"BA của dự án — họp refinement",
+  line:'"Chỗ biểu đồ dòng tiền ấy, em cứ lấy tổng doanh thu tháng chia cho 30 là ra số theo ngày nhé."',
+  o:[{t:"Vâng, em làm vậy cho nhanh, sau này cần chính xác thì mình sửa sau.", v:"weak",
+      f:"Nó sẽ chạy, biểu đồ sẽ lên đẹp, và sẽ không ai phát hiện ra cho tới lúc màn hình báo an toàn đúng vào tuần doanh nghiệp hết tiền. Đây là loại nợ kỹ thuật mà người trả không phải là bạn."},
+     {t:"Cái đó không đúng về mặt kỹ thuật đâu chị.", v:"weak",
+      f:"Đúng nội dung nhưng sai cách nói: nó không phải chuyện kỹ thuật, nó là chuyện nghiệp vụ. Nói như vậy thì BA sẽ hiểu là bạn ngại làm, và sẽ bảo lưu yêu cầu."},
+     {t:"Doanh thu ghi nhận lúc xuất hoá đơn, còn tiền về theo due_date — hai mốc lệch nhau trung bình 45 ngày. Chia đều thì biểu đồ sẽ báo an toàn đúng vào tuần công ty hết tiền. Mình dựng theo ngày thanh toán thực tế được không ạ?", v:"strong",
+      f:"Bạn nói bằng ngôn ngữ của BA chứ không phải của code, chỉ ra hậu quả cụ thể thay vì phán đúng sai, và kết bằng một đề xuất. Đây là cách một dev được mời vào những cuộc họp quan trọng hơn."}]},
+ {role:"Kế toán trưởng của khách hàng — buổi demo",
+  line:'"Sao màn hình của em báo công ty chị âm tiền, trong khi báo cáo của chị đang lãi?"',
+  o:[{t:"Dạ để em kiểm tra lại, chắc có lỗi ở chỗ tính toán.", v:"weak",
+      f:"Bạn vừa nhận một lỗi không có thật, và vừa làm mất uy tín của đúng cái tính năng có giá trị nhất trong sản phẩm. Sau buổi này sẽ có một ticket vô nghĩa được mở."},
+     {t:"Hai màn hình đo hai thứ khác nhau ạ. Báo cáo của chị đo lợi nhuận — ghi nhận lúc xuất hoá đơn. Màn hình này đo tiền trong tài khoản theo từng ngày. Chị đang lãi và đồng thời đang thiếu tiền, vì tiền của các đơn đã bán còn nằm ở khoản phải thu.", v:"strong",
+      f:"Bạn khẳng định cả hai con số đều đúng, đặt tên cho khoảng cách giữa chúng, và không đổ lỗi cho ai. Câu tiếp theo nên là một câu hỏi: khách nào đang trả chậm nhất ạ?"},
+     {t:"Cái này là dòng tiền chứ không phải lợi nhuận chị ạ.", v:"weak",
+      f:"Đúng nhưng cụt. Người nghe vẫn chưa hiểu vì sao hai con số lại lệch nhau, nên vẫn sẽ nghi ngờ hệ thống. Một câu đúng mà không giải thích được thì không thuyết phục được ai."}]},
+ {role:"Product owner — chốt phạm vi sprint",
+  line:'"Cắt phần chiết khấu hoá đơn ra khỏi sprint này đi. Nó chỉ là một cái nút gọi API bên thứ ba thôi mà."',
+  o:[{t:"Ok anh, em cắt.", v:"weak",
+      f:"Bạn vừa bỏ đi lối thoát thanh khoản duy nhất của sản phẩm mà không nói gì. Phần còn lại của hệ thống chỉ đo được vấn đề chứ không giải quyết được nó."},
+     {t:"Không cắt được đâu anh, nó phức tạp lắm.", v:"weak",
+      f:"\"Phức tạp lắm\" là câu mà product owner nghe mỗi ngày và đã miễn nhiễm. Nó nói về công sức của bạn, không nói về giá trị cho người dùng — nên nó luôn thua."},
+     {t:"Nút thì đơn giản, nhưng đây là tính năng duy nhất trong sản phẩm thực sự đưa được tiền về sớm. Phần còn lại chỉ đo và cảnh báo. Nếu cắt thì hệ thống chỉ nói cho khách biết họ sắp hết tiền chứ không giúp được gì. Cắt hạn mức và báo cáo hiệu quả trước có được không anh?", v:"strong",
+      f:"Bạn phân biệt cái đo được với cái giải quyết được, rồi tự đề xuất một đường cắt nhỏ hơn. Đưa ra lựa chọn thay thế luôn hiệu quả hơn là từ chối — và nó cho thấy bạn hiểu sản phẩm chứ không chỉ hiểu ticket."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Câu trả lời tốt" : "Chưa tốt — câu được tô sáng hiệu quả hơn";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

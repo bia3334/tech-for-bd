@@ -21,7 +21,7 @@ function esc(s) {
   });
 }
 
-var LABEL = { lesson: "Lesson", section: "Section", term: "Glossary",
+var LABEL = (root.UI && root.UI.LABEL) || { lesson: "Lesson", section: "Section", term: "Glossary",
               quiz: "Question", line: "Line to steal", scene: "Objection",
               planned: "Coming" };
 var ORDER = ["lesson", "term", "line", "scene", "section", "quiz", "planned"];

@@ -1,0 +1,27 @@
+{
+ "words": { "lesson": "Bài", "test": "Tự kiểm tra", "line": "Câu đáng hỏi", "soon": "chưa viết" },
+ "lessons": [
+  { "n": "01", "slug": "dong-tien-ccc" },
+  { "n": "02", "title": "Hoá đơn không phải là tiền",
+    "dek": "Vì sao invoices.status không có OPEN, vì sao hoá đơn đã phát hành thì không được xoá, và vì sao một trường direction lại quyết định cả chiều sổ sách.",
+    "tags": ["hoá đơn", "công nợ", "VAT", "Nghị định 70/2025", "trạng thái"], "level": "Nền tảng", "minutes": "15 phút" },
+  { "n": "03", "title": "Ba cách biến hoá đơn thành tiền",
+    "dek": "Chiết khấu hoá đơn, tài trợ ngược dòng, tài trợ hàng tồn kho. Ai khởi xướng, ai chịu rủi ro, và vì sao có/miễn truy đòi là chuyện pháp lý chứ không phải một cái enum cho vui.",
+    "tags": ["SCF", "chiết khấu", "reverse factoring", "tồn kho", "bao thanh toán"], "level": "Cốt lõi", "minutes": "18 phút" },
+  { "n": "04", "title": "Tín dụng không phải là một con điểm",
+    "dek": "Hạn mức, dư nợ, chấm điểm, xếp hạng, báo cáo tuổi nợ và bù trừ công nợ hai chiều — sáu khái niệm mà credit-service gói trong hai mươi bảng.",
+    "tags": ["tín dụng", "hạn mức", "dư nợ", "tuổi nợ", "bù trừ công nợ"], "level": "Cốt lõi", "minutes": "18 phút" },
+  { "n": "05", "title": "Lãi chậm trả — chỗ dễ code sai nhất hệ thống",
+    "dek": "Vì sao trần 20%/năm của Bộ luật Dân sự không áp vào đây, vì sao không được tính lãi trên tiền phạt, và một án lệ có thể biến thành hai bộ lọc trong code như thế nào.",
+    "tags": ["lãi chậm trả", "Án lệ 09/2016", "Điều 306", "phạt vi phạm", "CM-19"], "level": "Cốt lõi", "minutes": "20 phút" },
+  { "n": "06", "title": "Ngân sách không phải là một con số dự đoán",
+    "dek": "Kế hoạch, phân bổ, cam kết, thực chi, chênh lệch. Bốn trạng thái của cùng một đồng tiền, và vì sao kiểm soát ngân sách phải chặn ở lúc duyệt chứ không phải lúc chi.",
+    "tags": ["ngân sách", "phân bổ", "cam kết", "chênh lệch", "dự báo"], "level": "Ứng dụng", "minutes": "16 phút" },
+  { "n": "07", "title": "Ai được ký, ai không được ký",
+    "dek": "Nguyên tắc bất kiêm nhiệm, kế toán trưởng và phụ trách kế toán, và vì sao một luồng duyệt cứng sẽ khoá chết hàng trăm nghìn doanh nghiệp siêu nhỏ hoàn toàn hợp pháp.",
+    "tags": ["bất kiêm nhiệm", "Luật Kế toán 2015", "Nghị định 80/2021", "phân quyền", "workflow"], "level": "Ứng dụng", "minutes": "18 phút" },
+  { "n": "08", "title": "Đọc một báo cáo tài chính trong mười phút",
+    "dek": "Báo cáo tình hình tài chính, kết quả kinh doanh, lưu chuyển tiền tệ. Ba tờ giấy, ba câu hỏi khác nhau — và cái tên mới mà Thông tư 99/2025 vừa đặt lại.",
+    "tags": ["báo cáo tài chính", "Thông tư 99/2025", "Thông tư 58/2026", "tài khoản kế toán"], "level": "Ứng dụng", "minutes": "20 phút" }
+ ]
+}

@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tech for BD — Library</title>
-<meta name="description" content="A searchable library for people who sell technology to banks and do not write code. Lessons, a plain-English glossary, and the exact lines to use in a meeting.">
+<title>Finance for Tech — Thư viện</title>
+<meta name="description" content="Thư viện tra cứu cho dân kỹ thuật làm dự án tài chính — chuỗi cung ứng SME. Bài học, từ điển bằng tiếng người, và chỗ mỗi thuật ngữ nằm trong code.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
-<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="../assets/tokens.css">
 <style>
 *{box-sizing:border-box}
 body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
@@ -116,11 +116,11 @@ footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; f
 
 <header class="top">
   <div class="top-in">
-    <span class="brand">Tech for BD · <b>Library</b></span>
+    <span class="brand">Finance for Tech · <b>Thư viện</b></span>
     <span class="top-r">
-      <a href="finance/index.html" style="color:var(--fast)">Finance for Tech →</a>
+      <a href="../index.html" style="color:var(--fast)">← Tech for BD</a>
       <span id="cnt"></span>
-      <span><span class="kbd">/</span> to search</span>
+      <span>bấm <span class="kbd">/</span> để tìm</span>
     </span>
   </div>
 </header>
@@ -128,16 +128,16 @@ footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; f
 <main class="wrap">
 
   <div class="hero">
-    <div class="eyebrow">For people who sell to banks</div>
-    <h1>Everything you need to hold your own in the room.</h1>
-    <p>Lessons that assume nothing, a glossary in plain English and Vietnamese, and the exact sentences to say when a CFO, a CTO or a Head of Risk pushes back. Search it the way you would ask a colleague.</p>
+    <div class="eyebrow">Cho dân kỹ thuật làm dự án tài chính</div>
+    <h1>Hiểu nghiệp vụ đủ để không code sai vì hiểu sai chữ.</h1>
+    <p>Bài học không mặc định bạn biết gì, từ điển giải thích bằng tiếng người kèm tên tiếng Anh, và quan trọng nhất: mỗi thuật ngữ nằm ở bảng nào, service nào, mã FRS nào trong <b>sme-finance-scm</b>. Tra như hỏi một đồng nghiệp.</p>
   </div>
 
   <div class="searchwrap">
     <div class="field">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="cache, TTL, &ldquo;why is the app slow&rdquo;, chuyển tiền hai lần…" aria-label="Search the library">
-      <button id="clr" type="button">clear</button>
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="dòng tiền, DSO, khoản phải thu, &ldquo;lãi mà sao hết tiền&rdquo;, chiết khấu hoá đơn…" aria-label="Tìm trong thư viện">
+      <button id="clr" type="button">xoá</button>
     </div>
     <div class="chips" id="chips"></div>
   </div>
@@ -145,29 +145,42 @@ footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; f
   <div id="results" hidden>
     <div class="meta" id="rmeta"></div>
     <div class="hits" id="hits"></div>
-    <div class="empty" id="none" hidden><b>Nothing matches that yet.</b>Only lesson 01 is written, so most of the library is still ahead. Try a plainer word — <em>cache</em>, <em>core</em>, <em>OTP</em>, <em>rủi ro</em> — or clear the search and browse what exists.</div>
+    <div class="empty" id="none" hidden><b>Chưa có gì khớp.</b>Mới viết xong bài 01 nên phần lớn thư viện còn ở phía trước. Thử một từ đơn giản hơn — <em>dòng tiền</em>, <em>DSO</em>, <em>hoá đơn</em>, <em>hạn mức</em> — hoặc xoá ô tìm kiếm để xem những gì đã có.</div>
   </div>
 
   <div id="browse">
     <section class="sec">
-      <div class="sec-h"><h2>Lessons</h2><span id="lcount"></span></div>
+      <div class="sec-h"><h2>Bài học</h2><span id="lcount"></span></div>
       <div class="grid" id="lessons"></div>
     </section>
 
     <section class="sec">
-      <div class="sec-h"><h2>Glossary</h2><span>Tap a word · English + Tiếng Việt</span></div>
+      <div class="sec-h"><h2>Từ điển</h2><span>Bấm một từ · tiếng Việt + tên tiếng Anh + chỗ nó nằm trong code</span></div>
       <div class="gwrap" id="gloss"></div>
       <div id="gdef"></div>
     </section>
   </div>
 
-  <footer>Tech for BD — an internal study library. Lessons are written to be read in order, but the search is there because meetings are not.</footer>
+  <footer>Finance for Tech — thư viện nội bộ, viết cho dự án <b>sme-finance-scm</b>. Bài học viết để đọc theo thứ tự, còn ô tìm kiếm có ở đây vì lúc đang họp thì không ai đọc theo thứ tự cả.</footer>
 </main>
 
-<script src="assets/minisearch.min.js"></script>
+<script>
+window.UI = {
+  LABEL: { lesson:"Bài học", section:"Mục", term:"Từ điển", quiz:"Câu hỏi", line:"Câu đáng hỏi", scene:"Tình huống", planned:"Sắp có" },
+  PLURAL:{ lesson:"Bài học", section:"Mục", term:"Từ điển", quiz:"Câu hỏi", line:"Câu đáng hỏi", scene:"Tình huống", planned:"Sắp có" },
+  everything:"Tất cả",
+  soon:"sắp có",
+  room:"Trong code",
+  ns:"f4t",
+  written: function(live,total){ return "đã viết " + live + " / " + total; },
+  count: function(live,terms,entries){ return live + " bài · " + terms + " thuật ngữ · " + entries + " mục"; },
+  results: function(n,qs){ return n + " kết quả cho \u201C" + qs + "\u201D"; }
+};
+</script>
+<script src="../assets/minisearch.min.js"></script>
 <script src="glossary.js"></script>
 <script src="data/lessons.js"></script>
-<script src="assets/search-core.js"></script>
-<script src="assets/library.js"></script>
+<script src="../assets/search-core.js"></script>
+<script src="../assets/library.js"></script>
 </body>
 </html>
