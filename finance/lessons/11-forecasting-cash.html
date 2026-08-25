@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forecasting cash you do not have yet</title>
+<meta name="description" content="Lesson 11 — a cash forecast is an inventory of obligations, not a trend line. Scenarios, alert thresholds, and the cost of getting the threshold wrong in either direction.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="11">
+<meta name="tfbd:tags" content="forecast, scenario, alert threshold, payment schedule, recurring cost, CF-10, CF-11, CF-12">
+<meta name="tfbd:level" content="Applied">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- lesson 11: threshold line, three bar colours, source tags ---- */
+.bar.warn{background:var(--slow)}
+.line-t{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--slow); pointer-events:none}
+.line-t span{position:absolute; left:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--slow); background:var(--surface); padding:0 4px}
+.stat .v.warm{color:var(--slow)}
+.stat .v.sm{font-size:16px; letter-spacing:.01em; line-height:1.35}
+.legend{display:flex; flex-wrap:wrap; gap:5px 18px; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.04em}
+.legend i{display:inline-block; width:9px; height:9px; border-radius:1px; margin-right:6px}
+.subhd{padding:15px 18px 7px; font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); border-top:1px solid var(--line)}
+.ev .sr{display:block; font-family:var(--ff-mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:4px}
+.ev.crit{background:var(--no-soft)}
+.ev.warnrow .a{color:var(--slow)}
+.knobs .picks{display:flex; flex-wrap:wrap; gap:8px; padding:10px 0 4px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 11</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Planning and control · Lesson 11</div>
+  <h1>Forecasting cash you do not have yet</h1>
+  <p class="lede">Lesson 01 ended on a rule: never derive cash flow from revenue. This is what you build instead. Not a prediction dressed up in statistics — an inventory of obligations that already exist, laid out on a calendar until somebody can see the week the money runs out.</p>
+  <div class="facts"><span>16 min</span><span>Builds on lesson 01</span><span>Ends with a threshold you can defend</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>Most of next quarter has already happened</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>Say the word "forecast" to a developer and they think of a model. A curve fitted to history, a confidence interval, an argument about which library. That instinct is wrong here, and it is worth killing early.</p>
+    <p>Sit with a finance person while they work out whether the company can survive to the end of the quarter and you will not see a model. You will see a list. Payroll goes out on the fifth of every month, and it is the same number give or take a bonus. Rent goes out on the second. The loan repayment schedule was agreed two years ago and is printed on a piece of paper in a drawer. Four <button class="t" data-t="hoadon">invoices</button> sit in <button class="t" data-t="phaithu">receivables</button>, each with a <button class="t" data-t="hanthanhtoan">due date</button> written on it. Two suppliers are owed on terms that were negotiated before the goods even arrived — <button class="t" data-t="phaitra">payables</button>, with their own dates.</p>
+    <p>Add it up and something uncomfortable becomes obvious: <em>most of next quarter's cash movement is already knowable today.</em> It is not hiding in a statistical pattern. It is sitting in rows that already exist, waiting for a date to arrive.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">What you already know</div><div class="ds">The opening balance. Four invoice due dates. Three payrolls. Three rents. Two supplier payments generated from agreed terms. A term loan instalment. A VAT payment already declared and approved. One line in an approved budget.</div></div>
+    <div class="arrow">put each one on the day it falls</div>
+    <div class="node"><div class="nm">What that gives you</div><div class="ds">A balance for every day of the horizon. Lumpy, not smooth — because real money arrives in lumps, on the days things fall due.</div></div>
+    <div class="arrow">the only part that is estimated</div>
+    <div class="node core"><div class="nm">What is left over</div><div class="ds">The small stuff nobody has a document for: petty cash, fuel, card fees, the odd small sale. That residue is averaged from history. It is the smallest input and the only statistical one.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>So a <button class="t" data-t="dubaodongtien">cash forecast</button> is mostly an act of collection, not prediction. The forecast's job is to line up obligations on a calendar and tell you the balance on each day. Whether the company survives to Tết is a question with an arithmetic answer, and somebody just has to do the arithmetic.</p>
+    <p>That reframing changes what you build. You are not choosing a model. You are making sure every dated obligation the company already has is findable by one query, on the right day, with the right sign.</p>
+    <p class="vi"><b>In the code</b>One run is a <code>ForecastRun</code> row: a company, a scenario, a method, a <code>horizon_start</code> and <code>horizon_end</code>, and a <code>Granularity</code>. It writes one <code>CashFlowForecast</code> row per period, holding <code>projected_inflow</code>, <code>projected_outflow</code> and <code>projected_closing</code>. Every one of those columns is <code>updatable = false</code> on the run: re-forecasting is a <em>new</em> run, never an edit to an old one. <code>ForecastRunStatus</code> is <code>RUNNING → COMPLETED | FAILED</code>, and a failed run keeps its row with the reason attached rather than vanishing.</p>
+    <p class="vi"><b>Tiếng Việt</b>Dự báo dòng tiền không phải là dự đoán bằng mô hình thống kê. Phần lớn tiền của quý tới đã biết từ hôm nay: lương ngày 5, thuê mặt bằng ngày 2, lịch trả nợ vay ký từ hai năm trước, hạn từng hoá đơn. Việc của hệ thống là xếp tất cả lên một cuốn lịch rồi cộng lại, chứ không phải vẽ một đường xu hướng.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Five sources, and only one of them is a guess</h2>
+
+  <div class="stack">
+    <p>CF-10 lists exactly what a forecast is built from. Read it as five separate pipes, not one algorithm, because that is how it has to be coded and that is how it fails.</p>
+  </div>
+
+  <ul class="uses">
+    <li><span class="u">History</span><span class="d">The average of what actually moved over the past few months, spread across the horizon. The <em>only</em> statistical source on this list. <code>ForecastMethod.HISTORICAL_AVG</code>, window from <code>cashflow_settings.forecast_history_months</code>.</span></li>
+    <li><span class="u"><button class="t" data-t="lichthanhtoan">Payment schedules</button> from buying and selling</span><span class="d">Dated lines generated from the terms agreed with each partner. Nobody types them; they fall out of <button class="t" data-t="dpo">DPO</button> and <button class="t" data-t="dso">DSO</button>. <code>PaymentSchedule</code> · CF-15.</span></li>
+    <li><span class="u"><button class="t" data-t="giaodichdinhky">Recurring costs</button></span><span class="d">Rent, payroll, social insurance, the licence fee. Boring, and the most reliable number in the whole forecast. <code>RecurringTemplate</code> · TM-02.</span></li>
+    <li><span class="u">The budget plan</span><span class="d">Money somebody has approved but not yet committed — a campaign, a machine, a hire. Planned, so less certain than a schedule and more certain than an average.</span></li>
+    <li><span class="u">Transactions already scheduled</span><span class="d">Individual payments approved and dated: a tax payment, a loan instalment, a one-off settlement. Known to the đồng and to the day.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:24px">
+    <p>Four of those five are lookups. You are not estimating a payroll — you are reading it. You are not estimating when an invoice falls due — the date is a column. The only place where anything is genuinely extrapolated is the first line, and in a real SME's forecast it is usually the smallest of the five.</p>
+    <p>Which is worth saying out loud in a meeting, because it flips the conversation. When somebody asks how accurate the forecast is, the honest answer is not a percentage. It is: <em>this much of it is arithmetic on rows we already hold, and this much is an average — here is the split.</em></p>
+  </div>
+
+  <div class="pull"><q>A forecast is not a claim about the future. It is a claim about what is already on the books, arranged by date.</q></div>
+
+  <div class="stack">
+    <p>Two more mechanics matter before you can read the tables. The first is that projected <button class="t" data-t="dongtien">cash flow</button> and real cash flow are not the same column. Money that has genuinely moved is <code>ACTUAL</code> and lands in the closing balance. Money that is scheduled or forecast is <code>PLANNED</code>, and money approved and all but certain is <code>COMMITTED</code> — both of those land only in the <em>projected</em> balance. Three levels of certainty, three different sums, one table.</p>
+    <p>The second is granularity. The same run can be sliced by day, week, month, quarter or year, and the slice changes what you are able to see. How far the horizon has to reach is a different question, and the <button class="t" data-t="ccc">cash conversion cycle</button> answers it: a company funding thirty-five days of its own trading cycle cannot plan on a two-week view. Slice by month and a hole that opens on the twelfth and closes on the twentieth never appears, because the month ends comfortably positive. That is not a bug in the forecast — it is the forecast answering the question you asked.</p>
+    <p class="vi"><b>In the code</b><code>EntryStatus = ACTUAL | PLANNED | COMMITTED</code> and <code>EntrySource = TRANSACTION | FORECAST | SCHEDULE | BANK | INVOICE</code>. Note that schedules and invoice due dates are one CF-10 source but two sources here, deliberately: a wrong number from a <code>SCHEDULE</code> entry is repaired by editing a <code>payment_schedules</code> row, a wrong number from an <code>INVOICE</code> entry is repaired in scf-service and replayed. Same column, two different places to go when the figure is wrong. <code>Granularity</code> carries its own <code>startOf</code> and <code>endOf</code> so the chart and the forecast cut a week at the same place — ISO Monday, never <code>WeekFields.of(Locale)</code>, which would give two environments two answers.</p>
+    <p class="vi"><b>Tiếng Việt</b>CF-10 nêu năm nguồn, và chỉ nguồn đầu tiên — trung bình lịch sử — là ước lượng. Bốn nguồn còn lại là tra cứu: lịch thanh toán sinh từ điều khoản, chi phí định kỳ, kế hoạch ngân sách, giao dịch đã lên lịch. Nói "dự báo chính xác bao nhiêu phần trăm" là hỏi sai câu; câu đúng là bao nhiêu phần của nó là số đã có sẵn.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Three ways this feature gets built wrong</h2>
+
+  <div class="stack">
+    <p>The first one you will meet in a refinement session, phrased helpfully. <em>We already store the daily bank balance. Fit a line through the last six months and extend it.</em></p>
+    <p>It is cheap, it runs, and it produces a chart that is worse than no chart. It is also the lesson 01 mistake wearing a new hat: instead of dividing <button class="t" data-t="doanhthu">revenue</button> by thirty, you are now smoothing a balance. Two reasons, and both are fatal.</p>
+    <p>A trend line smooths. Smoothing is the entire point of a trend line — it removes the lumps to show the direction. But in a cash forecast the lumps <em>are</em> the subject. Nobody goes bankrupt from a gentle downward slope; they go bankrupt on the Tuesday three payments happen to collide. Average those three payments across the month and the chart shows a comfortable balance for the exact week the account is empty.</p>
+    <p>And a trend line can only see what has already happened. A 420 million invoice falling due in six weeks, from a customer who has never placed an order that size before, has no precedent in the history — so the line does not bend for it at all. The single largest movement in the next quarter is invisible to the method, and it is invisible precisely because it is unusual, which is precisely why it matters.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>A forecast is assembled from dated obligations. It is never extrapolated from a balance.</p>
+    <p class="sub">The history average is one input among five, and it belongs to the residue — the small daily traffic nobody holds a document for. Everything with a date on it goes in on its date. Get this backwards and you have rebuilt the mistake from lesson 01 one layer higher: a chart that looks healthy during the week the company loses its <button class="t" data-t="thanhkhoan">liquidity</button>.</p>
+  </div>
+
+  <h3>The second: a scenario that was run to be right</h3>
+  <div class="stack">
+    <p>A <button class="t" data-t="kichban">scenario</button> is the same inventory of obligations, run again with one assumption changed. The largest customer pays thirty days late. The financing offer is declined. A big order lands. Nothing else moves — same invoices, same payroll, same terms.</p>
+    <p>People misunderstand what that is for. They treat scenarios as competing forecasts and then argue about which one to believe, which is a conversation with no end. A scenario is not a bet. It is a probe: change one assumption, see whether the company still survives, and the ones that break it are the assumptions the business is actually resting on.</p>
+    <p>That output is a list of things to watch, and it is far more useful than a number. "If Đại Thành pays thirty days late we are twelve days short in month two" tells a managing director exactly what to do on Monday: ring Đại Thành. A forecast that produces a single balance produces no such instruction.</p>
+    <p>Which is also why the interesting scenarios are not the pessimistic ones. In the simulator below, the scenario that hurts most is the one where a <em>large order is won</em>. The stock has to be bought and the supplier paid before the customer pays anything, and if the customer pays outside the horizon then the forecast can see the whole cost of the order and none of the benefit. Growth killing a profitable company, exactly as in lesson 01, this time showing up in the planning tool.</p>
+    <p class="vi"><b>In the code</b><code>ForecastScenario</code>, table <code>forecast_scenarios</code> (CF-12). Each company has exactly one <code>is_baseline = true</code>, enforced by the partial unique index <code>uk_forecast_scenarios_baseline</code> — so promoting a new baseline must demote the old one <em>in the same transaction</em> or PostgreSQL refuses both. The <code>assumptions</code> column is free-form JSONB, but the calculator understands only four keys: <code>revenueGrowthPct</code>, <code>paymentDelayDays</code>, <code>costInflationPct</code>, <code>collectionRatePct</code>. Keys it does not know are stored untouched rather than dropped, and a badly typed value is ignored rather than thrown — one mistyped key must not take down a whole run.</p>
+  </div>
+
+  <h3>The third: the threshold nobody briefs properly</h3>
+  <div class="stack">
+    <p>Here is the requirement as it is written: <em>the system must warn when the forecast shows a cash shortfall, based on a configured threshold.</em> One sentence, and it hides the hardest design decision in the module.</p>
+    <p>Set the <button class="t" data-t="nguongcanhbao">threshold</button> at zero and the alert reads "the projected balance is negative". That feels rigorous and it is nearly useless, because by the time a period closes below zero the trouble has already started — the alert is a post-mortem with a notification icon. Worse, at a weekly or monthly slice a short hole can open and close between two period ends and never be seen at all.</p>
+    <p>Set it high and every dip fires. Thirteen weeks in a quarter, an alert in eleven of them, and you have taught the finance manager that this system cries wolf. The next real alert arrives into a mailbox where alerts from this system are deleted unread. That failure is invisible in every test you can write, and it is total.</p>
+    <p>A useful starting point is not zero and not a round number somebody liked. It is the <button class="t" data-t="burnrate">burn rate</button> multiplied by the notice a human needs to do something — a fortnight to chase a customer, a month to arrange a facility. Put another way, the threshold is the amount of <button class="t" data-t="runway">runway</button> you want standing between the alert and the emergency. So the honest way to size a threshold is not to ask what number is correct. It is to ask <em>how many alerts a human being will actually open in a month</em>, and then find the highest threshold that stays under that budget while still catching every shortfall before it happens. Two costs, both measurable, one on each side. That is a product decision with numbers attached, and it belongs in a settings table where the customer can move it — not in a constant, and not in a YAML file that needs a deployment.</p>
+    <p class="vi"><b>In the code</b><code>cashflow_settings</code> holds three thresholds per company: <code>shortfall_threshold_amount</code> (<code>NOT NULL</code>), <code>low_balance_threshold_amount</code> and <code>large_outflow_threshold_amount</code>. On the last two, <code>null</code> means <em>this alert type is switched off</em> — writing <code>0</code> instead switches it on with a threshold of zero, the opposite intention. <code>ShortfallDetector</code> raises at most one balance alert per period: below the shortfall threshold is <code>SHORTFALL</code>, otherwise below the low-balance threshold is <code>LOW_BALANCE</code>, never both, because two emails about one week teach people to ignore both. Severity is read off the sign — negative closing is <code>CRITICAL</code>, still positive but under the threshold is <code>WARNING</code>.</p>
+    <p class="vi"><b>Tiếng Việt</b>Ba cái bẫy: vẽ đường xu hướng qua số dư quá khứ (làm mất đúng những cục tiền gây vỡ nợ), chạy kịch bản để tìm đáp án đúng thay vì để tìm giả định mà công ty đang sống nhờ nó, và đặt ngưỡng cảnh báo mà không ai tính chi phí hai phía. Ngưỡng bằng 0 là báo cáo tử vong; ngưỡng quá cao thì tuần nào cũng kêu đến khi không ai đọc nữa.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Ninety days assembled in front of you</h2>
+  <p class="prose" style="margin-bottom:14px">One company, 420 million in the bank on day 0, and sixteen obligations that already exist — four invoice due dates, three payrolls, three rents, three supplier payments on agreed terms, a VAT payment, a loan instalment, an approved budget line and a financing advance. Plus a flat 1.2 million a day of small traffic averaged from history: the only estimated number here.</p>
+  <p class="prose" style="margin-bottom:26px">Blue bars are a comfortable balance, amber is below your alert threshold, red is below zero. Change one assumption with the scenario buttons, then move the threshold and watch the two counters fight each other. Find the range where every shortfall is caught before it happens and the number of alerts is still small enough that somebody would read them.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="sBase" aria-pressed="true">Baseline</button>
+      <button class="ghost" id="sLate" aria-pressed="false">Largest customer pays 30 days late</button>
+      <button class="ghost" id="sDeclined" aria-pressed="false">Financing offer declined</button>
+      <button class="ghost" id="sOrder" aria-pressed="false">A big order lands</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Alert threshold<small>Raise an alert on any week whose projected closing balance falls below this</small></span><span class="kv" id="vThr">50.0m</span><input type="range" id="thr" min="0" max="300" step="5" value="50"></div>
+      <p class="sim-note" id="scNote" style="border-top:0; padding:4px 0 0"></p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Lowest projected balance</span><span class="v" id="stMin">—</span></div>
+      <div class="stat"><span class="k">Alerts fired</span><span class="v" id="stAlerts">—</span></div>
+      <div class="stat"><span class="k">Shortfalls caught in advance</span><span class="v" id="stCaught">—</span></div>
+      <div class="stat"><span class="k">Notice on the first one</span><span class="v" id="stNotice">—</span></div>
+    </div>
+    <div class="chart" id="chart"></div>
+    <div class="axis"><span>DAY 0</span><span>DAY 30</span><span>DAY 60</span><span>DAY 90</span></div>
+    <div class="legend"><span><i style="background:var(--fast)"></i>above the threshold</span><span><i style="background:var(--slow)"></i>below the threshold — an alert week</span><span><i style="background:var(--no)"></i>below zero — a real shortfall</span></div>
+    <div class="flag" id="flag"></div>
+    <div class="subhd">Alerts this run would raise · cash_alerts</div>
+    <ul class="evs" id="alerts"></ul>
+    <div class="subhd">The obligations the forecast is built from · everything below was knowable on day 0</div>
+    <ul class="evs" id="book"></ul>
+    <p class="sim-note">Day numbers rather than calendar dates, so the same clicks always give the same answer. Weekly periods, thirteen of them across ninety days — one <code>cash_flow_forecasts</code> row each, one alert at most each, exactly as <code>ShortfallDetector</code> does it. "Caught in advance" means an alert fired for a week ending strictly before the first day in the red; an alert dated inside the hole is a report, not a warning. The arithmetic lives in <code>finance/sim-11.js</code> and has its own check: <code>node tools/test-11.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Which of the five sources is this forecast actually reading today, and which are still stubs?"</div><div class="use">A forecast wired to two of the five is not wrong, but it is systematically optimistic about the ones it cannot see. Ask early, write it on the screen, and nobody signs a payment believing a number that never counted the budget.</div></div></li>
+    <li><div><div class="say">"How many alerts a month will the person receiving these actually open?"</div><div class="use">This turns a threshold from an argument about the right number into arithmetic. Pick the noise budget first, then take the highest threshold that stays inside it and still catches every shortfall in advance. Both sides of the trade become measurable, and the setting becomes defensible.</div></div></li>
+    <li><div><div class="say">"At this granularity, how short can a hole be and still be invisible?"</div><div class="use">Monthly periods cannot see a nine-day hole in the middle of a month. That is not a bug, it is the question the run asked — but it needs to be a decision somebody made rather than a default nobody noticed.</div></div></li>
+    <li><div><div class="say">"Which single assumption is this company's survival resting on?"</div><div class="use">The output of scenario analysis worth having is not a balance, it is a name — one customer, one facility, one order. It converts a chart into an instruction for Monday morning, and it is the sentence that gets a developer invited back to the next planning meeting.</div></div></li>
+    <li><div><div class="say">"Is this confidence figure a statistic, or a display convention?"</div><div class="use">In this system it is a convention: a linear decay by period with a floor, tuned by configuration, chosen so a distant period stays readable rather than collapsing to three percent. Presenting a convention as a statistic is how a screen ends up promising a rigour nobody built.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Một dự báo không bao giờ sai là dự báo không ai dùng để ra quyết định. Cái làm nó dùng được là sai theo một hướng đã biết, với biên độ đã biết — và biết rõ phần nào là số đã có sẵn, phần nào là ước lượng.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 11 of 15 · Next: who may sign, and who may not — segregation of duties, and the approval chain that deadlocks a micro-enterprise.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../terms/11.js"></script>
+<script src="../sim-11.js"></script>
+<script>
+(function(){
+"use strict";
+function tr(n){ return (n/1e6).toFixed(1) + "m"; }
+function sign(n){ return (n>0?"+":n<0?"−":"") + tr(Math.abs(n)); }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l11")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l11",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var F=window.FORECAST;
+var thr=document.getElementById("thr"), chart=document.getElementById("chart");
+var bookBox=document.getElementById("book"), alertBox=document.getElementById("alerts");
+var flag=document.getElementById("flag"), scNote=document.getElementById("scNote");
+var scenario="base", bars=[], zline=null, tline=null;
+
+var BTN={base:"sBase", late:"sLate", declined:"sDeclined", order:"sOrder"};
+var SRC={history:"history · averaged", schedule:"payment schedule", invoice:"invoice due date",
+         recurring:"recurring cost", budget:"budget plan", scheduled:"already scheduled"};
+
+/* bars are built once and then updated, so the CSS transition has something to run on */
+function buildChart(n){
+  if(bars.length===n) return;
+  chart.innerHTML="";
+  zline=document.createElement("div"); zline.className="zero";
+  zline.innerHTML='<span>0 ₫</span>';
+  chart.appendChild(zline);
+  tline=document.createElement("div"); tline.className="line-t";
+  tline.innerHTML='<span></span>';
+  chart.appendChild(tline);
+  bars=[];
+  var w=100/n;
+  for(var i=0;i<n;i++){
+    var b=document.createElement("div"); b.className="bar";
+    b.style.left=(i*w)+"%"; b.style.width=Math.max(w-0.25,0.4)+"%";
+    b.style.height="0%"; b.style.bottom="0%";
+    chart.appendChild(b); bars.push(b);
+  }
+}
+
+function render(){
+  var threshold=+thr.value*1e6;
+  var r=F.forecast({scenario:scenario, threshold:threshold});
+  var weeks=r.periods.length;
+
+  document.getElementById("vThr").textContent=tr(threshold);
+  scNote.textContent=r.note;
+
+  Object.keys(BTN).forEach(function(k){
+    var b=document.getElementById(BTN[k]);
+    b.className = k===scenario ? "btn" : "ghost";
+    b.setAttribute("aria-pressed", k===scenario);
+  });
+
+  var min=document.getElementById("stMin");
+  min.textContent=tr(r.minCash);
+  min.className="v"+(r.minCash<0?" hot":r.minCash<threshold?" warm":" cool");
+  var al=document.getElementById("stAlerts");
+  al.textContent=r.alerts.length+" of "+weeks+" weeks";
+  al.className="v sm"+(r.alerts.length>6?" hot":r.alerts.length?" warm":" cool");
+  var ca=document.getElementById("stCaught");
+  ca.textContent=r.caught+" of "+r.episodes.length;
+  ca.className="v sm"+(r.episodes.length===0?"":r.caught<r.episodes.length?" hot":" cool");
+  var no=document.getElementById("stNotice");
+  no.textContent = r.episodes.length===0 ? "no shortfall" : (r.notice ? r.notice+" days" : "none — too late");
+  no.className="v sm"+(r.episodes.length&&!r.notice?" hot":r.episodes.length?" cool":"");
+
+  /* bars grow up from, or hang down below, the zero line */
+  buildChart(r.series.length);
+  var top=Math.max.apply(null,r.series.concat([0,threshold]));
+  var bot=Math.min.apply(null,r.series.concat([0,threshold]));
+  var span=(top-bot)||1, zero=(-bot)/span*100;
+  zline.style.bottom=zero+"%";
+  tline.style.bottom=((threshold-bot)/span*100)+"%";
+  tline.querySelector("span").textContent="threshold "+tr(threshold);
+  r.series.forEach(function(v,i){
+    var b=bars[i], h=Math.abs(v)/span*100;
+    b.className="bar"+(v<0?" neg":v<threshold?" warn":"");
+    b.style.height=h+"%";
+    b.style.bottom=(v<0 ? zero-h : zero)+"%";
+    b.title="Day "+i+" · "+tr(v);
+  });
+
+  alertBox.innerHTML="";
+  if(r.alerts.length===0){
+    var none=document.createElement("li"); none.className="ev";
+    none.innerHTML='<span class="d">—</span><span class="n"></span><span class="a"></span>';
+    none.querySelector(".n").textContent="No week closes below "+tr(threshold)+". Nothing is raised.";
+    alertBox.appendChild(none);
+  }
+  r.alerts.forEach(function(a){
+    var li=document.createElement("li");
+    li.className="ev "+(a.severity==="CRITICAL"?"crit":"warnrow");
+    li.innerHTML='<span class="d"></span><span class="n"></span><span class="a"></span>';
+    li.querySelector(".d").textContent="Day "+a.d;
+    var n=li.querySelector(".n");
+    n.textContent="SHORTFALL · "+a.severity;
+    var sr=document.createElement("span"); sr.className="sr";
+    sr.textContent="week ending day "+a.d+" · threshold_amount "+tr(a.threshold)+" snapshotted onto the alert";
+    n.appendChild(sr);
+    li.querySelector(".a").textContent=tr(a.closing);
+    alertBox.appendChild(li);
+  });
+
+  bookBox.innerHTML="";
+  var opening=document.createElement("li"); opening.className="ev";
+  opening.innerHTML='<span class="d">Day 0</span><span class="n"></span><span class="a in"></span>';
+  opening.querySelector(".n").textContent="Opening balance, real money in the account";
+  opening.querySelector(".a").textContent=tr(F.OPENING);
+  bookBox.appendChild(opening);
+  r.rows.forEach(function(e){
+    var li=document.createElement("li"); li.className="ev";
+    li.innerHTML='<span class="d"></span><span class="n"></span><span class="a"></span>';
+    li.querySelector(".d").textContent="Day "+e.d;
+    var n=li.querySelector(".n");
+    n.textContent=e.label;
+    var sr=document.createElement("span"); sr.className="sr"; sr.textContent=SRC[e.src];
+    n.appendChild(sr);
+    var a=li.querySelector(".a");
+    a.className="a "+(e.a>0?"in":"out");
+    a.textContent=sign(e.a);
+    bookBox.appendChild(li);
+  });
+  var drift=document.createElement("li"); drift.className="ev";
+  drift.innerHTML='<span class="d">Every day</span><span class="n"></span><span class="a out"></span>';
+  var dn=drift.querySelector(".n");
+  dn.textContent="Small traffic nobody holds a document for — the residue";
+  var dsr=document.createElement("span"); dsr.className="sr";
+  dsr.textContent=SRC.history+" · the only estimated number on this page";
+  dn.appendChild(dsr);
+  drift.querySelector(".a").textContent=sign(F.DRIFT)+" / day";
+  bookBox.appendChild(drift);
+
+  if(r.episodes.length===0){
+    flag.innerHTML='<div class="match">NOTHING TO CATCH — the low point is '+tr(r.minCash)+
+      ' and the account never goes empty. '+r.alerts.length+' alert'+(r.alerts.length===1?"":"s")+
+      ' fired anyway, out of '+weeks+' weeks. On a quiet quarter that is the whole cost of the threshold, paid up front: raise it and the count climbs with nothing behind it. Now change the scenario.</div>';
+  } else if(r.caught<r.episodes.length){
+    var ep=r.episodes[0];
+    flag.innerHTML='<div class="stale">TOO QUIET — '+r.negDays+' days in the red, '+tr(-r.minCash)+
+      ' short at the worst point. The first hole opens on day '+ep.start+', and the earliest alert is dated day '+
+      (r.alerts.length?r.alerts[0].d:"—")+
+      '. An alert dated inside the hole is a post-mortem with a notification icon. Push the threshold up until every shortfall is caught before it starts.</div>';
+  } else if(r.alerts.length>6){
+    flag.innerHTML='<div class="stale">TOO LOUD — every shortfall is caught, and it cost '+r.alerts.length+
+      ' alerts in '+weeks+' weeks. Nobody opens that many. Within a month this system is the one whose mail gets filtered, and the next real alert lands unread. Come back down until the count is something a person would actually read.</div>';
+  } else {
+    flag.innerHTML='<div class="match">USABLE — '+r.alerts.length+' alerts across '+weeks+
+      ' weeks, all '+r.episodes.length+' shortfall'+(r.episodes.length===1?"":"s")+
+      ' caught before the money ran out, '+r.notice+' days of notice on the first one. That is the trade in one line, and it is the sentence to bring to the meeting: this threshold costs '+
+      r.alerts.length+' alerts a quarter and buys '+r.notice+' days to act.</div>';
+  }
+  mark("sim");
+}
+
+thr.addEventListener("input", render);
+Object.keys(BTN).forEach(function(k){
+  document.getElementById(BTN[k]).addEventListener("click", function(){ scenario=k; render(); });
+});
+document.getElementById("reset").addEventListener("click", function(){
+  scenario="base"; thr.value=50; render();
+});
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"Your BA asks for the cash forecast to be a line fitted through the last six months of daily bank balance and extended ninety days. It is one library call. What is the strongest objection?",
+  o:["Linear regression is the wrong model — we should use something seasonal",
+     "It smooths away the lumps that cause shortfalls, and it cannot see a large invoice falling due in six weeks that has no precedent in the history",
+     "It would be too slow to compute over six months of data",
+     "The balance table is not indexed by date"],
+  a:1,
+  why:"Smoothing is what a trend line is for, and in a cash forecast the lumps are the subject — nobody runs out of money on a gentle slope, they run out on the Tuesday three payments collide. Worse, the single largest movement in the next quarter is usually the one with no precedent, so the line does not bend for it at all. Answering with a better model concedes the framing: this is not a modelling problem, it is a collection problem."},
+ {q:"CF-10 names five sources a forecast is built from. How many of them are statistical?",
+  o:["All five — that is what forecasting means",
+     "One. The history average. The other four are lookups on dated rows that already exist",
+     "Three of them, the rest are configuration",
+     "None — a forecast must never use history"],
+  a:1,
+  why:"Payment schedules, recurring costs, the budget plan and already-scheduled transactions are all read, not estimated. Only the history average is extrapolated, and in a small business it is usually the smallest of the five. Say that number out loud when somebody asks how accurate the forecast is: most of it is arithmetic on rows you already hold."},
+ {q:"The shortfall threshold is zero and the forecast runs at weekly granularity. A hole opens on day 50 and closes on day 57. What does the alert actually tell the finance manager?",
+  o:["That a shortfall is coming, seven days ahead",
+     "Nothing until the week ending day 56 closes negative — six days after the account was already empty",
+     "Nothing at all, because a threshold of zero disables the alert",
+     "It fires once for every day in the red, so seven alerts"],
+  a:1,
+  why:"A period is only measured at its close. With the threshold at zero the earliest a week can fire is the week that already ended negative, which is inside the hole rather than before it. And a shorter hole — day 32 to day 33, say — sits between two period ends and is never seen at all. The threshold and the granularity together decide what is visible, and zero makes the alert a post-mortem."},
+ {q:"A user changes one assumption and re-runs the forecast. What should happen to the forecast_runs row?",
+  o:["It is updated in place with the new numbers",
+     "A new run row is created; the old one keeps its numbers, its method and its status",
+     "The old run is deleted and the new one takes its id",
+     "Nothing is stored — only the latest result is cached"],
+  a:1,
+  why:"Method, horizon and granularity are all updatable = false on ForecastRun, and COMPLETED is a final state. An alert raised last Tuesday points at the run that produced it, and cash_alerts.threshold_amount snapshots the threshold that was configured at that moment. Both exist so a decision taken on old numbers can still be explained after somebody changes the settings. Overwrite the run and the explanation is gone."},
+ {q:"Finance asks for three scenarios. After the runs, which output is worth putting in front of the managing director?",
+  o:["The average of the three projected closing balances",
+     "Whichever scenario has the highest confidence_level",
+     "The name of the one assumption that, changed on its own, is enough to make the company run out — and the date it happens",
+     "The most likely scenario, with the other two hidden so nobody is confused"],
+  a:2,
+  why:"A scenario is a probe, not a bet. Averaging three of them produces a number describing nothing, and confidence_level in this system is a display convention that decays with distance, not a statistical estimate. The useful output is a name and a date: if Đại Thành pays thirty days late we are short on the twelfth of next month. That is a chart turned into an instruction for Monday morning."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — backlog refinement",
+  line:'"For the cash forecast, fit a line through the last six months of the balance and extend it ninety days. It is one library call."',
+  o:[{t:"Sure — we can put a proper model in later.", v:"weak",
+      f:"It ships, it looks like a forecast, and it reports a comfortable balance during the week three payments collide. Nobody finds out until a payment bounces, and the ticket that gets raised will be about the chart rather than about the method."},
+     {t:"Regression is the wrong model for this kind of series.", v:"weak",
+      f:"You have accepted the premise that this is a modelling problem and then argued about the model. The BA hears a preference, picks the cheaper option, and the requirement stays as written."},
+     {t:"It is not a modelling problem. Ninety percent of the next ninety days is already in our tables — sixteen dated obligations plus four invoice due dates. A line through the balance averages those into a smooth slope, so the chart looks safe in the week three of them land together, and it cannot see the 420 million invoice due in six weeks because nothing like it has happened before. Could we assemble it from the dated rows and use an average only for the small residue?", v:"strong",
+      f:"You moved the conversation from statistics to inventory, gave one concrete failure and one concrete blind spot, and finished with a proposal that is cheaper than the model they were imagining. That is the sentence that gets a developer into the design conversation instead of the ticket queue."}]},
+ {role:"The customer's finance manager — three weeks after go-live",
+  line:'"I have stopped reading your cash alerts. There were nine last month and nothing happened."',
+  o:[{t:"I'll set the threshold to zero, so you only hear from us when the balance actually goes negative.", v:"weak",
+      f:"It will certainly stop the noise, and it also removes every warning that arrives in time to act on. The next alert she gets will be dated inside a week the account was already empty — the one message she needed early is now the one that comes late."},
+     {t:"The alerts are correct — the projected balance really did fall below the configured threshold on all nine of those weeks.", v:"weak",
+      f:"True and beside the point. An alert nobody reads has failed regardless of whether it was accurate, and defending its accuracy is how a team ends up shipping a feature that is technically right and operationally dead."},
+     {t:"Nine a month means the threshold is doing the wrong job. How many would you actually open — two, three? Give me that number and I will find the highest threshold that stays under it and still fires before every dip below zero we have had in the last six months. Then the setting has a reason behind it instead of a guess.", v:"strong",
+      f:"You treated the noise as a measurable cost rather than a complaint, asked the one question that turns the threshold into arithmetic, and left her holding the decision that is genuinely hers. That conversation also produces the number to write in the settings screen's help text."}]},
+ {role:"Product owner — scoping the sprint",
+  line:'"Drop scenarios. It is a what-if screen and nobody uses what-if screens."',
+  o:[{t:"Fine, dropping it.", v:"weak",
+      f:"What is left tells the customer the date they run out and nothing about what to do. The forecast becomes a countdown clock, which is the one financial feature people genuinely do stop opening."},
+     {t:"We can't, the calculator already depends on the scenario table.", v:"weak",
+      f:"A technical dependency is an argument about your cost, not about their value, and a product owner will simply ask how long it takes to unpick. You have also implied the feature is only still here by accident."},
+     {t:"The forecast alone gives them a date. Scenarios give them a name — which single customer, or which facility, they have to deal with on Monday for that date to move. That is the only actionable output in the module. If we need the space, could we cut the large-outflow alert instead and keep scenarios?", v:"strong",
+      f:"You separated what measures from what tells somebody to act, put it in one sentence, and volunteered a smaller cut yourself. Offering the alternative is what makes it a negotiation instead of a refusal."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

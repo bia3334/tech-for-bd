@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Budget Is Not a Forecast</title>
+<meta name="description" content="Lesson 10 — planned, allocated, committed, actual, variance: five states of the same đồng, and why budget control has to bite at approval rather than at payment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="10">
+<meta name="tfbd:tags" content="budget, allocation, commitment, variance, thresholds, approval, budget revision">
+<meta name="tfbd:level" content="Applied">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- budget widget ---- */
+.stats.six{grid-template-columns:repeat(2,1fr)}
+@media(min-width:560px){.stats.six{grid-template-columns:repeat(3,1fr)}}
+.stat .v.warn{color:var(--slow)}
+.stat .k b{font-family:var(--ff-mono); font-size:10.5px; font-weight:400; color:var(--fast); letter-spacing:.02em}
+.usewrap{padding:18px 18px 16px; border-bottom:1px solid var(--line)}
+.usebar{display:flex; height:15px; background:var(--sunk); border-radius:2px; overflow:hidden}
+.usebar i{display:block; min-width:0; flex:none; transition:width .35s ease}
+.u-act{background:var(--fast)} .u-com{background:var(--slow)}
+.ticks{position:relative; height:16px; margin-top:4px}
+.tick{position:absolute; top:0; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); transform:translateX(-50%); white-space:nowrap}
+.tick::before{content:""; position:absolute; left:50%; top:-19px; height:14px; border-left:1px dashed var(--muted)}
+.tick.plan{color:var(--no)} .tick.plan::before{border-left-color:var(--no)}
+.legend{display:flex; flex-wrap:wrap; gap:6px 20px; margin-top:14px; font-size:13.5px; color:var(--ink-2)}
+.legend span{display:inline-flex; align-items:center; gap:8px}
+.legend i{width:11px; height:11px; border-radius:2px; display:block; flex:none}
+
+.gate{padding:18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+.gt{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.gq{font-family:var(--ff-display); font-size:18.5px; margin-top:8px; line-height:1.35}
+.vds{display:grid; grid-template-columns:1fr; gap:10px; margin:15px 0}
+@media(min-width:560px){.vds{grid-template-columns:1fr 1fr}}
+.vd{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:14px 16px}
+.vd .vt{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.vd .vf{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink-2); margin-top:7px}
+.vd .vv{font-family:var(--ff-mono); font-size:17px; margin-top:9px; font-variant-numeric:tabular-nums; color:var(--ink)}
+.vd .vw{font-size:13.5px; color:var(--muted); margin-top:8px; line-height:1.55}
+.vd.yes{border-color:var(--ok)} .vd.yes .vv{color:var(--ok)}
+.vd.warn{border-color:var(--slow)} .vd.warn .vv{color:var(--slow)}
+.vd.no{border-color:var(--no)} .vd.no .vv{color:var(--no)}
+
+.reqs{list-style:none; margin:0; padding:0; display:grid; gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+.req{background:var(--surface); display:grid; grid-template-columns:minmax(0,1fr) auto; gap:3px 12px; padding:12px 18px; align-items:baseline}
+.req .rq{font-size:14.5px; color:var(--ink)}
+.req .rq b{font-family:var(--ff-mono); font-size:12.5px; font-weight:400; color:var(--muted); margin-right:9px}
+.req .ra{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.req .rl{grid-column:1/-1; display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin-top:6px}
+.chip{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; padding:3px 9px; border-radius:2px; background:var(--sunk); color:var(--muted)}
+.chip.c1{background:var(--slow-soft); color:var(--slow)}
+.chip.c2{background:var(--fast-soft); color:var(--fast)}
+.chip.c3{background:var(--no-soft); color:var(--no)}
+.chip.c4{background:transparent; color:var(--no); box-shadow:inset 0 0 0 1px var(--no)}
+.req .rb{margin-left:auto; display:flex; gap:8px}
+.req .rb button{padding:5px 12px; font-size:12.5px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 10</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Planning and control · Lesson 10</div>
+  <h1>A budget is not a forecast</h1>
+  <p class="lede">A forecast is a prediction of what will happen. A budget is permission for what is allowed to happen. Miss the difference and you build a module that reports history beautifully and controls nothing — while the department it was meant to hold in check spends money it does not have.</p>
+  <div class="facts"><span>16 min</span><span>No accounting assumed</span><span>Walk one department into the trap</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>Two documents that say the same number</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>It is December. Two documents are on the finance director's desk, and both of them say <em>400 million for marketing next quarter</em>. They are not the same document, and confusing them is the mistake this whole lesson is about.</p>
+    <p>The first is a forecast. Somebody looked at last year, at the campaigns already planned, at what things cost now, and estimated. It is a statement about the world.</p>
+    <p>The second is a <button class="t" data-t="ngansach">budget</button>. Somebody with authority decided. It is a statement about the company: this is what marketing is permitted to spend, and if they want more they have to come and ask.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">The forecast — a prediction</div><div class="ds">Marketing will probably spend around 400 million. If they end up spending 470, the forecast was wrong. You correct it, learn something about your assumptions, and carry on. Nobody is in trouble.</div></div>
+    <div class="arrow">same number, entirely different instrument</div>
+    <div class="node core"><div class="nm">The budget — an authorisation</div><div class="ds">Marketing may spend 400 million. If they end up spending 470, nothing was wrong with the number. Somebody spent money they were not allowed to spend — and the system that let them through is the one you built.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>A forecast is judged on accuracy. A budget is judged on compliance. That single difference decides what your module has to do: a forecast module reads data and draws a line, while a budget module has to be able to say <em>no</em>, at the moment somebody is about to commit the company, before the money moves.</p>
+    <p>Which means a budget screen that only reports what has already been spent is not a budget module at all. It is a very slow accounting report wearing the word budget in its title.</p>
+    <p>It is not <button class="t" data-t="dongtien">cash flow</button> either, and the two get confused constantly. Cash flow asks whether there is money in the account. A budget asks whether this particular spend is permitted. A company can be sitting on plenty of cash and still refuse a purchase because that department has used up its year — and it can have a perfectly approved budget line and no money to honour it.</p>
+    <p>Two numbers start every budget line: what was planned, and what has actually been spent — the <button class="t" data-t="thucchi">actual spend</button>. Everything interesting in this lesson happens in the gap between them.</p>
+    <p class="vi"><b>In the code</b><code>Budget</code> in <code>budget-service</code>, table <code>budgets</code>. Status runs <code>DRAFT → PENDING_APPROVAL → ACTIVE → LOCKED → CLOSED</code>, and only <code>ACTIVE</code> takes part in the spending check — a draft budget controls nothing. <code>BudgetStateMachine</code> deliberately has no <code>DRAFT → ACTIVE</code> edge: activating a budget you wrote yourself breaks maker–checker, and an <code>ACTIVE</code> budget is the thing that decides which transactions get blocked (TM-17).</p>
+    <p class="vi"><b>Tiếng Việt</b>Dự báo nói điều sắp xảy ra; ngân sách nói điều được phép xảy ra. Dự báo sai thì sửa lại con số, ngân sách vượt thì có người đã chi khoản không được phép. Vì thế module ngân sách phải chặn được ở lúc duyệt, chứ không phải chỉ báo cáo lại quá khứ.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Five states of the same đồng</h2>
+
+  <div class="stack">
+    <p>Before the states, the shape of the instrument. A budget is not one number in one place — it is cut along several axes, and every one of those cuts is a requirement in the spec.</p>
+  </div>
+
+  <ul class="uses">
+    <li><span class="u">The level it is set at</span><span class="d">Whole company, one department, one project, or one spending category. <code>BudgetScopeType</code>, with <code>scope_ref_id</code> naming the department or project — and required to be null exactly when the scope is <code>COMPANY</code> · BM-01.</span></li>
+    <li><span class="u">The period it covers</span><span class="d">Monthly, quarterly or annual. <code>BudgetPeriodType</code> carries <code>periodsPerYear()</code> on the enum itself rather than in the service, because splitting a year into quarters using twelve gives every quarter a third of what it should have and no constraint catches it · BM-02.</span></li>
+    <li><span class="u">How it is spread across time</span><span class="d">Either evenly, or period by period when the money is genuinely lumpy — a trade fair in March is not one twelfth per month. That is <button class="t" data-t="phanbo">allocation</button> · BM-03.</span></li>
+    <li><span class="u">Versions of the same period</span><span class="d">Several plans for one quarter so the board can compare: the cautious one, the aggressive one. <code>version_no</code> and <code>is_active_version</code>, with exactly one active at a time · BM-04.</span></li>
+    <li><span class="u">Last period, copied forward</span><span class="d">Nobody types a year of budget lines from scratch. Copy, then adjust — and the copy remembers where it came from in <code>base_budget_id</code> · BM-05.</span></li>
+  </ul>
+
+  <h3>Now the part that catches everybody</h3>
+  <div class="stack">
+    <p>Follow one particular 150 million through a quarter — the money for a trade fair booth. It does not go from planned to spent. It passes through four distinct states, and lives in a different column at each one.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Planned — December</div><div class="ds">The board approves 400 million for marketing this quarter. Nothing has been decided about the booth yet; this is just the size of the pot.</div></div>
+    <div class="arrow">the pot is given a shape in time</div>
+    <div class="node"><div class="nm">Allocated — still December</div><div class="ds">The 400 million is not one lump. It is written out period by period: 110 in January, 110 in February, 180 in March, because that is when the fair is. Splitting evenly would have put 133 in each, which makes March look like an overspend and January look like slack.</div></div>
+    <div class="arrow">3 February — the department head signs the order</div>
+    <div class="node core"><div class="nm">Committed — 3 February</div><div class="ds">The purchase order is signed. The bank balance does not move by a single đồng. The money is gone anyway: there is a contract, and refusing to pay it later is not an option you have.</div></div>
+    <div class="arrow">21 March — the payment run goes out</div>
+    <div class="node"><div class="nm">Actual — 21 March</div><div class="ds">The transfer executes. The same 150 million leaves the committed column and lands in the actual column. Total money used does not change at this moment — it has simply changed its name.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>The third state is the one nobody remembers. Money that has been approved but not yet paid is a <button class="t" data-t="camket">commitment</button>, and it is as spent as spent gets. Anyone who has bought a plane ticket knows the feeling: the money is gone the moment you press the button, whatever the banking app says for the next two days.</p>
+  </div>
+
+  <div class="pull"><q>A purchase order signed on Monday is money already gone. The bank balance is simply the last to find out.</q></div>
+
+  <div class="stack">
+    <p>The fifth state is not a state of the money at all — it is what falls out at the end. The <button class="t" data-t="chenhlech">variance</button> is the gap between what was allowed and what was used. Positive means the department underspent, negative means it went over.</p>
+    <p>And the interesting question about a variance is never how big it is. A department that came in 60 million under plan because it negotiated harder, and a department that came in 60 million under plan because a project never started, produce identical numbers and mean opposite things. The number is where the conversation starts, not where it ends.</p>
+    <p class="vi"><b>In the code</b>One row of <code>budget_lines</code> carries four figures: <code>planned_amount</code>, <code>committed_amount</code>, <code>actual_amount</code>, and <code>available_amount</code> — which is not a column anyone writes to. It is <code>GENERATED ALWAYS AS (planned_amount - committed_amount - actual_amount) STORED</code>, so PostgreSQL computes it and Java reads it back. There is no setter for it, and the other three only move through <code>addCommitted()</code> and <code>addActual()</code>, so the four numbers cannot drift apart.</p>
+    <p class="vi"><b>In the code</b>The three transitions of a commitment are the enum <code>CommitmentStatus</code>, and each one names exactly what it moves: <code>COMMITTED</code> — approved, <code>committed_amount</code> goes up; <code>CONSUMED</code> — paid, committed comes back down and <code>actual_amount</code> goes up by the same figure; <code>RELEASED</code> — cancelled or rejected, committed comes back down and nothing else moves. The row is never deleted, whatever happened to it (SEC-04).</p>
+    <p class="vi"><b>Tiếng Việt</b>Cùng một đồng đi qua bốn trạng thái: được duyệt kế hoạch, được phân bổ vào kỳ, được cam kết khi ký duyệt chi, và thành thực chi khi tiền rời tài khoản. Trạng thái cam kết là cái hay bị bỏ quên — tiền đã duyệt nhưng chưa chi vẫn là tiền đã mất. Chênh lệch là phần rơi ra ở cuối kỳ, và điều đáng hỏi là nguyên nhân chứ không phải độ lớn.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Two numbers that look like the same number</h2>
+
+  <div class="stack">
+    <p>Here is the bug, and it is not exotic. It is written every time somebody builds a budget screen without having had commitments explained to them.</p>
+    <p>Ask "how much has this department got left" and there are two arithmetically reasonable answers:</p>
+  </div>
+
+  <ul class="uses">
+    <li><span class="u">Remaining — plan minus actual</span><span class="d">How much of the pot has not yet left the bank. It is the number a developer reaches for, because <code>planned_amount</code> and <code>actual_amount</code> are the two columns whose names make immediate sense.</span></li>
+    <li><span class="u">Available — plan minus committed minus actual</span><span class="d">How much of the pot has not yet been promised to anybody. This is the only one of the two that a spending decision may read.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:24px">
+    <p>On an empty budget the two are identical. That is precisely why the bug survives every demo — you seed a fresh quarter, nothing is committed, both numbers read 400 million, and the screen looks correct. It stays correct right up until the first purchase order is approved and not yet paid, which in a real company is Tuesday.</p>
+    <p>The gap between the two numbers <em>is</em> the commitments. So the size of the lie is exactly the amount of money the company has already promised and not yet handed over — which is to say, the lie is largest at the exact moment it matters most.</p>
+    <p>And note what the schema is telling you. There is no column anywhere in this system holding plan minus actual. Every headroom figure the service computes, stores or sends is plan minus committed minus actual. If you find yourself writing that subtraction by hand in a template, stop: you have just invented a number the system deliberately does not keep.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never show plan minus actual on a screen where somebody approves spending.</p>
+    <p class="sub">It is not a rounding difference or a display preference. It is the difference between a department going 20 million over budget and a dashboard reporting 280 million of headroom on the same afternoon, from the same four columns. Put <code>available_amount</code> on the approval screen — the one number the database computes for itself, precisely so that nobody has to remember which columns to subtract.</p>
+  </div>
+
+  <h3>Control has to bite at approval, not at payment</h3>
+  <div class="stack">
+    <p>The natural place for a developer to put a budget check is where the money moves: in the payment routine, right before the transfer goes out. It is the wrong place, and not by a little.</p>
+    <p>By the time a payment runs, the company is already contractually obliged. The supplier has delivered, the invoice is valid, the debt exists whether or not your budget agrees with it. Refusing the payment at that point does not prevent a financial problem — it creates a legal one, and adds <button class="t" data-t="laichamtra">late-payment interest</button> on top of the overspend you failed to stop.</p>
+    <p>So the check runs earlier, at the moment somebody is about to commit the company. It is the one place in this architecture where one service calls another synchronously over REST and makes a human wait, because a person is standing in front of a screen wanting to know whether they may sign.</p>
+    <p class="vi"><b>In the code</b><code>GET /internal/v1/budgets/check</code> in <code>BudgetCheckService</code> — TM-17. Under three seconds, no retry, two database queries and at most one masterdata call. It picks the budget line by four priority tiers (category + project, category + department, category, then any line on a <code>COMPANY</code>-scope budget) and among equals picks the <em>tightest</em> line, because when two budgets cover the same spend it is the stricter one that decides. The <code>action</code> field is never null — no matching line still returns <code>ALLOW</code>, because the caller reads null as "could not check" and skips budget control entirely while writing a line to a log nobody reads.</p>
+  </div>
+
+  <h3>Eighty, ninety, and what happens past one hundred</h3>
+  <div class="stack">
+    <p>Warnings come in levels. Eighty percent used: tell somebody. Ninety: tell somebody louder. A hundred: the department has spent everything it was given.</p>
+    <p>The instinct at a hundred is to refuse. Resist it. A business does not stop when a number is exceeded — it escalates. The delivery that has to go out tomorrow still has to go out tomorrow, and if your system's only answer is a hard no, what actually happens is that somebody finds a category with room in it and books the spend there. You have not prevented the overspend, you have made it untraceable.</p>
+    <p>So past a hundred percent the useful behaviour is to require a higher approver, not to slam the door. Same spend, one more signature, and a record of who decided the company could exceed its own plan. Blocking exists too, and it is real — but choose it knowing that a legitimate urgent spend is then impossible until a <button class="t" data-t="ngansach">budget</button> revision has been approved, which takes days.</p>
+    <p>Two details in how the check reads those levels are worth carrying into a code review. First, the percentage includes the amount currently being asked for — the question is "would this spend push us over", not "are we over already". Second, when several levels have been crossed, the <em>highest</em> one wins, not the first one the loop happens to meet.</p>
+    <p class="vi"><b>In the code</b><code>BudgetThreshold</code>, table <code>budget_thresholds</code>: a <code>level_percent</code> and a <code>ThresholdAction</code> of <code>NOTIFY</code>, <code>REQUIRE_APPROVAL</code> or <code>BLOCK</code>, configured per budget rather than as constants — 80/90/100 is a recommendation, not a law (BM-07, BM-09). <code>BudgetCheckAction</code> is the separate enum sent back to <code>transaction-service</code>, and <code>allowed</code> is false for <code>BLOCK</code> alone. Each level fires its alert exactly once, guarded by <code>budget_thresholds.triggered</code> — without that flag every transaction after 80% sends another email and within a week nobody reads any of them.</p>
+  </div>
+
+  <h3>The increase nobody logged</h3>
+  <div class="stack">
+    <p>Budgets change mid-period, and that is not a failure. Prices move, a project gets pulled forward, a campaign is cancelled. A budget that cannot be changed is a budget people route around, and routing around it is worse than changing it.</p>
+    <p>What matters is that the change leaves a record: who asked, why, how much, which lines, who approved it and when. Without that record, an increase applied after the fact is indistinguishable from covering up an overspend — the line reads a comfortable ninety percent used against a plan that quietly grew last Tuesday, and no <button class="t" data-t="vetkiemtoan">audit trail</button> can tell the auditor which of those two things happened.</p>
+    <p>Which is why a revision is a new row rather than an <code>UPDATE</code> on the budget line. The proposal exists first and changes nothing; the numbers on the budget move only when it is approved. Somebody refused a spend yesterday can be shown exactly why today's limit is different.</p>
+    <p class="vi"><b>In the code</b><code>BudgetRevision</code>, table <code>budget_revisions</code>, with <code>UNIQUE (budget_id, revision_no)</code> and a <code>delta_amount</code> that is allowed to be negative — cutting a budget is an ordinary event (BM-16, BM-17). It self-approves and applies straight away only when <em>both</em> conditions hold: the change is under ten percent of the total and it is within the requester's own <code>approval_limit</code>. Fail either one and it goes to Camunda as <code>PENDING_APPROVAL</code>, and <code>applyApprovalOutcome</code> is the only way out of that state (BM-18). Revising a returned draft keeps the same <code>revision_no</code> — three rounds of negotiation are one revision, not three.</p>
+    <p class="vi"><b>Tiếng Việt</b>"Còn lại" (kế hoạch trừ thực chi) và "khả dụng" (kế hoạch trừ cam kết trừ thực chi) trông giống nhau nhưng chênh nhau đúng bằng số đã cam kết — và không cột nào trong hệ thống lưu con số thứ nhất. Kiểm soát phải chặn ở bước duyệt chứ không phải bước chi, vì tới lúc chi thì công ty đã có nghĩa vụ hợp đồng rồi. Vượt 100% thì thêm cấp duyệt, đừng chặn cứng — và mọi lần điều chỉnh ngân sách phải có vết ai sửa, sửa gì, vì sao.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>One department, one quarter, five requests</h2>
+  <p class="prose" style="margin-bottom:14px">Marketing has 400 million for the quarter. Five purchase requests are queued. Each one is approved first and paid later — two separate actions, days or weeks apart, and each one moves a different column.</p>
+  <p class="prose" style="margin-bottom:26px">Approve requests through the gate, then pay or cancel them from the list. Watch the two headroom figures come apart. Or press <em>run the four approvals</em> to be walked straight into the state the lesson is about: healthy on one number, already over on the other, with one more request waiting for a decision.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="trap">Run the four approvals</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="stats six">
+      <div class="stat"><span class="k">Planned for the quarter</span><span class="v" id="stPlan">—</span></div>
+      <div class="stat"><span class="k">Committed — approved, unpaid</span><span class="v" id="stCom">—</span></div>
+      <div class="stat"><span class="k">Actual — money gone</span><span class="v" id="stAct">—</span></div>
+      <div class="stat"><span class="k">Remaining <b>plan − actual</b></span><span class="v" id="stRem">—</span></div>
+      <div class="stat"><span class="k">Available <b>plan − com − act</b></span><span class="v" id="stAva">—</span></div>
+      <div class="stat"><span class="k">Used, against plan</span><span class="v" id="stPct">—</span></div>
+    </div>
+    <div class="usewrap">
+      <div class="usebar"><i class="u-act" id="uAct"></i><i class="u-com" id="uCom"></i></div>
+      <div class="ticks"><span class="tick" id="tk80">80%</span><span class="tick" id="tk90">90%</span><span class="tick plan" id="tk100">plan</span></div>
+      <div class="legend"><span><i class="u-act"></i>Actual — paid</span><span><i class="u-com"></i>Committed — approved, unpaid</span></div>
+    </div>
+    <div class="gate">
+      <div class="gt">The approval screen</div>
+      <div class="gq" id="gq">—</div>
+      <div class="vds">
+        <div class="vd" id="vdRem"><div class="vt">Reading remaining</div><div class="vf">plan − actual</div><div class="vv">—</div><div class="vw"></div></div>
+        <div class="vd" id="vdAva"><div class="vt">Reading available</div><div class="vf">plan − committed − actual</div><div class="vv">—</div><div class="vw"></div></div>
+      </div>
+      <button class="btn" id="ok">Approve this request</button>
+    </div>
+    <ul class="reqs" id="reqs"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Both cards answer the same question about the same budget at the same instant. Only the right-hand one is what <code>BudgetCheckService</code> actually computes; the left-hand one is the version that gets written when commitments have never been explained. The verdict is the highest threshold crossed, and the amount being requested counts towards the percentage before it is approved. The maths lives in <code>finance/sim-10.js</code> and has its own check: <code>node tools/test-10.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in a code review.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Is this number permission, or is it a prediction?"</div><div class="use">It decides everything downstream. A prediction gets corrected when reality disagrees with it; permission gets enforced. The same 400 million on two documents needs two entirely different pieces of software.</div></div></li>
+    <li><div><div class="say">"Which of the two headroom numbers is this screen showing — plan minus actual, or plan minus committed minus actual?"</div><div class="use">On a fresh budget they are the same number, so a demo will never tell you. Ask it of every screen where somebody approves, signs or commits anything, because that is where the wrong answer costs money.</div></div></li>
+    <li><div><div class="say">"At which moment does this check run — when the spend is approved, or when the payment executes?"</div><div class="use">Checking at payment is checking after the company is already contractually bound. Refusing then does not stop an overspend, it starts a dispute and adds late-payment interest to it.</div></div></li>
+    <li><div><div class="say">"When this hits a hundred percent, do we block or do we escalate?"</div><div class="use">A hard block does not stop the spend, it moves the spend into a category with room in it. Escalation keeps the transaction visible and puts a name against the decision to exceed the plan.</div></div></li>
+    <li><div><div class="say">"If someone raises this budget mid-quarter, what record does it leave?"</div><div class="use">Without who, when, why and by how much, an increase after the fact is indistinguishable from hiding an overspend — and neither the auditor nor the person refused a spend last week can tell the difference.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Không cần thành kế toán quản trị. Chỉ cần nhận ra khi nào một con số là dự báo và khi nào nó là hạn mức được phép chi — rồi hỏi màn hình đó đang đọc "còn lại" hay "khả dụng" trước khi viết dòng code đầu tiên.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 10 of 15 · Chapter 4, Planning and control · Next: forecasting cash you do not have yet, and why a forecast is built from due dates rather than trend lines.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../terms/10.js"></script>
+<script src="../sim-10.js"></script>
+<script>
+(function(){
+"use strict";
+function tr(n){ return (n/1e6).toFixed(1) + "m"; }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l10")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l10",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- the budget line ---------- */
+var BUD=window.BUD;
+var reqs=BUD.fresh();
+
+var CHIP={DRAFT:{t:"Waiting",c:""},COMMITTED:{t:"Committed",c:"c1"},CONSUMED:{t:"Paid",c:"c2"},RELEASED:{t:"Cancelled",c:"c3"}};
+var VERD={ALLOW:{t:"Approve",c:"yes"},NOTIFY:{t:"Approve, with a warning",c:"warn"},
+          REQUIRE_APPROVAL:{t:"Needs a second signature",c:"no"},BLOCK:{t:"Refused",c:"no"}};
+
+/* the bar spans 0–120% of plan, so the 100% mark never sits on the edge */
+var SCALE=120;
+function barW(v,planned){ return Math.max(0, Math.min(100, v/planned*100/SCALE*100)); }
+BUD.THRESHOLDS.forEach(function(th){
+  document.getElementById("tk"+th.level).style.left=(th.level/SCALE*100)+"%";
+});
+
+function card(el, v){
+  el.className="vd "+VERD[v.action].c;
+  el.querySelector(".vv").textContent=VERD[v.action].t;
+  el.querySelector(".vw").textContent="Headroom on this screen " + tr(v.headroom) +
+    " · reads " + v.usagePercent + "% of plan used" +
+    (v.shortBy>0 ? " · short by " + tr(v.shortBy) : "");
+}
+
+function render(){
+  var t=BUD.tally(reqs);
+
+  document.getElementById("stPlan").textContent=tr(t.planned);
+  var com=document.getElementById("stCom"); com.textContent=tr(t.committed);
+  com.className="v"+(t.committed>0?" warn":"");
+  document.getElementById("stAct").textContent=tr(t.actual);
+  var rem=document.getElementById("stRem"); rem.textContent=tr(t.remaining);
+  rem.className="v"+(t.remaining<0?" hot":" cool");
+  var ava=document.getElementById("stAva"); ava.textContent=tr(t.available);
+  ava.className="v"+(t.available<0?" hot":" cool");
+  var pc=document.getElementById("stPct"); pc.textContent=t.usagePercent+"%";
+  pc.className="v"+(t.usagePercent>=100?" hot":t.usagePercent>=80?" warn":" cool");
+
+  document.getElementById("uAct").style.width=barW(t.actual,t.planned)+"%";
+  document.getElementById("uCom").style.width=barW(t.committed,t.planned)+"%";
+
+  /* the approval gate — the same request checked two ways at the same instant */
+  var n=BUD.nextDraft(reqs), ok=document.getElementById("ok");
+  var vdRem=document.getElementById("vdRem"), vdAva=document.getElementById("vdAva");
+  if(n){
+    document.getElementById("gq").textContent=n.id+" · "+n.what+" · "+tr(n.amount);
+    card(vdRem, BUD.check(t, n.amount, "remaining"));
+    card(vdAva, BUD.check(t, n.amount, "available"));
+    ok.disabled=false; ok.textContent="Approve "+n.id;
+  } else {
+    document.getElementById("gq").textContent="Nothing left waiting for a decision.";
+    vdRem.className="vd"; vdRem.querySelector(".vv").textContent="—"; vdRem.querySelector(".vw").textContent="";
+    vdAva.className="vd"; vdAva.querySelector(".vv").textContent="—"; vdAva.querySelector(".vw").textContent="";
+    ok.disabled=true; ok.textContent="Approve this request";
+  }
+
+  var list=document.getElementById("reqs");
+  list.innerHTML="";
+  reqs.forEach(function(r){
+    var li=document.createElement("li"); li.className="req";
+    li.innerHTML='<span class="rq"><b></b><span class="w"></span></span><span class="ra"></span>'+
+                 '<span class="rl"><span class="chip"></span><span class="rb"></span></span>';
+    li.querySelector(".rq b").textContent=r.id;
+    li.querySelector(".rq .w").textContent=r.what;
+    li.querySelector(".ra").textContent=tr(r.amount);
+    var chip=li.querySelector(".chip");
+    chip.className="chip "+CHIP[r.state].c;
+    chip.textContent=CHIP[r.state].t;
+    if(r.via && r.via!=="ALLOW" && r.state!=="DRAFT"){
+      var extra=document.createElement("span");
+      extra.className="chip c4";
+      extra.textContent = r.via==="REQUIRE_APPROVAL" ? "needed a second signature" : "warned at approval";
+      chip.after(extra);
+    }
+    var box=li.querySelector(".rb");
+    if(r.state==="COMMITTED"){
+      [["CONSUMED","Pay it"],["RELEASED","Cancel it"]].forEach(function(a){
+        var b=document.createElement("button"); b.type="button"; b.className="ghost";
+        b.dataset.a=a[0]; b.dataset.id=r.id; b.textContent=a[1];
+        box.appendChild(b);
+      });
+    }
+    list.appendChild(li);
+  });
+
+  var flag=document.getElementById("flag");
+  if(t.available<0){
+    flag.innerHTML='<div class="stale">OVER BUDGET — '+tr(t.committed)+' committed and '+tr(t.actual)+
+      ' paid against a plan of '+tr(t.planned)+'. Available is '+tr(t.available)+
+      ', which is to say the department has promised away '+tr(-t.available)+
+      ' it was never given. The other screen, the one reading plan minus actual, still says '+tr(t.remaining)+
+      ' left — and nothing on it is blinking.</div>';
+  } else if(t.usagePercent>=80){
+    flag.innerHTML='<div class="stale">'+t.usagePercent+'% USED — past the 80% mark, so an alert has fired once and only once. '+
+      tr(t.available)+' of real headroom left, against '+tr(t.remaining)+
+      ' if you only count money that has actually left the bank. The gap between those two figures is exactly the '+
+      tr(t.committed)+' already promised to somebody.</div>';
+  } else if(t.committed>0){
+    flag.innerHTML='<div class="match">'+tr(t.committed)+' IS SPOKEN FOR — approved, not yet paid, and invisible to any screen that subtracts only what has been paid. Remaining says '+
+      tr(t.remaining)+', available says '+tr(t.available)+'. Both are arithmetic on the same four columns; only one of them may be shown to somebody about to sign.</div>';
+  } else {
+    flag.innerHTML='<div class="match">NOTHING COMMITTED — and this is the state in which the bug is invisible. Remaining and available both read '+
+      tr(t.available)+', the screen looks correct, and it will keep looking correct until the first purchase order is approved and not yet paid.</div>';
+  }
+  mark("sim");
+}
+
+document.getElementById("reqs").addEventListener("click", function(e){
+  var b=e.target.closest("button[data-a]");
+  if(!b) return;
+  reqs=BUD.step(reqs, b.dataset.id, b.dataset.a);
+  render();
+});
+document.getElementById("ok").addEventListener("click", function(){
+  var n=BUD.nextDraft(reqs);
+  if(!n) return;
+  reqs=BUD.approve(reqs, n.id).reqs;
+  render();
+});
+document.getElementById("trap").addEventListener("click", function(){ reqs=BUD.trap(); render(); });
+document.getElementById("reset").addEventListener("click", function(){ reqs=BUD.fresh(); render(); });
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"Marketing was budgeted 400 million for the quarter and has spent 470. A manager asks you to update the budget to 470 so the report stops showing red. What is wrong with doing that?",
+  o:["Nothing — a budget should reflect what really happened",
+     "A budget records what was permitted, so overwriting it erases the fact that 70 million was spent without permission",
+     "The column is not editable",
+     "It would break the forecast"],
+  a:1,
+  why:"This is the difference between a forecast and a budget in one request. A forecast that turns out wrong gets corrected — that is what it is for. A budget is an authorisation, and quietly raising it after the money is gone destroys the only evidence that anyone exceeded their authority. The honest paths are a logged revision, with a reason and an approver, or an accepted variance that somebody has to explain."},
+ {q:"A department has a plan of 400 million. It has paid 120 million and has 300 million of approved, unpaid purchase orders outstanding. The approval screen shows 280 million of headroom. What is it showing?",
+  o:["Available budget — plan minus committed minus actual",
+     "Remaining budget — plan minus actual, which cannot see the 300 million of signed orders",
+     "The allocation for the current period",
+     "The variance for the quarter"],
+  a:1,
+  why:"400 − 120 = 280, so the screen is subtracting only what has left the bank. The true figure is 400 − 300 − 120 = −20 million: the department is already over. Note the arithmetic of the mistake — the gap between the two numbers is exactly the commitments, so the screen is most wrong at the moment there is most money in flight."},
+ {q:"Where should the budget check run — at the moment a spend is approved, or in the payment routine just before the transfer goes out?",
+  o:["At payment, because that is when the money actually moves",
+     "At approval, because by payment time the company is already contractually obliged and refusing creates a legal problem instead of preventing a financial one",
+     "Both, to be safe",
+     "Neither — a nightly job is enough"],
+  a:1,
+  why:"By the time a payment runs, the supplier has delivered and the invoice is valid. The debt exists whether or not your budget agrees with it, so blocking there does not prevent an overspend — it starts a dispute and adds late-payment interest to a bill you were already going to pay. That is why the check is synchronous and sits in front of transaction creation (TM-17), and why it is the one place in this architecture where a user is made to wait for one service calling another."},
+ {q:"A budget line reaches 100% used and another urgent, legitimate spend arrives. Blocking it outright is usually the wrong design. Why?",
+  o:["Because blocking is technically difficult",
+     "Because the delivery still has to happen, so the spend gets booked to a category that has room — you have not prevented it, you have made it untraceable",
+     "Because budgets are only advisory",
+     "Because the threshold is probably misconfigured"],
+  a:1,
+  why:"A business does not stop when a number is exceeded; it escalates. Requiring a higher approver keeps the transaction where it belongs, records who decided the plan could be exceeded, and leaves the overspend visible in the reporting. A hard block exists in this system and is occasionally right, but choose it knowing that everything urgent then waits days for a budget revision to be approved."},
+ {q:"A transaction with an existing commitment executes and the money leaves the account. What has to happen to the budget line?",
+  o:["actual_amount goes up by the amount; committed_amount is left alone",
+     "committed_amount goes down and actual_amount goes up by the same figure — total used is unchanged at that moment",
+     "Both go up, since the money was both committed and spent",
+     "The line is recalculated from scratch from the transaction table"],
+  a:1,
+  why:"The money is not spent twice; it changes state. Leaving the commitment in place while adding the actual counts the same đồng in two columns, which halves the department's apparent headroom overnight and produces threshold alerts nobody can explain. In the code the existing commitment moves COMMITTED → CONSUMED rather than a second row being written, and the unique constraint on (budget_line_id, transaction_id) is what stops a redelivered Kafka message doing it twice."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — refining the budget screen",
+  line:'"For the remaining budget just do planned minus actual. Both columns are right there on the line."',
+  o:[{t:"Sure — it's two columns, I'll have it done this afternoon.", v:"weak",
+      f:"It will be done this afternoon, and it will be correct in the demo, because a freshly seeded budget has nothing committed. The first week in production a department signs 300 million of orders it has not paid yet, the screen keeps showing a comfortable number, and somebody approves on top of it."},
+     {t:"That formula ignores commitments.", v:"weak",
+      f:"True, and it will not move anybody. The BA does not yet have the word commitment attached to a consequence, so what they hear is a developer preferring a different formula. Correct and unpersuasive is the most common way a good objection dies."},
+     {t:"That works until something is approved and not yet paid. A department with 300 million of signed orders and 120 million paid would show 280 million left when it is actually 20 million over. There is a column that already does this properly — available_amount, which the database computes as planned minus committed minus actual. Can we bind the screen to that?", v:"strong",
+      f:"You named the failure with numbers rather than with a principle, and you finished by pointing at something that already exists rather than asking for work. That is the version of this conversation that ends in a one-line change instead of a debate."}]},
+ {role:"Head of marketing — during the demo",
+  line:'"Your screen says I am over budget. I have spent 120 million of my 400. How am I over?"',
+  o:[{t:"Let me check — there may be a calculation error.", v:"weak",
+      f:"You have just conceded a bug that does not exist, in front of the person whose behaviour the feature is meant to change. A ticket gets raised, somebody spends a day proving the number was right, and the department carries on committing money it does not have."},
+     {t:"You have spent 120 million and committed another 300. Those purchase orders are signed, so that money is not yours to spend twice — the screen is showing what is left after both. What you are thinking of is how much has left the bank, which is a different question and a much more optimistic one.", v:"strong",
+      f:"You separated paid from promised without accusing anybody of anything, and you gave their number a name instead of calling it wrong. The natural next sentence is theirs: which of those orders can still be cancelled?"},
+     {t:"The screen shows available, not remaining. Available subtracts commitments.", v:"weak",
+      f:"Both sentences are accurate and neither means anything to the person in the room. They now know two words they did not ask for and still believe your screen is broken. Vocabulary is not an explanation."}]},
+ {role:"Finance director — reviewing the threshold rules",
+  line:'"When a line hits a hundred percent, block the transaction. That is the entire point of having a budget."',
+  o:[{t:"Agreed, I'll set the hundred percent threshold to BLOCK.", v:"weak",
+      f:"Within a month a shipment that had to go out is booked against a category with room in it, because the delivery was not optional and your screen was. The overspend still happened; it just moved somewhere nobody is looking for it, and the reporting the director wanted is now worse than before."},
+     {t:"We can block, and we should also be clear about what happens next. Anything urgent then waits for a budget revision to be approved, which is days — and what people do in the meantime is book the spend to a category that still has room. If we require a second approver past a hundred instead, the spend stays visible and there is a name against the decision to exceed the plan. Shall we start there and turn blocking on for the categories where it really must be a hard stop?", v:"strong",
+      f:"You did not refuse; you described what happens after the rule and offered a version that still gives the director control. Blocking on a few named categories is a smaller, more defensible policy than blocking everywhere, and you proposed it rather than waiting to be asked."},
+     {t:"Blocking payments is risky, we could get into legal trouble.", v:"weak",
+      f:"Two problems in one sentence. It is a warning without a proposal, so the answer is simply \"do it anyway\" — and it is about the wrong control point: the block being discussed happens at approval, before there is any obligation. Being vaguely alarming about the wrong step costs you the argument you were right about."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

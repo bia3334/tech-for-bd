@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three Ways to Turn an Invoice Into Cash</title>
+<meta name="description" content="Lesson 07 — invoice discounting, reverse factoring and inventory financing: the same problem solved three times, started by three different people and priced off three different credit ratings.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="07">
+<meta name="tfbd:tags" content="SCF, invoice discounting, reverse factoring, inventory financing, factoring, Thông tư 20/2024, disbursement, advance rate, DPO">
+<meta name="tfbd:level" content="Core">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- lesson 07: pick a product, and three answers about it ---- */
+.pick{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:14px}
+.pick:hover:not(:disabled){border-color:var(--muted)}
+.pick[aria-pressed="true"]{background:var(--fast-soft); border-color:var(--fast); color:var(--ink)}
+.who3{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.who3{grid-template-columns:repeat(3,1fr)}}
+.who3 div{background:var(--surface); padding:13px 18px}
+.who3 .k{display:block; font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who3 .v{display:block; font-size:14.5px; color:var(--ink); margin-top:5px; line-height:1.45}
+.gbar{position:absolute; height:2px; background:var(--muted); opacity:.42; border-radius:1px; transition:bottom .35s ease}
+.ev.fin{background:var(--fast-soft)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 07</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Turning invoices into cash · Lesson 07</div>
+  <h1>Three ways to turn an invoice into cash</h1>
+  <p class="lede">The same sentence — somebody is owed money later and needs it now — answered three times. What separates the three answers is not the interest rate. It is who is allowed to start the deal, whose name the price is read off, and what the financier gets to keep if the promise breaks.</p>
+  <div class="facts"><span>18 min</span><span>Builds on lessons 01 and 02</span><span>Drive the same 90 days three ways</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>What actually happens when an invoice is financed</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>Lesson 01 left a company in a hole it did not dig: it had paid for goods, delivered them, booked the profit, and then had to wait forty-five days for any money to arrive. Everything in this chapter exists to fill that hole. There are exactly three products in this system that do it.</p>
+    <p>Start with the mechanism, stripped of names. A company is holding a promise — a customer's promise to pay 500 million in sixty days. Somebody with cash looks at that promise, forms a view on how likely it is to be kept, and hands over most of the 500 million today in exchange for all of it in sixty days. The difference between <em>most</em> and <em>all</em> is the price of the sixty days.</p>
+    <p>That is all of it. Three parties in every deal here: the seller who delivered the goods, the buyer who owes for them, and the financier who has money and wants a return on it. Notice who is absent — nobody has bought or sold anything new. No <button class="t" data-t="doanhthu">revenue</button>, no <button class="t" data-t="loinhuan">profit</button>. The same money arrives earlier and slightly smaller, and the company keeps trading instead of running out of <button class="t" data-t="thanhkhoan">liquidity</button> on payday.</p>
+    <p>One naming trap, and it will come up the first time you sit in a meeting about this module. The screen says <em>chiết khấu hoá đơn</em>, <button class="t" data-t="chietkhau">invoice discounting</button>. But a commercial <button class="t" data-t="hoadon">invoice</button> is not a negotiable instrument under Luật Các TCTD, so nothing here can legally be discounted at all: every Vietnamese product that advances money against an invoice is <em>bao thanh toán</em> — factoring — under Thông tư 20/2024/TT-NHNN. The interface keeps the name people are used to; the contract, the checks and the state machine follow the factoring framework. When a rule in this module looks arbitrary, that is usually where it came from.</p>
+    <p class="vi"><b>In the code</b>The counterparty is <code>FinanceProvider</code> in <code>scf-service</code>, and it must be a credit institution — a bank, a finance company, a foreign bank branch (Luật Các TCTD 32/2024/QH15). The marketplace in SCF-16 is a channel for asking prices, nothing more: a provider that is not a TCTD may appear in it and may not disburse.</p>
+    <p class="vi"><b>Tiếng Việt</b>Tài trợ hoá đơn thực chất là đổi thời gian lấy tiền: có người cầm một lời hứa trả tiền sau 60 ngày, có người có tiền và muốn sinh lời, phần chênh lệch chính là giá của 60 ngày đó. Không có doanh thu hay lợi nhuận mới nào phát sinh. Và ở Việt Nam, mọi sản phẩm ứng tiền trên hoá đơn về pháp lý đều là bao thanh toán theo TT 20/2024/TT-NHNN — "chiết khấu hoá đơn" chỉ là tên thương mại.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Same sentence, three different people starting it</h2>
+
+  <div class="stack">
+    <p>Three questions separate the products, and every difference you will meet downstream — which screen, which actor, which validation, which fee — falls out of the answers. <b>Who is allowed to start it. Whose creditworthiness prices it. What backs it if the promise breaks.</b></p>
+  </div>
+
+  <h3>Invoice discounting — you sell your own receivable</h3>
+  <div class="stack">
+    <p>The seller brings its own <button class="t" data-t="phaithu">receivable</button> and sells it. You issued the invoice, you own the debt, you hand it to a financier and take most of the money now. Nobody else has to agree to anything.</p>
+    <p>Which is precisely why it is the expensive one. The financier is lending against <em>your</em> name: if the buyer never pays, its first question is whether you can make it good. A small company is quoted what a small company is quoted — eighteen, twenty-two, twenty-six percent a year — and typically gets eighty percent of the face value now, with the remaining twenty held back as a reserve and released when the buyer actually pays.</p>
+  </div>
+
+  <h3>Reverse factoring — the buyer starts it</h3>
+  <div class="stack">
+    <p>The same money, with a different name on the promise. In <button class="t" data-t="taitronguocdong">reverse factoring</button> a large buyer signs a programme with its bank, enrols its suppliers into it, and confirms particular invoices: <em>this one I will certainly pay</em>. The supplier can then take the money early, priced off the corporation's credit standing instead of its own. Eight and a half percent instead of eighteen — and a hundred percent of the invoice rather than eighty, because the party who must pay has already said it will.</p>
+    <p>The supplier cannot start this one. There is no button for it until the buyer has a programme and has confirmed the invoice. That is not a permissions decision, it is what the product <em>is</em>.</p>
+    <p>So why would a large buyer arrange cheap money for its suppliers? Not charity — it is buying <button class="t" data-t="dpo">DPO</button>. Lesson 01 established that every day you have not yet paid a supplier is a day the cash is still in your account, and that stretching payment terms is the cheapest funding a company will ever find. It is also the funding that quietly strangles the other end of the chain: the supplier borrows expensively to survive the wait, and eventually raises prices or fails. Reverse factoring lets the buyer take the days without doing the damage. The buyer pays on day ninety, the supplier is paid on day five, and the difference is bought at the buyer's own cheap rate.</p>
+  </div>
+
+  <h3>Inventory financing — nothing is owed to you yet</h3>
+  <div class="stack">
+    <p>The third product does not involve an invoice at all. The goods are still in the warehouse, nobody has bought them, nobody owes you a đồng. <button class="t" data-t="taitrotonkho">Inventory financing</button> lends against the <button class="t" data-t="tonkho">stock</button> itself, pledged as security.</p>
+    <p>The price here is read off neither party's rating but off the goods. The lender is asking one question: if this loan goes wrong, and I am left holding two hundred tonnes of somebody else's steel, what do I get for it in a hurry? That is why only a fraction of the stated value is ever advanced — sixty percent is ordinary — and why the value has to be re-checked on a schedule rather than trusted once. Stock is not frozen by being pledged; the borrower goes on selling it, which is exactly why the number has to be watched.</p>
+  </div>
+
+  <div class="pull"><q>The rate is not a fact about the invoice. It is a fact about whose name is on the promise to pay.</q></div>
+
+  <div class="stack">
+    <p class="vi"><b>In the code</b><code>ProgramType = INVOICE_DISCOUNTING | REVERSE_FACTORING | INVENTORY_FINANCING</code> on <code>FinancingProgram</code>, mapped <code>updatable = false</code> — the type is chosen when the <button class="t" data-t="chuongtrinhtaitro">programme</button> is signed and never edited. <code>advance_rate</code> is constrained to 0–100 and deliberately not capped at 90: Techcombank and HDBank both sell hundred-percent advance products, so a tidy-looking ceiling would reject a real market offer. Do not confuse this column with <code>financing_offers.factoring_product</code> — see the next section.</p>
+    <p class="vi"><b>Tiếng Việt</b>Ba sản phẩm trả lời cùng một câu hỏi nhưng khác nhau ở ba chỗ: ai được khởi xướng, lấy uy tín của ai để định giá, và lấy gì làm bảo đảm. Chiết khấu hoá đơn do bên bán tự làm nên tính theo uy tín của chính mình — với SME đó là mức đắt nhất. Tài trợ ngược dòng do bên mua khởi xướng nên nhà cung cấp được hưởng lãi suất của tập đoàn lớn. Tài trợ tồn kho thì chưa ai nợ ai, giá được đọc từ chính lô hàng.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Whoever received the money is not always the one who owes it back</h2>
+
+  <div class="stack">
+    <p>Here is the assumption every developer makes without noticing, and it is wrong in two of the three products: <em>the party who received the cash is the party who repays it.</em></p>
+    <p>In invoice discounting the seller receives the advance, and it is the <b>buyer</b> who repays — paying the financier directly on the invoice's original due date. The seller may never send a đồng. Whether the seller has to make it good if the buyer defaults is a separate question, and it is lesson 08's.</p>
+    <p>In reverse factoring the supplier receives the cash and owes nothing whatsoever. The <b>buyer</b> is the financier's customer, the buyer carries the <button class="t" data-t="hoantra">repayment obligation</button>, and it is the <b>buyer's</b> <button class="t" data-t="hanmuc">limit</button> that is consumed. That is not an accident of implementation — it is what the law calls this product.</p>
+    <p>Only in inventory financing does the intuition hold: you took the money, you repay it, on the loan's own due date, whether or not you have sold the goods yet.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>A financing product is not a label on a row. It decides who may start the request, whose limit it eats, who repays it, and what evidence must exist before a đồng may move.</p>
+    <p class="sub">Wire the repayment to whoever received the disbursement and you are wrong in the single most common product in the market: the supplier gets a demand for money it does not owe, and the buyer's <button class="t" data-t="duno">exposure</button> is never booked. The column that decides this is <code>financing_offers.factoring_product</code>, whose three values are legal categories from Điều 3 khoản 9–11 of Thông tư 20/2024/TT-NHNN, not a renamed <code>with_recourse</code> boolean. It picks who the financier's customer is, who must repay, and what must be proved before <button class="t" data-t="giaingan">disbursement</button> — and a missing precondition there is a <code>409</code>, not a warning.</p>
+  </div>
+
+  <h3>One lifecycle, three products, a different hand on each step</h3>
+  <p class="prose" style="margin-bottom:20px">Whatever the product, an invoice or a pledge becomes a <button class="t" data-t="denghitaitro">request</button>, the request is quoted, approved and disbursed, and later repaid. Seven states, and it is worth knowing who moves each one, because in a system this size that is usually the actual question in the ticket.</p>
+  <ul class="uses">
+    <li><span class="u">DRAFT</span><span class="d">The company creates the request against a programme and an invoice. Four checks run here and not later: the invoice must be marked eligible, still <code>ISSUED</code>, under a year from due, and the remaining term plus the repayment term must also stay under a year — two separate rules, Điều 7 khoản 2 and Điều 17 khoản 1, and only running one of them lets exactly the wrong case through.</span></li>
+    <li><span class="u">SUBMITTED → QUOTED</span><span class="d">Sent out for prices. The invoice moves to <code>FINANCING</code>, which locks it against a second request. Nothing is committed, no limit is touched — asking a price creates no obligation.</span></li>
+    <li><span class="u">ACCEPTED</span><span class="d">Not reached by picking a quote. <code>accept-quote</code> records the choice and opens a one-step director approval; the request stays at <code>QUOTED</code> until the workflow answers. Only <code>APPROVED</code> moves it, and that is where the limit is consumed and the collateral locked.</span></li>
+    <li><span class="u">DISBURSED</span><span class="d">The financier moves money. The precondition branches on the product: with the seller's own repayment undertaking, proof that the buyer was notified — when, by what channel, and a stored copy; otherwise the buyer's confirmation. The invoice becomes <code>FINANCED</code> and the repayment schedule is generated in the same transaction.</span></li>
+    <li><span class="u">OVERDUE</span><span class="d">Nobody sets this. A nightly job compares a repayment's due date with today. One late instalment moves the whole loan.</span></li>
+    <li><span class="u">SETTLED</span><span class="d">The last instalment marked paid, in that same transaction — not by a job. The limit is released, pledged stock returns to <code>AVAILABLE</code>, the reserve goes back to the seller.</span></li>
+    <li><span class="u">DEFAULTED</span><span class="d">Reachable only from <code>OVERDUE</code>, and never automatically: it is a debt classification a credit institution publishes, not something a timer concludes.</span></li>
+  </ul>
+
+  <h3>The check that is not there</h3>
+  <div class="stack">
+    <p>An invoice carries a <code>direction</code>, and lesson 02 showed how much rides on it. <code>RECEIVABLE</code> is what feeds invoice discounting; <code>PAYABLE</code> — an invoice your company owes — is what feeds reverse factoring, because in that product your company is the buyer. The programme type and the invoice direction have to agree.</p>
+    <p>Nothing in the code compares them. <code>FinancingOfferService.create</code> loads the programme, loads the invoice, checks eligibility, checks both term rules — and never asks whether this invoice belongs in this kind of programme. It is the sort of gap worth raising in a refinement meeting rather than fixing quietly in a pull request, because the correct behaviour is a business decision: reject, or warn and let a human decide.</p>
+    <p class="vi"><b>In the code</b><code>FinancingOffer</code> carries <code>@Version</code> for one reason — the programme limit is decremented at <code>ACCEPTED</code> and the DDL deliberately has no <code>CHECK (used_limit &lt;= total_limit)</code>, because such a constraint would also block legitimate reversals. Two approvals landing in the same second must therefore have one loser, and the loser is picked by a compare-and-set on <code>used_limit</code> rather than by a database rule (SCF-09).</p>
+    <p class="vi"><b>Tiếng Việt</b>Ai nhận tiền và ai phải hoàn trả là hai câu hỏi khác nhau. Ở tài trợ ngược dòng, nhà cung cấp nhận tiền nhưng bên mua mới là khách hàng của đơn vị tài trợ, mới là bên hoàn trả, và hạn mức bị trừ cũng là của bên mua. Cột quyết định điều đó là <code>factoring_product</code> — ba giá trị pháp định của TT 20/2024/TT-NHNN, không phải một nhãn hiển thị.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Ninety days, three ways to be paid</h2>
+  <p class="prose" style="margin-bottom:14px">A small company delivered 500 million of goods to a large buyer on net 60 terms. It owes its own supplier 260 million on day 20, payroll goes out on days 30, 60 and 90, and it has 400 million of stock in the warehouse. It starts the quarter with 60 million in the bank. Every month is profitable, and from day 20 to day 60 the account is empty — the grey ticks on the chart are that unfinanced line, and they never move.</p>
+  <p class="prose" style="margin-bottom:26px">Pick a product and watch the same ninety days redraw. Then deliberately pick one that does not fit: inventory financing with an empty warehouse, or reverse factoring before the buyer has enrolled you. The refusal is the part worth reading.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="ghost pick" id="pNone" aria-pressed="true">Nothing — wait to be paid</button>
+      <button class="ghost pick" id="pDisc" aria-pressed="false">Invoice discounting</button>
+      <button class="ghost pick" id="pRev" aria-pressed="false">Reverse factoring</button>
+      <button class="ghost pick" id="pInv" aria-pressed="false">Inventory financing</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">What a bank charges you, on your own name<small>The large buyer is quoted 8.5% a year, and that never moves</small></span><span class="kv" id="vRate">18%</span><input type="range" id="rate" min="10" max="30" step="2" value="18"></div>
+      <div class="knob"><span class="kl">Stock in the warehouse<small>Valued on a date, pledgeable — the only thing inventory financing can look at</small></span><span class="kv" id="vStock">400.0m</span><input type="range" id="stock" min="0" max="800" step="100" value="400"></div>
+      <label class="sw"><input type="checkbox" id="enrol"> The buyer runs a reverse factoring programme and has enrolled you in it</label>
+    </div>
+    <div class="who3">
+      <div><span class="k">Started by</span><span class="v" id="whoStart">—</span></div>
+      <div><span class="k">Priced off</span><span class="v" id="whoPrice">—</span></div>
+      <div><span class="k">Backed by</span><span class="v" id="whoBack">—</span></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Cash in hand by day 5</span><span class="v" id="stCash">—</span></div>
+      <div class="stat"><span class="k">What that cash cost</span><span class="v" id="stCost">—</span></div>
+      <div class="stat"><span class="k">Lowest the cash gets</span><span class="v" id="stMin">—</span></div>
+      <div class="stat"><span class="k">Days in the red</span><span class="v" id="stNeg">—</span></div>
+    </div>
+    <div class="chart" id="chart"></div>
+    <div class="axis"><span>DAY 0</span><span>DAY 30</span><span>DAY 60</span><span>DAY 90</span></div>
+    <div class="flag" id="flag"></div>
+    <ul class="evs" id="evs"></ul>
+    <p class="sim-note">Day numbers rather than calendar dates, so the same clicks always give the same answer. The fee is the formula the service really uses — amount × rate ÷ 100 × days ÷ 365, simple interest on a 365-day year — and it is taken off the top of what is disbursed, so what comes back later is the principal. The arithmetic lives in <code>finance/sim-07.js</code> and has its own check: <code>node tools/test-07.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Which of the three products is this screen for, and who is allowed to press the button?"</div><div class="use">The seller starts invoice discounting, the buyer starts reverse factoring, and the supplier's early-payment screen only exists on invoices the buyer has already confirmed. One requirement written for "the user" produces three different features, and the wrong one ships silently because it looks reasonable.</div></div></li>
+    <li><div><div class="say">"Whose credit standing prices this deal — ours or the counterparty's?"</div><div class="use">The same invoice at eighteen percent or at eight and a half, depending only on whose name the financier is really lending against. If a customer complains that your fee is high, this is usually the answer, and it is a product conversation rather than a pricing one.</div></div></li>
+    <li><div><div class="say">"Who repays this, and does it change if the buyer never pays?"</div><div class="use">Two questions, both decided by factoring_product and neither by who received the money. Get the first wrong and you invoice the wrong company; get the second wrong and you find out during a default, which is the worst possible moment to learn it.</div></div></li>
+    <li><div><div class="say">"Is the collateral value here measured, or copied from something somebody typed?"</div><div class="use">Pledged stock carries a value, a valuation date and a threshold, and the whole product depends on that number being re-measured rather than inherited. A total_value that has drifted from quantity × unit_value means the safety alert is comparing against a figure nobody computed.</div></div></li>
+    <li><div><div class="say">"What is this cash worth to us this month, rather than what is the rate?"</div><div class="use">Every one of these products trades some of tomorrow's margin for money today, so a fee always looks like a loss on the page it appears on. The question that decides correctly is what the alternative costs — a missed payroll, a supplier who stops delivering, an order not taken.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Cả ba sản phẩm đều đổi một phần lợi nhuận ngày mai lấy tiền hôm nay, nên nhìn vào phí bao giờ cũng thấy "mất". Câu hỏi đúng không phải "lãi suất bao nhiêu" mà là "tháng này số tiền ấy đáng giá bao nhiêu với mình" — và ai là người được khởi xướng, ai là người phải hoàn trả.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 07 of 15 · Next: recourse, collateral and the limit behind them — who pays when the buyer never does.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../terms/07.js"></script>
+<script src="../sim-07.js"></script>
+<script>
+(function(){
+"use strict";
+function tr(n){ return (n/1e6).toFixed(1) + "m"; }
+function sign(n){ return (n>0?"+":n<0?"−":"") + tr(Math.abs(n)); }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l7")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l7",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- the three products ---------- */
+var SCF=window.SCF, BASE=SCF.BASE;
+var picks={ NONE:document.getElementById("pNone"), DISCOUNT:document.getElementById("pDisc"),
+            REVERSE:document.getElementById("pRev"), INVENTORY:document.getElementById("pInv") };
+var rate=document.getElementById("rate"), stock=document.getElementById("stock"),
+    enrol=document.getElementById("enrol"), chart=document.getElementById("chart"),
+    evs=document.getElementById("evs"), flag=document.getElementById("flag");
+var product="NONE", bars=[], ghosts=[], zline=null;
+
+/* built once and then updated, so the CSS transition has something to run on */
+function buildChart(n){
+  if(bars.length===n) return;
+  chart.innerHTML="";
+  zline=document.createElement("div"); zline.className="zero";
+  zline.innerHTML='<span>0 ₫</span>';
+  chart.appendChild(zline);
+  bars=[]; ghosts=[];
+  var w=100/n;
+  for(var i=0;i<n;i++){
+    var b=document.createElement("div"); b.className="bar";
+    b.style.left=(i*w)+"%"; b.style.width=Math.max(w-0.25,0.4)+"%";
+    b.style.height="0%"; b.style.bottom="0%";
+    chart.appendChild(b); bars.push(b);
+    var g=document.createElement("div"); g.className="gbar";
+    g.style.left=(i*w)+"%"; g.style.width=Math.max(w-0.25,0.4)+"%"; g.style.bottom="0%";
+    chart.appendChild(g); ghosts.push(g);
+  }
+}
+
+function render(){
+  var r=SCF.simulate({ product:product, sellerRate:+rate.value, stock:+stock.value*1e6,
+                       enrolled:enrol.checked });
+  var p=r.plan;
+
+  document.getElementById("vRate").textContent=rate.value+"%";
+  document.getElementById("vStock").textContent=tr(+stock.value*1e6);
+  Object.keys(picks).forEach(function(k){ picks[k].setAttribute("aria-pressed", k===product); });
+
+  document.getElementById("whoStart").textContent=p.startedBy;
+  document.getElementById("whoPrice").textContent=p.pricedOff;
+  document.getElementById("whoBack").textContent=p.backedBy;
+
+  var cash=document.getElementById("stCash");
+  cash.textContent=p.ok&&p.net>0?tr(p.net):"—";
+  cash.className="v"+(p.ok&&p.net>0?" cool":"");
+  document.getElementById("stCost").textContent=p.fee>0?tr(p.fee):"—";
+  var min=document.getElementById("stMin");
+  min.textContent=tr(r.minCash); min.className="v"+(r.minCash<0?" hot":" cool");
+  var neg=document.getElementById("stNeg");
+  neg.textContent=r.negDays+" days"; neg.className="v"+(r.negDays?" hot":" cool");
+
+  /* the chosen line as bars; the unfinanced line as grey ticks that never move */
+  buildChart(r.series.length);
+  var all=r.series.concat(r.base.series).concat(0);
+  var top=Math.max.apply(null,all), bot=Math.min.apply(null,all);
+  var span=(top-bot)||1, zero=(-bot)/span*100;
+  zline.style.bottom=zero+"%";
+  r.series.forEach(function(v,i){
+    var b=bars[i], h=Math.abs(v)/span*100;
+    b.className="bar"+(v<0?" neg":"");
+    b.style.height=h+"%";
+    b.style.bottom=(v<0 ? zero-h : zero)+"%";
+    b.title="Day "+i+" · "+tr(v);
+    ghosts[i].style.bottom=((r.base.series[i]-bot)/span*100)+"%";
+  });
+
+  evs.innerHTML="";
+  var bal=BASE.cash0;
+  r.events.forEach(function(e){
+    bal+=e.amount;
+    var li=document.createElement("li"); li.className="ev"+(e.fin?" fin":"");
+    li.innerHTML='<span class="d"></span><span class="n"></span><span class="a"></span>';
+    li.querySelector(".d").textContent="Day "+e.d;
+    li.querySelector(".n").textContent=e.label;
+    var a=li.querySelector(".a");
+    a.className="a "+(e.amount>0?"in":"out");
+    a.textContent=sign(e.amount)+"  →  "+tr(bal);
+    evs.appendChild(li);
+  });
+
+  if(!p.ok){
+    flag.innerHTML='<div class="stale">'+p.name.toUpperCase()+' DOES NOT FIT — '+p.why+
+      ' Nothing changed: the line below is the one you would have had anyway, '+tr(-r.minCash)+
+      ' short at the worst point.</div>';
+  } else if(p.key==="NONE"){
+    flag.innerHTML='<div class="stale">NOTHING HAPPENS — the books show a profit and the account is '+
+      tr(-r.minCash)+' short at its worst, for '+r.negDays+
+      ' days. Those are days payroll and suppliers cannot be paid. Pick a product above.</div>';
+  } else {
+    var pct=(p.fee/(p.advance||1)*100).toFixed(2);
+    flag.innerHTML='<div class="'+(r.minCash<0?"stale":"match")+'">'+p.name.toUpperCase()+
+      ' — '+tr(p.net)+' in the account on day '+BASE.disburseDay+', being '+p.advanceRate+
+      '% of '+(p.key==="INVENTORY"?"the pledged stock":"the invoice")+' less a fee of '+tr(p.fee)+
+      ' at '+p.rate+'% a year over '+p.tenor+' days — '+pct+'% of the money advanced. '+
+      (r.minCash<0
+        ? 'It is not enough on its own: still '+tr(-r.minCash)+' short over '+r.negDays+
+          ' days, against '+tr(-r.base.minCash)+' unfinanced.'
+        : 'Not one day in the red, where unfinanced the account was '+tr(-r.base.minCash)+
+          ' short for '+r.base.negDays+' days.')+
+      ' Repaid by: '+p.repaidBy+'</div>';
+  }
+  mark("sim");
+}
+
+Object.keys(picks).forEach(function(k){
+  picks[k].addEventListener("click", function(){ product=k; render(); });
+});
+[rate,stock].forEach(function(el){ el.addEventListener("input", render); });
+enrol.addEventListener("change", render);
+document.getElementById("reset").addEventListener("click", function(){
+  product="NONE"; rate.value=BASE.sellerRate; stock.value=BASE.stock/1e6; enrol.checked=false;
+  render();
+});
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"The same invoice, the same financier, the same sixty days. Under invoice discounting the supplier is quoted 18% a year; under the buyer's reverse factoring programme, 8.5%. Why?",
+  o:["Reverse factoring is subsidised by the state",
+     "Because the reverse factoring tenor is shorter",
+     "Because the price is read off the party who must pay — under reverse factoring the buyer has confirmed the invoice, so the financier is lending against the corporation's name rather than the SME's",
+     "Because the buyer pays part of the fee"],
+  a:2,
+  why:"Nothing about the goods, the invoice or the number of days has changed. What changed is whose promise is being relied on. That is also why the advance goes from eighty percent to a hundred: with the buyer's confirmation there is much less left to hold back as a reserve."},
+ {q:"A large buyer wants to enrol its suppliers in a reverse factoring programme it will pay to run. The product owner asks what is in it for the buyer. What is the honest answer?",
+  o:["Better relationships with suppliers, which is hard to quantify",
+     "It buys DPO — the buyer keeps stretching its own payment days while the supplier is still paid early, so the cheap funding comes out of nobody's throat",
+     "It earns a share of the financier's fee",
+     "It reduces the buyer's own inventory"],
+  a:1,
+  why:"Stretching payment terms is the cheapest funding a company will ever find, and normally the supplier pays for it by borrowing expensively to survive the wait — then raising prices or failing. Reverse factoring lets the buyer take the days without doing the damage, at the buyer's own low rate. Finance directors also like that the balance carries on looking like trade payables rather than debt."},
+ {q:"You are writing the handler that bills the repayment on a reverse factoring deal. The supplier received the disbursement. Who do you bill?",
+  o:["The buyer. Under a buyer-side factoring product the buyer is the financier's customer and the party with the repayment obligation; the supplier owes nothing",
+     "The supplier — it received the money",
+     "Split it between them by advance rate",
+     "Whichever party the invoice's partner_id points to"],
+  a:0,
+  why:"factoring_product decides this, not the disbursement record. Bill the supplier and you have demanded money from a company that does not owe it, while the buyer's exposure is never booked at all — a wrong number on both sides of the same deal, in the most common product in the market."},
+ {q:"An SME has 400 million of stock in the warehouse and asks for inventory financing. The financier offers 240 million. Why not the full value?",
+  o:["Because the rest is VAT",
+     "Because the stock has not been delivered yet",
+     "Because 60% is the legal maximum",
+     "Because if the loan fails the financier is left holding somebody else's goods, and what it prices is what those goods would fetch in a forced sale — so the advance is a fraction of the stated value"],
+  a:3,
+  why:"There is no invoice here and no promise from a buyer — the goods are the entire security. Sixty percent is a commercial judgement about a forced sale, not a rule in law, and it is why the value must be re-measured on a schedule: pledged stock is not frozen, the borrower goes on selling it (BLDS Điều 321 khoản 4)."},
+ {q:"A user picked a quote and pressed accept. The offer is still QUOTED and the programme limit has not moved. Bug?",
+  o:["Yes — accept-quote should set ACCEPTED",
+     "Yes — the limit should be reserved at submit",
+     "No. accept-quote records the choice and opens a one-step director approval; only APPROVED coming back moves the offer to ACCEPTED, which is where the limit is consumed and collateral is locked",
+     "No, the nightly job will pick it up"],
+  a:2,
+  why:"The approval gate stands where the consequences are. At submit there is nothing to approve — no rate, no fee, no provider chosen. At ACCEPTED the limit is decremented, the collateral locked and an event published, so the control has to sit in front of that. It is also why a returned approval leaves the offer at QUOTED with its chosen quote intact rather than inventing a new status."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — backlog refinement",
+  line:'"Put a Request financing button on the supplier\'s invoice list for reverse factoring too. Same as invoice discounting, different program type."',
+  o:[{t:"Sure — same screen, I'll pass the program type through.", v:"weak",
+      f:"You have just built a button that will fail for every supplier who presses it, because there is nothing behind it: no programme signed by the buyer, no supplier limit, no confirmation on the invoice. The failure will look like a bug in your code rather than a misunderstanding of the product."},
+     {t:"Reverse factoring doesn't work like that.", v:"weak",
+      f:"True and unusable. The BA still has a screen to specify and now has no idea what to put on it, so the requirement comes back next sprint written the same way."},
+     {t:"The supplier can't start reverse factoring — the buyer signs the programme, enrols the supplier and confirms the invoice first. What the supplier gets is a different screen: a list of invoices the buyer has already confirmed, with 'take the money now' against each. Shall we scope that instead, and keep this button for discounting only?", v:"strong",
+      f:"You named the precondition, described the screen that actually exists, and handed back a scoped alternative. That is how a developer moves from implementing a misunderstanding to correcting one without a fight."}]},
+ {role:"The customer's finance director — during the demo",
+  line:'"Your discounting fee is 18% a year. Our biggest customer told us their bank quotes them 8.5%. Why are you so expensive?"',
+  o:[{t:"That rate comes from the provider, not from us.", v:"weak",
+      f:"Technically true, entirely unhelpful, and it makes the system look like a pipe rather than a product. The director leaves believing the platform has nothing to offer them on price."},
+     {t:"Because on this product the financier is lending against your name, not your customer's — if the invoice goes bad it comes back to you. Their 8.5% is what a corporation of that size gets. If that customer runs a reverse factoring programme, you could be paid on their rating instead of yours, and the fee on this very invoice would roughly halve. Shall we check whether they have one?", v:"strong",
+      f:"You explained the price by naming whose promise is being trusted, agreed with their number instead of defending yours, and turned a complaint into the most valuable question in the module. That is a sales conversation you just handed your own product owner."},
+     {t:"18% is normal for SME factoring in Vietnam.", v:"weak",
+      f:"A benchmark answers the wrong question. They did not ask whether it was typical, they asked why — and a person who is told their price is normal still believes they are overpaying."}]},
+ {role:"A teammate — during code review",
+  line:'"In the repayment job I look up the disbursement transaction, find who received the money and bill them. Works for all three products."',
+  o:[{t:"Looks right — the money came from somewhere, it goes back the same way.", v:"weak",
+      f:"It passes every test written against invoice discounting and is wrong for reverse factoring, which is the most common product in the market. The supplier gets billed for money it never owed, and the buyer's exposure is never recorded. Both errors are silent."},
+     {t:"Use factoring_product instead of the transaction.", v:"weak",
+      f:"The right instruction with none of the reason attached, so it gets applied here and nowhere else. The next handler that needs to know who repays will look up the disbursement again."},
+     {t:"Who received the cash and who repays are two different questions, and only factoring_product answers the second. On a BUYER product the buyer is the financier's customer and the repayer even though the supplier got the money — that's Điều 14 khoản 2 of TT 20/2024, and it's also why the limit consumed is the buyer's. Reading it off the disbursement gets discounting right and reverse factoring silently wrong.", v:"strong",
+      f:"You separated the two questions, named the column that decides, gave the legal basis in one clause and said exactly which case breaks. Reviews that name the failing case get fixed properly; reviews that name a convention get argued about."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

@@ -512,102 +512,497 @@ window.LIB = {
   },
   {
    "n": "07",
-   "ch": 3,
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html",
    "title": "Three ways to turn an invoice into cash",
-   "dek": "Invoice discounting, reverse factoring, inventory financing. The same problem solved three times, started by three different people, priced off three different credit ratings.",
+   "dek": "The same sentence — somebody is owed money later and needs it now — answered three times. What separates the three answers is not the interest rate. It is who is allowed to start the deal, whose name the price is read off, and what the financier gets to keep if the promise breaks.",
+   "minutes": "18 min",
+   "facts": [
+    "18 min",
+    "Builds on lessons 01 and 02",
+    "Drive the same 90 days three ways"
+   ],
+   "level": "Core",
    "tags": [
     "SCF",
     "invoice discounting",
     "reverse factoring",
-    "inventory financing"
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
    ],
-   "level": "Core",
-   "minutes": "18 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "doanhthu",
+    "loinhuan",
+    "thanhkhoan",
+    "chietkhau",
+    "hoadon",
+    "phaithu",
+    "taitronguocdong",
+    "dpo",
+    "taitrotonkho",
+    "tonkho",
+    "chuongtrinhtaitro",
+    "hoantra",
+    "hanmuc",
+    "duno",
+    "giaingan",
+    "denghitaitro"
+   ],
+   "ch": 3,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "What actually happens when an invoice is financed"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "Same sentence, three different people starting it"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "Whoever received the money is not always the one who owes it back"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "Ninety days, three ways to be paid"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "08",
-   "ch": 3,
+   "href": "lessons/08-recourse-and-collateral.html",
    "title": "Recourse, collateral and the limit behind them",
-   "dek": "Who pays when the buyer never does. With-recourse against without, what pledged stock is really worth, and why a financing limit moves on its own.",
+   "dek": "Lesson 07 was about what the three financing products are. This one is the single question underneath all of them: when the buyer never pays, who is out of pocket? The answer was decided months earlier, by one enum value, and half of this module exists to enforce it.",
+   "minutes": "18 min",
+   "facts": [
+    "18 min",
+    "Chapter 3 · reads better after lesson 07",
+    "Break a credit limit without touching it"
+   ],
+   "level": "Core",
    "tags": [
     "factoring",
     "recourse",
     "collateral",
+    "advance rate",
     "LTV",
-    "supplier limit"
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
    ],
-   "level": "Core",
-   "minutes": "18 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "phaithu",
+    "hoadon",
+    "denghitaitro",
+    "duno",
+    "truydoi",
+    "taisandambao",
+    "baothanhtoan",
+    "taitronguocdong",
+    "tonkho",
+    "taitrotonkho",
+    "dinhgiataisan",
+    "tyleungtruoc",
+    "hanmuc",
+    "thanhkhoan",
+    "chuongtrinhtaitro",
+    "giaingan"
+   ],
+   "ch": 3,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "Somebody is 5.4 billion short"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "A promise, or a thing"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "The limit nobody moved"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "One facility, and the day it breaks"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "09",
-   "ch": 3,
+   "href": "lessons/09-comparing-offers.html",
    "title": "Comparing offers without being fooled by the headline",
-   "dek": "The marketplace, the quotes it returns, and the arithmetic that turns \"1.2% a month\" and \"a 3% discount for paying 60 days early\" into two numbers you can actually compare.",
+   "dek": "Three quotes come back in three different shapes, and the screen has to put them in order. Sorting by the column labelled \"rate\" ranks them wrongly — and the offer with the smallest number on it is routinely the one that costs the most money.",
+   "minutes": "16 min",
+   "facts": [
+    "16 min",
+    "Arithmetic done slowly",
+    "Three quotes, one unit"
+   ],
+   "level": "Applied",
    "tags": [
     "marketplace",
     "quotes",
-    "fees",
     "effective rate",
-    "providers"
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
    ],
-   "level": "Applied",
-   "minutes": "16 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "hoadon",
+    "nhataitro",
+    "chietkhau",
+    "chaogia",
+    "hanmuc",
+    "phaithu",
+    "laisuatthucte",
+    "chietkhauthanhtoansom",
+    "dpo",
+    "ccc",
+    "thanhkhoan",
+    "phithuxep"
+   ],
+   "ch": 3,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "What actually comes back when you ask for money"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "Three numbers, three units, one conversion"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "A flat fee is a rate wearing a disguise"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "Three quotes, in their own words"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "10",
-   "ch": 4,
+   "href": "lessons/10-a-budget-is-not-a-forecast.html",
    "title": "A budget is not a forecast",
-   "dek": "Plan, allocation, commitment, actual, variance — five states of the same đồng. And why budget control has to bite at approval rather than at payment.",
+   "dek": "A forecast is a prediction of what will happen. A budget is permission for what is allowed to happen. Miss the difference and you build a module that reports history beautifully and controls nothing — while the department it was meant to hold in check spends money it does not have.",
+   "minutes": "16 min",
+   "facts": [
+    "16 min",
+    "No accounting assumed",
+    "Walk one department into the trap"
+   ],
+   "level": "Applied",
    "tags": [
     "budget",
     "allocation",
     "commitment",
-    "variance"
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
    ],
-   "level": "Applied",
-   "minutes": "16 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "ngansach",
+    "dongtien",
+    "thucchi",
+    "phanbo",
+    "camket",
+    "chenhlech",
+    "laichamtra",
+    "vetkiemtoan"
+   ],
+   "ch": 4,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "Two documents that say the same number"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "Five states of the same đồng"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "Two numbers that look like the same number"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "One department, one quarter, five requests"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "11",
-   "ch": 4,
+   "href": "lessons/11-forecasting-cash.html",
    "title": "Forecasting cash you do not have yet",
-   "dek": "Why a cash forecast is built from due dates rather than trend lines, what a scenario is for, and how to set an alert threshold that is neither noise nor silence.",
+   "dek": "Lesson 01 ended on a rule: never derive cash flow from revenue. This is what you build instead. Not a prediction dressed up in statistics — an inventory of obligations that already exist, laid out on a calendar until somebody can see the week the money runs out.",
+   "minutes": "16 min",
+   "facts": [
+    "16 min",
+    "Builds on lesson 01",
+    "Ends with a threshold you can defend"
+   ],
+   "level": "Applied",
    "tags": [
     "forecast",
     "scenario",
     "alert threshold",
-    "seasonality"
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
    ],
-   "level": "Applied",
-   "minutes": "16 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "hoadon",
+    "phaithu",
+    "hanthanhtoan",
+    "phaitra",
+    "dubaodongtien",
+    "lichthanhtoan",
+    "dpo",
+    "dso",
+    "giaodichdinhky",
+    "dongtien",
+    "ccc",
+    "doanhthu",
+    "thanhkhoan",
+    "kichban",
+    "nguongcanhbao",
+    "burnrate",
+    "runway"
+   ],
+   "ch": 4,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "Most of next quarter has already happened"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "Five sources, and only one of them is a guess"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "Three ways this feature gets built wrong"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "Ninety days assembled in front of you"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "12",
-   "ch": 4,
+   "href": "lessons/12-who-may-sign.html",
    "title": "Who may sign, and who may not",
-   "dek": "Segregation of duties, chief accountant against person in charge of accounting, and why a hard-coded approval chain deadlocks hundreds of thousands of perfectly legal micro-enterprises.",
-   "tags": [
-    "segregation of duties",
-    "Luật Kế toán 2015",
-    "Nghị định 80/2021",
-    "delegation",
-    "workflow"
+   "dek": "One person raises the payment, a second approves it, a third confirms the money left. It reads like a configuration screen and it is a question of law — carrying an exemption clause that, if you miss it, turns your approval chain into a permanent deadlock for several hundred thousand entirely legal companies.",
+   "minutes": "18 min",
+   "facts": [
+    "18 min",
+    "No legal knowledge assumed",
+    "Ends with the line between law and house rule"
    ],
    "level": "Applied",
-   "minutes": "18 min",
-   "status": "planned",
-   "sections": []
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "terms": [
+    "chungtu",
+    "vetkiemtoan",
+    "batkiemnhiem",
+    "ketoantruong",
+    "uyquyen",
+    "phutrachketoan",
+    "quymodoanhnghiep"
+   ],
+   "ch": 4,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "Three accounts, never one"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "The law forbids a list, not a principle"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "The exemption clause nobody looked up"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "Fill in a company, watch the chain change"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "13",
@@ -3294,96 +3689,2725 @@ window.LIB = {
    ]
   },
   {
-   "id": "07",
-   "type": "planned",
+   "id": "07#s01",
+   "type": "section",
    "lesson": "07",
-   "href": "",
-   "title": "Three ways to turn an invoice into cash",
-   "subtitle": "Lesson 07 · not written yet",
-   "text": "Invoice discounting, reverse factoring, inventory financing. The same problem solved three times, started by three different people, priced off three different credit ratings.",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s01",
+   "title": "What actually happens when an invoice is financed",
+   "subtitle": "Lesson 07 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. Lesson 01 left a company in a hole it did not dig: it had paid for goods, delivered them, booked the profit, and then had to wait forty-five days for any money to arrive. Everything in this chapter exists to fill that hole. There are exactly three products in this system that do it. Start with the mechanism, stripped of names. A company is holding a promise — a customer's promise to pay 500 million in sixty days. Somebody with cash looks at that promise, forms a view on how likely it is to be kept, and hands over most of the 500 million today in exchange for all of it in sixty days. The difference between most and all is the price of the sixty days. That is all of it. Three parties in every deal here: the seller who delivered the goods, the buyer who owes for them, and the financier who has money and wants a return on it. Notice who is absent — nobody has bought or sold anything new. No revenue , no profit . The same money arrives earlier and slightly smaller, and the company keeps trading instead of running out of liquidity on payday. One naming trap, and it will come up the first time you sit in a meeting about this module. The screen says chiết khấu hoá đơn , invoice discounting . But a commercial invoice is not a negotiable instrument under Luật Các TCTD, so nothing here can legally be discounted at all: every Vietnamese product that advances money against an invoice is bao thanh toán — factoring — under Thông tư 20/2024/TT-NHNN. The interface keeps the name people are used to; the contract, the checks and the state machine follow the factoring framework. When a rule in this module looks arbitrary, that is usually where it came from. In the code The counterparty is FinanceProvider in scf-service , and it must be a credit institution — a bank, a finance company, a foreign bank branch (Luật Các TCTD 32/2024/QH15). The marketplace in SCF-16 is a channel for asking prices, nothing more: a provider that is not a TCTD may appear in it and may not disburse. Tiếng Việt Tài trợ hoá đơn thực chất là đổi thời gian lấy tiền: có người cầm một lời hứa trả tiền sau 60 ngày, có người có tiền và muốn sinh lời, phần chênh lệch chính là giá của 60 ngày đó. Không có doanh thu hay lợi nhuận mới nào phát sinh. Và ở Việt Nam, mọi sản phẩm ứng tiền trên hoá đơn về pháp lý đều là bao thanh toán theo TT 20/2024/TT-NHNN — \"chiết khấu hoá đơn\" chỉ là tên thương mại.",
    "tags": [
     "SCF",
     "invoice discounting",
     "reverse factoring",
-    "inventory financing"
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
    ]
   },
   {
-   "id": "08",
-   "type": "planned",
+   "id": "07#s02",
+   "type": "section",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s02",
+   "title": "Same sentence, three different people starting it",
+   "subtitle": "Lesson 07 · The idea",
+   "text": "Three questions separate the products, and every difference you will meet downstream — which screen, which actor, which validation, which fee — falls out of the answers. Who is allowed to start it. Whose creditworthiness prices it. What backs it if the promise breaks. Invoice discounting — you sell your own receivable The seller brings its own receivable and sells it. You issued the invoice, you own the debt, you hand it to a financier and take most of the money now. Nobody else has to agree to anything. Which is precisely why it is the expensive one. The financier is lending against your name: if the buyer never pays, its first question is whether you can make it good. A small company is quoted what a small company is quoted — eighteen, twenty-two, twenty-six percent a year — and typically gets eighty percent of the face value now, with the remaining twenty held back as a reserve and released when the buyer actually pays. Reverse factoring — the buyer starts it The same money, with a different name on the promise. In reverse factoring a large buyer signs a programme with its bank, enrols its suppliers into it, and confirms particular invoices: this one I will certainly pay . The supplier can then take the money early, priced off the corporation's credit standing instead of its own. Eight and a half percent instead of eighteen — and a hundred percent of the invoice rather than eighty, because the party who must pay has already said it will. The supplier cannot start this one. There is no button for it until the buyer has a programme and has confirmed the invoice. That is not a permissions decision, it is what the product is . So why would a large buyer arrange cheap money for its suppliers? Not charity — it is buying DPO . Lesson 01 established that every day you have not yet paid a supplier is a day the cash is still in your account, and that stretching payment terms is the cheapest funding a company will ever find. It is also the funding that quietly strangles the other end of the chain: the supplier borrows expensively to survive the wait, and eventually raises prices or fails. Reverse factoring lets the buyer take the days without doing the damage. The buyer pays on day ninety, the supplier is paid on day five, and the difference is bought at the buyer's own cheap rate. Inventory financing — nothing is owed to you yet The third product does not involve an invoice at all. The goods are still in the warehouse, nobody has bought them, nobody owes you a đồng. Inventory financing lends against the stock itself, pledged as security. The price here is read off neither party's rating but off the goods. The lender is asking one question: if this loan goes wrong, and I am left holding two hundred tonnes of somebody else's steel, what do I get for it in a hurry? That is why only a fraction of the stated value is ever advanced — sixty percent is ordinary — and why the value has to be re-checked on a schedule rather than trusted once. Stock is not frozen by being pledged; the borrower goes on selling it, which is exactly why the number has to be watched. The rate is not a fact about the invoice. It is a fact about whose name is on the promise to pay. In the code ProgramType = INVOICE_DISCOUNTING | REVERSE_FACTORING | INVENTORY_FINANCING on FinancingProgram , mapped updatable = false — the type is chosen when the programme is signed and never edited. advance_rate is constrained to 0–100 and deliberately not capped at 90: Techcombank and HDBank both sell hundred-percent advance products, so a tidy-looking ceiling would reject a real market offer. Do not confuse this column with financing_offers.factoring_product — see the next section. Tiếng Việt Ba sản phẩm trả lời cùng một câu hỏi nhưng khác nhau ở ba chỗ: ai được khởi xướng, lấy uy tín của ai để định giá, và lấy gì làm bảo đảm. Chiết khấu hoá đơn do bên bán tự làm nên tính theo uy tín của chính mình — với SME đó là mức đắt nhất. Tài trợ ngược dòng do bên mua khởi xướng nên nhà cung cấp được hưởng lãi suất của tập đoàn lớn. Tài trợ tồn kho thì chưa ai nợ ai, giá được đọc từ chính lô hàng.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ]
+  },
+  {
+   "id": "07#s03",
+   "type": "section",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s03",
+   "title": "Whoever received the money is not always the one who owes it back",
+   "subtitle": "Lesson 07 · The danger",
+   "text": "Here is the assumption every developer makes without noticing, and it is wrong in two of the three products: the party who received the cash is the party who repays it. In invoice discounting the seller receives the advance, and it is the buyer who repays — paying the financier directly on the invoice's original due date. The seller may never send a đồng. Whether the seller has to make it good if the buyer defaults is a separate question, and it is lesson 08's. In reverse factoring the supplier receives the cash and owes nothing whatsoever. The buyer is the financier's customer, the buyer carries the repayment obligation , and it is the buyer's limit that is consumed. That is not an accident of implementation — it is what the law calls this product. Only in inventory financing does the intuition hold: you took the money, you repay it, on the loan's own due date, whether or not you have sold the goods yet. The line you never cross A financing product is not a label on a row. It decides who may start the request, whose limit it eats, who repays it, and what evidence must exist before a đồng may move. Wire the repayment to whoever received the disbursement and you are wrong in the single most common product in the market: the supplier gets a demand for money it does not owe, and the buyer's exposure is never booked. The column that decides this is financing_offers.factoring_product , whose three values are legal categories from Điều 3 khoản 9–11 of Thông tư 20/2024/TT-NHNN, not a renamed with_recourse boolean. It picks who the financier's customer is, who must repay, and what must be proved before disbursement — and a missing precondition there is a 409 , not a warning. One lifecycle, three products, a different hand on each step Whatever the product, an invoice or a pledge becomes a request , the request is quoted, approved and disbursed, and later repaid. Seven states, and it is worth knowing who moves each one, because in a system this size that is usually the actual question in the ticket. DRAFT The company creates the request against a programme and an invoice. Four checks run here and not later: the invoice must be marked eligible, still ISSUED , under a year from due, and the remaining term plus the repayment term must also stay under a year — two separate rules, Điều 7 khoản 2 and Điều 17 khoản 1, and only running one of them lets exactly the wrong case through. SUBMITTED → QUOTED Sent out for prices. The invoice moves to FINANCING , which locks it against a second request. Nothing is committed, no limit is touched — asking a price creates no obligation. ACCEPTED Not reached by picking a quote. accept-quote records the choice and opens a one-step director approval; the request stays at QUOTED until the workflow answers. Only APPROVED moves it, and that is where the limit is consumed and the collateral locked. DISBURSED The financier moves money. The precondition branches on the product: with the seller's own repayment undertaking, proof that the buyer was notified — when, by what channel, and a stored copy; otherwise the buyer's confirmation. The invoice becomes FINANCED and the repayment schedule is generated in the same transaction. OVERDUE Nobody sets this. A nightly job compares a repayment's due date with today. One late instalment moves the whole loan. SETTLED The last instalment marked paid, in that same transaction — not by a job. The limit is released, pledged stock returns to AVAILABLE , the reserve goes back to the seller. DEFAULTED Reachable only from OVERDUE , and never automatically: it is a debt classification a credit institution publishes, not something a timer concludes. The check that is not there An invoice carries a direction , and lesson 02 showed how much rides on it. RECEIVABLE is what feeds invoice discounting; PAYABLE — an invoice your company owes — is what feeds reverse factoring, because in that product your company is the buyer. The programme type and the invoice direction have to agree. Nothing in the code compares them. FinancingOfferService.create loads the programme, loads the invoice, checks eligibility, checks both term rules — and never asks whether this invoice belongs in this kind of programme. It is the sort of gap worth raising in a refinement meeting rather than fixing quietly in a pull request, because the correct behaviour is a business decision: reject, or warn and let a human decide. In the code FinancingOffer carries @Version for one reason — the programme limit is decremented at ACCEPTED and the DDL deliberately has no CHECK (used_limit <= total_limit) , because such a constraint would also block legitimate reversals. Two approvals landing in the same second must therefore have one loser, and the loser is picked by a compare-and-set on used_limit rather than by a database rule (SCF-09). Tiếng Việt Ai nhận tiền và ai phải hoàn trả là hai câu hỏi khác nhau. Ở tài trợ ngược dòng, nhà cung cấp nhận tiền nhưng bên mua mới là khách hàng của đơn vị tài trợ, mới là bên hoàn trả, và hạn mức bị trừ cũng là của bên mua. Cột quyết định điều đó là factoring_product — ba giá trị pháp định của TT 20/2024/TT-NHNN, không phải một nhãn hiển thị.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ]
+  },
+  {
+   "id": "07#s04",
+   "type": "section",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s04",
+   "title": "Ninety days, three ways to be paid",
+   "subtitle": "Lesson 07 · See it",
+   "text": "A small company delivered 500 million of goods to a large buyer on net 60 terms. It owes its own supplier 260 million on day 20, payroll goes out on days 30, 60 and 90, and it has 400 million of stock in the warehouse. It starts the quarter with 60 million in the bank. Every month is profitable, and from day 20 to day 60 the account is empty — the grey ticks on the chart are that unfinanced line, and they never move. Pick a product and watch the same ninety days redraw. Then deliberately pick one that does not fit: inventory financing with an empty warehouse, or reverse factoring before the buyer has enrolled you. The refusal is the part worth reading. Nothing — wait to be paid Invoice discounting Reverse factoring Inventory financing Reset What a bank charges you, on your own name The large buyer is quoted 8.5% a year, and that never moves 18% Stock in the warehouse Valued on a date, pledgeable — the only thing inventory financing can look at 400.0m The buyer runs a reverse factoring programme and has enrolled you in it Started by — Priced off — Backed by — Cash in hand by day 5 — What that cash cost — Lowest the cash gets — Days in the red — DAY 0 DAY 30 DAY 60 DAY 90 Day numbers rather than calendar dates, so the same clicks always give the same answer. The fee is the formula the service really uses — amount × rate ÷ 100 × days ÷ 365, simple interest on a 365-day year — and it is taken off the top of what is disbursed, so what comes back later is the principal. The arithmetic lives in finance/sim-07.js and has its own check: node tools/test-07.mjs .",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ]
+  },
+  {
+   "id": "07#s05",
+   "type": "section",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 07 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ]
+  },
+  {
+   "id": "07#s06",
+   "type": "section",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 07 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ]
+  },
+  {
+   "id": "07#s07",
+   "type": "section",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 07 · Take away",
+   "text": "\"Which of the three products is this screen for, and who is allowed to press the button?\" The seller starts invoice discounting, the buyer starts reverse factoring, and the supplier's early-payment screen only exists on invoices the buyer has already confirmed. One requirement written for \"the user\" produces three different features, and the wrong one ships silently because it looks reasonable. \"Whose credit standing prices this deal — ours or the counterparty's?\" The same invoice at eighteen percent or at eight and a half, depending only on whose name the financier is really lending against. If a customer complains that your fee is high, this is usually the answer, and it is a product conversation rather than a pricing one. \"Who repays this, and does it change if the buyer never pays?\" Two questions, both decided by factoring_product and neither by who received the money. Get the first wrong and you invoice the wrong company; get the second wrong and you find out during a default, which is the worst possible moment to learn it. \"Is the collateral value here measured, or copied from something somebody typed?\" Pledged stock carries a value, a valuation date and a threshold, and the whole product depends on that number being re-measured rather than inherited. A total_value that has drifted from quantity × unit_value means the safety alert is comparing against a figure nobody computed. \"What is this cash worth to us this month, rather than what is the rate?\" Every one of these products trades some of tomorrow's margin for money today, so a fee always looks like a loss on the page it appears on. The question that decides correctly is what the alternative costs — a missed payroll, a supplier who stops delivering, an order not taken. Tiếng Việt Cả ba sản phẩm đều đổi một phần lợi nhuận ngày mai lấy tiền hôm nay, nên nhìn vào phí bao giờ cũng thấy \"mất\". Câu hỏi đúng không phải \"lãi suất bao nhiêu\" mà là \"tháng này số tiền ấy đáng giá bao nhiêu với mình\" — và ai là người được khởi xướng, ai là người phải hoàn trả.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ]
+  },
+  {
+   "id": "07#s08",
+   "type": "section",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 07 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ]
+  },
+  {
+   "id": "07#q0",
+   "type": "quiz",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s05",
+   "title": "The same invoice, the same financier, the same sixty days. Under invoice discounting the supplier is quoted 18% a year; under the buyer's reverse factoring programme, 8.5%. Why?",
+   "subtitle": "Lesson 07 · Test yourself",
+   "text": "Because the price is read off the party who must pay — under reverse factoring the buyer has confirmed the invoice, so the financier is lending against the corporation's name rather than the SME's Nothing about the goods, the invoice or the number of days has changed. What changed is whose promise is being relied on. That is also why the advance goes from eighty percent to a hundred: with the buyer's confirmation there is much less left to hold back as a reserve.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "answer": "Because the price is read off the party who must pay — under reverse factoring the buyer has confirmed the invoice, so the financier is lending against the corporation's name rather than the SME's",
+   "why": "Nothing about the goods, the invoice or the number of days has changed. What changed is whose promise is being relied on. That is also why the advance goes from eighty percent to a hundred: with the buyer's confirmation there is much less left to hold back as a reserve."
+  },
+  {
+   "id": "07#q1",
+   "type": "quiz",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s05",
+   "title": "A large buyer wants to enrol its suppliers in a reverse factoring programme it will pay to run. The product owner asks what is in it for the buyer. What is the honest answer?",
+   "subtitle": "Lesson 07 · Test yourself",
+   "text": "It buys DPO — the buyer keeps stretching its own payment days while the supplier is still paid early, so the cheap funding comes out of nobody's throat Stretching payment terms is the cheapest funding a company will ever find, and normally the supplier pays for it by borrowing expensively to survive the wait — then raising prices or failing. Reverse factoring lets the buyer take the days without doing the damage, at the buyer's own low rate. Finance directors also like that the balance carries on looking like trade payables rather than debt.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "answer": "It buys DPO — the buyer keeps stretching its own payment days while the supplier is still paid early, so the cheap funding comes out of nobody's throat",
+   "why": "Stretching payment terms is the cheapest funding a company will ever find, and normally the supplier pays for it by borrowing expensively to survive the wait — then raising prices or failing. Reverse factoring lets the buyer take the days without doing the damage, at the buyer's own low rate. Finance directors also like that the balance carries on looking like trade payables rather than debt."
+  },
+  {
+   "id": "07#q2",
+   "type": "quiz",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s05",
+   "title": "You are writing the handler that bills the repayment on a reverse factoring deal. The supplier received the disbursement. Who do you bill?",
+   "subtitle": "Lesson 07 · Test yourself",
+   "text": "The buyer. Under a buyer-side factoring product the buyer is the financier's customer and the party with the repayment obligation; the supplier owes nothing factoring_product decides this, not the disbursement record. Bill the supplier and you have demanded money from a company that does not owe it, while the buyer's exposure is never booked at all — a wrong number on both sides of the same deal, in the most common product in the market.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "answer": "The buyer. Under a buyer-side factoring product the buyer is the financier's customer and the party with the repayment obligation; the supplier owes nothing",
+   "why": "factoring_product decides this, not the disbursement record. Bill the supplier and you have demanded money from a company that does not owe it, while the buyer's exposure is never booked at all — a wrong number on both sides of the same deal, in the most common product in the market."
+  },
+  {
+   "id": "07#q3",
+   "type": "quiz",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s05",
+   "title": "An SME has 400 million of stock in the warehouse and asks for inventory financing. The financier offers 240 million. Why not the full value?",
+   "subtitle": "Lesson 07 · Test yourself",
+   "text": "Because if the loan fails the financier is left holding somebody else's goods, and what it prices is what those goods would fetch in a forced sale — so the advance is a fraction of the stated value There is no invoice here and no promise from a buyer — the goods are the entire security. Sixty percent is a commercial judgement about a forced sale, not a rule in law, and it is why the value must be re-measured on a schedule: pledged stock is not frozen, the borrower goes on selling it (BLDS Điều 321 khoản 4).",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "answer": "Because if the loan fails the financier is left holding somebody else's goods, and what it prices is what those goods would fetch in a forced sale — so the advance is a fraction of the stated value",
+   "why": "There is no invoice here and no promise from a buyer — the goods are the entire security. Sixty percent is a commercial judgement about a forced sale, not a rule in law, and it is why the value must be re-measured on a schedule: pledged stock is not frozen, the borrower goes on selling it (BLDS Điều 321 khoản 4)."
+  },
+  {
+   "id": "07#q4",
+   "type": "quiz",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s05",
+   "title": "A user picked a quote and pressed accept. The offer is still QUOTED and the programme limit has not moved. Bug?",
+   "subtitle": "Lesson 07 · Test yourself",
+   "text": "No. accept-quote records the choice and opens a one-step director approval; only APPROVED coming back moves the offer to ACCEPTED, which is where the limit is consumed and collateral is locked The approval gate stands where the consequences are. At submit there is nothing to approve — no rate, no fee, no provider chosen. At ACCEPTED the limit is decremented, the collateral locked and an event published, so the control has to sit in front of that. It is also why a returned approval leaves the offer at QUOTED with its chosen quote intact rather than inventing a new status.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "answer": "No. accept-quote records the choice and opens a one-step director approval; only APPROVED coming back moves the offer to ACCEPTED, which is where the limit is consumed and collateral is locked",
+   "why": "The approval gate stands where the consequences are. At submit there is nothing to approve — no rate, no fee, no provider chosen. At ACCEPTED the limit is decremented, the collateral locked and an event published, so the control has to sit in front of that. It is also why a returned approval leaves the offer at QUOTED with its chosen quote intact rather than inventing a new status."
+  },
+  {
+   "id": "07#p0",
+   "type": "scene",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s06",
+   "title": "\"Put a Request financing button on the supplier's invoice list for reverse factoring too. Same as invoice discounting, different program type.\"",
+   "subtitle": "Your BA — backlog refinement",
+   "text": "The supplier can't start reverse factoring — the buyer signs the programme, enrols the supplier and confirms the invoice first. What the supplier gets is a different screen: a list of invoices the buyer has already confirmed, with 'take the money now' against each. Shall we scope that instead, and keep this button for discounting only? You named the precondition, described the screen that actually exists, and handed back a scoped alternative. That is how a developer moves from implementing a misunderstanding to correcting one without a fight.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "answer": "The supplier can't start reverse factoring — the buyer signs the programme, enrols the supplier and confirms the invoice first. What the supplier gets is a different screen: a list of invoices the buyer has already confirmed, with 'take the money now' against each. Shall we scope that instead, and keep this button for discounting only?",
+   "why": "You named the precondition, described the screen that actually exists, and handed back a scoped alternative. That is how a developer moves from implementing a misunderstanding to correcting one without a fight."
+  },
+  {
+   "id": "07#p1",
+   "type": "scene",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s06",
+   "title": "\"Your discounting fee is 18% a year. Our biggest customer told us their bank quotes them 8.5%. Why are you so expensive?\"",
+   "subtitle": "The customer's finance director — during the demo",
+   "text": "Because on this product the financier is lending against your name, not your customer's — if the invoice goes bad it comes back to you. Their 8.5% is what a corporation of that size gets. If that customer runs a reverse factoring programme, you could be paid on their rating instead of yours, and the fee on this very invoice would roughly halve. Shall we check whether they have one? You explained the price by naming whose promise is being trusted, agreed with their number instead of defending yours, and turned a complaint into the most valuable question in the module. That is a sales conversation you just handed your own product owner.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "answer": "Because on this product the financier is lending against your name, not your customer's — if the invoice goes bad it comes back to you. Their 8.5% is what a corporation of that size gets. If that customer runs a reverse factoring programme, you could be paid on their rating instead of yours, and the fee on this very invoice would roughly halve. Shall we check whether they have one?",
+   "why": "You explained the price by naming whose promise is being trusted, agreed with their number instead of defending yours, and turned a complaint into the most valuable question in the module. That is a sales conversation you just handed your own product owner."
+  },
+  {
+   "id": "07#p2",
+   "type": "scene",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s06",
+   "title": "\"In the repayment job I look up the disbursement transaction, find who received the money and bill them. Works for all three products.\"",
+   "subtitle": "A teammate — during code review",
+   "text": "Who received the cash and who repays are two different questions, and only factoring_product answers the second. On a BUYER product the buyer is the financier's customer and the repayer even though the supplier got the money — that's Điều 14 khoản 2 of TT 20/2024, and it's also why the limit consumed is the buyer's. Reading it off the disbursement gets discounting right and reverse factoring silently wrong. You separated the two questions, named the column that decides, gave the legal basis in one clause and said exactly which case breaks. Reviews that name the failing case get fixed properly; reviews that name a convention get argued about.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "answer": "Who received the cash and who repays are two different questions, and only factoring_product answers the second. On a BUYER product the buyer is the financier's customer and the repayer even though the supplier got the money — that's Điều 14 khoản 2 of TT 20/2024, and it's also why the limit consumed is the buyer's. Reading it off the disbursement gets discounting right and reverse factoring silently wrong.",
+   "why": "You separated the two questions, named the column that decides, gave the legal basis in one clause and said exactly which case breaks. Reviews that name the failing case get fixed properly; reviews that name a convention get argued about."
+  },
+  {
+   "id": "07#l0",
+   "type": "line",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s07",
+   "title": "\"Which of the three products is this screen for, and who is allowed to press the button?\"",
+   "subtitle": "Lesson 07 · Line worth stealing",
+   "text": "The seller starts invoice discounting, the buyer starts reverse factoring, and the supplier's early-payment screen only exists on invoices the buyer has already confirmed. One requirement written for \"the user\" produces three different features, and the wrong one ships silently because it looks reasonable.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "why": "The seller starts invoice discounting, the buyer starts reverse factoring, and the supplier's early-payment screen only exists on invoices the buyer has already confirmed. One requirement written for \"the user\" produces three different features, and the wrong one ships silently because it looks reasonable."
+  },
+  {
+   "id": "07#l1",
+   "type": "line",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s07",
+   "title": "\"Whose credit standing prices this deal — ours or the counterparty's?\"",
+   "subtitle": "Lesson 07 · Line worth stealing",
+   "text": "The same invoice at eighteen percent or at eight and a half, depending only on whose name the financier is really lending against. If a customer complains that your fee is high, this is usually the answer, and it is a product conversation rather than a pricing one.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "why": "The same invoice at eighteen percent or at eight and a half, depending only on whose name the financier is really lending against. If a customer complains that your fee is high, this is usually the answer, and it is a product conversation rather than a pricing one."
+  },
+  {
+   "id": "07#l2",
+   "type": "line",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s07",
+   "title": "\"Who repays this, and does it change if the buyer never pays?\"",
+   "subtitle": "Lesson 07 · Line worth stealing",
+   "text": "Two questions, both decided by factoring_product and neither by who received the money. Get the first wrong and you invoice the wrong company; get the second wrong and you find out during a default, which is the worst possible moment to learn it.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "why": "Two questions, both decided by factoring_product and neither by who received the money. Get the first wrong and you invoice the wrong company; get the second wrong and you find out during a default, which is the worst possible moment to learn it."
+  },
+  {
+   "id": "07#l3",
+   "type": "line",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s07",
+   "title": "\"Is the collateral value here measured, or copied from something somebody typed?\"",
+   "subtitle": "Lesson 07 · Line worth stealing",
+   "text": "Pledged stock carries a value, a valuation date and a threshold, and the whole product depends on that number being re-measured rather than inherited. A total_value that has drifted from quantity × unit_value means the safety alert is comparing against a figure nobody computed.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "why": "Pledged stock carries a value, a valuation date and a threshold, and the whole product depends on that number being re-measured rather than inherited. A total_value that has drifted from quantity × unit_value means the safety alert is comparing against a figure nobody computed."
+  },
+  {
+   "id": "07#l4",
+   "type": "line",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html#s07",
+   "title": "\"What is this cash worth to us this month, rather than what is the rate?\"",
+   "subtitle": "Lesson 07 · Line worth stealing",
+   "text": "Every one of these products trades some of tomorrow's margin for money today, so a fee always looks like a loss on the page it appears on. The question that decides correctly is what the alternative costs — a missed payroll, a supplier who stops delivering, an order not taken.",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ],
+   "why": "Every one of these products trades some of tomorrow's margin for money today, so a fee always looks like a loss on the page it appears on. The question that decides correctly is what the alternative costs — a missed payroll, a supplier who stops delivering, an order not taken."
+  },
+  {
+   "id": "07",
+   "type": "lesson",
+   "lesson": "07",
+   "href": "lessons/07-three-ways-to-turn-an-invoice-into-cash.html",
+   "title": "Three ways to turn an invoice into cash",
+   "subtitle": "Lesson 07 · Core",
+   "text": "The same sentence — somebody is owed money later and needs it now — answered three times. What separates the three answers is not the interest rate. It is who is allowed to start the deal, whose name the price is read off, and what the financier gets to keep if the promise breaks. What actually happens when an invoice is financed Ground floor Same sentence, three different people starting it The idea Whoever received the money is not always the one who owes it back The danger Ninety days, three ways to be paid See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "SCF",
+    "invoice discounting",
+    "reverse factoring",
+    "inventory financing",
+    "factoring",
+    "Thông tư 20/2024",
+    "disbursement",
+    "advance rate",
+    "DPO"
+   ]
+  },
+  {
+   "id": "08#s01",
+   "type": "section",
    "lesson": "08",
-   "href": "",
-   "title": "Recourse, collateral and the limit behind them",
-   "subtitle": "Lesson 08 · not written yet",
-   "text": "Who pays when the buyer never does. With-recourse against without, what pledged stock is really worth, and why a financing limit moves on its own.",
+   "href": "lessons/08-recourse-and-collateral.html#s01",
+   "title": "Somebody is 5.4 billion short",
+   "subtitle": "Lesson 08 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. A metalwork company in Bình Dương — call it Nam Long — delivered 6 billion đồng of fittings to a large construction group on ninety-day terms. Nam Long has forty staff to pay this month and cannot wait ninety days, so it did what this whole module exists to let it do: it sold the receivable . A financier looked at the invoices , agreed they were real, and wired Nam Long 5.4 billion — ninety percent of face value — four days later. The remaining 600 million is held back and paid over when the deal settles. That was ninety days ago. The invoices fell due yesterday. This morning the construction group's accounts department is not answering the phone, and the word going round the industry is that the group's own client has stopped paying it . Day 0 — goods delivered, invoices issued Nam Long's money is now in somebody else's building site. Nothing has arrived in the bank. four days later Day 4 — the financier advances 5.4 billion Real money, out of the financier's account, into Nam Long's. The receivable has changed hands. ninety days pass Day 94 — the buyer has gone quiet Nobody has been paid the 6 billion. But 5.4 billion has already been spent, on wages and on steel. Notice what is not in question. The goods exist and were delivered. The invoices are valid. The financier really did pay. Everyone behaved correctly, and there is still a hole of 5.4 billion đồng in somebody's accounts. Whose? That is not a question anybody gets to answer today. It was settled the week the deal was written, and in the database it is settled by a single column on the financing offer . Two developers looking at the same screen — one seeing outstanding exposure , the other seeing a dropdown labelled \"product type\" — are looking at the same fact from two ends. In the code FinancingOffer.factoringProduct , a FactoringProduct stored on financing_offers.factoring_product . Not nullable, and set at creation. Everything below is what that one value does. Tiếng Việt Doanh nghiệp đã giao hàng, đơn vị tài trợ đã ứng 5,4 tỷ, và bên mua không trả. Không ai làm sai, nhưng vẫn có một lỗ 5,4 tỷ nằm ở đâu đó. Ai chịu lỗ ấy đã được chốt từ lúc ký, bằng đúng một giá trị enum trên đề nghị tài trợ.",
    "tags": [
     "factoring",
     "recourse",
     "collateral",
+    "advance rate",
     "LTV",
-    "supplier limit"
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
    ]
   },
   {
-   "id": "09",
-   "type": "planned",
+   "id": "08#s02",
+   "type": "section",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s02",
+   "title": "A promise, or a thing",
+   "subtitle": "Lesson 08 · The idea",
+   "text": "There are only two ways a lender can answer \"what if I am not repaid\". Either somebody promised to make it good — that is recourse — or the lender holds something it can sell — that is collateral . Every product in this module is one, the other, or a mix. Start with the promise, because it is the one that lives in an enum. Three branches, and the law wrote them Vietnamese law does not really have a product called invoice discounting. A commercial invoice is not a negotiable instrument, so nothing on it can be discounted under the credit institutions law; every product that advances money against an invoice is legally factoring , and Circular 20/2024/TT-NHNN, Điều 3, defines exactly three of them. SELLER_WITH_RECOURSE — the financier's customer is the seller, and the seller undertook to repay if the buyer does not. When the buyer goes quiet, the financier turns round and asks Nam Long for its 5.4 billion back. Nam Long pays, and is left holding a debt nobody is paying. It never transferred the risk at all. SELLER_WITHOUT_RECOURSE — the financier bought the receivable outright. The buyer's failure to pay is the financier's problem, and it charged more up front for exactly that. Nam Long keeps the 5.4 billion; what it loses is the 600 million reserve it never received. BUYER — reverse factoring . The large construction group is the financier's customer, and the group is the one that must repay. Nam Long was paid early against the group's credit standing and was never exposed to anything. With recourse, the seller did not transfer the risk. It transferred the timing. Which is a sentence worth carrying into a meeting, because it explains something that otherwise looks like a mistake: most Vietnamese SMEs choose with-recourse on purpose. It is markedly cheaper — on 5.4 billion for ninety days, the difference in this lesson's numbers is about sixty million đồng a turn. If you have sold to this buyer for six years and they have never once been late, you are not buying insurance. You are buying ninety days, and you would rather not pay for insurance you do not think you need. What you must not do is read the column as a pricing tier somebody picked off a menu. It is a legal classification of the contract that was signed. Change the value and you have changed who owes whom money — the same edit, in the real world, would need both parties and a new contract. In the code FactoringProduct is deliberately not a with_recourse boolean, and its javadoc says why: the column also chooses what evidence unlocks disbursement . FinancingOffer.disbursementGateSatisfied() demands, for SELLER_WITH_RECOURSE , all three of noticeSentAt , noticeChannel and noticeDocumentId — proof the buyer was told the debt had changed hands, because under Điều 369 of the civil code a buyer who was never told may pay the seller and the money cannot be clawed back. For the other two branches it demands buyerConfirmedAt instead. Satisfying the wrong branch's condition satisfies nothing. Tiếng Việt Ba nhánh của FactoringProduct là ba sản phẩm pháp định theo TT 20/2024/TT-NHNN Điều 3, không phải ba mức giá. Có truy đòi thì bên bán phải hoàn lại tiền ứng — tức là chỉ bán được thời gian, rủi ro vẫn giữ. Doanh nghiệp nhỏ vẫn chọn nhánh này vì rẻ hơn hẳn, và vì họ tin bên mua của mình. The thing, and what it is worth Now the other answer. When there is no receivable to buy — or when the financier wants a second line of defence behind one — it takes a pledge over stock . That is the product lesson 07 called inventory financing , and Nam Long's warehouse holds ten billion đồng of finished fittings; a batch of it is pledged against the facility. Ten billion of what, though. Here are two numbers that are never the same, and a great deal of this module sits in the gap between them. The first is what the stock is worth on the shelf: quantity times unit value, from the last valuation . That is the number in the warehouse system, and it assumes an orderly world where you sell to your usual customers at your usual price over your usual months. The second is what a lender believes it could get for the same pile in a hurry — sold by a receiver, to whoever answers the phone, in a market that has just watched your company fail. On staple goods that might be seventy percent of shelf value. On something specialised, half that. On perishables, closer to nothing. The advance rate is where that second number is made operational. Sixty percent against ten billion of stock is a six billion facility. Nobody advances a hundred percent against anything, ever, and now you know precisely what the missing forty percent is: it is the lender's estimate of how wrong the shelf price will turn out to be on the worst day. In the code CollateralPledge over an InventoryItem , status PLEDGED → RELEASED | LIQUIDATED (SCF-11). PLEDGED does not freeze the stock: this is revolving collateral under Điều 321 khoản 4 of the civil code and the borrower goes on selling in the ordinary course. Two fields that look decorative and are not — custodian and lastInspectionDate . The entity's javadoc names the two classic Vietnamese collateral losses, Trường Ngân and Âu Mỹ, and both began with nobody being able to say who was holding the warehouse or when it was last counted. custodian = null means the borrower is minding its own collateral. Tiếng Việt Giá trên kệ và giá bán tháo là hai con số hoàn toàn khác nhau. Tỷ lệ ứng trước chính là chỗ bên cho vay ghi lại khoảng cách đó: ứng 60% trên 10 tỷ hàng nghĩa là họ dự phòng 40% cho ngày xấu nhất. Không ai ứng 100% trên bất cứ tài sản nào.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ]
+  },
+  {
+   "id": "08#s03",
+   "type": "section",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s03",
+   "title": "The limit nobody moved",
+   "subtitle": "Lesson 08 · The danger",
+   "text": "Here is the line of code. It is in PledgeService , it is one expression long, and it is the most consequential thing in the inventory financing feature: maxFinancingAmount = Σ pledged_value of the still-PLEDGED rows × advance_rate That is requirement SCF-13, and it looks like arithmetic homework. Read it again with one thing in mind: neither input is a number anybody agreed. The advance rate came from the contract, fine. But pledged_value is a measurement, rewritten every time somebody prices the warehouse. Which means the limit is not a ceiling that was granted. It is a ceiling that is recomputed, silently, from data that moves. So: ten billion of stock, sixty percent, six billion of headroom, and 5.4 billion drawn. Comfortable. Then steel prices soften and a quarterly revaluation writes the unit price down twelve percent. Nobody drew any money. Nobody approved anything. Nobody clicked. The warehouse is worth 8.8 billion, the limit is 5.28 billion, and Nam Long is 120 million over a limit it never touched. Ask what that means for the company, not for the database. Being over a limit is not a red badge on a dashboard. It is a facility agreement saying the borrower must cure the shortfall — pledge more stock, or repay the difference in cash — usually within days. A company that was fine on Monday is finding several hundred million đồng by Friday. This is how a valuation job reaches into a company's bank account. The line you never cross A limit that is computed is a limit that moves on its own. There are two kinds of ceiling in this module and they behave nothing alike. An agreed limit — the programme total, the supplier's share of it — only changes when a human changes it, so it can be checked once at approval and trusted afterwards. A computed limit changes whenever its inputs do, which means it can be breached by a background job while every user is asleep. Never present the second as though it were the first, and never let a revaluation write a new limit without something telling the borrower. Losing liquidity is what kills a company, and that notification is the last few days of warning it gets. Which is why SCF-14 exists and is not a nice-to-have. Each pledge carries a min_value_threshold — the value the two sides agreed is the floor — and when a revaluation takes the pledge below it, the module publishes an event. Get that threshold right and it fires while there is still cover, giving the borrower a fortnight rather than a phone call. That is the point of a margin call: it is deliberately set above the line where cover is actually lost. Two details in that alert are worth more than the rest of the feature put together, and both are easy to argue away in refinement. Where limits and their evidence live Six places this lesson turns into code. Three of them are ceilings, and only one of them can move without a person. The programme limit, and each supplier's slice of it Agreed, human-set, checked at accept-quote. The sum of supplier slices may not exceed the programme total — enforced in the service, because a DDL constraint across rows would block legitimate rebalancing. FinancingProgram , SupplierLimit · SCF-09. The limit the collateral supports Computed. PledgeService.maxFinancingAmount , written once and called by both the screen and the disbursement guard, so the number shown before the click and the number in the 409 after it cannot disagree · SCF-13. The collateral warning Published on the crossing, not every night it is below — syncAfterRevaluation compares against the previous pledged_value before overwriting it, which is why no alerted_at column exists. smefin.scf.collateral-below-threshold.v1 · SCF-14. What has to be in the payload Twenty fields, matched one-to-one against the JSON schema, which declares additionalProperties: false — one field too many and every consumer rejects the whole message. Among them custodian and lastInspectionDate : an alert that cannot say who is holding the goods is not actionable. The disbursement gate Not a limit at all, but the same shape of rule: the evidence required branches on factoring_product , and it lives on the entity so that REST, a Kafka consumer and a partner adapter all pass through one check · Điều 14, 06 §6.2. Two people spending the same limit at once FinancingOffer is the one entity here carrying @Version . Two accept-quote flows on one programme really do run together, and the DDL deliberately has no CHECK (used ≤ total) — so one of them has to lose · SCF-09. In one line When a requirement says \"the system shall automatically calculate the limit\", stop and ask what happens on the day it calculates a smaller one than yesterday. That question is the whole feature. Tiếng Việt Hạn mức thoả thuận chỉ đổi khi có người đổi; hạn mức tính ra thì đổi theo dữ liệu, và có thể bị vượt bởi một job chạy đêm trong khi không ai làm gì. SCF-13 tính, SCF-14 cảnh báo — và cảnh báo đó là mấy ngày báo trước duy nhất mà doanh nghiệp có để xoay tiền.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ]
+  },
+  {
+   "id": "08#s04",
+   "type": "section",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s04",
+   "title": "One facility, and the day it breaks",
+   "subtitle": "Lesson 08 · See it",
+   "text": "Nam Long's facility: 5.4 billion advanced and outstanding, secured by a pledge over ten billion đồng of stock at an advance rate of sixty percent. The drawn amount does not move in this simulation — that is the point. Only the warehouse moves. Drag the stock value down and watch the limit fall through the drawn amount without anyone doing anything. Then press the buyer never pays and read the last table: the same default, priced and split three ways by one enum value. financing_offers.factoring_product SELLER_WITH_RECOURSE SELLER_WITHOUT_RECOURSE BUYER Stock on the shelf Σ pledged_value at the last revaluation — quantity × unit_value 10.00 bn Advance rate on the pledge financing_offers.advance_rate — how much of that value the financier will lend against 60% Limit the pledge supports — Drawn and outstanding — Headroom — Limit used — The buyer never pays Reset Everything here is a fixed calculation on the numbers on screen — same drags, same answer, every time. Forced-sale recovery is set at seventy percent of shelf value, which is generous and only meant to show that the two numbers differ. The maths lives in finance/sim-08.js and has its own check: node tools/test-08.mjs .",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ]
+  },
+  {
+   "id": "08#s05",
+   "type": "section",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 08 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ]
+  },
+  {
+   "id": "08#s06",
+   "type": "section",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 08 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ]
+  },
+  {
+   "id": "08#s07",
+   "type": "section",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 08 · Take away",
+   "text": "\"When the buyer never pays, who does the financier chase — and which column says so?\" Every product in this module is an answer to that one question. If nobody in the room can point at the column, the requirement is not finished, and the code that implements it will guess. \"Is this ceiling agreed, or is it computed?\" An agreed limit can be checked once and trusted. A computed one changes whenever its inputs do, so it needs a recalculation trigger, a breach path and a notification — three things nobody budgets for when the ticket says the system shall automatically calculate a limit. \"What is this worth in a forced sale, not on the shelf?\" The gap between those two numbers is the entire reason advance rates exist. Whenever a screen shows one value for an asset, find out which one it is, because a lender's decision was made on the other. \"If this value moves overnight and nobody acts, who finds out, and when?\" This is the difference between a warning that buys a company two weeks and one that arrives with the demand letter. It is also the question that turns a notification from a nice-to-have into the most important thing the module sends. \"Does editing this field change who owes money? Then it is not an edit, it is a contract change.\" Some enums are display labels and some are the legal shape of a signed agreement. Give the second kind an audit trail, an approval and a very good reason before you put it in a dropdown a support agent can reach. Tiếng Việt Hai câu hỏi đáng mang theo suốt dự án: khi bên mua không trả thì ai bị đòi, và cái trần này do người đặt hay do máy tính ra. Trả lời được hai câu đó là hiểu được toàn bộ phần tài trợ, kể cả những màn hình bạn chưa từng mở.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ]
+  },
+  {
+   "id": "08#s08",
+   "type": "section",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 08 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ]
+  },
+  {
+   "id": "08#q0",
+   "type": "quiz",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s05",
+   "title": "A financier advanced 5.4 billion against Nam Long's invoices. The buyer never pays. The offer's factoring_product is SELLER_WITH_RECOURSE. Who is out of pocket?",
+   "subtitle": "Lesson 08 · Test yourself",
+   "text": "Nam Long — it undertook to repay, so it hands back the 5.4 billion and is left holding a debt nobody is paying With recourse, the seller never transferred the risk — only the timing. It got its cash ninety days early and now owes it back, while still holding an unpaid receivable. That is why this branch is markedly cheaper than the one without recourse: the seller kept the thing that costs money.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "answer": "Nam Long — it undertook to repay, so it hands back the 5.4 billion and is left holding a debt nobody is paying",
+   "why": "With recourse, the seller never transferred the risk — only the timing. It got its cash ninety days early and now owes it back, while still holding an unpaid receivable. That is why this branch is markedly cheaper than the one without recourse: the seller kept the thing that costs money."
+  },
+  {
+   "id": "08#q1",
+   "type": "quiz",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s05",
+   "title": "Your BA suggests replacing factoring_product with a boolean with_recourse, on the grounds that there are really only two cases. What breaks?",
+   "subtitle": "Lesson 08 · Test yourself",
+   "text": "The disbursement gate: the three branches require different evidence, and BUYER is a different customer entirely — the buyer is the one who must repay FinancingOffer.disbursementGateSatisfied() branches on it: SELLER_WITH_RECOURSE needs notice_sent_at plus notice_channel plus notice_document_id, and the other two need buyer_confirmed_at. A boolean cannot express that, and it cannot express who the financier's customer is. The javadoc says this in as many words: the column chooses who repays, who the customer is, and what evidence unlocks the money.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "answer": "The disbursement gate: the three branches require different evidence, and BUYER is a different customer entirely — the buyer is the one who must repay",
+   "why": "FinancingOffer.disbursementGateSatisfied() branches on it: SELLER_WITH_RECOURSE needs notice_sent_at plus notice_channel plus notice_document_id, and the other two need buyer_confirmed_at. A boolean cannot express that, and it cannot express who the financier's customer is. The javadoc says this in as many words: the column chooses who repays, who the customer is, and what evidence unlocks the money."
+  },
+  {
+   "id": "08#q2",
+   "type": "quiz",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s05",
+   "title": "A quarterly revaluation writes the pledged stock down twelve percent. Nobody draws money and nobody approves anything. What has happened to the facility?",
+   "subtitle": "Lesson 08 · Test yourself",
+   "text": "The limit is recomputed lower, and the borrower is now over a limit it never touched SCF-13 computes the limit as Σ pledged_value × advance_rate, and pledged_value is a measurement, not an agreement. Ten billion at sixty percent supports six; 8.8 billion supports 5.28; with 5.4 billion drawn the facility is 120 million over. This is the part developers implement without realising it can call a company's cash in overnight.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "answer": "The limit is recomputed lower, and the borrower is now over a limit it never touched",
+   "why": "SCF-13 computes the limit as Σ pledged_value × advance_rate, and pledged_value is a measurement, not an agreement. Ten billion at sixty percent supports six; 8.8 billion supports 5.28; with 5.4 billion drawn the facility is 120 million over. This is the part developers implement without realising it can call a company's cash in overnight."
+  },
+  {
+   "id": "08#q3",
+   "type": "quiz",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s05",
+   "title": "The stock has been below min_value_threshold for three nights running, and syncAfterRevaluation runs after every revaluation. How many times has smefin.scf.collateral-below-threshold.v1 been published?",
+   "subtitle": "Lesson 08 · Test yourself",
+   "text": "Once, on the run where it crossed the threshold pledged_value still holds the previous valuation when the comparison is made, so \"was above, is now below\" reads straight out of the data and the event fires on the crossing only. Come back up and cross again and it fires again. Note the neighbouring rule: a pledge with min_value_threshold null means no margin call was agreed, which is not the same as a threshold of zero — isBelowThreshold returns false and nothing is published.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "answer": "Once, on the run where it crossed the threshold",
+   "why": "pledged_value still holds the previous valuation when the comparison is made, so \"was above, is now below\" reads straight out of the data and the event fires on the crossing only. Come back up and cross again and it fires again. Note the neighbouring rule: a pledge with min_value_threshold null means no margin call was agreed, which is not the same as a threshold of zero — isBelowThreshold returns false and nothing is published."
+  },
+  {
+   "id": "08#q4",
+   "type": "quiz",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s05",
+   "title": "Nam Long has traded with this buyer for six years without a single late payment, and picks the with-recourse product even though it keeps the risk. Is that a mistake?",
+   "subtitle": "Lesson 08 · Test yourself",
+   "text": "No — it is much cheaper, and a company confident in its buyer is buying ninety days, not insurance On 5.4 billion for ninety days the gap between the two seller products in this lesson is about sixty million đồng a turn — a real cost, paid every cycle, for a risk this company genuinely believes is small. That is a business judgement, not an error, and your job is to record it accurately rather than to talk anyone out of it. It only turns into a mistake when nobody tells the finance director that the company is still on the hook.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "answer": "No — it is much cheaper, and a company confident in its buyer is buying ninety days, not insurance",
+   "why": "On 5.4 billion for ninety days the gap between the two seller products in this lesson is about sixty million đồng a turn — a real cost, paid every cycle, for a risk this company genuinely believes is small. That is a business judgement, not an error, and your job is to record it accurately rather than to talk anyone out of it. It only turns into a mistake when nobody tells the finance director that the company is still on the hook."
+  },
+  {
+   "id": "08#p0",
+   "type": "scene",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s06",
+   "title": "\"Three values for a yes-or-no question is over-engineering. Make it a with_recourse boolean and we save a migration.\"",
+   "subtitle": "Your BA — backlog refinement",
+   "text": "It looks like one question but it settles three: who the financier's customer is, who has to repay, and what evidence lets us release the money. With recourse we need proof the buyer was notified; the other two need the buyer's confirmation. A boolean can hold one of those, and reverse factoring is not \"without recourse\" — the buyer is the borrower there. You turned a modelling argument into a business one, named a concrete consequence, and left the BA better informed than before. That is how a developer gets consulted rather than instructed.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "answer": "It looks like one question but it settles three: who the financier's customer is, who has to repay, and what evidence lets us release the money. With recourse we need proof the buyer was notified; the other two need the buyer's confirmation. A boolean can hold one of those, and reverse factoring is not \"without recourse\" — the buyer is the borrower there.",
+   "why": "You turned a modelling argument into a business one, named a concrete consequence, and left the BA better informed than before. That is how a developer gets consulted rather than instructed."
+  },
+  {
+   "id": "08#p1",
+   "type": "scene",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s06",
+   "title": "\"Your screen says we have breached our limit. We have not borrowed anything this month. Is it broken?\"",
+   "subtitle": "The customer's finance director — during the demo",
+   "text": "It is not broken, and it is the system doing its job. Your limit is not a fixed figure — it is sixty percent of the stock you have pledged, recalculated at every valuation. The last revaluation came in twelve percent lower, so the limit fell below what is already drawn. You are 120 million short: pledge more stock, repay the difference, or ask the financier to raise the advance rate. You confirmed both numbers, explained the mechanism in one sentence, and finished with three actions. A finance director who hears that once will never again mistake this alert for noise — and will defend the feature for you in their own organisation.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "answer": "It is not broken, and it is the system doing its job. Your limit is not a fixed figure — it is sixty percent of the stock you have pledged, recalculated at every valuation. The last revaluation came in twelve percent lower, so the limit fell below what is already drawn. You are 120 million short: pledge more stock, repay the difference, or ask the financier to raise the advance rate.",
+   "why": "You confirmed both numbers, explained the mechanism in one sentence, and finished with three actions. A finance director who hears that once will never again mistake this alert for noise — and will defend the feature for you in their own organisation."
+  },
+  {
+   "id": "08#p2",
+   "type": "scene",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s06",
+   "title": "\"Drop the collateral threshold alert from this release. It is a notification. We can add notifications any time.\"",
+   "subtitle": "Product owner — cutting scope",
+   "text": "It is the only feature that tells a customer their limit moved. Everything else here is calculated silently by a nightly job — a company can be over its limit for weeks without a person being involved, and the first they would hear of it is a demand letter. Could we cut the efficiency report instead? That one is read once a quarter. You separated what warns from what reports, put the consequence in the customer's terms rather than the schema's, and offered a smaller cut yourself. Proposing an alternative beats refusing, every time.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "answer": "It is the only feature that tells a customer their limit moved. Everything else here is calculated silently by a nightly job — a company can be over its limit for weeks without a person being involved, and the first they would hear of it is a demand letter. Could we cut the efficiency report instead? That one is read once a quarter.",
+   "why": "You separated what warns from what reports, put the consequence in the customer's terms rather than the schema's, and offered a smaller cut yourself. Proposing an alternative beats refusing, every time."
+  },
+  {
+   "id": "08#l0",
+   "type": "line",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s07",
+   "title": "\"When the buyer never pays, who does the financier chase — and which column says so?\"",
+   "subtitle": "Lesson 08 · Line worth stealing",
+   "text": "Every product in this module is an answer to that one question. If nobody in the room can point at the column, the requirement is not finished, and the code that implements it will guess.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "why": "Every product in this module is an answer to that one question. If nobody in the room can point at the column, the requirement is not finished, and the code that implements it will guess."
+  },
+  {
+   "id": "08#l1",
+   "type": "line",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s07",
+   "title": "\"Is this ceiling agreed, or is it computed?\"",
+   "subtitle": "Lesson 08 · Line worth stealing",
+   "text": "An agreed limit can be checked once and trusted. A computed one changes whenever its inputs do, so it needs a recalculation trigger, a breach path and a notification — three things nobody budgets for when the ticket says the system shall automatically calculate a limit.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "why": "An agreed limit can be checked once and trusted. A computed one changes whenever its inputs do, so it needs a recalculation trigger, a breach path and a notification — three things nobody budgets for when the ticket says the system shall automatically calculate a limit."
+  },
+  {
+   "id": "08#l2",
+   "type": "line",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s07",
+   "title": "\"What is this worth in a forced sale, not on the shelf?\"",
+   "subtitle": "Lesson 08 · Line worth stealing",
+   "text": "The gap between those two numbers is the entire reason advance rates exist. Whenever a screen shows one value for an asset, find out which one it is, because a lender's decision was made on the other.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "why": "The gap between those two numbers is the entire reason advance rates exist. Whenever a screen shows one value for an asset, find out which one it is, because a lender's decision was made on the other."
+  },
+  {
+   "id": "08#l3",
+   "type": "line",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s07",
+   "title": "\"If this value moves overnight and nobody acts, who finds out, and when?\"",
+   "subtitle": "Lesson 08 · Line worth stealing",
+   "text": "This is the difference between a warning that buys a company two weeks and one that arrives with the demand letter. It is also the question that turns a notification from a nice-to-have into the most important thing the module sends.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "why": "This is the difference between a warning that buys a company two weeks and one that arrives with the demand letter. It is also the question that turns a notification from a nice-to-have into the most important thing the module sends."
+  },
+  {
+   "id": "08#l4",
+   "type": "line",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html#s07",
+   "title": "\"Does editing this field change who owes money? Then it is not an edit, it is a contract change.\"",
+   "subtitle": "Lesson 08 · Line worth stealing",
+   "text": "Some enums are display labels and some are the legal shape of a signed agreement. Give the second kind an audit trail, an approval and a very good reason before you put it in a dropdown a support agent can reach.",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ],
+   "why": "Some enums are display labels and some are the legal shape of a signed agreement. Give the second kind an audit trail, an approval and a very good reason before you put it in a dropdown a support agent can reach."
+  },
+  {
+   "id": "08",
+   "type": "lesson",
+   "lesson": "08",
+   "href": "lessons/08-recourse-and-collateral.html",
+   "title": "Recourse, collateral and the limit behind them",
+   "subtitle": "Lesson 08 · Core",
+   "text": "Lesson 07 was about what the three financing products are. This one is the single question underneath all of them: when the buyer never pays, who is out of pocket? The answer was decided months earlier, by one enum value, and half of this module exists to enforce it. Somebody is 5.4 billion short Ground floor A promise, or a thing The idea The limit nobody moved The danger One facility, and the day it breaks See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "factoring",
+    "recourse",
+    "collateral",
+    "advance rate",
+    "LTV",
+    "supplier limit",
+    "SCF-13",
+    "SCF-14",
+    "pledge",
+    "inventory financing"
+   ]
+  },
+  {
+   "id": "09#s01",
+   "type": "section",
    "lesson": "09",
-   "href": "",
-   "title": "Comparing offers without being fooled by the headline",
-   "subtitle": "Lesson 09 · not written yet",
-   "text": "The marketplace, the quotes it returns, and the arithmetic that turns \"1.2% a month\" and \"a 3% discount for paying 60 days early\" into two numbers you can actually compare.",
+   "href": "lessons/09-comparing-offers.html#s01",
+   "title": "What actually comes back when you ask for money",
+   "subtitle": "Lesson 09 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. A company is holding an invoice for 550 million, due in ninety days. It needs 500 million now. It does not walk into one bank and take whatever it is offered — it posts the request once, and several institutions answer. That is the marketplace. Each finance provider is a row in a catalogue an administrator maintains: a name, a code, optionally an API address, and the band of rates that provider is prepared to quote inside. A provider that is not ACTIVE is never asked. A provider that has registered no rate band at all does not answer, and the system does not invent a number on its behalf. The request itself is a financing offer — the amount asked for, how many days the money is needed for, and which discounting product it is. It goes out, and what comes back is one quote per provider. Day 0 — the request goes out 500 million against one invoice, ninety days. Every ACTIVE provider in the catalogue is asked, one after another. each provider prices it their own way Day 0 — three quotes come back A rate, a fee in đồng, what would actually land, over how many days, and the moment the price stops being good. Seven days, typically. someone reads the board and presses a button Day 2 — one quote is selected Its numbers are copied onto the offer, the others are marked declined, and a limit somewhere is reduced. This lesson is about that button. A quote is not a rate card. It is a price with an expiry date on it, given for one amount over one period, and it stops being valid whether or not anybody has read it. So the board on the screen is a snapshot of three opinions about the same ninety days — and the only thing the three have in common is that each of them wants your receivable . In the code FinanceProvider ( finance_providers ) with ProviderStatus = ACTIVE | INACTIVE | SUSPENDED ; MarketplaceService.activeProviders asks only the ACTIVE ones, and a provider named explicitly in the request that has since gone SUSPENDED is dropped rather than quoted. Each answer becomes a ProviderQuote row carrying discount_rate , fee_amount , net_proceeds , tenor_days , valid_until , a free-form terms jsonb, rank_no and status = RECEIVED | SELECTED | DECLINED | EXPIRED , unique on (offer_id, provider_id) . POST /marketplace/compare writes none of them: comparing is looking at prices, submit is asking for them (SCF-16, SCF-17). Tiếng Việt Marketplace là chỗ doanh nghiệp hỏi giá nhiều đơn vị tài trợ cùng lúc thay vì đi từng nơi. Mỗi đơn vị trả về một báo giá: lãi suất, phí, số tiền thực nhận, kỳ hạn và hạn hiệu lực. Báo giá là một mức giá có hạn dùng, không phải bảng giá — hết hạn là hết, dù chưa ai kịp đọc.",
    "tags": [
     "marketplace",
     "quotes",
-    "fees",
     "effective rate",
-    "providers"
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
    ]
   },
   {
-   "id": "10",
-   "type": "planned",
+   "id": "09#s02",
+   "type": "section",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s02",
+   "title": "Three numbers, three units, one conversion",
+   "subtitle": "Lesson 09 · The idea",
+   "text": "Here is what actually arrives on the screen. Read the three headlines the way a director reads them, in about two seconds each. \"1.2% per month.\" A rate. It grows with every day you hold the money. \"2% flat.\" Not a rate. One fee, the same whether you keep the money for a fortnight or for four months. \"3% off the face value.\" Also not a rate, and not even a fee — a slice taken off the amount before it reaches you. You are quoted 500 million and 485 arrives. 1.2 is smaller than 2, which is smaller than 3. That comparison is meaningless. The three numbers measure different things per different denominators over different periods, and putting them in one column and sorting it is the same class of mistake as sorting a column that mixes metres, miles and knots. A rate is a number per unit of time. A fee is a number. Ranking one against the other is a type error, and it costs real money. There is exactly one unit all three can be converted into, and it is worth memorising because everything else in this lesson is an application of it. The effective annual rate is: every cost of the deal, added up — divided by the money that actually reached the account — multiplied by 365 over the number of days you actually hold it . Two of those three phrases are where people go wrong, so take them one at a time. The arithmetic, slowly Take the first quote. 1.2% per month, ninety days, 500 million asked for. In the small print, an arrangement fee of 0.4% charged once. 1. Interest: 500,000,000 × 1.2% × 3 months = 18,000,000 . 2. Arrangement fee: 500,000,000 × 0.4% = 2,000,000 . 3. Everything the deal costs: 18,000,000 + 2,000,000 = 20,000,000 . 4. Both are deducted at drawdown, so what lands in the account is 500,000,000 − 20,000,000 = 480,000,000 . 5. Cost as a share of the money that arrived: 20,000,000 ÷ 480,000,000 = 4.1667% . 6. That was for ninety days. A year is 365, so 365 ÷ 90 = 4.0556 . 7. 4.1667% × 4.0556 = 16.90% a year . The meeting will call this offer \"one point two\". Twelve times 1.2 is 14.4, so the number people carry out of the room is fourteen and a half percent. The true figure is sixteen point nine, and the gap has two causes worth separating. The first is the fee that is not the rate: two million đồng nobody annualised. The second is the denominator. You are paying for the use of 480 million, not 500 — the other twenty never arrived. Dividing by the amount asked for instead of the amount received makes every deal look slightly cheaper than it is, always in the same direction, and the effect grows as the fee grows. And the last step, the one that does the real work: 365 over the days you actually hold it . A cost is not expensive or cheap by itself. It is expensive or cheap relative to how long it buys you the money — which is why the same fee can be a bargain and a scandal depending on nothing but the calendar. In the code FinancingFormula.effectiveAnnualRatePercent(fee, requested, tenor) is fee × 36 500 ÷ (requested × tenor) — the conversion above in one line, with a 365-day year. The javadoc explains why 365 rather than the 360 many Vietnamese loan contracts use: the API returns the formula as a string so the person approving can check it on a calculator, and moving the denominator moves the contract, not a constant. Note it divides by requestedAmount and not by netProceeds — so what it reports is the discount rate rather than the yield on the cash received, and it is the smaller of the two numbers. Tiếng Việt Chỉ có một đơn vị so sánh được: tổng chi phí chia cho số tiền thực nhận, rồi nhân 365 chia số ngày thực dùng tiền. Hai chỗ hay sai là mẫu số — phải là tiền thực về, không phải số tiền đề nghị — và việc quy về năm theo đúng số ngày. Bỏ bước quy năm thì \"2% một lần\" và \"1,2% một tháng\" nhìn như cùng loại, mà chúng không cùng loại.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ]
+  },
+  {
+   "id": "09#s03",
+   "type": "section",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s03",
+   "title": "A flat fee is a rate wearing a disguise",
+   "subtitle": "Lesson 09 · The danger",
+   "text": "\"2% flat\" is the most quietly dangerous phrase on the board, because it sounds like the absence of a rate. It is not. It is a rate whose annual value depends entirely on a number the quote does not mention. Two percent flat, ninety days, on 500 million: the fee is 10 million, 490 million arrives, so 10 ÷ 490 × 365 ÷ 90 = 8.3% a year . Cheap. Genuinely cheap. The same two percent flat over thirty days: the fee is still 10 million, 490 million still arrives, but now 10 ÷ 490 × 365 ÷ 30 = 24.8% a year . Three times the cost, same headline, same provider, same sentence in the email. Over a fortnight it is 53%. There is no dishonesty anywhere in this: the provider said two percent and charged two percent. The period was simply never part of the number, and the shorter the period, the more that omission is worth to them. The same trick, pointing the other way Now turn the telescope around, because the identical arithmetic applies to money you are asked to give up , and there it is the best deal most companies never take. A supplier writes \"2/10 net 30\" on the invoice. It means: the full amount is due in thirty days, but take two percent off if you pay within ten. Everyone reads that as a small discount and files it. It is an early-payment discount , and it is a return on cash. You give up 2 to keep 98, twenty days earlier than you had to: 2 ÷ 98 × 365 ÷ 20 = 37.2% a year . There is no financing product in this system, or in the market, that pays a company 37% for parking its cash for twenty days. The catch is that it is only a return if you have the cash. Paying twenty days early shortens your DPO , which lengthens your cash conversion cycle by the same twenty days. A company with spare cash should take every 2/10 net 30 it is offered. A company that would have to borrow at 16.9% to take it should also take it, because 37 is bigger than 16.9 — and a company with no liquidity and no facility cannot, which is what being short of cash actually costs. The fees that are not the rate Every one of these is quoted separately from the rate, in smaller type, and every one of them is a real cost of the same transaction. Quoting them apart is not dishonest. It is merely extremely convenient, and it works on almost everybody. Arrangement fee A one-off percentage of the amount, taken at drawdown. It does not shrink with the period, so it punishes short advances hardest — 0.4% on ninety days adds 1.7 points a year, on thirty days it adds five. Minimum drawdown Take 500 million against a minimum of 900 and the percentage is charged on the 900. The rate on the page is honest and the cost is nearly double what you read. Unused-facility charge A small percentage a year on the part of the limit you leave alone. It is the price of the option to draw, and it is paid whether or not you ever do. Days to disbursement Cash in one day and cash in five days are different lengths of the same product. ProviderQuoteDraft.disbursementDays exists in the contract and both adapters pass null , so today nothing on the board prices it. The line you never cross A ranking screen is not neutral. Sorting is a recommendation, and sorting on the wrong column is a wrong recommendation. MarketplaceService.ranked sorts on net_proceeds descending and nothing else — and today that is right, because tenorDays comes from the request and every adapter echoes it straight back, so every quote on the board covers the same days. ProviderQuote.tenor_days is nevertheless a per-row column, and rank_no is persisted from that same sort. The first real provider API that answers with a tenor of its own will break nothing: the sort will keep running and quietly stop being true. Meanwhile MarketplaceCompareResponse.Option carries discount_rate , fee_amount and net_proceeds and no effective rate at all, so nothing on the screen lets anybody check the order it was put in. In one line Whichever column you sort a comparison table by, you have told the user what you think. Make sure it is what you think. Tiếng Việt \"2% trọn gói\" không phải là không có lãi suất — nó là lãi suất mà kỳ hạn bị giấu đi: 2% cho 90 ngày là 8,3%/năm, cũng 2% ấy cho 30 ngày là 24,8%/năm. Chiều ngược lại cũng vậy: \"2/10 net 30\" quy ra khoảng 37%/năm, cao hơn mọi lãi suất tài trợ trên bảng. Và một màn hình xếp hạng không bao giờ trung lập — sắp xếp chính là khuyến nghị.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ]
+  },
+  {
+   "id": "09#s04",
+   "type": "section",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s04",
+   "title": "Three quotes, in their own words",
+   "subtitle": "Lesson 09 · See it",
+   "text": "The company needs 500.0m now. Three providers have answered, each in its own unit, each with its small print underneath. The board below is sorted the way almost every comparison screen is sorted on its first release: by the number labelled \"rate\", ascending. Press convert to one unit and the same three quotes are re-expressed as the cost of the money that actually lands, annualised over the days it is actually held. Then move the slider. The ranking changes as the period changes — that is not a quirk of these three offers, it is the whole point. Convert to one unit Reset How early the cash is needed The days you actually hold the money — the denominator nobody quotes 90 days Ranked on — Cheapest — Dearest — Difference in đồng — Nothing here is rounded in your favour: the fee lines add to the cost, the cost comes out of the amount, and the percentage is computed on what is left. The đồng figure is there because the percentage is what fools people and the đồng is what the director feels. The arithmetic lives in finance/sim-09.js and has its own check: node tools/test-09.mjs .",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ]
+  },
+  {
+   "id": "09#s05",
+   "type": "section",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 09 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ]
+  },
+  {
+   "id": "09#s06",
+   "type": "section",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 09 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ]
+  },
+  {
+   "id": "09#s07",
+   "type": "section",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 09 · Take away",
+   "text": "\"What is the denominator — the amount we asked for, or the money that actually lands?\" Fees deducted at drawdown mean those two are never the same number. Dividing by the wrong one understates every deal by the same bias, and the bigger the fee the bigger the understatement. Ask it once per screen that shows a percentage. \"Over how many days does this rate apply, and is it the same number of days on every row?\" A comparison is only a comparison when the period is shared. The moment two rows carry their own tenor, a sort on money alone stops being a sort on cost — and it will not fail, it will just be wrong. \"Which costs are inside fee_amount, and which ones are only mentioned in the terms?\" Arrangement fees, minimum drawdowns and unused-facility charges are real money and they live in a jsonb blob nobody parses. If they are not in the number being ranked, the ranking is of something other than cost. \"Is this table sorting, or is it recommending?\" Users read the top row as the answer, whatever the column header says. That makes the choice of sort key a product decision, not a UI detail, and it deserves the same review as any other rule that moves money. \"Can the person who signs this recompute the number with a calculator?\" The financing calculation endpoint returns its own formula as a string for exactly this reason. A figure an approver cannot reproduce is a figure they have to trust, and nobody signs a contract on trust twice. Tiếng Việt Không cần biết định giá. Chỉ cần mỗi lần thấy một cột phần trăm thì hỏi ba câu: mẫu số là gì, bao nhiêu ngày, và những khoản phí nào chưa nằm trong đó. Ba câu ấy đủ để không xếp hạng nhầm.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ]
+  },
+  {
+   "id": "09#s08",
+   "type": "section",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 09 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ]
+  },
+  {
+   "id": "09#q0",
+   "type": "quiz",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s05",
+   "title": "Three quotes for 500 million over 90 days: \"1.2% per month\", \"2% flat\", and \"3% off the face value\". Before touching a calculator, which is most likely to be the most expensive?",
+   "subtitle": "Lesson 09 · Test yourself",
+   "text": "The 1.2% one — it is the only one that grows with every day the money is held 1.2% a month over three months is 3.6% before a single fee is added, against 2% and 3% that do not move with time at all. The number printed smallest is the only one being multiplied by the period. Shorten the period to thirty days and it becomes the cheapest of the three — same three quotes, opposite answer.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "answer": "The 1.2% one — it is the only one that grows with every day the money is held",
+   "why": "1.2% a month over three months is 3.6% before a single fee is added, against 2% and 3% that do not move with time at all. The number printed smallest is the only one being multiplied by the period. Shorten the period to thirty days and it becomes the cheapest of the three — same three quotes, opposite answer."
+  },
+  {
+   "id": "09#q1",
+   "type": "quiz",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s05",
+   "title": "A provider quotes \"2% flat\". Why does the annualised cost differ between a 30-day advance and a 90-day one when the percentage does not?",
+   "subtitle": "Lesson 09 · Test yourself",
+   "text": "Because the same fee buys a third of the time — the đồng are identical and the days in the denominator are not Nothing about the provider or the fee changes. 2% flat is about 8.3% a year over ninety days and about 24.8% over thirty, because annualising divides by the days you actually hold the money. A flat fee is a rate whose period has been left out of the sentence.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "answer": "Because the same fee buys a third of the time — the đồng are identical and the days in the denominator are not",
+   "why": "Nothing about the provider or the fee changes. 2% flat is about 8.3% a year over ninety days and about 24.8% over thirty, because annualising divides by the days you actually hold the money. A flat fee is a rate whose period has been left out of the sentence."
+  },
+  {
+   "id": "09#q2",
+   "type": "quiz",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s05",
+   "title": "MarketplaceService ranks quotes by net_proceeds descending, and only that. When does this stop being correct?",
+   "subtitle": "Lesson 09 · Test yourself",
+   "text": "As soon as two quotes on the same board carry different tenor_days, because then the rows are not buying the same length of time Today every adapter echoes the request's tenorDays straight back, so the whole board covers the same period and money received does rank cost correctly. But tenor_days is a per-row column and rank_no is persisted from that sort. The first provider API that answers with a tenor of its own will not throw anything — the sort will keep running and simply stop being true.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "answer": "As soon as two quotes on the same board carry different tenor_days, because then the rows are not buying the same length of time",
+   "why": "Today every adapter echoes the request's tenorDays straight back, so the whole board covers the same period and money received does rank cost correctly. But tenor_days is a per-row column and rank_no is persisted from that sort. The first provider API that answers with a tenor of its own will not throw anything — the sort will keep running and simply stop being true."
+  },
+  {
+   "id": "09#q3",
+   "type": "quiz",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s05",
+   "title": "An advance of 500 million carries 20 million of fees, all deducted at drawdown. What is the cost as a share of the money received, and why does the distinction matter?",
+   "subtitle": "Lesson 09 · Test yourself",
+   "text": "4.1667% — 20 over 480, because 480 is what you can actually spend You are paying for the use of 480 million, not 500 — the other twenty never arrived. Dividing by the amount requested biases every deal in the same direction, cheaper than it is, and the bias grows with the fee. FinancingFormula.effectiveAnnualRatePercent divides by requestedAmount, which is why it reports a discount rate rather than a yield.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "answer": "4.1667% — 20 over 480, because 480 is what you can actually spend",
+   "why": "You are paying for the use of 480 million, not 500 — the other twenty never arrived. Dividing by the amount requested biases every deal in the same direction, cheaper than it is, and the bias grows with the fee. FinancingFormula.effectiveAnnualRatePercent divides by requestedAmount, which is why it reports a discount rate rather than a yield."
+  },
+  {
+   "id": "09#q4",
+   "type": "quiz",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s05",
+   "title": "A supplier offers \"2/10 net 30\". The company has cash sitting in the account. What should it do?",
+   "subtitle": "Lesson 09 · Test yourself",
+   "text": "Pay on day 10: giving up 2 to keep 98 twenty days early is about 37% a year, better than any rate on the marketplace 2 ÷ 98 × 365 ÷ 20 is 37.2% a year. Paying early does shorten DPO and lengthen the cash conversion cycle, which is a real cost — but 37% is far above anything a provider will quote, so for a company holding idle cash it is the best return on the board. The company that cannot take it is the one that is short of cash, and this is one of the ways that shortage is paid for.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "answer": "Pay on day 10: giving up 2 to keep 98 twenty days early is about 37% a year, better than any rate on the marketplace",
+   "why": "2 ÷ 98 × 365 ÷ 20 is 37.2% a year. Paying early does shorten DPO and lengthen the cash conversion cycle, which is a real cost — but 37% is far above anything a provider will quote, so for a company holding idle cash it is the best return on the board. The company that cannot take it is the one that is short of cash, and this is one of the ways that shortage is paid for."
+  },
+  {
+   "id": "09#p0",
+   "type": "scene",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s06",
+   "title": "\"Sort the table by the rate column ascending and highlight the top row as recommended.\"",
+   "subtitle": "Your BA — refining the comparison screen",
+   "text": "Those rates are in different units — one is per month, one is a single fee, one is a cut off the face value. Sorted ascending, the top row is just whoever worded their offer smallest. Could we compute cost over money received, annualised over the tenor, and sort on that? It is one line, and it is already in FinancingFormula. You named the defect in the data rather than in the ticket, said what the user would actually get, and finished with a proposal that costs almost nothing. Pointing at code that already exists is what turns this from an argument into a decision.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "answer": "Those rates are in different units — one is per month, one is a single fee, one is a cut off the face value. Sorted ascending, the top row is just whoever worded their offer smallest. Could we compute cost over money received, annualised over the tenor, and sort on that? It is one line, and it is already in FinancingFormula.",
+   "why": "You named the defect in the data rather than in the ticket, said what the user would actually get, and finished with a proposal that costs almost nothing. Pointing at code that already exists is what turns this from an argument into a decision."
+  },
+  {
+   "id": "09#p1",
+   "type": "scene",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s06",
+   "title": "\"Your screen says we are the most expensive. We have the lowest rate on the page.\"",
+   "subtitle": "A provider's sales manager — during the demo",
+   "text": "Both are true. Your rate is the lowest, and it is the only one charged per month — over ninety days it compounds out to more money than a one-off two percent. Here is the same comparison in đồng: yours costs twenty million, theirs fifteen point nine. If the customer needs the cash for thirty days instead, you are the cheapest on the board. You agreed with them before you disagreed, moved the conversation to đồng where there is nothing to argue about, and then handed them the case where they win. That last part is why they will keep talking to you.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "answer": "Both are true. Your rate is the lowest, and it is the only one charged per month — over ninety days it compounds out to more money than a one-off two percent. Here is the same comparison in đồng: yours costs twenty million, theirs fifteen point nine. If the customer needs the cash for thirty days instead, you are the cheapest on the board.",
+   "why": "You agreed with them before you disagreed, moved the conversation to đồng where there is nothing to argue about, and then handed them the case where they win. That last part is why they will keep talking to you."
+  },
+  {
+   "id": "09#p2",
+   "type": "scene",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s06",
+   "title": "\"Drop the effective-rate column. Two percentage columns will confuse users.\"",
+   "subtitle": "Product owner — cutting scope",
+   "text": "The column that confuses is the rate one: it holds per-month, flat and discount-off-face in the same cells. If we can only show one, show cost in đồng over the period — nobody needs training to read twenty million against sixteen. We could keep the percentage behind the row expander. You accepted the constraint, showed which column was actually the confusing one, and offered a version that is simpler than what they asked for. Proposing a smaller thing than the one being cut is the move that gets a developer invited back.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "answer": "The column that confuses is the rate one: it holds per-month, flat and discount-off-face in the same cells. If we can only show one, show cost in đồng over the period — nobody needs training to read twenty million against sixteen. We could keep the percentage behind the row expander.",
+   "why": "You accepted the constraint, showed which column was actually the confusing one, and offered a version that is simpler than what they asked for. Proposing a smaller thing than the one being cut is the move that gets a developer invited back."
+  },
+  {
+   "id": "09#l0",
+   "type": "line",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s07",
+   "title": "\"What is the denominator — the amount we asked for, or the money that actually lands?\"",
+   "subtitle": "Lesson 09 · Line worth stealing",
+   "text": "Fees deducted at drawdown mean those two are never the same number. Dividing by the wrong one understates every deal by the same bias, and the bigger the fee the bigger the understatement. Ask it once per screen that shows a percentage.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "why": "Fees deducted at drawdown mean those two are never the same number. Dividing by the wrong one understates every deal by the same bias, and the bigger the fee the bigger the understatement. Ask it once per screen that shows a percentage."
+  },
+  {
+   "id": "09#l1",
+   "type": "line",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s07",
+   "title": "\"Over how many days does this rate apply, and is it the same number of days on every row?\"",
+   "subtitle": "Lesson 09 · Line worth stealing",
+   "text": "A comparison is only a comparison when the period is shared. The moment two rows carry their own tenor, a sort on money alone stops being a sort on cost — and it will not fail, it will just be wrong.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "why": "A comparison is only a comparison when the period is shared. The moment two rows carry their own tenor, a sort on money alone stops being a sort on cost — and it will not fail, it will just be wrong."
+  },
+  {
+   "id": "09#l2",
+   "type": "line",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s07",
+   "title": "\"Which costs are inside fee_amount, and which ones are only mentioned in the terms?\"",
+   "subtitle": "Lesson 09 · Line worth stealing",
+   "text": "Arrangement fees, minimum drawdowns and unused-facility charges are real money and they live in a jsonb blob nobody parses. If they are not in the number being ranked, the ranking is of something other than cost.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "why": "Arrangement fees, minimum drawdowns and unused-facility charges are real money and they live in a jsonb blob nobody parses. If they are not in the number being ranked, the ranking is of something other than cost."
+  },
+  {
+   "id": "09#l3",
+   "type": "line",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s07",
+   "title": "\"Is this table sorting, or is it recommending?\"",
+   "subtitle": "Lesson 09 · Line worth stealing",
+   "text": "Users read the top row as the answer, whatever the column header says. That makes the choice of sort key a product decision, not a UI detail, and it deserves the same review as any other rule that moves money.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "why": "Users read the top row as the answer, whatever the column header says. That makes the choice of sort key a product decision, not a UI detail, and it deserves the same review as any other rule that moves money."
+  },
+  {
+   "id": "09#l4",
+   "type": "line",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html#s07",
+   "title": "\"Can the person who signs this recompute the number with a calculator?\"",
+   "subtitle": "Lesson 09 · Line worth stealing",
+   "text": "The financing calculation endpoint returns its own formula as a string for exactly this reason. A figure an approver cannot reproduce is a figure they have to trust, and nobody signs a contract on trust twice.",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ],
+   "why": "The financing calculation endpoint returns its own formula as a string for exactly this reason. A figure an approver cannot reproduce is a figure they have to trust, and nobody signs a contract on trust twice."
+  },
+  {
+   "id": "09",
+   "type": "lesson",
+   "lesson": "09",
+   "href": "lessons/09-comparing-offers.html",
+   "title": "Comparing offers without being fooled by the headline",
+   "subtitle": "Lesson 09 · Applied",
+   "text": "Three quotes come back in three different shapes, and the screen has to put them in order. Sorting by the column labelled \"rate\" ranks them wrongly — and the offer with the smallest number on it is routinely the one that costs the most money. What actually comes back when you ask for money Ground floor Three numbers, three units, one conversion The idea A flat fee is a rate wearing a disguise The danger Three quotes, in their own words See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "marketplace",
+    "quotes",
+    "effective rate",
+    "arrangement fee",
+    "early payment discount",
+    "providers",
+    "ranking",
+    "SCF-17"
+   ]
+  },
+  {
+   "id": "10#s01",
+   "type": "section",
    "lesson": "10",
-   "href": "",
-   "title": "A budget is not a forecast",
-   "subtitle": "Lesson 10 · not written yet",
-   "text": "Plan, allocation, commitment, actual, variance — five states of the same đồng. And why budget control has to bite at approval rather than at payment.",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s01",
+   "title": "Two documents that say the same number",
+   "subtitle": "Lesson 10 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. It is December. Two documents are on the finance director's desk, and both of them say 400 million for marketing next quarter . They are not the same document, and confusing them is the mistake this whole lesson is about. The first is a forecast. Somebody looked at last year, at the campaigns already planned, at what things cost now, and estimated. It is a statement about the world. The second is a budget . Somebody with authority decided. It is a statement about the company: this is what marketing is permitted to spend, and if they want more they have to come and ask. The forecast — a prediction Marketing will probably spend around 400 million. If they end up spending 470, the forecast was wrong. You correct it, learn something about your assumptions, and carry on. Nobody is in trouble. same number, entirely different instrument The budget — an authorisation Marketing may spend 400 million. If they end up spending 470, nothing was wrong with the number. Somebody spent money they were not allowed to spend — and the system that let them through is the one you built. A forecast is judged on accuracy. A budget is judged on compliance. That single difference decides what your module has to do: a forecast module reads data and draws a line, while a budget module has to be able to say no , at the moment somebody is about to commit the company, before the money moves. Which means a budget screen that only reports what has already been spent is not a budget module at all. It is a very slow accounting report wearing the word budget in its title. It is not cash flow either, and the two get confused constantly. Cash flow asks whether there is money in the account. A budget asks whether this particular spend is permitted. A company can be sitting on plenty of cash and still refuse a purchase because that department has used up its year — and it can have a perfectly approved budget line and no money to honour it. Two numbers start every budget line: what was planned, and what has actually been spent — the actual spend . Everything interesting in this lesson happens in the gap between them. In the code Budget in budget-service , table budgets . Status runs DRAFT → PENDING_APPROVAL → ACTIVE → LOCKED → CLOSED , and only ACTIVE takes part in the spending check — a draft budget controls nothing. BudgetStateMachine deliberately has no DRAFT → ACTIVE edge: activating a budget you wrote yourself breaks maker–checker, and an ACTIVE budget is the thing that decides which transactions get blocked (TM-17). Tiếng Việt Dự báo nói điều sắp xảy ra; ngân sách nói điều được phép xảy ra. Dự báo sai thì sửa lại con số, ngân sách vượt thì có người đã chi khoản không được phép. Vì thế module ngân sách phải chặn được ở lúc duyệt, chứ không phải chỉ báo cáo lại quá khứ.",
    "tags": [
     "budget",
     "allocation",
     "commitment",
-    "variance"
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
    ]
   },
   {
-   "id": "11",
-   "type": "planned",
+   "id": "10#s02",
+   "type": "section",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s02",
+   "title": "Five states of the same đồng",
+   "subtitle": "Lesson 10 · The idea",
+   "text": "Before the states, the shape of the instrument. A budget is not one number in one place — it is cut along several axes, and every one of those cuts is a requirement in the spec. The level it is set at Whole company, one department, one project, or one spending category. BudgetScopeType , with scope_ref_id naming the department or project — and required to be null exactly when the scope is COMPANY · BM-01. The period it covers Monthly, quarterly or annual. BudgetPeriodType carries periodsPerYear() on the enum itself rather than in the service, because splitting a year into quarters using twelve gives every quarter a third of what it should have and no constraint catches it · BM-02. How it is spread across time Either evenly, or period by period when the money is genuinely lumpy — a trade fair in March is not one twelfth per month. That is allocation · BM-03. Versions of the same period Several plans for one quarter so the board can compare: the cautious one, the aggressive one. version_no and is_active_version , with exactly one active at a time · BM-04. Last period, copied forward Nobody types a year of budget lines from scratch. Copy, then adjust — and the copy remembers where it came from in base_budget_id · BM-05. Now the part that catches everybody Follow one particular 150 million through a quarter — the money for a trade fair booth. It does not go from planned to spent. It passes through four distinct states, and lives in a different column at each one. Planned — December The board approves 400 million for marketing this quarter. Nothing has been decided about the booth yet; this is just the size of the pot. the pot is given a shape in time Allocated — still December The 400 million is not one lump. It is written out period by period: 110 in January, 110 in February, 180 in March, because that is when the fair is. Splitting evenly would have put 133 in each, which makes March look like an overspend and January look like slack. 3 February — the department head signs the order Committed — 3 February The purchase order is signed. The bank balance does not move by a single đồng. The money is gone anyway: there is a contract, and refusing to pay it later is not an option you have. 21 March — the payment run goes out Actual — 21 March The transfer executes. The same 150 million leaves the committed column and lands in the actual column. Total money used does not change at this moment — it has simply changed its name. The third state is the one nobody remembers. Money that has been approved but not yet paid is a commitment , and it is as spent as spent gets. Anyone who has bought a plane ticket knows the feeling: the money is gone the moment you press the button, whatever the banking app says for the next two days. A purchase order signed on Monday is money already gone. The bank balance is simply the last to find out. The fifth state is not a state of the money at all — it is what falls out at the end. The variance is the gap between what was allowed and what was used. Positive means the department underspent, negative means it went over. And the interesting question about a variance is never how big it is. A department that came in 60 million under plan because it negotiated harder, and a department that came in 60 million under plan because a project never started, produce identical numbers and mean opposite things. The number is where the conversation starts, not where it ends. In the code One row of budget_lines carries four figures: planned_amount , committed_amount , actual_amount , and available_amount — which is not a column anyone writes to. It is GENERATED ALWAYS AS (planned_amount - committed_amount - actual_amount) STORED , so PostgreSQL computes it and Java reads it back. There is no setter for it, and the other three only move through addCommitted() and addActual() , so the four numbers cannot drift apart. In the code The three transitions of a commitment are the enum CommitmentStatus , and each one names exactly what it moves: COMMITTED — approved, committed_amount goes up; CONSUMED — paid, committed comes back down and actual_amount goes up by the same figure; RELEASED — cancelled or rejected, committed comes back down and nothing else moves. The row is never deleted, whatever happened to it (SEC-04). Tiếng Việt Cùng một đồng đi qua bốn trạng thái: được duyệt kế hoạch, được phân bổ vào kỳ, được cam kết khi ký duyệt chi, và thành thực chi khi tiền rời tài khoản. Trạng thái cam kết là cái hay bị bỏ quên — tiền đã duyệt nhưng chưa chi vẫn là tiền đã mất. Chênh lệch là phần rơi ra ở cuối kỳ, và điều đáng hỏi là nguyên nhân chứ không phải độ lớn.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ]
+  },
+  {
+   "id": "10#s03",
+   "type": "section",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s03",
+   "title": "Two numbers that look like the same number",
+   "subtitle": "Lesson 10 · The danger",
+   "text": "Here is the bug, and it is not exotic. It is written every time somebody builds a budget screen without having had commitments explained to them. Ask \"how much has this department got left\" and there are two arithmetically reasonable answers: Remaining — plan minus actual How much of the pot has not yet left the bank. It is the number a developer reaches for, because planned_amount and actual_amount are the two columns whose names make immediate sense. Available — plan minus committed minus actual How much of the pot has not yet been promised to anybody. This is the only one of the two that a spending decision may read. On an empty budget the two are identical. That is precisely why the bug survives every demo — you seed a fresh quarter, nothing is committed, both numbers read 400 million, and the screen looks correct. It stays correct right up until the first purchase order is approved and not yet paid, which in a real company is Tuesday. The gap between the two numbers is the commitments. So the size of the lie is exactly the amount of money the company has already promised and not yet handed over — which is to say, the lie is largest at the exact moment it matters most. And note what the schema is telling you. There is no column anywhere in this system holding plan minus actual. Every headroom figure the service computes, stores or sends is plan minus committed minus actual. If you find yourself writing that subtraction by hand in a template, stop: you have just invented a number the system deliberately does not keep. The line you never cross Never show plan minus actual on a screen where somebody approves spending. It is not a rounding difference or a display preference. It is the difference between a department going 20 million over budget and a dashboard reporting 280 million of headroom on the same afternoon, from the same four columns. Put available_amount on the approval screen — the one number the database computes for itself, precisely so that nobody has to remember which columns to subtract. Control has to bite at approval, not at payment The natural place for a developer to put a budget check is where the money moves: in the payment routine, right before the transfer goes out. It is the wrong place, and not by a little. By the time a payment runs, the company is already contractually obliged. The supplier has delivered, the invoice is valid, the debt exists whether or not your budget agrees with it. Refusing the payment at that point does not prevent a financial problem — it creates a legal one, and adds late-payment interest on top of the overspend you failed to stop. So the check runs earlier, at the moment somebody is about to commit the company. It is the one place in this architecture where one service calls another synchronously over REST and makes a human wait, because a person is standing in front of a screen wanting to know whether they may sign. In the code GET /internal/v1/budgets/check in BudgetCheckService — TM-17. Under three seconds, no retry, two database queries and at most one masterdata call. It picks the budget line by four priority tiers (category + project, category + department, category, then any line on a COMPANY -scope budget) and among equals picks the tightest line, because when two budgets cover the same spend it is the stricter one that decides. The action field is never null — no matching line still returns ALLOW , because the caller reads null as \"could not check\" and skips budget control entirely while writing a line to a log nobody reads. Eighty, ninety, and what happens past one hundred Warnings come in levels. Eighty percent used: tell somebody. Ninety: tell somebody louder. A hundred: the department has spent everything it was given. The instinct at a hundred is to refuse. Resist it. A business does not stop when a number is exceeded — it escalates. The delivery that has to go out tomorrow still has to go out tomorrow, and if your system's only answer is a hard no, what actually happens is that somebody finds a category with room in it and books the spend there. You have not prevented the overspend, you have made it untraceable. So past a hundred percent the useful behaviour is to require a higher approver, not to slam the door. Same spend, one more signature, and a record of who decided the company could exceed its own plan. Blocking exists too, and it is real — but choose it knowing that a legitimate urgent spend is then impossible until a budget revision has been approved, which takes days. Two details in how the check reads those levels are worth carrying into a code review. First, the percentage includes the amount currently being asked for — the question is \"would this spend push us over\", not \"are we over already\". Second, when several levels have been crossed, the highest one wins, not the first one the loop happens to meet. In the code BudgetThreshold , table budget_thresholds : a level_percent and a ThresholdAction of NOTIFY , REQUIRE_APPROVAL or BLOCK , configured per budget rather than as constants — 80/90/100 is a recommendation, not a law (BM-07, BM-09). BudgetCheckAction is the separate enum sent back to transaction-service , and allowed is false for BLOCK alone. Each level fires its alert exactly once, guarded by budget_thresholds.triggered — without that flag every transaction after 80% sends another email and within a week nobody reads any of them. The increase nobody logged Budgets change mid-period, and that is not a failure. Prices move, a project gets pulled forward, a campaign is cancelled. A budget that cannot be changed is a budget people route around, and routing around it is worse than changing it. What matters is that the change leaves a record: who asked, why, how much, which lines, who approved it and when. Without that record, an increase applied after the fact is indistinguishable from covering up an overspend — the line reads a comfortable ninety percent used against a plan that quietly grew last Tuesday, and no audit trail can tell the auditor which of those two things happened. Which is why a revision is a new row rather than an UPDATE on the budget line. The proposal exists first and changes nothing; the numbers on the budget move only when it is approved. Somebody refused a spend yesterday can be shown exactly why today's limit is different. In the code BudgetRevision , table budget_revisions , with UNIQUE (budget_id, revision_no) and a delta_amount that is allowed to be negative — cutting a budget is an ordinary event (BM-16, BM-17). It self-approves and applies straight away only when both conditions hold: the change is under ten percent of the total and it is within the requester's own approval_limit . Fail either one and it goes to Camunda as PENDING_APPROVAL , and applyApprovalOutcome is the only way out of that state (BM-18). Revising a returned draft keeps the same revision_no — three rounds of negotiation are one revision, not three. Tiếng Việt \"Còn lại\" (kế hoạch trừ thực chi) và \"khả dụng\" (kế hoạch trừ cam kết trừ thực chi) trông giống nhau nhưng chênh nhau đúng bằng số đã cam kết — và không cột nào trong hệ thống lưu con số thứ nhất. Kiểm soát phải chặn ở bước duyệt chứ không phải bước chi, vì tới lúc chi thì công ty đã có nghĩa vụ hợp đồng rồi. Vượt 100% thì thêm cấp duyệt, đừng chặn cứng — và mọi lần điều chỉnh ngân sách phải có vết ai sửa, sửa gì, vì sao.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ]
+  },
+  {
+   "id": "10#s04",
+   "type": "section",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s04",
+   "title": "One department, one quarter, five requests",
+   "subtitle": "Lesson 10 · See it",
+   "text": "Marketing has 400 million for the quarter. Five purchase requests are queued. Each one is approved first and paid later — two separate actions, days or weeks apart, and each one moves a different column. Approve requests through the gate, then pay or cancel them from the list. Watch the two headroom figures come apart. Or press run the four approvals to be walked straight into the state the lesson is about: healthy on one number, already over on the other, with one more request waiting for a decision. Run the four approvals Reset Planned for the quarter — Committed — approved, unpaid — Actual — money gone — Remaining plan − actual — Available plan − com − act — Used, against plan — 80% 90% plan Actual — paid Committed — approved, unpaid The approval screen — Reading remaining plan − actual — Reading available plan − committed − actual — Approve this request Both cards answer the same question about the same budget at the same instant. Only the right-hand one is what BudgetCheckService actually computes; the left-hand one is the version that gets written when commitments have never been explained. The verdict is the highest threshold crossed, and the amount being requested counts towards the percentage before it is approved. The maths lives in finance/sim-10.js and has its own check: node tools/test-10.mjs .",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ]
+  },
+  {
+   "id": "10#s05",
+   "type": "section",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 10 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in a code review. 0 / 5 answered",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ]
+  },
+  {
+   "id": "10#s06",
+   "type": "section",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 10 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ]
+  },
+  {
+   "id": "10#s07",
+   "type": "section",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 10 · Take away",
+   "text": "\"Is this number permission, or is it a prediction?\" It decides everything downstream. A prediction gets corrected when reality disagrees with it; permission gets enforced. The same 400 million on two documents needs two entirely different pieces of software. \"Which of the two headroom numbers is this screen showing — plan minus actual, or plan minus committed minus actual?\" On a fresh budget they are the same number, so a demo will never tell you. Ask it of every screen where somebody approves, signs or commits anything, because that is where the wrong answer costs money. \"At which moment does this check run — when the spend is approved, or when the payment executes?\" Checking at payment is checking after the company is already contractually bound. Refusing then does not stop an overspend, it starts a dispute and adds late-payment interest to it. \"When this hits a hundred percent, do we block or do we escalate?\" A hard block does not stop the spend, it moves the spend into a category with room in it. Escalation keeps the transaction visible and puts a name against the decision to exceed the plan. \"If someone raises this budget mid-quarter, what record does it leave?\" Without who, when, why and by how much, an increase after the fact is indistinguishable from hiding an overspend — and neither the auditor nor the person refused a spend last week can tell the difference. Tiếng Việt Không cần thành kế toán quản trị. Chỉ cần nhận ra khi nào một con số là dự báo và khi nào nó là hạn mức được phép chi — rồi hỏi màn hình đó đang đọc \"còn lại\" hay \"khả dụng\" trước khi viết dòng code đầu tiên.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ]
+  },
+  {
+   "id": "10#s08",
+   "type": "section",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 10 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ]
+  },
+  {
+   "id": "10#q0",
+   "type": "quiz",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s05",
+   "title": "Marketing was budgeted 400 million for the quarter and has spent 470. A manager asks you to update the budget to 470 so the report stops showing red. What is wrong with doing that?",
+   "subtitle": "Lesson 10 · Test yourself",
+   "text": "A budget records what was permitted, so overwriting it erases the fact that 70 million was spent without permission This is the difference between a forecast and a budget in one request. A forecast that turns out wrong gets corrected — that is what it is for. A budget is an authorisation, and quietly raising it after the money is gone destroys the only evidence that anyone exceeded their authority. The honest paths are a logged revision, with a reason and an approver, or an accepted variance that somebody has to explain.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "answer": "A budget records what was permitted, so overwriting it erases the fact that 70 million was spent without permission",
+   "why": "This is the difference between a forecast and a budget in one request. A forecast that turns out wrong gets corrected — that is what it is for. A budget is an authorisation, and quietly raising it after the money is gone destroys the only evidence that anyone exceeded their authority. The honest paths are a logged revision, with a reason and an approver, or an accepted variance that somebody has to explain."
+  },
+  {
+   "id": "10#q1",
+   "type": "quiz",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s05",
+   "title": "A department has a plan of 400 million. It has paid 120 million and has 300 million of approved, unpaid purchase orders outstanding. The approval screen shows 280 million of headroom. What is it showing?",
+   "subtitle": "Lesson 10 · Test yourself",
+   "text": "Remaining budget — plan minus actual, which cannot see the 300 million of signed orders 400 − 120 = 280, so the screen is subtracting only what has left the bank. The true figure is 400 − 300 − 120 = −20 million: the department is already over. Note the arithmetic of the mistake — the gap between the two numbers is exactly the commitments, so the screen is most wrong at the moment there is most money in flight.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "answer": "Remaining budget — plan minus actual, which cannot see the 300 million of signed orders",
+   "why": "400 − 120 = 280, so the screen is subtracting only what has left the bank. The true figure is 400 − 300 − 120 = −20 million: the department is already over. Note the arithmetic of the mistake — the gap between the two numbers is exactly the commitments, so the screen is most wrong at the moment there is most money in flight."
+  },
+  {
+   "id": "10#q2",
+   "type": "quiz",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s05",
+   "title": "Where should the budget check run — at the moment a spend is approved, or in the payment routine just before the transfer goes out?",
+   "subtitle": "Lesson 10 · Test yourself",
+   "text": "At approval, because by payment time the company is already contractually obliged and refusing creates a legal problem instead of preventing a financial one By the time a payment runs, the supplier has delivered and the invoice is valid. The debt exists whether or not your budget agrees with it, so blocking there does not prevent an overspend — it starts a dispute and adds late-payment interest to a bill you were already going to pay. That is why the check is synchronous and sits in front of transaction creation (TM-17), and why it is the one place in this architecture where a user is made to wait for one service calling another.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "answer": "At approval, because by payment time the company is already contractually obliged and refusing creates a legal problem instead of preventing a financial one",
+   "why": "By the time a payment runs, the supplier has delivered and the invoice is valid. The debt exists whether or not your budget agrees with it, so blocking there does not prevent an overspend — it starts a dispute and adds late-payment interest to a bill you were already going to pay. That is why the check is synchronous and sits in front of transaction creation (TM-17), and why it is the one place in this architecture where a user is made to wait for one service calling another."
+  },
+  {
+   "id": "10#q3",
+   "type": "quiz",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s05",
+   "title": "A budget line reaches 100% used and another urgent, legitimate spend arrives. Blocking it outright is usually the wrong design. Why?",
+   "subtitle": "Lesson 10 · Test yourself",
+   "text": "Because the delivery still has to happen, so the spend gets booked to a category that has room — you have not prevented it, you have made it untraceable A business does not stop when a number is exceeded; it escalates. Requiring a higher approver keeps the transaction where it belongs, records who decided the plan could be exceeded, and leaves the overspend visible in the reporting. A hard block exists in this system and is occasionally right, but choose it knowing that everything urgent then waits days for a budget revision to be approved.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "answer": "Because the delivery still has to happen, so the spend gets booked to a category that has room — you have not prevented it, you have made it untraceable",
+   "why": "A business does not stop when a number is exceeded; it escalates. Requiring a higher approver keeps the transaction where it belongs, records who decided the plan could be exceeded, and leaves the overspend visible in the reporting. A hard block exists in this system and is occasionally right, but choose it knowing that everything urgent then waits days for a budget revision to be approved."
+  },
+  {
+   "id": "10#q4",
+   "type": "quiz",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s05",
+   "title": "A transaction with an existing commitment executes and the money leaves the account. What has to happen to the budget line?",
+   "subtitle": "Lesson 10 · Test yourself",
+   "text": "committed_amount goes down and actual_amount goes up by the same figure — total used is unchanged at that moment The money is not spent twice; it changes state. Leaving the commitment in place while adding the actual counts the same đồng in two columns, which halves the department's apparent headroom overnight and produces threshold alerts nobody can explain. In the code the existing commitment moves COMMITTED → CONSUMED rather than a second row being written, and the unique constraint on (budget_line_id, transaction_id) is what stops a redelivered Kafka message doing it twice.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "answer": "committed_amount goes down and actual_amount goes up by the same figure — total used is unchanged at that moment",
+   "why": "The money is not spent twice; it changes state. Leaving the commitment in place while adding the actual counts the same đồng in two columns, which halves the department's apparent headroom overnight and produces threshold alerts nobody can explain. In the code the existing commitment moves COMMITTED → CONSUMED rather than a second row being written, and the unique constraint on (budget_line_id, transaction_id) is what stops a redelivered Kafka message doing it twice."
+  },
+  {
+   "id": "10#p0",
+   "type": "scene",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s06",
+   "title": "\"For the remaining budget just do planned minus actual. Both columns are right there on the line.\"",
+   "subtitle": "Your BA — refining the budget screen",
+   "text": "That works until something is approved and not yet paid. A department with 300 million of signed orders and 120 million paid would show 280 million left when it is actually 20 million over. There is a column that already does this properly — available_amount, which the database computes as planned minus committed minus actual. Can we bind the screen to that? You named the failure with numbers rather than with a principle, and you finished by pointing at something that already exists rather than asking for work. That is the version of this conversation that ends in a one-line change instead of a debate.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "answer": "That works until something is approved and not yet paid. A department with 300 million of signed orders and 120 million paid would show 280 million left when it is actually 20 million over. There is a column that already does this properly — available_amount, which the database computes as planned minus committed minus actual. Can we bind the screen to that?",
+   "why": "You named the failure with numbers rather than with a principle, and you finished by pointing at something that already exists rather than asking for work. That is the version of this conversation that ends in a one-line change instead of a debate."
+  },
+  {
+   "id": "10#p1",
+   "type": "scene",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s06",
+   "title": "\"Your screen says I am over budget. I have spent 120 million of my 400. How am I over?\"",
+   "subtitle": "Head of marketing — during the demo",
+   "text": "You have spent 120 million and committed another 300. Those purchase orders are signed, so that money is not yours to spend twice — the screen is showing what is left after both. What you are thinking of is how much has left the bank, which is a different question and a much more optimistic one. You separated paid from promised without accusing anybody of anything, and you gave their number a name instead of calling it wrong. The natural next sentence is theirs: which of those orders can still be cancelled?",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "answer": "You have spent 120 million and committed another 300. Those purchase orders are signed, so that money is not yours to spend twice — the screen is showing what is left after both. What you are thinking of is how much has left the bank, which is a different question and a much more optimistic one.",
+   "why": "You separated paid from promised without accusing anybody of anything, and you gave their number a name instead of calling it wrong. The natural next sentence is theirs: which of those orders can still be cancelled?"
+  },
+  {
+   "id": "10#p2",
+   "type": "scene",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s06",
+   "title": "\"When a line hits a hundred percent, block the transaction. That is the entire point of having a budget.\"",
+   "subtitle": "Finance director — reviewing the threshold rules",
+   "text": "We can block, and we should also be clear about what happens next. Anything urgent then waits for a budget revision to be approved, which is days — and what people do in the meantime is book the spend to a category that still has room. If we require a second approver past a hundred instead, the spend stays visible and there is a name against the decision to exceed the plan. Shall we start there and turn blocking on for the categories where it really must be a hard stop? You did not refuse; you described what happens after the rule and offered a version that still gives the director control. Blocking on a few named categories is a smaller, more defensible policy than blocking everywhere, and you proposed it rather than waiting to be asked.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "answer": "We can block, and we should also be clear about what happens next. Anything urgent then waits for a budget revision to be approved, which is days — and what people do in the meantime is book the spend to a category that still has room. If we require a second approver past a hundred instead, the spend stays visible and there is a name against the decision to exceed the plan. Shall we start there and turn blocking on for the categories where it really must be a hard stop?",
+   "why": "You did not refuse; you described what happens after the rule and offered a version that still gives the director control. Blocking on a few named categories is a smaller, more defensible policy than blocking everywhere, and you proposed it rather than waiting to be asked."
+  },
+  {
+   "id": "10#l0",
+   "type": "line",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s07",
+   "title": "\"Is this number permission, or is it a prediction?\"",
+   "subtitle": "Lesson 10 · Line worth stealing",
+   "text": "It decides everything downstream. A prediction gets corrected when reality disagrees with it; permission gets enforced. The same 400 million on two documents needs two entirely different pieces of software.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "why": "It decides everything downstream. A prediction gets corrected when reality disagrees with it; permission gets enforced. The same 400 million on two documents needs two entirely different pieces of software."
+  },
+  {
+   "id": "10#l1",
+   "type": "line",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s07",
+   "title": "\"Which of the two headroom numbers is this screen showing — plan minus actual, or plan minus committed minus actual?\"",
+   "subtitle": "Lesson 10 · Line worth stealing",
+   "text": "On a fresh budget they are the same number, so a demo will never tell you. Ask it of every screen where somebody approves, signs or commits anything, because that is where the wrong answer costs money.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "why": "On a fresh budget they are the same number, so a demo will never tell you. Ask it of every screen where somebody approves, signs or commits anything, because that is where the wrong answer costs money."
+  },
+  {
+   "id": "10#l2",
+   "type": "line",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s07",
+   "title": "\"At which moment does this check run — when the spend is approved, or when the payment executes?\"",
+   "subtitle": "Lesson 10 · Line worth stealing",
+   "text": "Checking at payment is checking after the company is already contractually bound. Refusing then does not stop an overspend, it starts a dispute and adds late-payment interest to it.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "why": "Checking at payment is checking after the company is already contractually bound. Refusing then does not stop an overspend, it starts a dispute and adds late-payment interest to it."
+  },
+  {
+   "id": "10#l3",
+   "type": "line",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s07",
+   "title": "\"When this hits a hundred percent, do we block or do we escalate?\"",
+   "subtitle": "Lesson 10 · Line worth stealing",
+   "text": "A hard block does not stop the spend, it moves the spend into a category with room in it. Escalation keeps the transaction visible and puts a name against the decision to exceed the plan.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "why": "A hard block does not stop the spend, it moves the spend into a category with room in it. Escalation keeps the transaction visible and puts a name against the decision to exceed the plan."
+  },
+  {
+   "id": "10#l4",
+   "type": "line",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html#s07",
+   "title": "\"If someone raises this budget mid-quarter, what record does it leave?\"",
+   "subtitle": "Lesson 10 · Line worth stealing",
+   "text": "Without who, when, why and by how much, an increase after the fact is indistinguishable from hiding an overspend — and neither the auditor nor the person refused a spend last week can tell the difference.",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ],
+   "why": "Without who, when, why and by how much, an increase after the fact is indistinguishable from hiding an overspend — and neither the auditor nor the person refused a spend last week can tell the difference."
+  },
+  {
+   "id": "10",
+   "type": "lesson",
+   "lesson": "10",
+   "href": "lessons/10-a-budget-is-not-a-forecast.html",
+   "title": "A budget is not a forecast",
+   "subtitle": "Lesson 10 · Applied",
+   "text": "A forecast is a prediction of what will happen. A budget is permission for what is allowed to happen. Miss the difference and you build a module that reports history beautifully and controls nothing — while the department it was meant to hold in check spends money it does not have. Two documents that say the same number Ground floor Five states of the same đồng The idea Two numbers that look like the same number The danger One department, one quarter, five requests See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "thresholds",
+    "approval",
+    "budget revision"
+   ]
+  },
+  {
+   "id": "11#s01",
+   "type": "section",
    "lesson": "11",
-   "href": "",
-   "title": "Forecasting cash you do not have yet",
-   "subtitle": "Lesson 11 · not written yet",
-   "text": "Why a cash forecast is built from due dates rather than trend lines, what a scenario is for, and how to set an alert threshold that is neither noise nor silence.",
+   "href": "lessons/11-forecasting-cash.html#s01",
+   "title": "Most of next quarter has already happened",
+   "subtitle": "Lesson 11 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. Say the word \"forecast\" to a developer and they think of a model. A curve fitted to history, a confidence interval, an argument about which library. That instinct is wrong here, and it is worth killing early. Sit with a finance person while they work out whether the company can survive to the end of the quarter and you will not see a model. You will see a list. Payroll goes out on the fifth of every month, and it is the same number give or take a bonus. Rent goes out on the second. The loan repayment schedule was agreed two years ago and is printed on a piece of paper in a drawer. Four invoices sit in receivables , each with a due date written on it. Two suppliers are owed on terms that were negotiated before the goods even arrived — payables , with their own dates. Add it up and something uncomfortable becomes obvious: most of next quarter's cash movement is already knowable today. It is not hiding in a statistical pattern. It is sitting in rows that already exist, waiting for a date to arrive. What you already know The opening balance. Four invoice due dates. Three payrolls. Three rents. Two supplier payments generated from agreed terms. A term loan instalment. A VAT payment already declared and approved. One line in an approved budget. put each one on the day it falls What that gives you A balance for every day of the horizon. Lumpy, not smooth — because real money arrives in lumps, on the days things fall due. the only part that is estimated What is left over The small stuff nobody has a document for: petty cash, fuel, card fees, the odd small sale. That residue is averaged from history. It is the smallest input and the only statistical one. So a cash forecast is mostly an act of collection, not prediction. The forecast's job is to line up obligations on a calendar and tell you the balance on each day. Whether the company survives to Tết is a question with an arithmetic answer, and somebody just has to do the arithmetic. That reframing changes what you build. You are not choosing a model. You are making sure every dated obligation the company already has is findable by one query, on the right day, with the right sign. In the code One run is a ForecastRun row: a company, a scenario, a method, a horizon_start and horizon_end , and a Granularity . It writes one CashFlowForecast row per period, holding projected_inflow , projected_outflow and projected_closing . Every one of those columns is updatable = false on the run: re-forecasting is a new run, never an edit to an old one. ForecastRunStatus is RUNNING → COMPLETED | FAILED , and a failed run keeps its row with the reason attached rather than vanishing. Tiếng Việt Dự báo dòng tiền không phải là dự đoán bằng mô hình thống kê. Phần lớn tiền của quý tới đã biết từ hôm nay: lương ngày 5, thuê mặt bằng ngày 2, lịch trả nợ vay ký từ hai năm trước, hạn từng hoá đơn. Việc của hệ thống là xếp tất cả lên một cuốn lịch rồi cộng lại, chứ không phải vẽ một đường xu hướng.",
    "tags": [
     "forecast",
     "scenario",
     "alert threshold",
-    "seasonality"
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
    ]
   },
   {
-   "id": "12",
-   "type": "planned",
+   "id": "11#s02",
+   "type": "section",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s02",
+   "title": "Five sources, and only one of them is a guess",
+   "subtitle": "Lesson 11 · The idea",
+   "text": "CF-10 lists exactly what a forecast is built from. Read it as five separate pipes, not one algorithm, because that is how it has to be coded and that is how it fails. History The average of what actually moved over the past few months, spread across the horizon. The only statistical source on this list. ForecastMethod.HISTORICAL_AVG , window from cashflow_settings.forecast_history_months . Payment schedules from buying and selling Dated lines generated from the terms agreed with each partner. Nobody types them; they fall out of DPO and DSO . PaymentSchedule · CF-15. Recurring costs Rent, payroll, social insurance, the licence fee. Boring, and the most reliable number in the whole forecast. RecurringTemplate · TM-02. The budget plan Money somebody has approved but not yet committed — a campaign, a machine, a hire. Planned, so less certain than a schedule and more certain than an average. Transactions already scheduled Individual payments approved and dated: a tax payment, a loan instalment, a one-off settlement. Known to the đồng and to the day. Four of those five are lookups. You are not estimating a payroll — you are reading it. You are not estimating when an invoice falls due — the date is a column. The only place where anything is genuinely extrapolated is the first line, and in a real SME's forecast it is usually the smallest of the five. Which is worth saying out loud in a meeting, because it flips the conversation. When somebody asks how accurate the forecast is, the honest answer is not a percentage. It is: this much of it is arithmetic on rows we already hold, and this much is an average — here is the split. A forecast is not a claim about the future. It is a claim about what is already on the books, arranged by date. Two more mechanics matter before you can read the tables. The first is that projected cash flow and real cash flow are not the same column. Money that has genuinely moved is ACTUAL and lands in the closing balance. Money that is scheduled or forecast is PLANNED , and money approved and all but certain is COMMITTED — both of those land only in the projected balance. Three levels of certainty, three different sums, one table. The second is granularity. The same run can be sliced by day, week, month, quarter or year, and the slice changes what you are able to see. How far the horizon has to reach is a different question, and the cash conversion cycle answers it: a company funding thirty-five days of its own trading cycle cannot plan on a two-week view. Slice by month and a hole that opens on the twelfth and closes on the twentieth never appears, because the month ends comfortably positive. That is not a bug in the forecast — it is the forecast answering the question you asked. In the code EntryStatus = ACTUAL | PLANNED | COMMITTED and EntrySource = TRANSACTION | FORECAST | SCHEDULE | BANK | INVOICE . Note that schedules and invoice due dates are one CF-10 source but two sources here, deliberately: a wrong number from a SCHEDULE entry is repaired by editing a payment_schedules row, a wrong number from an INVOICE entry is repaired in scf-service and replayed. Same column, two different places to go when the figure is wrong. Granularity carries its own startOf and endOf so the chart and the forecast cut a week at the same place — ISO Monday, never WeekFields.of(Locale) , which would give two environments two answers. Tiếng Việt CF-10 nêu năm nguồn, và chỉ nguồn đầu tiên — trung bình lịch sử — là ước lượng. Bốn nguồn còn lại là tra cứu: lịch thanh toán sinh từ điều khoản, chi phí định kỳ, kế hoạch ngân sách, giao dịch đã lên lịch. Nói \"dự báo chính xác bao nhiêu phần trăm\" là hỏi sai câu; câu đúng là bao nhiêu phần của nó là số đã có sẵn.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ]
+  },
+  {
+   "id": "11#s03",
+   "type": "section",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s03",
+   "title": "Three ways this feature gets built wrong",
+   "subtitle": "Lesson 11 · The danger",
+   "text": "The first one you will meet in a refinement session, phrased helpfully. We already store the daily bank balance. Fit a line through the last six months and extend it. It is cheap, it runs, and it produces a chart that is worse than no chart. It is also the lesson 01 mistake wearing a new hat: instead of dividing revenue by thirty, you are now smoothing a balance. Two reasons, and both are fatal. A trend line smooths. Smoothing is the entire point of a trend line — it removes the lumps to show the direction. But in a cash forecast the lumps are the subject. Nobody goes bankrupt from a gentle downward slope; they go bankrupt on the Tuesday three payments happen to collide. Average those three payments across the month and the chart shows a comfortable balance for the exact week the account is empty. And a trend line can only see what has already happened. A 420 million invoice falling due in six weeks, from a customer who has never placed an order that size before, has no precedent in the history — so the line does not bend for it at all. The single largest movement in the next quarter is invisible to the method, and it is invisible precisely because it is unusual, which is precisely why it matters. The line you never cross A forecast is assembled from dated obligations. It is never extrapolated from a balance. The history average is one input among five, and it belongs to the residue — the small daily traffic nobody holds a document for. Everything with a date on it goes in on its date. Get this backwards and you have rebuilt the mistake from lesson 01 one layer higher: a chart that looks healthy during the week the company loses its liquidity . The second: a scenario that was run to be right A scenario is the same inventory of obligations, run again with one assumption changed. The largest customer pays thirty days late. The financing offer is declined. A big order lands. Nothing else moves — same invoices, same payroll, same terms. People misunderstand what that is for. They treat scenarios as competing forecasts and then argue about which one to believe, which is a conversation with no end. A scenario is not a bet. It is a probe: change one assumption, see whether the company still survives, and the ones that break it are the assumptions the business is actually resting on. That output is a list of things to watch, and it is far more useful than a number. \"If Đại Thành pays thirty days late we are twelve days short in month two\" tells a managing director exactly what to do on Monday: ring Đại Thành. A forecast that produces a single balance produces no such instruction. Which is also why the interesting scenarios are not the pessimistic ones. In the simulator below, the scenario that hurts most is the one where a large order is won . The stock has to be bought and the supplier paid before the customer pays anything, and if the customer pays outside the horizon then the forecast can see the whole cost of the order and none of the benefit. Growth killing a profitable company, exactly as in lesson 01, this time showing up in the planning tool. In the code ForecastScenario , table forecast_scenarios (CF-12). Each company has exactly one is_baseline = true , enforced by the partial unique index uk_forecast_scenarios_baseline — so promoting a new baseline must demote the old one in the same transaction or PostgreSQL refuses both. The assumptions column is free-form JSONB, but the calculator understands only four keys: revenueGrowthPct , paymentDelayDays , costInflationPct , collectionRatePct . Keys it does not know are stored untouched rather than dropped, and a badly typed value is ignored rather than thrown — one mistyped key must not take down a whole run. The third: the threshold nobody briefs properly Here is the requirement as it is written: the system must warn when the forecast shows a cash shortfall, based on a configured threshold. One sentence, and it hides the hardest design decision in the module. Set the threshold at zero and the alert reads \"the projected balance is negative\". That feels rigorous and it is nearly useless, because by the time a period closes below zero the trouble has already started — the alert is a post-mortem with a notification icon. Worse, at a weekly or monthly slice a short hole can open and close between two period ends and never be seen at all. Set it high and every dip fires. Thirteen weeks in a quarter, an alert in eleven of them, and you have taught the finance manager that this system cries wolf. The next real alert arrives into a mailbox where alerts from this system are deleted unread. That failure is invisible in every test you can write, and it is total. A useful starting point is not zero and not a round number somebody liked. It is the burn rate multiplied by the notice a human needs to do something — a fortnight to chase a customer, a month to arrange a facility. Put another way, the threshold is the amount of runway you want standing between the alert and the emergency. So the honest way to size a threshold is not to ask what number is correct. It is to ask how many alerts a human being will actually open in a month , and then find the highest threshold that stays under that budget while still catching every shortfall before it happens. Two costs, both measurable, one on each side. That is a product decision with numbers attached, and it belongs in a settings table where the customer can move it — not in a constant, and not in a YAML file that needs a deployment. In the code cashflow_settings holds three thresholds per company: shortfall_threshold_amount ( NOT NULL ), low_balance_threshold_amount and large_outflow_threshold_amount . On the last two, null means this alert type is switched off — writing 0 instead switches it on with a threshold of zero, the opposite intention. ShortfallDetector raises at most one balance alert per period: below the shortfall threshold is SHORTFALL , otherwise below the low-balance threshold is LOW_BALANCE , never both, because two emails about one week teach people to ignore both. Severity is read off the sign — negative closing is CRITICAL , still positive but under the threshold is WARNING . Tiếng Việt Ba cái bẫy: vẽ đường xu hướng qua số dư quá khứ (làm mất đúng những cục tiền gây vỡ nợ), chạy kịch bản để tìm đáp án đúng thay vì để tìm giả định mà công ty đang sống nhờ nó, và đặt ngưỡng cảnh báo mà không ai tính chi phí hai phía. Ngưỡng bằng 0 là báo cáo tử vong; ngưỡng quá cao thì tuần nào cũng kêu đến khi không ai đọc nữa.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ]
+  },
+  {
+   "id": "11#s04",
+   "type": "section",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s04",
+   "title": "Ninety days assembled in front of you",
+   "subtitle": "Lesson 11 · See it",
+   "text": "One company, 420 million in the bank on day 0, and sixteen obligations that already exist — four invoice due dates, three payrolls, three rents, three supplier payments on agreed terms, a VAT payment, a loan instalment, an approved budget line and a financing advance. Plus a flat 1.2 million a day of small traffic averaged from history: the only estimated number here. Blue bars are a comfortable balance, amber is below your alert threshold, red is below zero. Change one assumption with the scenario buttons, then move the threshold and watch the two counters fight each other. Find the range where every shortfall is caught before it happens and the number of alerts is still small enough that somebody would read them. Baseline Largest customer pays 30 days late Financing offer declined A big order lands Reset Alert threshold Raise an alert on any week whose projected closing balance falls below this 50.0m Lowest projected balance — Alerts fired — Shortfalls caught in advance — Notice on the first one — DAY 0 DAY 30 DAY 60 DAY 90 above the threshold below the threshold — an alert week below zero — a real shortfall Alerts this run would raise · cash_alerts The obligations the forecast is built from · everything below was knowable on day 0 Day numbers rather than calendar dates, so the same clicks always give the same answer. Weekly periods, thirteen of them across ninety days — one cash_flow_forecasts row each, one alert at most each, exactly as ShortfallDetector does it. \"Caught in advance\" means an alert fired for a week ending strictly before the first day in the red; an alert dated inside the hole is a report, not a warning. The arithmetic lives in finance/sim-11.js and has its own check: node tools/test-11.mjs .",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ]
+  },
+  {
+   "id": "11#s05",
+   "type": "section",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 11 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ]
+  },
+  {
+   "id": "11#s06",
+   "type": "section",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 11 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ]
+  },
+  {
+   "id": "11#s07",
+   "type": "section",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 11 · Take away",
+   "text": "\"Which of the five sources is this forecast actually reading today, and which are still stubs?\" A forecast wired to two of the five is not wrong, but it is systematically optimistic about the ones it cannot see. Ask early, write it on the screen, and nobody signs a payment believing a number that never counted the budget. \"How many alerts a month will the person receiving these actually open?\" This turns a threshold from an argument about the right number into arithmetic. Pick the noise budget first, then take the highest threshold that stays inside it and still catches every shortfall in advance. Both sides of the trade become measurable, and the setting becomes defensible. \"At this granularity, how short can a hole be and still be invisible?\" Monthly periods cannot see a nine-day hole in the middle of a month. That is not a bug, it is the question the run asked — but it needs to be a decision somebody made rather than a default nobody noticed. \"Which single assumption is this company's survival resting on?\" The output of scenario analysis worth having is not a balance, it is a name — one customer, one facility, one order. It converts a chart into an instruction for Monday morning, and it is the sentence that gets a developer invited back to the next planning meeting. \"Is this confidence figure a statistic, or a display convention?\" In this system it is a convention: a linear decay by period with a floor, tuned by configuration, chosen so a distant period stays readable rather than collapsing to three percent. Presenting a convention as a statistic is how a screen ends up promising a rigour nobody built. Tiếng Việt Một dự báo không bao giờ sai là dự báo không ai dùng để ra quyết định. Cái làm nó dùng được là sai theo một hướng đã biết, với biên độ đã biết — và biết rõ phần nào là số đã có sẵn, phần nào là ước lượng.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ]
+  },
+  {
+   "id": "11#s08",
+   "type": "section",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 11 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ]
+  },
+  {
+   "id": "11#q0",
+   "type": "quiz",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s05",
+   "title": "Your BA asks for the cash forecast to be a line fitted through the last six months of daily bank balance and extended ninety days. It is one library call. What is the strongest objection?",
+   "subtitle": "Lesson 11 · Test yourself",
+   "text": "It smooths away the lumps that cause shortfalls, and it cannot see a large invoice falling due in six weeks that has no precedent in the history Smoothing is what a trend line is for, and in a cash forecast the lumps are the subject — nobody runs out of money on a gentle slope, they run out on the Tuesday three payments collide. Worse, the single largest movement in the next quarter is usually the one with no precedent, so the line does not bend for it at all. Answering with a better model concedes the framing: this is not a modelling problem, it is a collection problem.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "answer": "It smooths away the lumps that cause shortfalls, and it cannot see a large invoice falling due in six weeks that has no precedent in the history",
+   "why": "Smoothing is what a trend line is for, and in a cash forecast the lumps are the subject — nobody runs out of money on a gentle slope, they run out on the Tuesday three payments collide. Worse, the single largest movement in the next quarter is usually the one with no precedent, so the line does not bend for it at all. Answering with a better model concedes the framing: this is not a modelling problem, it is a collection problem."
+  },
+  {
+   "id": "11#q1",
+   "type": "quiz",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s05",
+   "title": "CF-10 names five sources a forecast is built from. How many of them are statistical?",
+   "subtitle": "Lesson 11 · Test yourself",
+   "text": "One. The history average. The other four are lookups on dated rows that already exist Payment schedules, recurring costs, the budget plan and already-scheduled transactions are all read, not estimated. Only the history average is extrapolated, and in a small business it is usually the smallest of the five. Say that number out loud when somebody asks how accurate the forecast is: most of it is arithmetic on rows you already hold.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "answer": "One. The history average. The other four are lookups on dated rows that already exist",
+   "why": "Payment schedules, recurring costs, the budget plan and already-scheduled transactions are all read, not estimated. Only the history average is extrapolated, and in a small business it is usually the smallest of the five. Say that number out loud when somebody asks how accurate the forecast is: most of it is arithmetic on rows you already hold."
+  },
+  {
+   "id": "11#q2",
+   "type": "quiz",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s05",
+   "title": "The shortfall threshold is zero and the forecast runs at weekly granularity. A hole opens on day 50 and closes on day 57. What does the alert actually tell the finance manager?",
+   "subtitle": "Lesson 11 · Test yourself",
+   "text": "Nothing until the week ending day 56 closes negative — six days after the account was already empty A period is only measured at its close. With the threshold at zero the earliest a week can fire is the week that already ended negative, which is inside the hole rather than before it. And a shorter hole — day 32 to day 33, say — sits between two period ends and is never seen at all. The threshold and the granularity together decide what is visible, and zero makes the alert a post-mortem.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "answer": "Nothing until the week ending day 56 closes negative — six days after the account was already empty",
+   "why": "A period is only measured at its close. With the threshold at zero the earliest a week can fire is the week that already ended negative, which is inside the hole rather than before it. And a shorter hole — day 32 to day 33, say — sits between two period ends and is never seen at all. The threshold and the granularity together decide what is visible, and zero makes the alert a post-mortem."
+  },
+  {
+   "id": "11#q3",
+   "type": "quiz",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s05",
+   "title": "A user changes one assumption and re-runs the forecast. What should happen to the forecast_runs row?",
+   "subtitle": "Lesson 11 · Test yourself",
+   "text": "A new run row is created; the old one keeps its numbers, its method and its status Method, horizon and granularity are all updatable = false on ForecastRun, and COMPLETED is a final state. An alert raised last Tuesday points at the run that produced it, and cash_alerts.threshold_amount snapshots the threshold that was configured at that moment. Both exist so a decision taken on old numbers can still be explained after somebody changes the settings. Overwrite the run and the explanation is gone.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "answer": "A new run row is created; the old one keeps its numbers, its method and its status",
+   "why": "Method, horizon and granularity are all updatable = false on ForecastRun, and COMPLETED is a final state. An alert raised last Tuesday points at the run that produced it, and cash_alerts.threshold_amount snapshots the threshold that was configured at that moment. Both exist so a decision taken on old numbers can still be explained after somebody changes the settings. Overwrite the run and the explanation is gone."
+  },
+  {
+   "id": "11#q4",
+   "type": "quiz",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s05",
+   "title": "Finance asks for three scenarios. After the runs, which output is worth putting in front of the managing director?",
+   "subtitle": "Lesson 11 · Test yourself",
+   "text": "The name of the one assumption that, changed on its own, is enough to make the company run out — and the date it happens A scenario is a probe, not a bet. Averaging three of them produces a number describing nothing, and confidence_level in this system is a display convention that decays with distance, not a statistical estimate. The useful output is a name and a date: if Đại Thành pays thirty days late we are short on the twelfth of next month. That is a chart turned into an instruction for Monday morning.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "answer": "The name of the one assumption that, changed on its own, is enough to make the company run out — and the date it happens",
+   "why": "A scenario is a probe, not a bet. Averaging three of them produces a number describing nothing, and confidence_level in this system is a display convention that decays with distance, not a statistical estimate. The useful output is a name and a date: if Đại Thành pays thirty days late we are short on the twelfth of next month. That is a chart turned into an instruction for Monday morning."
+  },
+  {
+   "id": "11#p0",
+   "type": "scene",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s06",
+   "title": "\"For the cash forecast, fit a line through the last six months of the balance and extend it ninety days. It is one library call.\"",
+   "subtitle": "Your BA — backlog refinement",
+   "text": "It is not a modelling problem. Ninety percent of the next ninety days is already in our tables — sixteen dated obligations plus four invoice due dates. A line through the balance averages those into a smooth slope, so the chart looks safe in the week three of them land together, and it cannot see the 420 million invoice due in six weeks because nothing like it has happened before. Could we assemble it from the dated rows and use an average only for the small residue? You moved the conversation from statistics to inventory, gave one concrete failure and one concrete blind spot, and finished with a proposal that is cheaper than the model they were imagining. That is the sentence that gets a developer into the design conversation instead of the ticket queue.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "answer": "It is not a modelling problem. Ninety percent of the next ninety days is already in our tables — sixteen dated obligations plus four invoice due dates. A line through the balance averages those into a smooth slope, so the chart looks safe in the week three of them land together, and it cannot see the 420 million invoice due in six weeks because nothing like it has happened before. Could we assemble it from the dated rows and use an average only for the small residue?",
+   "why": "You moved the conversation from statistics to inventory, gave one concrete failure and one concrete blind spot, and finished with a proposal that is cheaper than the model they were imagining. That is the sentence that gets a developer into the design conversation instead of the ticket queue."
+  },
+  {
+   "id": "11#p1",
+   "type": "scene",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s06",
+   "title": "\"I have stopped reading your cash alerts. There were nine last month and nothing happened.\"",
+   "subtitle": "The customer's finance manager — three weeks after go-live",
+   "text": "Nine a month means the threshold is doing the wrong job. How many would you actually open — two, three? Give me that number and I will find the highest threshold that stays under it and still fires before every dip below zero we have had in the last six months. Then the setting has a reason behind it instead of a guess. You treated the noise as a measurable cost rather than a complaint, asked the one question that turns the threshold into arithmetic, and left her holding the decision that is genuinely hers. That conversation also produces the number to write in the settings screen's help text.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "answer": "Nine a month means the threshold is doing the wrong job. How many would you actually open — two, three? Give me that number and I will find the highest threshold that stays under it and still fires before every dip below zero we have had in the last six months. Then the setting has a reason behind it instead of a guess.",
+   "why": "You treated the noise as a measurable cost rather than a complaint, asked the one question that turns the threshold into arithmetic, and left her holding the decision that is genuinely hers. That conversation also produces the number to write in the settings screen's help text."
+  },
+  {
+   "id": "11#p2",
+   "type": "scene",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s06",
+   "title": "\"Drop scenarios. It is a what-if screen and nobody uses what-if screens.\"",
+   "subtitle": "Product owner — scoping the sprint",
+   "text": "The forecast alone gives them a date. Scenarios give them a name — which single customer, or which facility, they have to deal with on Monday for that date to move. That is the only actionable output in the module. If we need the space, could we cut the large-outflow alert instead and keep scenarios? You separated what measures from what tells somebody to act, put it in one sentence, and volunteered a smaller cut yourself. Offering the alternative is what makes it a negotiation instead of a refusal.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "answer": "The forecast alone gives them a date. Scenarios give them a name — which single customer, or which facility, they have to deal with on Monday for that date to move. That is the only actionable output in the module. If we need the space, could we cut the large-outflow alert instead and keep scenarios?",
+   "why": "You separated what measures from what tells somebody to act, put it in one sentence, and volunteered a smaller cut yourself. Offering the alternative is what makes it a negotiation instead of a refusal."
+  },
+  {
+   "id": "11#l0",
+   "type": "line",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s07",
+   "title": "\"Which of the five sources is this forecast actually reading today, and which are still stubs?\"",
+   "subtitle": "Lesson 11 · Line worth stealing",
+   "text": "A forecast wired to two of the five is not wrong, but it is systematically optimistic about the ones it cannot see. Ask early, write it on the screen, and nobody signs a payment believing a number that never counted the budget.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "why": "A forecast wired to two of the five is not wrong, but it is systematically optimistic about the ones it cannot see. Ask early, write it on the screen, and nobody signs a payment believing a number that never counted the budget."
+  },
+  {
+   "id": "11#l1",
+   "type": "line",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s07",
+   "title": "\"How many alerts a month will the person receiving these actually open?\"",
+   "subtitle": "Lesson 11 · Line worth stealing",
+   "text": "This turns a threshold from an argument about the right number into arithmetic. Pick the noise budget first, then take the highest threshold that stays inside it and still catches every shortfall in advance. Both sides of the trade become measurable, and the setting becomes defensible.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "why": "This turns a threshold from an argument about the right number into arithmetic. Pick the noise budget first, then take the highest threshold that stays inside it and still catches every shortfall in advance. Both sides of the trade become measurable, and the setting becomes defensible."
+  },
+  {
+   "id": "11#l2",
+   "type": "line",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s07",
+   "title": "\"At this granularity, how short can a hole be and still be invisible?\"",
+   "subtitle": "Lesson 11 · Line worth stealing",
+   "text": "Monthly periods cannot see a nine-day hole in the middle of a month. That is not a bug, it is the question the run asked — but it needs to be a decision somebody made rather than a default nobody noticed.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "why": "Monthly periods cannot see a nine-day hole in the middle of a month. That is not a bug, it is the question the run asked — but it needs to be a decision somebody made rather than a default nobody noticed."
+  },
+  {
+   "id": "11#l3",
+   "type": "line",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s07",
+   "title": "\"Which single assumption is this company's survival resting on?\"",
+   "subtitle": "Lesson 11 · Line worth stealing",
+   "text": "The output of scenario analysis worth having is not a balance, it is a name — one customer, one facility, one order. It converts a chart into an instruction for Monday morning, and it is the sentence that gets a developer invited back to the next planning meeting.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "why": "The output of scenario analysis worth having is not a balance, it is a name — one customer, one facility, one order. It converts a chart into an instruction for Monday morning, and it is the sentence that gets a developer invited back to the next planning meeting."
+  },
+  {
+   "id": "11#l4",
+   "type": "line",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html#s07",
+   "title": "\"Is this confidence figure a statistic, or a display convention?\"",
+   "subtitle": "Lesson 11 · Line worth stealing",
+   "text": "In this system it is a convention: a linear decay by period with a floor, tuned by configuration, chosen so a distant period stays readable rather than collapsing to three percent. Presenting a convention as a statistic is how a screen ends up promising a rigour nobody built.",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ],
+   "why": "In this system it is a convention: a linear decay by period with a floor, tuned by configuration, chosen so a distant period stays readable rather than collapsing to three percent. Presenting a convention as a statistic is how a screen ends up promising a rigour nobody built."
+  },
+  {
+   "id": "11",
+   "type": "lesson",
+   "lesson": "11",
+   "href": "lessons/11-forecasting-cash.html",
+   "title": "Forecasting cash you do not have yet",
+   "subtitle": "Lesson 11 · Applied",
+   "text": "Lesson 01 ended on a rule: never derive cash flow from revenue. This is what you build instead. Not a prediction dressed up in statistics — an inventory of obligations that already exist, laid out on a calendar until somebody can see the week the money runs out. Most of next quarter has already happened Ground floor Five sources, and only one of them is a guess The idea Three ways this feature gets built wrong The danger Ninety days assembled in front of you See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "forecast",
+    "scenario",
+    "alert threshold",
+    "payment schedule",
+    "recurring cost",
+    "CF-10",
+    "CF-11",
+    "CF-12"
+   ]
+  },
+  {
+   "id": "12#s01",
+   "type": "section",
    "lesson": "12",
-   "href": "",
-   "title": "Who may sign, and who may not",
-   "subtitle": "Lesson 12 · not written yet",
-   "text": "Segregation of duties, chief accountant against person in charge of accounting, and why a hard-coded approval chain deadlocks hundreds of thousands of perfectly legal micro-enterprises.",
+   "href": "lessons/12-who-may-sign.html#s01",
+   "title": "Three accounts, never one",
+   "subtitle": "Lesson 12 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. A company owes a supplier a hundred and eighty million đồng. Follow the payment through the system and count the hands it passes through. An accountant opens the supplier's chứng từ , keys in the amount, the account and the date, and submits it. A manager opens the request, checks it against what was budgeted, and approves it. Then a third person — the cashier — logs into the bank, sends the money, comes back, marks the entry as executed and attaches the payment order the bank stamped. Three different people, three different logins. A fourth signature sits between them, and it is different in kind: the chief accountant's. The other three are decisions about the transaction — should this be paid, was it paid. That one is a decision about the paperwork: is this fit to go into the books at all. The obvious question is why the software should care. The company can hire whomever it likes; why should the product have an opinion about which employee presses which button? Ask what one account holding all four could do. Raise a payment to an account it controls. Approve it. Mark it executed. Attach a document naming a different supplier. Every one of those steps is ordinary on its own, and the four together are a theft that leaves a complete, internally consistent, entirely false record behind it. The separation is not ceremony. It exists so that the audit trail is written by more than one hand — which means faking it requires more than one person to agree to. In the code A PaymentRequest in workflow-service carries requester_user_id and a snapshot of requester_name ; each human step becomes an ApprovalTask row with its camunda_task_id , candidate_group , assignee_user_id and completed_at . The cashier's step is not a Camunda task at all — it is TransactionService , where requireExecutorNotMaker and requireExecutorNotApprover run before a transaction may reach EXECUTED , and Roles.CASHIER alone holds execute . Tiếng Việt Một khoản chi đi qua ít nhất ba tài khoản khác nhau: người lập chứng từ, người duyệt chi, và thủ quỹ xác nhận tiền đã rời tài khoản. Lý do không phải hình thức — một người nắm cả ba vai vừa chuyển được tiền vừa dựng được một bộ hồ sơ khớp nhau hoàn toàn nhưng sai sự thật. Tách vai là để vết kiểm toán do nhiều người cùng viết.",
    "tags": [
     "segregation of duties",
+    "bất kiêm nhiệm",
     "Luật Kế toán 2015",
+    "Nghị định 174/2016",
     "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
     "delegation",
-    "workflow"
+    "approval workflow",
+    "micro-enterprise"
+   ]
+  },
+  {
+   "id": "12#s02",
+   "type": "section",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s02",
+   "title": "The law forbids a list, not a principle",
+   "subtitle": "Lesson 12 · The idea",
+   "text": "The Vietnamese name for that separation is nguyên tắc bất kiêm nhiệm , and the natural way for a developer to read it is as a general rule: roles must be split, so split them. That is not what the statute says, and the difference is the most commercially valuable thing in this lesson. Read the accounting law the way you would read an API contract — what it obliges, what it forbids, what breaks if you get it wrong — and what you find is a closed list of forbidden combinations. Three entries: A manager, a storekeeper, a cashier or a person who buys and sells the company's assets may not also do the accounting Luật Kế toán 2015 Điều 52 khoản 4, spelled out in Nghị định 174/2016/NĐ-CP Điều 19 khoản 3. A close relative of the legal representative or the director may not be chief accountant or head of finance Parent, spouse, child, adopted child, sibling. Luật Kế toán 2015 Điều 52 khoản 3 and Nghị định 174/2016/NĐ-CP Điều 19 khoản 2. A spending voucher needs two signatures before the money moves The person authorised to approve the spend, and the chief accountant or a person they authorised — Luật Kế toán 2015 Điều 19 khoản 3. Thông tư 99/2025/TT-BTC Điều 10 khoản 4 then forbids the chief accountant signing in the manager's slot, so those two signatures must be two people. Now the part that is easy to miss. Outside that list, the default is permission , and it is written down rather than merely implied. Nghị định 174/2016/NĐ-CP Điều 18 khoản 1: an accounting unit may have the person doing its accounting hold other jobs as well, as long as accounting law does not specifically prohibit them. So put the product's own rule to the list. \"The person who raised the payment may not be the one who marks it executed.\" Which of the three entries is that? None. Nothing in the statute forbids it. The law names a closed list of forbidden pairs. Everything outside the list is your product's opinion — a good opinion, and still yours. What the law does require is one level up. Luật Kế toán 2015 Điều 39 khoản 2, and more recently Thông tư 99/2025/TT-BTC Điều 3 khoản 2, put the obligation on the company to write internal control rules of its own that divide who creates a transaction from who controls it. The duty is to have rules. The content of those rules is the company's to decide, and separating maker from approver from cashier is an excellent way of discharging it. It is not the duty itself. And that distinction is worth money for one blunt reason: a rule that comes from law cannot be relaxed for a customer who asks, and a rule that is a product decision must be. Sooner or later a lawful customer will need it relaxed. Present the second kind as the first and you have told a paying company that its legal structure is illegal — while sounding completely certain. In the code The project's two documents disagree here, and the FRS is the one that is right. The research annex Định Nghĩa Và Pháp Luật.md presents segregation as statutory compulsion — \"hệ thống bắt buộc phải… rào cản kỹ thuật cứng\". FRS §5.3 SEC-08 corrects it in its own text: this is a quyết định sản phẩm under Điều 39 khoản 2 and Thông tư 99/2025 Điều 3 khoản 2, \"không phải nghĩa vụ luật định độc lập\", and it \"không được trình bày với người dùng như một đòi hỏi của luật\". Follow the FRS. The four identity checks split the same way: DUAL_SIGNATURE_SAME_PERSON in WorkflowErrorCodes is law; APPROVER_IS_REQUESTER , and EXECUTED_BY_MAKER and EXECUTED_BY_APPROVER in TransactionErrorCodes , are the house rules. Standing in for someone, for two weeks Notice that Điều 19 khoản 3 does not say \"the chief accountant\". It says the chief accountant or a person they authorised . The statute contemplates a stand-in, which is why the system has time-boxed delegation (TM-14) rather than pretending nobody ever goes on leave. It runs on two branches, and the interesting part is the third row. Standing in for an approver For the period of the delegation, a task that would have waited in the delegator's queue also appears in the delegate's. Nobody's role changes. approval_delegations · workflow-service. Granting one functional permission Exactly one named operation for the period — draft a credit-limit contract template, say — instead of handing over a whole DIRECTOR role that is far wider than the job being lent. permission_grants · identity-service. What may never be delegated by either route Approving money. The cashier's confirmation that cash really moved. The chief accountant's signing step. User administration. And you may only give away authority you actually hold. That last row is the load-bearing one. Delegation is precisely the mechanism that would quietly undo everything this section has established — one account collecting both signatures on a payment, legitimately, through a feature built to be helpful. So the delegation table is where the segregation rules have to be re-checked, not the place where they get skipped. In the code Both branches carry the same shape: from_date , to_date , reason , a recorded grantor, an active flag, and a CHECK (to_date >= from_date) . Both refuse self-dealing in the schema — ck_delegations_self and ck_permission_grants_self . ApprovalFlowStep.allow_delegate decides per step whether delegation reaches it at all, and DELEGATE_NOT_QUALIFIED refuses a stand-in who does not qualify for the chief-accountant group. Tiếng Việt Luật cấm theo một danh sách đóng: kế toán không được kiêm thủ quỹ, thủ kho, quản lý điều hành hay người mua bán tài sản; người thân của giám đốc không được làm kế toán trưởng; chứng từ chi tiền phải có hai chữ ký của hai người trước khi chi. Ngoài danh sách đó, Nghị định 174/2016 Điều 18 khoản 1 cho phép kiêm nhiệm. Việc tách người lập khỏi người thực chi là quyết định của sản phẩm, không phải nghĩa vụ luật định — và vì thế phải nới được.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ]
+  },
+  {
+   "id": "12#s03",
+   "type": "section",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s03",
+   "title": "The exemption clause nobody looked up",
+   "subtitle": "Lesson 12 · The danger",
+   "text": "Here is how this goes wrong in practice, and it went wrong in this project before it was caught. A legal review found Điều 19 khoản 3, read that a spending voucher needs the chief accountant's signature, and built a mandatory chief-accountant step into the payment workflow. Correct article, correct reading, and a product that a large slice of its own target market cannot use — because the review looked up the obligation clause and not the exemption clause sitting a few articles away. There are three exemptions and they do not line up with each other, which is exactly why they are easy to collapse into one. One: the carve-out with no size test in it Both bars from the last section — the one on holding another job, and the one on relatives — carve out doanh nghiệp tư nhân and công ty trách nhiệm hữu hạn do một cá nhân làm chủ sở hữu . Luật Kế toán 2015 Điều 13 khoản 7 and Điều 52 khoản 4. Read them and notice what is absent: neither one mentions size, revenue, headcount or capital at all. Which means the scenario your validation layer probably rejects is lawful. The director of a one-member LLC may hold the storekeeper's job and the cashier's job himself, and may employ his own sister as chief accountant. Not as a tolerated irregularity — as a legal structure the statute names on purpose. A product that refuses it is refusing a legal customer, and telling them they are breaking a law they are not breaking. There is a modelling trap inside the second group. It requires the owner to be an individual . A one-member LLC owned by a holding company is not in this group at all — it falls into the third one, below. Storing \"TNHH MTV\" and calling it done is not enough to decide anything; you need to know who the member is. Two: the one the size test does bind Nghị định 174/2016/NĐ-CP Điều 19 khoản 3 extends the same exemption to companies of other legal forms — a two-member LLC, a joint-stock company — on two conditions that must both hold: the company is a micro-enterprise, and it has no state capital. State capital is never exempt, at any size, in any form. So the size test binds one of the three groups and not the other two. Collapse them into a single \"is this company small enough\" check and you get the first group wrong in the direction that costs you customers. Three: the job title that need not exist Nghị định 174/2016/NĐ-CP Điều 20 khoản 2 điểm b lets a micro-enterprise appoint a phụ trách kế toán instead of a chief accountant — permanently, with no time limit, unlike the twelve-month stopgap in khoản 1 for a company that has not managed to appoint one yet. Thông tư 58/2026/TT-BTC Điều 3 khoản 2, in force from 1 July 2026, states plainly that this person signs wherever a chief accountant would. Now put that next to a workflow with a hard-coded step whose candidate group is chief-accountant . The company lawfully has nobody in that group. The task is created, it enters a queue with no members, and it stays there. Not until somebody is hired — forever, because the arrangement is permanent and entirely legal. Every payment that company tries to make stops at the same step. That is not an edge case; it is several hundred thousand registered companies. And notice what the fix is not. The obligation in Điều 19 khoản 3 is a signature , and the article itself offers three lawful people to collect it from. Binding a workflow step to a job title rather than to the authority behind it is the actual bug. Which makes the control level a derived value Everything above is decided by facts about the company, so the system stores the facts and computes the rest. The company declares its sector, its social-insurance headcount, its revenue, its capital, its legal form, whether the owner is a person or an organisation, and whether there is state capital in it. From that, Nghị định 80/2021/NĐ-CP Điều 5 gives a size , and the rule engine reads the exemptions off the pair. The sizing arithmetic is worth getting exactly right, because it is easy to write as three OR conditions and be wrong. Headcount is a precondition : the average number of employees on social insurance across the twelve months of the preceding year, and if it is over the bound the money figures never get a vote. Only once headcount passes does the company need either revenue for the preceding year or total capital at 31 December to be under its bound — either one, not both. And the bounds differ by sector: for agriculture, forestry, fishery, industry and construction a micro-enterprise is ten employees with revenue under 3 tỷ or capital under 3 tỷ; for trade and services it is ten employees with revenue under 10 tỷ or capital under 3 tỷ. A company that has not traded yet has no revenue figure, so capital decides alone. Then the fallback, which is the part nobody writes a ticket for. When the legal profile is incomplete, or declared and not yet verified, the answer is the strictest mode — not the most convenient one. A missing fact is never read as permission. It works in the other direction too: declaring a smaller size than the truth to reach a support policy is its own offence under Nghị định 80/2021, with the money paid back, so an undeclared profile must never be given the benefit of the doubt. The line you never cross A control mode is a value derived from declared facts. It is never a toggle. Never ship a checkbox that turns off segregation of duties . Store what the company legally is — legal form, owner individual or organisation, size, state capital — and derive the mode from it. The technical effect is identical and the accountability is not: a ticked box is what an administrator ticks when a screen is in the way, and nobody can explain it a year later; a declared legal form is a statement about a legal person, with a tax code behind it and somebody answerable for it. In the code companies carries four columns rather than one enum, because the two exemption axes do not line up: enterprise_scale , legal_form , owner_is_individual , has_state_capital (V9). ck_companies_owner_declared forces the form and the owner to be declared together or not at all, and the NOT NULL defaults are the strict end — 'MEDIUM' and false . The derived answer is InternalControlPolicyResponse(companyId, chiefAccountantStepRequired, segregationExempt) , which has a strict(UUID) factory for when the profile cannot be read. Every change appends a row to company_legal_profile_histories . V9's own comment says the system does not have, and must not have, a disable_segregation_of_duties column. In the code The micro branch does not hide the step, it routes around it: approval_flows.process_definition_key points at payment-approval-micro , a BPMN with no UserTask_ChiefAccountant in it at all, and ChiefAccountantStep.isPresentIn() reads that off the deployed model rather than trusting a configuration row. Tiếng Việt Miễn trừ bất kiêm nhiệm áp cho doanh nghiệp tư nhân và công ty TNHH do một cá nhân làm chủ sở hữu ở mọi quy mô (Điều 13 khoản 7, Điều 52 khoản 4 Luật Kế toán 2015); các loại hình khác chỉ được miễn khi vừa siêu nhỏ vừa không có vốn nhà nước (Nghị định 174/2016 Điều 19 khoản 3). Doanh nghiệp siêu nhỏ còn được bố trí phụ trách kế toán thay kế toán trưởng vĩnh viễn. Chế độ kiểm soát là giá trị suy ra từ hồ sơ pháp lý đã khai — chưa khai thì áp chế độ chặt nhất.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ]
+  },
+  {
+   "id": "12#s04",
+   "type": "section",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s04",
+   "title": "Fill in a company, watch the chain change",
+   "subtitle": "Lesson 12 · See it",
+   "text": "This is the rule engine, with nothing hidden. Declare a company's legal profile on the left and the classification under Nghị định 80/2021 Điều 5 appears above the result, one test at a time, so you can see which condition decided it. Below that is the approval chain the engine builds, and every identity check it does or does not impose — each one tagged LUẬT where a statute requires it and SẢN PHẨM where it is the product's own choice. Start with TNHH MTV Hải Đăng : six employees, the director is also the storekeeper and the cashier, and his sister is the chief accountant. That company is lawful, and a naive implementation refuses it twice over. Then try DNTN Sơn Hà , far too large to be an SME and exempt anyway, and Chưa khai hồ sơ to see the fallback. Lĩnh vực hoạt động The sector decides which column of Điều 5 applies Thương mại · dịch vụ Nông–lâm–thuỷ sản · công nghiệp · xây dựng Lao động BHXH bình quân năm A precondition — checked before any money figure gets a vote 6 Tổng doanh thu năm liền kề tỷ đồng, from last year's income statement 8 Tổng nguồn vốn tỷ đồng, at 31/12 of the preceding year 2 Mới thành lập, chưa phát sinh doanh thu — capital decides alone Loại hình doanh nghiệp legal_form — the column the biggest exemption turns on Chủ sở hữu là cá nhân — owner_is_individual Có vốn nhà nước — has_state_capital Hồ sơ pháp lý đã khai và đã đối chiếu enterprise_scale — segregation_exempt — chief_accountant_step_required — Human accounts needed — Notice what never happens: no step is ever removed from the chain. The chief accountant's signature is required by Điều 19 khoản 3 whatever the company's size — what a micro-enterprise changes is who may hold the pen. The thresholds are frozen from Nghị định 80/2021/NĐ-CP Điều 5 so two readers see the same thing. The logic lives in finance/sim-12.js and has its own check: node tools/test-12.mjs .",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ]
+  },
+  {
+   "id": "12#s05",
+   "type": "section",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 12 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in front of the customer whose company you have just called illegal. 0 / 5 answered",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ]
+  },
+  {
+   "id": "12#s06",
+   "type": "section",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 12 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ]
+  },
+  {
+   "id": "12#s07",
+   "type": "section",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 12 · Take away",
+   "text": "\"Is that a legal requirement, or is it our own control?\" The question this whole lesson exists for. Law cannot be relaxed for a customer who asks; a house rule must be, because eventually a lawful customer will need it relaxed. Confusing the two in either direction is expensive, and the expensive direction is telling a paying company that its legal structure is illegal. \"Which article — and did anyone read the exemption clause in it as well?\" Statutes are written as an obligation followed by its carve-outs, and a legal review that reads only the first half ships a product that refuses legal customers. In this project that exact mistake reached the FRS, and it is the reason SEC-09 exists at all. \"What does this workflow do at a company that does not have that job title?\" A step bound to a title rather than to an authority creates a task in a candidate group with no members, and it waits there forever. Ask it about every role your chain names, because \"every company has one of those\" is almost never true once you look up the exemptions. \"Is this a fact about the company, or a switch on our screen?\" The two have the same technical effect and completely different accountability. Facts get declared, versioned and checked against a tax code; switches get ticked by whoever was blocked that afternoon. Store the facts and derive the behaviour, and the audit answers itself. \"What does this do when the profile is blank?\" Every derived control needs a defined answer for missing input, and in anything touching money that answer is the strictest mode rather than the most convenient one. Put it in the schema as a NOT NULL default rather than in a service, so an unfilled form cannot quietly buy a relaxation. Tiếng Việt Bạn không cần biết luật kế toán. Chỉ cần đủ để hỏi lại: chỗ này là luật bắt buộc hay là quy chế nội bộ do chính mình đặt ra — và điều luật đó có điều khoản miễn trừ nào không?",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ]
+  },
+  {
+   "id": "12#s08",
+   "type": "section",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 12 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ]
+  },
+  {
+   "id": "12#q0",
+   "type": "quiz",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s05",
+   "title": "A one-member LLC. The director is also the storekeeper and the cashier, and the chief accountant is his own sister. Your role-assignment screen refuses to save it. Who is wrong?",
+   "subtitle": "Lesson 12 · Test yourself",
+   "text": "The screen — both bars carve out doanh nghiệp tư nhân and one-member LLCs owned by an individual, and neither carve-out has a size test in it Luật Kế toán 2015 Điều 13 khoản 7 and Điều 52 khoản 4 both name these two legal forms and say nothing about size, revenue or headcount. The last option is the trap worth remembering: the size test binds only the third group, in Nghị định 174/2016/NĐ-CP Điều 19 khoản 3 — other legal forms, which must be both micro and free of state capital. Collapse the three groups into one size check and you get the biggest one wrong.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "answer": "The screen — both bars carve out doanh nghiệp tư nhân and one-member LLCs owned by an individual, and neither carve-out has a size test in it",
+   "why": "Luật Kế toán 2015 Điều 13 khoản 7 and Điều 52 khoản 4 both name these two legal forms and say nothing about size, revenue or headcount. The last option is the trap worth remembering: the size test binds only the third group, in Nghị định 174/2016/NĐ-CP Điều 19 khoản 3 — other legal forms, which must be both micro and free of state capital. Collapse the three groups into one size check and you get the biggest one wrong."
+  },
+  {
+   "id": "12#q1",
+   "type": "quiz",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s05",
+   "title": "A trading company: 12 employees on social insurance, revenue 4 tỷ, total capital 2 tỷ. Is it a micro-enterprise?",
+   "subtitle": "Lesson 12 · Test yourself",
+   "text": "No — headcount is a precondition, 12 is over the 10 the article allows, and the money figures never get a vote Nghị định 80/2021/NĐ-CP Điều 5 reads as headcount AND (revenue OR capital). The headcount is a gate: fail it and the classification stops there, whatever the money says. Written as three OR conditions — the natural way to code it from the table — this company comes out micro and the whole control mode below it is wrong.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "answer": "No — headcount is a precondition, 12 is over the 10 the article allows, and the money figures never get a vote",
+   "why": "Nghị định 80/2021/NĐ-CP Điều 5 reads as headcount AND (revenue OR capital). The headcount is a gate: fail it and the classification stops there, whatever the money says. Written as three OR conditions — the natural way to code it from the table — this company comes out micro and the whole control mode below it is wrong."
+  },
+  {
+   "id": "12#q2",
+   "type": "quiz",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s05",
+   "title": "Your payment workflow has a mandatory step whose candidate group is chief-accountant. A micro-enterprise customer has appointed a phụ trách kế toán and has no chief accountant at all. What happens to their payments?",
+   "subtitle": "Lesson 12 · Test yourself",
+   "text": "The task waits in a candidate group with no members, permanently — Nghị định 174/2016 Điều 20 khoản 2 điểm b makes that arrangement indefinite, not a twelve-month stopgap Every payment that company attempts stops at the same step and stays there. The last option is what a product says when it has confused an obligation with a job title: the obligation in Điều 19 khoản 3 Luật Kế toán 2015 is a signature, and the article itself allows the chief accountant \"hoặc người được uỷ quyền\". Thông tư 58/2026/TT-BTC Điều 3 khoản 2 confirms the phụ trách kế toán signs where the chief accountant would. Bind the step to the authority, not the title.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "answer": "The task waits in a candidate group with no members, permanently — Nghị định 174/2016 Điều 20 khoản 2 điểm b makes that arrangement indefinite, not a twelve-month stopgap",
+   "why": "Every payment that company attempts stops at the same step and stays there. The last option is what a product says when it has confused an obligation with a job title: the obligation in Điều 19 khoản 3 Luật Kế toán 2015 is a signature, and the article itself allows the chief accountant \"hoặc người được uỷ quyền\". Thông tư 58/2026/TT-BTC Điều 3 khoản 2 confirms the phụ trách kế toán signs where the chief accountant would. Bind the step to the authority, not the title."
+  },
+  {
+   "id": "12#q3",
+   "type": "quiz",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s05",
+   "title": "A customer asks for a setting to switch off segregation of duties, because they are a doanh nghiệp tư nhân. What do you build?",
+   "subtitle": "Lesson 12 · Test yourself",
+   "text": "Columns for the facts — legal form, owner individual or organisation, size, state capital — and derive the control mode from them The switch and the derived value have the same technical effect and completely different accountability. A ticked box is what an administrator ticks when a screen is in the way that afternoon, and nobody can account for it a year later; a declared legal form is a claim about a legal person with a tax code behind it. The V9 migration in this project says it in a comment: the system does not have, and must not have, a disable_segregation_of_duties column. There is a second reason too — dropping the chief-accountant step follows size while relaxing segregation follows legal form, so one boolean cannot carry both.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "answer": "Columns for the facts — legal form, owner individual or organisation, size, state capital — and derive the control mode from them",
+   "why": "The switch and the derived value have the same technical effect and completely different accountability. A ticked box is what an administrator ticks when a screen is in the way that afternoon, and nobody can account for it a year later; a declared legal form is a claim about a legal person with a tax code behind it. The V9 migration in this project says it in a comment: the system does not have, and must not have, a disable_segregation_of_duties column. There is a second reason too — dropping the chief-accountant step follows size while relaxing segregation follows legal form, so one boolean cannot carry both."
+  },
+  {
+   "id": "12#q4",
+   "type": "quiz",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s05",
+   "title": "A company signed up this morning and has not filled in its legal profile yet. Which control mode applies to its first payment?",
+   "subtitle": "Lesson 12 · Test yourself",
+   "text": "The strictest, because a missing fact is never read as permission This is the fallback in SEC-09, and this project puts it in the schema rather than in a service: enterprise_scale is NOT NULL DEFAULT 'MEDIUM' and has_state_capital is NOT NULL DEFAULT false, so an unfilled form cannot buy a relaxation even if a code path forgets to check. It matters in the other direction as well — under Nghị định 80/2021 a company that declares a smaller size than the truth to reach a support policy repays what it received, so an undeclared profile must never be given the benefit of the doubt.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "answer": "The strictest, because a missing fact is never read as permission",
+   "why": "This is the fallback in SEC-09, and this project puts it in the schema rather than in a service: enterprise_scale is NOT NULL DEFAULT 'MEDIUM' and has_state_capital is NOT NULL DEFAULT false, so an unfilled form cannot buy a relaxation even if a code path forgets to check. It matters in the other direction as well — under Nghị định 80/2021 a company that declares a smaller size than the truth to reach a support policy repays what it received, so an undeclared profile must never be given the benefit of the doubt."
+  },
+  {
+   "id": "12#p0",
+   "type": "scene",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s06",
+   "title": "\"Add a config flag so a tenant can switch the segregation rules off. A customer is complaining.\"",
+   "subtitle": "Your BA — backlog refinement",
+   "text": "Let's store the facts instead of the switch — legal form, whether the owner is an individual, size, state capital — and derive the mode from them. Same outcome for that customer, and when someone asks why the controls were relaxed the answer is a declared legal form with a tax code behind it, not a checkbox. You gave the customer what they need and kept the accountability. This is also the version that survives the next customer, because the derivation covers cases nobody has met yet — and it is what SEC-09 in this project's FRS actually asks for.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "answer": "Let's store the facts instead of the switch — legal form, whether the owner is an individual, size, state capital — and derive the mode from them. Same outcome for that customer, and when someone asks why the controls were relaxed the answer is a declared legal form with a tax code behind it, not a checkbox.",
+   "why": "You gave the customer what they need and kept the accountability. This is also the version that survives the next customer, because the derivation covers cases nobody has met yet — and it is what SEC-09 in this project's FRS actually asks for."
+  },
+  {
+   "id": "12#p1",
+   "type": "scene",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s06",
+   "title": "\"I am the director, I keep the cash myself, and my sister does the books. Your system says that is not allowed.\"",
+   "subtitle": "The customer's director — during the demo",
+   "text": "It is allowed, actually — a one-member LLC is carved out of both bars, at any size. What our screen is enforcing there is our own control default, not the law, and it should be reading your legal form. Can you confirm the owner is an individual rather than a holding company? That is the field the exemption turns on. You corrected your own product rather than the customer, separated law from house rule out loud, and finished on the single fact that decides it — because a one-member LLC owned by an organisation really is a different answer.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "answer": "It is allowed, actually — a one-member LLC is carved out of both bars, at any size. What our screen is enforcing there is our own control default, not the law, and it should be reading your legal form. Can you confirm the owner is an individual rather than a holding company? That is the field the exemption turns on.",
+   "why": "You corrected your own product rather than the customer, separated law from house rule out loud, and finished on the single fact that decides it — because a one-member LLC owned by an organisation really is a different answer."
+  },
+  {
+   "id": "12#p2",
+   "type": "scene",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s06",
+   "title": "\"Just put the chief accountant step in the BPMN and be done with it. Every company has a chief accountant.\"",
+   "subtitle": "Tech lead — design review",
+   "text": "Micro-enterprises may appoint a phụ trách kế toán instead, permanently — Nghị định 174/2016 Điều 20 khoản 2 điểm b. There is no account in that candidate group to route to, so the task sits in an empty queue and nothing moves, ever. Could we bind the step to the authority rather than the title, and route micro tenants to a process definition without it? An article, a concrete failure mode, and a smaller change than the one you are objecting to. That last part is what gets it accepted: you are not asking for the step to be dropped, you are asking for it to be bound to what the statute actually names.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "answer": "Micro-enterprises may appoint a phụ trách kế toán instead, permanently — Nghị định 174/2016 Điều 20 khoản 2 điểm b. There is no account in that candidate group to route to, so the task sits in an empty queue and nothing moves, ever. Could we bind the step to the authority rather than the title, and route micro tenants to a process definition without it?",
+   "why": "An article, a concrete failure mode, and a smaller change than the one you are objecting to. That last part is what gets it accepted: you are not asking for the step to be dropped, you are asking for it to be bound to what the statute actually names."
+  },
+  {
+   "id": "12#l0",
+   "type": "line",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s07",
+   "title": "\"Is that a legal requirement, or is it our own control?\"",
+   "subtitle": "Lesson 12 · Line worth stealing",
+   "text": "The question this whole lesson exists for. Law cannot be relaxed for a customer who asks; a house rule must be, because eventually a lawful customer will need it relaxed. Confusing the two in either direction is expensive, and the expensive direction is telling a paying company that its legal structure is illegal.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "why": "The question this whole lesson exists for. Law cannot be relaxed for a customer who asks; a house rule must be, because eventually a lawful customer will need it relaxed. Confusing the two in either direction is expensive, and the expensive direction is telling a paying company that its legal structure is illegal."
+  },
+  {
+   "id": "12#l1",
+   "type": "line",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s07",
+   "title": "\"Which article — and did anyone read the exemption clause in it as well?\"",
+   "subtitle": "Lesson 12 · Line worth stealing",
+   "text": "Statutes are written as an obligation followed by its carve-outs, and a legal review that reads only the first half ships a product that refuses legal customers. In this project that exact mistake reached the FRS, and it is the reason SEC-09 exists at all.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "why": "Statutes are written as an obligation followed by its carve-outs, and a legal review that reads only the first half ships a product that refuses legal customers. In this project that exact mistake reached the FRS, and it is the reason SEC-09 exists at all."
+  },
+  {
+   "id": "12#l2",
+   "type": "line",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s07",
+   "title": "\"What does this workflow do at a company that does not have that job title?\"",
+   "subtitle": "Lesson 12 · Line worth stealing",
+   "text": "A step bound to a title rather than to an authority creates a task in a candidate group with no members, and it waits there forever. Ask it about every role your chain names, because \"every company has one of those\" is almost never true once you look up the exemptions.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "why": "A step bound to a title rather than to an authority creates a task in a candidate group with no members, and it waits there forever. Ask it about every role your chain names, because \"every company has one of those\" is almost never true once you look up the exemptions."
+  },
+  {
+   "id": "12#l3",
+   "type": "line",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s07",
+   "title": "\"Is this a fact about the company, or a switch on our screen?\"",
+   "subtitle": "Lesson 12 · Line worth stealing",
+   "text": "The two have the same technical effect and completely different accountability. Facts get declared, versioned and checked against a tax code; switches get ticked by whoever was blocked that afternoon. Store the facts and derive the behaviour, and the audit answers itself.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "why": "The two have the same technical effect and completely different accountability. Facts get declared, versioned and checked against a tax code; switches get ticked by whoever was blocked that afternoon. Store the facts and derive the behaviour, and the audit answers itself."
+  },
+  {
+   "id": "12#l4",
+   "type": "line",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html#s07",
+   "title": "\"What does this do when the profile is blank?\"",
+   "subtitle": "Lesson 12 · Line worth stealing",
+   "text": "Every derived control needs a defined answer for missing input, and in anything touching money that answer is the strictest mode rather than the most convenient one. Put it in the schema as a NOT NULL default rather than in a service, so an unfilled form cannot quietly buy a relaxation.",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
+   ],
+   "why": "Every derived control needs a defined answer for missing input, and in anything touching money that answer is the strictest mode rather than the most convenient one. Put it in the schema as a NOT NULL default rather than in a service, so an unfilled form cannot quietly buy a relaxation."
+  },
+  {
+   "id": "12",
+   "type": "lesson",
+   "lesson": "12",
+   "href": "lessons/12-who-may-sign.html",
+   "title": "Who may sign, and who may not",
+   "subtitle": "Lesson 12 · Applied",
+   "text": "One person raises the payment, a second approves it, a third confirms the money left. It reads like a configuration screen and it is a question of law — carrying an exemption clause that, if you miss it, turns your approval chain into a permanent deadlock for several hundred thousand entirely legal companies. Three accounts, never one Ground floor The law forbids a list, not a principle The idea The exemption clause nobody looked up The danger Fill in a company, watch the chain change See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "segregation of duties",
+    "bất kiêm nhiệm",
+    "Luật Kế toán 2015",
+    "Nghị định 174/2016",
+    "Nghị định 80/2021",
+    "chief accountant",
+    "phụ trách kế toán",
+    "delegation",
+    "approval workflow",
+    "micro-enterprise"
    ]
   },
   {

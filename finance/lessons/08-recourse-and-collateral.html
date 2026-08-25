@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who Eats the Loss</title>
+<meta name="description" content="Lesson 08 — with recourse against without, what pledged stock is really worth, and why a financing limit computed from a valuation moves on its own. For developers building supply chain finance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="08">
+<meta name="tfbd:tags" content="factoring, recourse, collateral, advance rate, LTV, supplier limit, SCF-13, SCF-14, pledge, inventory financing">
+<meta name="tfbd:level" content="Core">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+/* ---- lesson 08: the segmented enum switch, the cover gauge, the settlement table ---- */
+.segl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); flex:none}
+.seg{font-family:var(--ff-mono); font-size:11.5px; letter-spacing:.04em; padding:8px 11px}
+.seg[aria-pressed="true"]{background:var(--fast-soft); border-color:var(--fast); color:var(--ink)}
+.sim-bar.mid{border-top:1px solid var(--line)}
+
+.gauge{position:relative; height:52px; margin:18px 18px 8px; background:var(--paper); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gauge .gs{position:absolute; left:0; top:0; bottom:0; background:var(--sunk); transition:width .3s ease}
+.gauge .gl{position:absolute; left:0; top:0; bottom:0; background:var(--fast-soft); border-right:2px solid var(--fast); transition:width .3s ease}
+.gauge .go{position:absolute; top:0; bottom:0; background:var(--no-soft); transition:left .3s ease, width .3s ease}
+.gauge .gm{position:absolute; top:0; bottom:0; width:0; border-left:2px solid var(--ink)}
+.gkey{padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.06em; color:var(--muted); line-height:1.8}
+
+.evt{padding:13px 18px; border-top:1px solid var(--line); background:var(--sunk); font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); line-height:1.7}
+.evs .ev{grid-template-columns:130px minmax(0,1fr) auto}
+.evs .ev .a{color:var(--ink)}
+
+.cmpwrap{overflow-x:auto; border-top:1px solid var(--line)}
+.cmp{list-style:none; margin:0; padding:0; display:grid; gap:1px; background:var(--line); min-width:520px}
+.cmp li{background:var(--surface); display:grid; grid-template-columns:minmax(0,1fr) 96px 96px 104px; gap:10px; padding:12px 18px; font-size:13.5px; align-items:baseline}
+.cmp li.hd{background:var(--sunk); font-family:var(--ff-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.cmp li.ft{grid-template-columns:minmax(0,1fr); font-size:13.5px; color:var(--ink-2); line-height:1.6; background:var(--sunk)}
+.cmp li.now{background:var(--fast-soft)}
+.cmp .pd{font-family:var(--ff-mono); font-size:12px; font-weight:500; color:var(--ink); display:block}
+.cmp small{display:block; color:var(--muted); font-size:12px; margin-top:3px}
+.cmp .n{font-family:var(--ff-mono); font-size:13px; font-variant-numeric:tabular-nums; text-align:right; color:var(--ink)}
+.cmp .n.out{color:var(--no)} .cmp .n.zero{color:var(--muted)}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 08</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Turning invoices into cash · Lesson 08</div>
+  <h1>Recourse, collateral and the limit behind them</h1>
+  <p class="lede">Lesson 07 was about what the three financing products are. This one is the single question underneath all of them: when the buyer never pays, who is out of pocket? The answer was decided months earlier, by one enum value, and half of this module exists to enforce it.</p>
+  <div class="facts"><span>18 min</span><span>Chapter 3 · reads better after lesson 07</span><span>Break a credit limit without touching it</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>Somebody is 5.4 billion short</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>A metalwork company in Bình Dương — call it Nam Long — delivered 6 billion đồng of fittings to a large construction group on ninety-day terms. Nam Long has forty staff to pay this month and cannot wait ninety days, so it did what this whole module exists to let it do: it sold the <button class="t" data-t="phaithu">receivable</button>.</p>
+    <p>A financier looked at the <button class="t" data-t="hoadon">invoices</button>, agreed they were real, and wired Nam Long 5.4 billion — ninety percent of face value — four days later. The remaining 600 million is held back and paid over when the deal settles.</p>
+    <p>That was ninety days ago. The invoices fell due yesterday. This morning the construction group's accounts department is not answering the phone, and the word going round the industry is that the group's own client has stopped paying <em>it</em>.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Day 0 — goods delivered, invoices issued</div><div class="ds">Nam Long's money is now in somebody else's building site. Nothing has arrived in the bank.</div></div>
+    <div class="arrow">four days later</div>
+    <div class="node"><div class="nm">Day 4 — the financier advances 5.4 billion</div><div class="ds">Real money, out of the financier's account, into Nam Long's. The receivable has changed hands.</div></div>
+    <div class="arrow">ninety days pass</div>
+    <div class="node core"><div class="nm">Day 94 — the buyer has gone quiet</div><div class="ds">Nobody has been paid the 6 billion. But 5.4 billion has already been spent, on wages and on steel.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>Notice what is <em>not</em> in question. The goods exist and were delivered. The invoices are valid. The financier really did pay. Everyone behaved correctly, and there is still a hole of 5.4 billion đồng in somebody's accounts.</p>
+    <p>Whose? That is not a question anybody gets to answer today. It was settled the week the deal was written, and in the database it is settled by a single column on the <button class="t" data-t="denghitaitro">financing offer</button>. Two developers looking at the same screen — one seeing <button class="t" data-t="duno">outstanding exposure</button>, the other seeing a dropdown labelled "product type" — are looking at the same fact from two ends.</p>
+    <p class="vi"><b>In the code</b><code>FinancingOffer.factoringProduct</code>, a <code>FactoringProduct</code> stored on <code>financing_offers.factoring_product</code>. Not nullable, and set at creation. Everything below is what that one value does.</p>
+    <p class="vi"><b>Tiếng Việt</b>Doanh nghiệp đã giao hàng, đơn vị tài trợ đã ứng 5,4 tỷ, và bên mua không trả. Không ai làm sai, nhưng vẫn có một lỗ 5,4 tỷ nằm ở đâu đó. Ai chịu lỗ ấy đã được chốt từ lúc ký, bằng đúng một giá trị enum trên đề nghị tài trợ.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>A promise, or a thing</h2>
+
+  <div class="stack">
+    <p>There are only two ways a lender can answer "what if I am not repaid". Either somebody promised to make it good — that is <button class="t" data-t="truydoi">recourse</button> — or the lender holds something it can sell — that is <button class="t" data-t="taisandambao">collateral</button>. Every product in this module is one, the other, or a mix.</p>
+    <p>Start with the promise, because it is the one that lives in an enum.</p>
+  </div>
+
+  <h3>Three branches, and the law wrote them</h3>
+  <div class="stack">
+    <p>Vietnamese law does not really have a product called invoice discounting. A commercial invoice is not a negotiable instrument, so nothing on it can be discounted under the credit institutions law; every product that advances money against an invoice is legally <button class="t" data-t="baothanhtoan">factoring</button>, and Circular 20/2024/TT-NHNN, Điều 3, defines exactly three of them.</p>
+    <p><code>SELLER_WITH_RECOURSE</code> — the financier's customer is the seller, and the seller undertook to repay if the buyer does not. When the buyer goes quiet, the financier turns round and asks Nam Long for its 5.4 billion back. Nam Long pays, and is left holding a debt nobody is paying. It never transferred the risk at all.</p>
+    <p><code>SELLER_WITHOUT_RECOURSE</code> — the financier bought the receivable outright. The buyer's failure to pay is the financier's problem, and it charged more up front for exactly that. Nam Long keeps the 5.4 billion; what it loses is the 600 million reserve it never received.</p>
+    <p><code>BUYER</code> — <button class="t" data-t="taitronguocdong">reverse factoring</button>. The large construction group is the financier's customer, and the group is the one that must repay. Nam Long was paid early against the group's credit standing and was never exposed to anything.</p>
+  </div>
+
+  <div class="pull"><q>With recourse, the seller did not transfer the risk. It transferred the timing.</q></div>
+
+  <div class="stack">
+    <p>Which is a sentence worth carrying into a meeting, because it explains something that otherwise looks like a mistake: most Vietnamese SMEs choose with-recourse on purpose. It is markedly cheaper — on 5.4 billion for ninety days, the difference in this lesson's numbers is about sixty million đồng a turn. If you have sold to this buyer for six years and they have never once been late, you are not buying insurance. You are buying ninety days, and you would rather not pay for insurance you do not think you need.</p>
+    <p>What you must not do is read the column as a pricing tier somebody picked off a menu. It is a legal classification of the contract that was signed. Change the value and you have changed who owes whom money — the same edit, in the real world, would need both parties and a new contract.</p>
+    <p class="vi"><b>In the code</b><code>FactoringProduct</code> is deliberately not a <code>with_recourse</code> boolean, and its javadoc says why: the column also chooses <em>what evidence unlocks disbursement</em>. <code>FinancingOffer.disbursementGateSatisfied()</code> demands, for <code>SELLER_WITH_RECOURSE</code>, all three of <code>noticeSentAt</code>, <code>noticeChannel</code> and <code>noticeDocumentId</code> — proof the buyer was told the debt had changed hands, because under Điều 369 of the civil code a buyer who was never told may pay the seller and the money cannot be clawed back. For the other two branches it demands <code>buyerConfirmedAt</code> instead. Satisfying the wrong branch's condition satisfies nothing.</p>
+    <p class="vi"><b>Tiếng Việt</b>Ba nhánh của <code>FactoringProduct</code> là ba sản phẩm pháp định theo TT 20/2024/TT-NHNN Điều 3, không phải ba mức giá. Có truy đòi thì bên bán phải hoàn lại tiền ứng — tức là chỉ bán được thời gian, rủi ro vẫn giữ. Doanh nghiệp nhỏ vẫn chọn nhánh này vì rẻ hơn hẳn, và vì họ tin bên mua của mình.</p>
+  </div>
+
+  <h3>The thing, and what it is worth</h3>
+  <div class="stack">
+    <p>Now the other answer. When there is no receivable to buy — or when the financier wants a second line of defence behind one — it takes a pledge over <button class="t" data-t="tonkho">stock</button>. That is the product lesson 07 called <button class="t" data-t="taitrotonkho">inventory financing</button>, and Nam Long's warehouse holds ten billion đồng of finished fittings; a batch of it is pledged against the facility.</p>
+    <p>Ten billion of what, though. Here are two numbers that are never the same, and a great deal of this module sits in the gap between them.</p>
+    <p>The first is what the stock is worth on the shelf: quantity times unit value, from the last <button class="t" data-t="dinhgiataisan">valuation</button>. That is the number in the warehouse system, and it assumes an orderly world where you sell to your usual customers at your usual price over your usual months.</p>
+    <p>The second is what a lender believes it could get for the same pile in a hurry — sold by a receiver, to whoever answers the phone, in a market that has just watched your company fail. On staple goods that might be seventy percent of shelf value. On something specialised, half that. On perishables, closer to nothing.</p>
+    <p>The <button class="t" data-t="tyleungtruoc">advance rate</button> is where that second number is made operational. Sixty percent against ten billion of stock is a six billion facility. Nobody advances a hundred percent against anything, ever, and now you know precisely what the missing forty percent is: it is the lender's estimate of how wrong the shelf price will turn out to be on the worst day.</p>
+    <p class="vi"><b>In the code</b><code>CollateralPledge</code> over an <code>InventoryItem</code>, status <code>PLEDGED → RELEASED | LIQUIDATED</code> (SCF-11). <code>PLEDGED</code> does not freeze the stock: this is revolving collateral under Điều 321 khoản 4 of the civil code and the borrower goes on selling in the ordinary course. Two fields that look decorative and are not — <code>custodian</code> and <code>lastInspectionDate</code>. The entity's javadoc names the two classic Vietnamese collateral losses, Trường Ngân and Âu Mỹ, and both began with nobody being able to say who was holding the warehouse or when it was last counted. <code>custodian = null</code> means the borrower is minding its own collateral.</p>
+    <p class="vi"><b>Tiếng Việt</b>Giá trên kệ và giá bán tháo là hai con số hoàn toàn khác nhau. Tỷ lệ ứng trước chính là chỗ bên cho vay ghi lại khoảng cách đó: ứng 60% trên 10 tỷ hàng nghĩa là họ dự phòng 40% cho ngày xấu nhất. Không ai ứng 100% trên bất cứ tài sản nào.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>The limit nobody moved</h2>
+
+  <div class="stack">
+    <p>Here is the line of code. It is in <code>PledgeService</code>, it is one expression long, and it is the most consequential thing in the inventory financing feature:</p>
+    <p><code>maxFinancingAmount = Σ pledged_value of the still-PLEDGED rows × advance_rate</code></p>
+    <p>That is requirement SCF-13, and it looks like arithmetic homework. Read it again with one thing in mind: <em>neither input is a number anybody agreed.</em> The advance rate came from the contract, fine. But <code>pledged_value</code> is a measurement, rewritten every time somebody prices the warehouse. Which means the <button class="t" data-t="hanmuc">limit</button> is not a ceiling that was granted. It is a ceiling that is recomputed, silently, from data that moves.</p>
+    <p>So: ten billion of stock, sixty percent, six billion of headroom, and 5.4 billion drawn. Comfortable. Then steel prices soften and a quarterly revaluation writes the unit price down twelve percent. Nobody drew any money. Nobody approved anything. Nobody clicked. The warehouse is worth 8.8 billion, the limit is 5.28 billion, and Nam Long is 120 million over a limit it never touched.</p>
+    <p>Ask what that means for the company, not for the database. Being over a limit is not a red badge on a dashboard. It is a facility agreement saying the borrower must cure the shortfall — pledge more stock, or repay the difference in cash — usually within days. A company that was fine on Monday is finding several hundred million đồng by Friday. This is how a valuation job reaches into a company's bank account.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>A limit that is computed is a limit that moves on its own.</p>
+    <p class="sub">There are two kinds of ceiling in this module and they behave nothing alike. An <em>agreed</em> limit — the programme total, the supplier's share of it — only changes when a human changes it, so it can be checked once at approval and trusted afterwards. A <em>computed</em> limit changes whenever its inputs do, which means it can be breached by a background job while every user is asleep. Never present the second as though it were the first, and never let a revaluation write a new limit without something telling the borrower. Losing <button class="t" data-t="thanhkhoan">liquidity</button> is what kills a company, and that notification is the last few days of warning it gets.</p>
+  </div>
+
+  <div class="stack">
+    <p>Which is why SCF-14 exists and is not a nice-to-have. Each pledge carries a <code>min_value_threshold</code> — the value the two sides agreed is the floor — and when a revaluation takes the pledge below it, the module publishes an event. Get that threshold right and it fires while there is still cover, giving the borrower a fortnight rather than a phone call. That is the point of a margin call: it is deliberately set above the line where cover is actually lost.</p>
+    <p>Two details in that alert are worth more than the rest of the feature put together, and both are easy to argue away in refinement.</p>
+  </div>
+
+  <h3>Where limits and their evidence live</h3>
+  <p class="prose" style="margin-bottom:20px">Six places this lesson turns into code. Three of them are ceilings, and only one of them can move without a person.</p>
+  <ul class="uses">
+    <li><span class="u">The <button class="t" data-t="chuongtrinhtaitro">programme</button> limit, and each supplier's slice of it</span><span class="d">Agreed, human-set, checked at accept-quote. The sum of supplier slices may not exceed the programme total — enforced in the service, because a DDL constraint across rows would block legitimate rebalancing. <code>FinancingProgram</code>, <code>SupplierLimit</code> · SCF-09.</span></li>
+    <li><span class="u">The limit the collateral supports</span><span class="d">Computed. <code>PledgeService.maxFinancingAmount</code>, written once and called by both the screen and the disbursement guard, so the number shown before the click and the number in the 409 after it cannot disagree · SCF-13.</span></li>
+    <li><span class="u">The collateral warning</span><span class="d">Published on the crossing, not every night it is below — <code>syncAfterRevaluation</code> compares against the previous <code>pledged_value</code> before overwriting it, which is why no <code>alerted_at</code> column exists. <code>smefin.scf.collateral-below-threshold.v1</code> · SCF-14.</span></li>
+    <li><span class="u">What has to be in the payload</span><span class="d">Twenty fields, matched one-to-one against the JSON schema, which declares <code>additionalProperties: false</code> — one field too many and every consumer rejects the whole message. Among them <code>custodian</code> and <code>lastInspectionDate</code>: an alert that cannot say who is holding the goods is not actionable.</span></li>
+    <li><span class="u">The <button class="t" data-t="giaingan">disbursement</button> gate</span><span class="d">Not a limit at all, but the same shape of rule: the evidence required branches on <code>factoring_product</code>, and it lives on the entity so that REST, a Kafka consumer and a partner adapter all pass through one check · Điều 14, 06 §6.2.</span></li>
+    <li><span class="u">Two people spending the same limit at once</span><span class="d"><code>FinancingOffer</code> is the one entity here carrying <code>@Version</code>. Two accept-quote flows on one programme really do run together, and the DDL deliberately has no <code>CHECK (used ≤ total)</code> — so one of them has to lose · SCF-09.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>In one line</b>When a requirement says "the system shall automatically calculate the limit", stop and ask what happens on the day it calculates a smaller one than yesterday. That question is the whole feature.</p>
+  <p class="vi"><b>Tiếng Việt</b>Hạn mức thoả thuận chỉ đổi khi có người đổi; hạn mức tính ra thì đổi theo dữ liệu, và có thể bị vượt bởi một job chạy đêm trong khi không ai làm gì. SCF-13 tính, SCF-14 cảnh báo — và cảnh báo đó là mấy ngày báo trước duy nhất mà doanh nghiệp có để xoay tiền.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>One facility, and the day it breaks</h2>
+  <p class="prose" style="margin-bottom:14px">Nam Long's facility: 5.4 billion advanced and outstanding, secured by a pledge over ten billion đồng of stock at an advance rate of sixty percent. The drawn amount does not move in this simulation — that is the point. Only the warehouse moves.</p>
+  <p class="prose" style="margin-bottom:26px">Drag the stock value down and watch the limit fall through the drawn amount without anyone doing anything. Then press <em>the buyer never pays</em> and read the last table: the same default, priced and split three ways by one enum value.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <span class="segl">financing_offers.factoring_product</span>
+      <button class="ghost seg" id="pWith" aria-pressed="true">SELLER_WITH_RECOURSE</button>
+      <button class="ghost seg" id="pWithout" aria-pressed="false">SELLER_WITHOUT_RECOURSE</button>
+      <button class="ghost seg" id="pBuyer" aria-pressed="false">BUYER</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Stock on the shelf<small>Σ pledged_value at the last revaluation — quantity × unit_value</small></span><span class="kv" id="vStock">10.00 bn</span><input type="range" id="stock" min="2000" max="12000" step="100" value="10000"></div>
+      <div class="knob"><span class="kl">Advance rate on the pledge<small>financing_offers.advance_rate — how much of that value the financier will lend against</small></span><span class="kv" id="vRate">60%</span><input type="range" id="rate" min="40" max="90" step="5" value="60"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Limit the pledge supports</span><span class="v" id="stLimit">—</span></div>
+      <div class="stat"><span class="k">Drawn and outstanding</span><span class="v" id="stDrawn">—</span></div>
+      <div class="stat"><span class="k">Headroom</span><span class="v" id="stRoom">—</span></div>
+      <div class="stat"><span class="k">Limit used</span><span class="v" id="stUtil">—</span></div>
+    </div>
+    <div class="gauge" id="gauge">
+      <div class="gs" id="gStock"></div>
+      <div class="gl" id="gLimit"></div>
+      <div class="go" id="gOver"></div>
+      <div class="gm" id="gMark"></div>
+    </div>
+    <div class="gkey" id="gkey"></div>
+    <ul class="evs" id="rows"></ul>
+    <div class="flag" id="flag"></div>
+    <div class="evt" id="evt"></div>
+    <div class="sim-bar mid">
+      <button class="btn" id="boom" aria-pressed="false">The buyer never pays</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="cmpwrap"><ul class="cmp" id="cmp"></ul></div>
+    <p class="sim-note">Everything here is a fixed calculation on the numbers on screen — same drags, same answer, every time. Forced-sale recovery is set at seventy percent of shelf value, which is generous and only meant to show that the two numbers differ. The maths lives in <code>finance/sim-08.js</code> and has its own check: <code>node tools/test-08.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"When the buyer never pays, who does the financier chase — and which column says so?"</div><div class="use">Every product in this module is an answer to that one question. If nobody in the room can point at the column, the requirement is not finished, and the code that implements it will guess.</div></div></li>
+    <li><div><div class="say">"Is this ceiling agreed, or is it computed?"</div><div class="use">An agreed limit can be checked once and trusted. A computed one changes whenever its inputs do, so it needs a recalculation trigger, a breach path and a notification — three things nobody budgets for when the ticket says the system shall automatically calculate a limit.</div></div></li>
+    <li><div><div class="say">"What is this worth in a forced sale, not on the shelf?"</div><div class="use">The gap between those two numbers is the entire reason advance rates exist. Whenever a screen shows one value for an asset, find out which one it is, because a lender's decision was made on the other.</div></div></li>
+    <li><div><div class="say">"If this value moves overnight and nobody acts, who finds out, and when?"</div><div class="use">This is the difference between a warning that buys a company two weeks and one that arrives with the demand letter. It is also the question that turns a notification from a nice-to-have into the most important thing the module sends.</div></div></li>
+    <li><div><div class="say">"Does editing this field change who owes money? Then it is not an edit, it is a contract change."</div><div class="use">Some enums are display labels and some are the legal shape of a signed agreement. Give the second kind an audit trail, an approval and a very good reason before you put it in a dropdown a support agent can reach.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Hai câu hỏi đáng mang theo suốt dự án: khi bên mua không trả thì ai bị đòi, và cái trần này do người đặt hay do máy tính ra. Trả lời được hai câu đó là hiểu được toàn bộ phần tài trợ, kể cả những màn hình bạn chưa từng mở.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 08 of 15 · Chapter 3, Turning invoices into cash · Next: comparing offers without being fooled by the headline rate.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../terms/08.js"></script>
+<script src="../sim-08.js"></script>
+<script>
+(function(){
+"use strict";
+function m(n){ return (n/1e6).toFixed(1) + "m"; }
+function bn(n){ return (n/1e9).toFixed(2) + " bn"; }
+function money(n){ return Math.abs(n) >= 1e9 ? bn(n) : m(n); }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l8")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l8",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var SEC=window.SEC, BASE=SEC.BASE, SCALE=12000e6;
+var stock=document.getElementById("stock"), rate=document.getElementById("rate");
+var boom=document.getElementById("boom"), cmp=document.getElementById("cmp");
+var rowsBox=document.getElementById("rows"), flag=document.getElementById("flag");
+var evt=document.getElementById("evt"), gkey=document.getElementById("gkey");
+var product=BASE.product, defaulted=false, lastStock=BASE.stockValue, fired=null;
+
+var SEGS={SELLER_WITH_RECOURSE:"pWith", SELLER_WITHOUT_RECOURSE:"pWithout", BUYER:"pBuyer"};
+var GLOSS={
+  SELLER_WITH_RECOURSE:"seller undertook to repay",
+  SELLER_WITHOUT_RECOURSE:"financier bought the risk",
+  BUYER:"buyer is the customer"
+};
+
+function row(label, note, value){
+  var li=document.createElement("li"); li.className="ev";
+  li.innerHTML='<span class="d"></span><span class="n"></span><span class="a"></span>';
+  li.querySelector(".d").textContent=label;
+  li.querySelector(".n").textContent=note;
+  li.querySelector(".a").textContent=value;
+  return li;
+}
+
+function render(){
+  var stockValue=+stock.value*1e6, advanceRate=+rate.value;
+  var r=SEC.compute(Object.assign({}, BASE, {
+    stockValue:stockValue, advanceRate:advanceRate, product:product
+  }));
+
+  document.getElementById("vStock").textContent=bn(stockValue);
+  document.getElementById("vRate").textContent=advanceRate+"%";
+  document.getElementById("stLimit").textContent=bn(r.limit);
+  document.getElementById("stDrawn").textContent=bn(BASE.drawn);
+  var room=document.getElementById("stRoom");
+  room.textContent=(r.shortfall>0 ? "−"+money(r.shortfall) : money(r.headroom));
+  room.className="v"+(r.shortfall>0?" hot":" cool");
+  var util=document.getElementById("stUtil");
+  util.textContent=r.utilisation+"%";
+  util.className="v"+(r.utilisation>100?" hot":r.utilisation>85?"":" cool");
+
+  /* the gauge is scaled to a fixed 12 bn, so the drawn marker never moves and the
+     stock band and the limit bar shrink past it — that is the whole picture */
+  document.getElementById("gStock").style.width=(stockValue/SCALE*100)+"%";
+  document.getElementById("gLimit").style.width=(r.limit/SCALE*100)+"%";
+  var over=document.getElementById("gOver");
+  over.style.left=(r.limit/SCALE*100)+"%";
+  over.style.width=(r.shortfall/SCALE*100)+"%";
+  document.getElementById("gMark").style.left=(BASE.drawn/SCALE*100)+"%";
+  gkey.textContent="STOCK "+bn(stockValue)+"   ·   LIMIT "+bn(r.limit)+
+                   "   ·   DRAWN "+bn(BASE.drawn)+"   ·   COVER LOST BELOW "+bn(r.coverStockValue);
+
+  rowsBox.innerHTML="";
+  rowsBox.appendChild(row("On the shelf","quantity × unit_value at the last revaluation",bn(stockValue)));
+  rowsBox.appendChild(row("In a forced sale","what the financier believes it fetches in a hurry — 70%",bn(r.forcedSale)));
+  rowsBox.appendChild(row("Advance rate","financing_offers.advance_rate",advanceRate+"%"));
+  rowsBox.appendChild(row("Limit it supports","SCF-13 · Σ pledged_value × advance_rate",bn(r.limit)));
+  rowsBox.appendChild(row("Not lent against","the lender's margin for being wrong about the shelf price",bn(r.haircut)));
+
+  if(r.shortfall>0){
+    flag.innerHTML='<div class="stale">OVER THE LIMIT BY '+money(r.shortfall)+
+      ' — and nobody drew a đồng. The stock was revalued, the limit was recomputed, and the facility breached itself. '+
+      'To cure it Nam Long must pledge '+money(r.topUpStock)+' more stock, repay '+money(r.shortfall)+
+      ' in cash, or persuade the financier to raise the advance rate to '+r.rateNeeded+'%. Usually within days.</div>';
+  } else if(r.belowThreshold){
+    flag.innerHTML='<div class="stale">MARGIN CALL — still covered, with '+money(r.headroom)+
+      ' of headroom, but the pledge is under the agreed floor of '+bn(BASE.threshold)+
+      '. That is what the floor is for: it fires while there is still room to act. Cover is lost below '+
+      bn(r.coverStockValue)+'.</div>';
+  } else {
+    flag.innerHTML='<div class="match">COVERED — '+bn(r.limit)+' supported against '+bn(BASE.drawn)+
+      ' drawn, '+money(r.headroom)+' of headroom. Drag the stock below '+bn(r.coverStockValue)+
+      ' and that stops being true without anyone touching the loan.</div>';
+  }
+
+  if(fired===null){
+    evt.textContent="smefin.scf.collateral-below-threshold.v1 — nothing published yet. min_value_threshold = "+bn(BASE.threshold)+".";
+  } else if(fired){
+    evt.textContent="PUBLISHED smefin.scf.collateral-below-threshold.v1 — the pledge crossed "+bn(BASE.threshold)+
+                    " on this revaluation. Payload carries custodian and last_inspection_date.";
+  } else {
+    evt.textContent="silent — syncAfterRevaluation compares against the PREVIOUS pledged_value, so the event fires on the crossing only, not every night it stays below.";
+  }
+
+  cmp.innerHTML="";
+  var hd=document.createElement("li"); hd.className="hd";
+  hd.innerHTML='<span></span><span class="n">FEE, 90 DAYS</span><span class="n">SELLER LOSES</span><span class="n">FINANCIER LOSES</span>';
+  hd.querySelector("span").textContent="factoring_product";
+  cmp.appendChild(hd);
+  r.compare.forEach(function(c){
+    var li=document.createElement("li");
+    if(c.product===product) li.className="now";
+    li.innerHTML='<span><b class="pd"></b><small class="gs2"></small></span><span class="n"></span><span class="n sl"></span><span class="n fl"></span>';
+    li.querySelector(".pd").textContent=c.product;
+    li.querySelector(".gs2").textContent=" "+GLOSS[c.product]+" · "+c.rate.toFixed(1)+"%/yr";
+    li.querySelectorAll(".n")[0].textContent=m(c.fee);
+    var sl=li.querySelector(".sl"), fl=li.querySelector(".fl");
+    if(!defaulted){ sl.textContent="—"; fl.textContent="—"; sl.className="n sl zero"; fl.className="n fl zero"; }
+    else {
+      sl.textContent=money(c.seller); fl.textContent=money(c.financier);
+      sl.className="n sl"+(c.seller>0?" out":" zero");
+      fl.className="n fl"+(c.financier>0?" out":" zero");
+    }
+    cmp.appendChild(li);
+  });
+
+  var note=document.createElement("li"); note.className="ft";
+  if(!defaulted){
+    note.innerHTML='<span>Nobody has lost anything yet — only the fees are real. Press <b>the buyer never pays</b> to fill the last two columns.</span>';
+  } else if(r.residual===0){
+    note.innerHTML='<span></span>';
+    note.querySelector("span").textContent=
+      "The buyer paid nothing, and it cost nobody anything. The pledge was liquidated for "+
+      bn(r.forcedSale)+", which covered the whole "+bn(BASE.drawn)+" owed — so the enum never had to matter. "+
+      "Losing cover is not the same as losing money: drag the stock below "+bn(r.salvageStockValue)+
+      ", where a forced sale stops repaying the debt, and these two columns start to disagree.";
+  } else {
+    note.innerHTML='<span></span>';
+    note.querySelector("span").textContent=
+      "The buyer paid nothing. The pledge was liquidated for "+bn(r.forcedSale)+", covering "+
+      bn(r.recovered)+" of the "+bn(BASE.drawn)+" owed, leaving "+money(r.residual)+
+      " with no asset behind it. Under "+product+" the financier chases "+r.chased+
+      ". Two of the three rows split the loss identically, and that is honest: what separates them is who the financier's customer was, and it shows up in the fee column rather than this one.";
+  }
+  cmp.appendChild(note);
+
+  mark("sim");
+}
+
+stock.addEventListener("input", function(){
+  var next=+stock.value*1e6;
+  fired=SEC.alertFires(lastStock, next, BASE.threshold);
+  lastStock=next;
+  render();
+});
+rate.addEventListener("input", render);
+Object.keys(SEGS).forEach(function(p){
+  document.getElementById(SEGS[p]).addEventListener("click", function(){
+    product=p;
+    Object.keys(SEGS).forEach(function(q){
+      document.getElementById(SEGS[q]).setAttribute("aria-pressed", q===p ? "true" : "false");
+    });
+    render();
+  });
+});
+boom.addEventListener("click", function(){
+  defaulted=!defaulted;
+  boom.setAttribute("aria-pressed", defaulted ? "true" : "false");
+  boom.textContent = defaulted ? "Rewind — the buyer pays after all" : "The buyer never pays";
+  render();
+});
+document.getElementById("reset").addEventListener("click", function(){
+  stock.value=BASE.stockValue/1e6; rate.value=BASE.advanceRate;
+  product=BASE.product; defaulted=false; lastStock=BASE.stockValue; fired=null;
+  boom.setAttribute("aria-pressed","false"); boom.textContent="The buyer never pays";
+  Object.keys(SEGS).forEach(function(q){
+    document.getElementById(SEGS[q]).setAttribute("aria-pressed", q===BASE.product ? "true" : "false");
+  });
+  render();
+});
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A financier advanced 5.4 billion against Nam Long's invoices. The buyer never pays. The offer's factoring_product is SELLER_WITH_RECOURSE. Who is out of pocket?",
+  o:["The financier, which bought the receivable and takes the loss",
+     "Nam Long — it undertook to repay, so it hands back the 5.4 billion and is left holding a debt nobody is paying",
+     "Nobody, until a court decides",
+     "It is split between the two in proportion to the advance rate"],
+  a:1,
+  why:"With recourse, the seller never transferred the risk — only the timing. It got its cash ninety days early and now owes it back, while still holding an unpaid receivable. That is why this branch is markedly cheaper than the one without recourse: the seller kept the thing that costs money."},
+ {q:"Your BA suggests replacing factoring_product with a boolean with_recourse, on the grounds that there are really only two cases. What breaks?",
+  o:["Nothing — the third value is reverse factoring, which is just without-recourse under another name",
+     "Only reporting, which would need a lookup to restore the old labels",
+     "The disbursement gate: the three branches require different evidence, and BUYER is a different customer entirely — the buyer is the one who must repay",
+     "The database migration, but the domain model is fine"],
+  a:2,
+  why:"FinancingOffer.disbursementGateSatisfied() branches on it: SELLER_WITH_RECOURSE needs notice_sent_at plus notice_channel plus notice_document_id, and the other two need buyer_confirmed_at. A boolean cannot express that, and it cannot express who the financier's customer is. The javadoc says this in as many words: the column chooses who repays, who the customer is, and what evidence unlocks the money."},
+ {q:"A quarterly revaluation writes the pledged stock down twelve percent. Nobody draws money and nobody approves anything. What has happened to the facility?",
+  o:["Nothing — the limit was agreed in the contract and does not move",
+     "The limit is recomputed lower, and the borrower is now over a limit it never touched",
+     "The advance rate rises automatically to compensate",
+     "The pledge is suspended until the next valuation"],
+  a:1,
+  why:"SCF-13 computes the limit as Σ pledged_value × advance_rate, and pledged_value is a measurement, not an agreement. Ten billion at sixty percent supports six; 8.8 billion supports 5.28; with 5.4 billion drawn the facility is 120 million over. This is the part developers implement without realising it can call a company's cash in overnight."},
+ {q:"The stock has been below min_value_threshold for three nights running, and syncAfterRevaluation runs after every revaluation. How many times has smefin.scf.collateral-below-threshold.v1 been published?",
+  o:["Three — once per run, so the warning cannot be missed",
+     "Once, on the run where it crossed the threshold",
+     "None, because publishing needs an alerted_at column that does not exist",
+     "It depends on whether the consumer acknowledged the first one"],
+  a:1,
+  why:"pledged_value still holds the previous valuation when the comparison is made, so \"was above, is now below\" reads straight out of the data and the event fires on the crossing only. Come back up and cross again and it fires again. Note the neighbouring rule: a pledge with min_value_threshold null means no margin call was agreed, which is not the same as a threshold of zero — isBelowThreshold returns false and nothing is published."},
+ {q:"Nam Long has traded with this buyer for six years without a single late payment, and picks the with-recourse product even though it keeps the risk. Is that a mistake?",
+  o:["Yes — it should always transfer risk when the option exists",
+     "No — it is much cheaper, and a company confident in its buyer is buying ninety days, not insurance",
+     "Yes, unless the invoice is under a billion đồng",
+     "No, because with recourse the financier cannot chase the buyer at all"],
+  a:1,
+  why:"On 5.4 billion for ninety days the gap between the two seller products in this lesson is about sixty million đồng a turn — a real cost, paid every cycle, for a risk this company genuinely believes is small. That is a business judgement, not an error, and your job is to record it accurately rather than to talk anyone out of it. It only turns into a mistake when nobody tells the finance director that the company is still on the hook."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — backlog refinement",
+  line:'"Three values for a yes-or-no question is over-engineering. Make it a with_recourse boolean and we save a migration."',
+  o:[{t:"Agreed, a boolean is simpler. We can add the third case later if anyone asks for it.", v:"weak",
+      f:"Nobody will ask for it, because nobody outside this room knows it is missing. What they will find, months later, is that reverse factoring offers cannot be disbursed and that the fix touches the contract, the event schema and everything that consumed either."},
+     {t:"The enum has to stay, it's in the spec.", v:"weak",
+      f:"\"It's in the spec\" is the weakest reason available, and a BA can outrank it in one meeting. You also skipped the chance to explain something they would genuinely want to know."},
+     {t:"It looks like one question but it settles three: who the financier's customer is, who has to repay, and what evidence lets us release the money. With recourse we need proof the buyer was notified; the other two need the buyer's confirmation. A boolean can hold one of those, and reverse factoring is not \"without recourse\" — the buyer is the borrower there.", v:"strong",
+      f:"You turned a modelling argument into a business one, named a concrete consequence, and left the BA better informed than before. That is how a developer gets consulted rather than instructed."}]},
+ {role:"The customer's finance director — during the demo",
+  line:'"Your screen says we have breached our limit. We have not borrowed anything this month. Is it broken?"',
+  o:[{t:"It's calculated automatically from the collateral value.", v:"weak",
+      f:"True and useless. The listener now knows the number came from a machine, which makes them trust it less, not more — and they still do not know what to do about it."},
+     {t:"Let me raise a bug and check the calculation.", v:"weak",
+      f:"You have accepted a defect that does not exist and undermined the most valuable warning in the module. Worse, if it really is a breach, the company has just lost the days it needed to fix it."},
+     {t:"It is not broken, and it is the system doing its job. Your limit is not a fixed figure — it is sixty percent of the stock you have pledged, recalculated at every valuation. The last revaluation came in twelve percent lower, so the limit fell below what is already drawn. You are 120 million short: pledge more stock, repay the difference, or ask the financier to raise the advance rate.", v:"strong",
+      f:"You confirmed both numbers, explained the mechanism in one sentence, and finished with three actions. A finance director who hears that once will never again mistake this alert for noise — and will defend the feature for you in their own organisation."}]},
+ {role:"Product owner — cutting scope",
+  line:'"Drop the collateral threshold alert from this release. It is a notification. We can add notifications any time."',
+  o:[{t:"Fine, cutting it.", v:"weak",
+      f:"You have just removed the only thing that tells a borrower their limit moved. The system will keep computing the breach perfectly and keep it to itself, which is worse than not computing it at all — the company would at least have had no false sense of safety."},
+     {t:"We can't, the event schema is already published to three consumers.", v:"weak",
+      f:"An integration argument against a business decision, and one the product owner can wave away as your problem. You also made it sound like the cost of cutting is rework rather than a customer finding out too late."},
+     {t:"It is the only feature that tells a customer their limit moved. Everything else here is calculated silently by a nightly job — a company can be over its limit for weeks without a person being involved, and the first they would hear of it is a demand letter. Could we cut the efficiency report instead? That one is read once a quarter.", v:"strong",
+      f:"You separated what warns from what reports, put the consequence in the customer's terms rather than the schema's, and offered a smaller cut yourself. Proposing an alternative beats refusing, every time."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparing Offers Without Being Fooled by the Headline</title>
+<meta name="description" content="Lesson 09 — three quotes in three different units, the arithmetic that makes them comparable, and why a ranking screen that sorts on the headline number is a recommendation rather than a sort.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="09">
+<meta name="tfbd:tags" content="marketplace, quotes, effective rate, arrangement fee, early payment discount, providers, ranking, SCF-17">
+<meta name="tfbd:level" content="Applied">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- lesson 09: three quotes side by side, reordered with CSS `order` ---- */
+.offers{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:640px){.offers{grid-template-columns:repeat(3,1fr)}}
+.of{background:var(--surface); padding:16px 18px; display:flex; flex-direction:column; gap:8px; transition:background .25s}
+.of.best{background:var(--ok-soft)} .of.worst{background:var(--no-soft)}
+.of .rk{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.of.best .rk{color:var(--ok)} .of.worst .rk{color:var(--no)}
+.of .nm{font-size:15px; color:var(--ink); line-height:1.3}
+.of .hd{font-family:var(--ff-mono); font-size:18.5px; color:var(--fast); line-height:1.25; font-variant-numeric:tabular-nums}
+.of .sm{font-size:12.5px; color:var(--muted); line-height:1.5}
+.of .true{margin-top:auto; padding-top:10px; border-top:1px solid var(--line)}
+.of.raw .true{display:none}
+.wk{list-style:none; margin:0 0 10px; padding:0; font-family:var(--ff-mono); font-size:12px; color:var(--muted); line-height:1.75}
+.wk li{display:flex; justify-content:space-between; gap:10px}
+.wk li:last-child{color:var(--ink-2); border-top:1px dotted var(--line); margin-top:4px; padding-top:4px}
+.of .pc{font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; color:var(--ink)}
+.of .dg{font-family:var(--ff-mono); font-size:12.5px; color:var(--muted); font-variant-numeric:tabular-nums; margin-top:4px}
+.stat .v.nmv{font-size:14.5px; line-height:1.35; word-break:break-word}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 09</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Turning invoices into cash · Lesson 09</div>
+  <h1>Comparing offers without being fooled by the headline</h1>
+  <p class="lede">Three quotes come back in three different shapes, and the screen has to put them in order. Sorting by the column labelled "rate" ranks them wrongly — and the offer with the smallest number on it is routinely the one that costs the most money.</p>
+  <div class="facts"><span>16 min</span><span>Arithmetic done slowly</span><span>Three quotes, one unit</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>What actually comes back when you ask for money</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>A company is holding an <button class="t" data-t="hoadon">invoice</button> for 550 million, due in ninety days. It needs 500 million now. It does not walk into one bank and take whatever it is offered — it posts the request once, and several institutions answer.</p>
+    <p>That is the marketplace. Each <button class="t" data-t="nhataitro">finance provider</button> is a row in a catalogue an administrator maintains: a name, a code, optionally an API address, and the band of rates that provider is prepared to quote inside. A provider that is not <code>ACTIVE</code> is never asked. A provider that has registered no rate band at all does not answer, and the system does not invent a number on its behalf.</p>
+    <p>The request itself is a financing offer — the amount asked for, how many days the money is needed for, and which <button class="t" data-t="chietkhau">discounting</button> product it is. It goes out, and what comes back is one <button class="t" data-t="chaogia">quote</button> per provider.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Day 0 — the request goes out</div><div class="ds">500 million against one invoice, ninety days. Every ACTIVE provider in the catalogue is asked, one after another.</div></div>
+    <div class="arrow">each provider prices it their own way</div>
+    <div class="node"><div class="nm">Day 0 — three quotes come back</div><div class="ds">A rate, a fee in đồng, what would actually land, over how many days, and the moment the price stops being good. Seven days, typically.</div></div>
+    <div class="arrow">someone reads the board and presses a button</div>
+    <div class="node core"><div class="nm">Day 2 — one quote is selected</div><div class="ds">Its numbers are copied onto the offer, the others are marked declined, and a <button class="t" data-t="hanmuc">limit</button> somewhere is reduced. This lesson is about that button.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>A quote is not a rate card. It is a price with an expiry date on it, given for one amount over one period, and it stops being valid whether or not anybody has read it. So the board on the screen is a snapshot of three opinions about the same ninety days — and the only thing the three have in common is that each of them wants your <button class="t" data-t="phaithu">receivable</button>.</p>
+    <p class="vi"><b>In the code</b><code>FinanceProvider</code> (<code>finance_providers</code>) with <code>ProviderStatus = ACTIVE | INACTIVE | SUSPENDED</code>; <code>MarketplaceService.activeProviders</code> asks only the ACTIVE ones, and a provider named explicitly in the request that has since gone SUSPENDED is dropped rather than quoted. Each answer becomes a <code>ProviderQuote</code> row carrying <code>discount_rate</code>, <code>fee_amount</code>, <code>net_proceeds</code>, <code>tenor_days</code>, <code>valid_until</code>, a free-form <code>terms</code> jsonb, <code>rank_no</code> and <code>status = RECEIVED | SELECTED | DECLINED | EXPIRED</code>, unique on <code>(offer_id, provider_id)</code>. <code>POST /marketplace/compare</code> writes none of them: comparing is looking at prices, <code>submit</code> is asking for them (SCF-16, SCF-17).</p>
+    <p class="vi"><b>Tiếng Việt</b>Marketplace là chỗ doanh nghiệp hỏi giá nhiều đơn vị tài trợ cùng lúc thay vì đi từng nơi. Mỗi đơn vị trả về một báo giá: lãi suất, phí, số tiền thực nhận, kỳ hạn và hạn hiệu lực. Báo giá là một mức giá có hạn dùng, không phải bảng giá — hết hạn là hết, dù chưa ai kịp đọc.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Three numbers, three units, one conversion</h2>
+
+  <div class="stack">
+    <p>Here is what actually arrives on the screen. Read the three headlines the way a director reads them, in about two seconds each.</p>
+    <p><b>"1.2% per month."</b> A rate. It grows with every day you hold the money.<br>
+       <b>"2% flat."</b> Not a rate. One fee, the same whether you keep the money for a fortnight or for four months.<br>
+       <b>"3% off the face value."</b> Also not a rate, and not even a fee — a slice taken off the amount before it reaches you. You are quoted 500 million and 485 arrives.</p>
+    <p>1.2 is smaller than 2, which is smaller than 3. That comparison is meaningless. The three numbers measure different things per different denominators over different periods, and putting them in one column and sorting it is the same class of mistake as sorting a column that mixes metres, miles and knots.</p>
+  </div>
+
+  <div class="pull"><q>A rate is a number per unit of time. A fee is a number. Ranking one against the other is a type error, and it costs real money.</q></div>
+
+  <div class="stack">
+    <p>There is exactly one unit all three can be converted into, and it is worth memorising because everything else in this lesson is an application of it. The <button class="t" data-t="laisuatthucte">effective annual rate</button> is:</p>
+    <p><b>every cost of the deal, added up</b> — divided by <b>the money that actually reached the account</b> — multiplied by <b>365 over the number of days you actually hold it</b>.</p>
+    <p>Two of those three phrases are where people go wrong, so take them one at a time.</p>
+  </div>
+
+  <h3>The arithmetic, slowly</h3>
+  <div class="stack">
+    <p>Take the first quote. 1.2% per month, ninety days, 500 million asked for. In the small print, an arrangement fee of 0.4% charged once.</p>
+    <p><b>1.</b> Interest: 500,000,000 × 1.2% × 3 months = <b>18,000,000</b>.<br>
+       <b>2.</b> Arrangement fee: 500,000,000 × 0.4% = <b>2,000,000</b>.<br>
+       <b>3.</b> Everything the deal costs: 18,000,000 + 2,000,000 = <b>20,000,000</b>.<br>
+       <b>4.</b> Both are deducted at drawdown, so what lands in the account is 500,000,000 − 20,000,000 = <b>480,000,000</b>.<br>
+       <b>5.</b> Cost as a share of the money that arrived: 20,000,000 ÷ 480,000,000 = <b>4.1667%</b>.<br>
+       <b>6.</b> That was for ninety days. A year is 365, so 365 ÷ 90 = <b>4.0556</b>.<br>
+       <b>7.</b> 4.1667% × 4.0556 = <b>16.90% a year</b>.</p>
+    <p>The meeting will call this offer "one point two". Twelve times 1.2 is 14.4, so the number people carry out of the room is fourteen and a half percent. The true figure is sixteen point nine, and the gap has two causes worth separating.</p>
+    <p>The first is the fee that is not the rate: two million đồng nobody annualised. The second is the denominator. You are paying for the use of 480 million, not 500 — the other twenty never arrived. Dividing by the amount asked for instead of the amount received makes every deal look slightly cheaper than it is, always in the same direction, and the effect grows as the fee grows.</p>
+    <p>And the last step, the one that does the real work: <em>365 over the days you actually hold it</em>. A cost is not expensive or cheap by itself. It is expensive or cheap relative to how long it buys you the money — which is why the same fee can be a bargain and a scandal depending on nothing but the calendar.</p>
+    <p class="vi"><b>In the code</b><code>FinancingFormula.effectiveAnnualRatePercent(fee, requested, tenor)</code> is <code>fee × 36 500 ÷ (requested × tenor)</code> — the conversion above in one line, with a 365-day year. The javadoc explains why 365 rather than the 360 many Vietnamese loan contracts use: the API returns the formula <em>as a string</em> so the person approving can check it on a calculator, and moving the denominator moves the contract, not a constant. Note it divides by <code>requestedAmount</code> and not by <code>netProceeds</code> — so what it reports is the discount rate rather than the yield on the cash received, and it is the smaller of the two numbers.</p>
+    <p class="vi"><b>Tiếng Việt</b>Chỉ có một đơn vị so sánh được: tổng chi phí chia cho số tiền thực nhận, rồi nhân 365 chia số ngày thực dùng tiền. Hai chỗ hay sai là mẫu số — phải là tiền thực về, không phải số tiền đề nghị — và việc quy về năm theo đúng số ngày. Bỏ bước quy năm thì "2% một lần" và "1,2% một tháng" nhìn như cùng loại, mà chúng không cùng loại.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>A flat fee is a rate wearing a disguise</h2>
+
+  <div class="stack">
+    <p>"2% flat" is the most quietly dangerous phrase on the board, because it sounds like the absence of a rate. It is not. It is a rate whose annual value depends entirely on a number the quote does not mention.</p>
+    <p>Two percent flat, ninety days, on 500 million: the fee is 10 million, 490 million arrives, so 10 ÷ 490 × 365 ÷ 90 = <b>8.3% a year</b>. Cheap. Genuinely cheap.</p>
+    <p>The same two percent flat over thirty days: the fee is still 10 million, 490 million still arrives, but now 10 ÷ 490 × 365 ÷ 30 = <b>24.8% a year</b>. Three times the cost, same headline, same provider, same sentence in the email.</p>
+    <p>Over a fortnight it is 53%. There is no dishonesty anywhere in this: the provider said two percent and charged two percent. The period was simply never part of the number, and the shorter the period, the more that omission is worth to them.</p>
+  </div>
+
+  <h3>The same trick, pointing the other way</h3>
+  <div class="stack">
+    <p>Now turn the telescope around, because the identical arithmetic applies to money you are asked to <em>give up</em>, and there it is the best deal most companies never take.</p>
+    <p>A supplier writes <b>"2/10 net 30"</b> on the invoice. It means: the full amount is due in thirty days, but take two percent off if you pay within ten. Everyone reads that as a small discount and files it.</p>
+    <p>It is an <button class="t" data-t="chietkhauthanhtoansom">early-payment discount</button>, and it is a return on cash. You give up 2 to keep 98, twenty days earlier than you had to: 2 ÷ 98 × 365 ÷ 20 = <b>37.2% a year</b>. There is no financing product in this system, or in the market, that pays a company 37% for parking its cash for twenty days.</p>
+    <p>The catch is that it is only a return if you have the cash. Paying twenty days early shortens your <button class="t" data-t="dpo">DPO</button>, which lengthens your <button class="t" data-t="ccc">cash conversion cycle</button> by the same twenty days. A company with spare cash should take every 2/10 net 30 it is offered. A company that would have to borrow at 16.9% to take it should also take it, because 37 is bigger than 16.9 — and a company with no <button class="t" data-t="thanhkhoan">liquidity</button> and no facility cannot, which is what being short of cash actually costs.</p>
+  </div>
+
+  <h3>The fees that are not the rate</h3>
+  <p class="prose" style="margin-bottom:20px">Every one of these is quoted separately from the rate, in smaller type, and every one of them is a real cost of the same transaction. Quoting them apart is not dishonest. It is merely extremely convenient, and it works on almost everybody.</p>
+  <ul class="uses">
+    <li><span class="u"><button class="t" data-t="phithuxep">Arrangement fee</button></span><span class="d">A one-off percentage of the amount, taken at drawdown. It does not shrink with the period, so it punishes short advances hardest — 0.4% on ninety days adds 1.7 points a year, on thirty days it adds five.</span></li>
+    <li><span class="u">Minimum drawdown</span><span class="d">Take 500 million against a minimum of 900 and the percentage is charged on the 900. The rate on the page is honest and the cost is nearly double what you read.</span></li>
+    <li><span class="u">Unused-facility charge</span><span class="d">A small percentage a year on the part of the limit you leave alone. It is the price of the option to draw, and it is paid whether or not you ever do.</span></li>
+    <li><span class="u">Days to disbursement</span><span class="d">Cash in one day and cash in five days are different lengths of the same product. <code>ProviderQuoteDraft.disbursementDays</code> exists in the contract and both adapters pass <code>null</code>, so today nothing on the board prices it.</span></li>
+  </ul>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>A ranking screen is not neutral. Sorting is a recommendation, and sorting on the wrong column is a wrong recommendation.</p>
+    <p class="sub"><code>MarketplaceService.ranked</code> sorts on <code>net_proceeds</code> descending and nothing else — and today that is right, because <code>tenorDays</code> comes from the request and every adapter echoes it straight back, so every quote on the board covers the same days. <code>ProviderQuote.tenor_days</code> is nevertheless a per-row column, and <code>rank_no</code> is persisted from that same sort. The first real provider API that answers with a tenor of its own will break nothing: the sort will keep running and quietly stop being true. Meanwhile <code>MarketplaceCompareResponse.Option</code> carries <code>discount_rate</code>, <code>fee_amount</code> and <code>net_proceeds</code> and no effective rate at all, so nothing on the screen lets anybody check the order it was put in.</p>
+  </div>
+
+  <p class="vi" style="margin-top:26px"><b>In one line</b>Whichever column you sort a comparison table by, you have told the user what you think. Make sure it is what you think.</p>
+  <p class="vi"><b>Tiếng Việt</b>"2% trọn gói" không phải là không có lãi suất — nó là lãi suất mà kỳ hạn bị giấu đi: 2% cho 90 ngày là 8,3%/năm, cũng 2% ấy cho 30 ngày là 24,8%/năm. Chiều ngược lại cũng vậy: "2/10 net 30" quy ra khoảng 37%/năm, cao hơn mọi lãi suất tài trợ trên bảng. Và một màn hình xếp hạng không bao giờ trung lập — sắp xếp chính là khuyến nghị.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Three quotes, in their own words</h2>
+  <p class="prose" style="margin-bottom:14px">The company needs <b>500.0m</b> now. Three providers have answered, each in its own unit, each with its small print underneath. The board below is sorted the way almost every comparison screen is sorted on its first release: by the number labelled "rate", ascending.</p>
+  <p class="prose" style="margin-bottom:26px">Press <em>convert to one unit</em> and the same three quotes are re-expressed as the cost of the money that actually lands, annualised over the days it is actually held. Then move the slider. The ranking changes as the period changes — that is not a quirk of these three offers, it is the whole point.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="convert" aria-pressed="false">Convert to one unit</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">How early the cash is needed<small>The days you actually hold the money — the denominator nobody quotes</small></span><span class="kv" id="vDays">90 days</span><input type="range" id="days" min="15" max="120" step="5" value="90"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Ranked on</span><span class="v nmv" id="stUnit">—</span></div>
+      <div class="stat"><span class="k">Cheapest</span><span class="v nmv" id="stCheap">—</span></div>
+      <div class="stat"><span class="k">Dearest</span><span class="v nmv" id="stDear">—</span></div>
+      <div class="stat"><span class="k">Difference in đồng</span><span class="v" id="stGap">—</span></div>
+    </div>
+    <div class="offers" id="offers"></div>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Nothing here is rounded in your favour: the fee lines add to the cost, the cost comes out of the amount, and the percentage is computed on what is left. The đồng figure is there because the percentage is what fools people and the đồng is what the director feels. The arithmetic lives in <code>finance/sim-09.js</code> and has its own check: <code>node tools/test-09.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"What is the denominator — the amount we asked for, or the money that actually lands?"</div><div class="use">Fees deducted at drawdown mean those two are never the same number. Dividing by the wrong one understates every deal by the same bias, and the bigger the fee the bigger the understatement. Ask it once per screen that shows a percentage.</div></div></li>
+    <li><div><div class="say">"Over how many days does this rate apply, and is it the same number of days on every row?"</div><div class="use">A comparison is only a comparison when the period is shared. The moment two rows carry their own tenor, a sort on money alone stops being a sort on cost — and it will not fail, it will just be wrong.</div></div></li>
+    <li><div><div class="say">"Which costs are inside fee_amount, and which ones are only mentioned in the terms?"</div><div class="use">Arrangement fees, minimum drawdowns and unused-facility charges are real money and they live in a jsonb blob nobody parses. If they are not in the number being ranked, the ranking is of something other than cost.</div></div></li>
+    <li><div><div class="say">"Is this table sorting, or is it recommending?"</div><div class="use">Users read the top row as the answer, whatever the column header says. That makes the choice of sort key a product decision, not a UI detail, and it deserves the same review as any other rule that moves money.</div></div></li>
+    <li><div><div class="say">"Can the person who signs this recompute the number with a calculator?"</div><div class="use">The financing calculation endpoint returns its own formula as a string for exactly this reason. A figure an approver cannot reproduce is a figure they have to trust, and nobody signs a contract on trust twice.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Không cần biết định giá. Chỉ cần mỗi lần thấy một cột phần trăm thì hỏi ba câu: mẫu số là gì, bao nhiêu ngày, và những khoản phí nào chưa nằm trong đó. Ba câu ấy đủ để không xếp hạng nhầm.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 09 of 15 · Next: a budget is not a forecast, and the five states of the same đồng.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../terms/09.js"></script>
+<script src="../sim-09.js"></script>
+<script>
+(function(){
+"use strict";
+function tr(n){ return (n/1e6).toFixed(1) + "m"; }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l9")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l9",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- the comparison board ---------- */
+var OF=window.OFFERS;
+var board=document.getElementById("offers"), daysEl=document.getElementById("days");
+var convertBtn=document.getElementById("convert"), flag=document.getElementById("flag");
+var converted=false, cards={};
+
+OF.QUOTES.forEach(function(q){
+  var d=document.createElement("div"); d.className="of raw";
+  d.innerHTML='<div class="rk"></div><div class="nm"></div><div class="hd"></div>'
+            + '<div class="sm"></div>'
+            + '<div class="true"><ul class="wk"></ul><div class="pc"></div><div class="dg"></div></div>';
+  d.querySelector(".nm").textContent=q.name;
+  d.querySelector(".hd").textContent=q.headline;
+  d.querySelector(".sm").textContent=q.small;
+  board.appendChild(d); cards[q.id]=d;
+});
+
+function costLine(ul,label,value){
+  var li=document.createElement("li");
+  var a=document.createElement("span"); a.textContent=label;
+  var b=document.createElement("span"); b.textContent=value;
+  li.appendChild(a); li.appendChild(b); ul.appendChild(li);
+}
+
+function render(){
+  var days=+daysEl.value;
+  document.getElementById("vDays").textContent=days+" days";
+  var c=OF.compare(OF.AMOUNT, days), last=c.rows.length;
+
+  c.rows.forEach(function(r){
+    var el=cards[r.id];
+    el.style.order = converted ? r.trueRank : r.headlineRank;
+    el.className = "of" + (converted ? "" : " raw")
+                 + (converted && r.trueRank===1 ? " best" : "")
+                 + (converted && r.trueRank===last ? " worst" : "");
+    el.querySelector(".rk").textContent = converted
+      ? "No. " + r.trueRank + " · true cost"
+      : "No. " + r.headlineRank + " · headline number";
+
+    var ul=el.querySelector(".wk"); ul.innerHTML="";
+    if(r.base>OF.AMOUNT) costLine(ul,"Charged on",tr(r.base));
+    costLine(ul, r.quote.unit==="discount" ? "Discount taken"
+                 : r.quote.unit==="flat" ? "The flat fee" : "Interest", tr(r.headlineCost));
+    if(r.arrangeCost) costLine(ul,"Arrangement fee",tr(r.arrangeCost));
+    if(r.unusedCost) costLine(ul,"Unused facility",tr(r.unusedCost));
+    costLine(ul,"You receive",tr(r.received));
+
+    el.querySelector(".pc").textContent=r.annual.toFixed(2)+"% a year";
+    el.querySelector(".dg").textContent=tr(r.cost)+" ₫ of cost, over "+days+" days";
+  });
+
+  document.getElementById("stUnit").textContent = converted ? "cost of money received" : "the headline number";
+  document.getElementById("stCheap").textContent = converted ? c.best.quote.name : "—";
+  document.getElementById("stDear").textContent = converted ? c.worst.quote.name : "—";
+  document.getElementById("stGap").textContent = converted ? tr(c.spread) : "—";
+
+  if(!converted){
+    flag.innerHTML='<div class="stale">SORTED BY THE HEADLINE — the three numbers are 1.2, 2 and 3, in three different units, so this order means nothing at all. It is also the order almost every comparison screen ships in.</div>';
+  } else if(c.reversed){
+    flag.innerHTML='<div class="match">EXACTLY BACKWARDS — over '+days+' days the true order is the precise reverse of the headline order. The offer reading 1.2 costs '+tr(c.worst.cost)+
+      ', the one reading 3 costs '+tr(c.best.cost)+'. A director who picked the smallest number pays '+tr(c.spread)+' extra for the same 500.0m.</div>';
+  } else {
+    flag.innerHTML='<div class="match">CHEAPEST IS '+c.best.quote.name+' — '+c.best.annual.toFixed(2)+'% a year against '+
+      c.worst.annual.toFixed(2)+'%, a difference of '+tr(c.spread)+' on the same 500.0m. Drag the slider: the order changes three times between a fortnight and four months, and nothing about the quotes changed.</div>';
+  }
+  mark("sim");
+}
+
+daysEl.addEventListener("input", render);
+convertBtn.addEventListener("click", function(){
+  converted=!converted;
+  convertBtn.setAttribute("aria-pressed", converted);
+  convertBtn.textContent = converted ? "Back to the headlines" : "Convert to one unit";
+  render();
+});
+document.getElementById("reset").addEventListener("click", function(){
+  daysEl.value=90; converted=false;
+  convertBtn.setAttribute("aria-pressed","false"); convertBtn.textContent="Convert to one unit";
+  render();
+});
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"Three quotes for 500 million over 90 days: \"1.2% per month\", \"2% flat\", and \"3% off the face value\". Before touching a calculator, which is most likely to be the most expensive?",
+  o:["The 3% one — it is the biggest number",
+     "The 1.2% one — it is the only one that grows with every day the money is held",
+     "The 2% one, because flat fees are always worst",
+     "They cost the same; the units are just presentation"],
+  a:1,
+  why:"1.2% a month over three months is 3.6% before a single fee is added, against 2% and 3% that do not move with time at all. The number printed smallest is the only one being multiplied by the period. Shorten the period to thirty days and it becomes the cheapest of the three — same three quotes, opposite answer."},
+ {q:"A provider quotes \"2% flat\". Why does the annualised cost differ between a 30-day advance and a 90-day one when the percentage does not?",
+  o:["Because the provider charges more for shorter loans",
+     "Because compounding is applied monthly",
+     "Because the same fee buys a third of the time — the đồng are identical and the days in the denominator are not",
+     "Because a 30-day advance has a larger arrangement fee"],
+  a:2,
+  why:"Nothing about the provider or the fee changes. 2% flat is about 8.3% a year over ninety days and about 24.8% over thirty, because annualising divides by the days you actually hold the money. A flat fee is a rate whose period has been left out of the sentence."},
+ {q:"MarketplaceService ranks quotes by net_proceeds descending, and only that. When does this stop being correct?",
+  o:["Never — more money received is always the better deal",
+     "As soon as two quotes on the same board carry different tenor_days, because then the rows are not buying the same length of time",
+     "When a provider is SUSPENDED",
+     "When the amounts are large enough for rounding to matter"],
+  a:1,
+  why:"Today every adapter echoes the request's tenorDays straight back, so the whole board covers the same period and money received does rank cost correctly. But tenor_days is a per-row column and rank_no is persisted from that sort. The first provider API that answers with a tenor of its own will not throw anything — the sort will keep running and simply stop being true."},
+ {q:"An advance of 500 million carries 20 million of fees, all deducted at drawdown. What is the cost as a share of the money received, and why does the distinction matter?",
+  o:["4.00% — 20 over 500, because 500 is the size of the deal",
+     "4.1667% — 20 over 480, because 480 is what you can actually spend",
+     "Either; the difference is too small to matter",
+     "It depends on whether the fee is called interest or a fee"],
+  a:1,
+  why:"You are paying for the use of 480 million, not 500 — the other twenty never arrived. Dividing by the amount requested biases every deal in the same direction, cheaper than it is, and the bias grows with the fee. FinancingFormula.effectiveAnnualRatePercent divides by requestedAmount, which is why it reports a discount rate rather than a yield."},
+ {q:"A supplier offers \"2/10 net 30\". The company has cash sitting in the account. What should it do?",
+  o:["Ignore it — 2% is not worth changing the payment run for",
+     "Pay on day 10: giving up 2 to keep 98 twenty days early is about 37% a year, better than any rate on the marketplace",
+     "Pay on day 30 to protect DPO, since a longer DPO is always better",
+     "Ask a financier to fund the early payment, then take the discount"],
+  a:1,
+  why:"2 ÷ 98 × 365 ÷ 20 is 37.2% a year. Paying early does shorten DPO and lengthen the cash conversion cycle, which is a real cost — but 37% is far above anything a provider will quote, so for a company holding idle cash it is the best return on the board. The company that cannot take it is the one that is short of cash, and this is one of the ways that shortage is paid for."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — refining the comparison screen",
+  line:'"Sort the table by the rate column ascending and highlight the top row as recommended."',
+  o:[{t:"Sure. Ascending on discount_rate, first row gets the badge.", v:"weak",
+      f:"You have just shipped a recommendation engine and called it a sort. The rate column holds percentages per month, one-off fees and discounts off face value, so the top row is whichever provider chose the smallest-looking way to describe itself."},
+     {t:"Sorting by rate is mathematically incorrect.", v:"weak",
+      f:"Correct and useless. The BA hears a developer objecting to a simple ticket, keeps the requirement, and the conversation is over. Nothing in that sentence tells them what goes wrong or what to do instead."},
+     {t:"Those rates are in different units — one is per month, one is a single fee, one is a cut off the face value. Sorted ascending, the top row is just whoever worded their offer smallest. Could we compute cost over money received, annualised over the tenor, and sort on that? It is one line, and it is already in FinancingFormula.", v:"strong",
+      f:"You named the defect in the data rather than in the ticket, said what the user would actually get, and finished with a proposal that costs almost nothing. Pointing at code that already exists is what turns this from an argument into a decision."}]},
+ {role:"A provider's sales manager — during the demo",
+  line:'"Your screen says we are the most expensive. We have the lowest rate on the page."',
+  o:[{t:"Both are true. Your rate is the lowest, and it is the only one charged per month — over ninety days it compounds out to more money than a one-off two percent. Here is the same comparison in đồng: yours costs twenty million, theirs fifteen point nine. If the customer needs the cash for thirty days instead, you are the cheapest on the board.", v:"strong",
+      f:"You agreed with them before you disagreed, moved the conversation to đồng where there is nothing to argue about, and then handed them the case where they win. That last part is why they will keep talking to you."},
+     {t:"Let me check the calculation — there may be a bug.", v:"weak",
+      f:"You have conceded a defect that does not exist, in front of a customer, on the one screen whose entire value is being trusted. Expect a ticket, an afternoon of re-deriving arithmetic that was already right, and a screen nobody quite believes again."},
+     {t:"The rate is not what matters. What matters is the effective cost.", v:"weak",
+      f:"True, and it sounds like being told you are asking the wrong question. Nothing here shows them the number, so they leave believing the screen is biased against them — which is the most expensive outcome available in that room."}]},
+ {role:"Product owner — cutting scope",
+  line:'"Drop the effective-rate column. Two percentage columns will confuse users."',
+  o:[{t:"OK, we will keep the rate column only.", v:"weak",
+      f:"You have kept the column that means three different things and dropped the one that means one thing. The screen still ranks the offers; it just no longer shows the basis for the ranking, which is worse than either option on its own."},
+     {t:"We can't, the whole comparison depends on it.", v:"weak",
+      f:"Overstated and easy to wave away — the screen plainly renders without it. Arguing that a feature is load-bearing when the build is green is how a developer loses the next three scope conversations too."},
+     {t:"The column that confuses is the rate one: it holds per-month, flat and discount-off-face in the same cells. If we can only show one, show cost in đồng over the period — nobody needs training to read twenty million against sixteen. We could keep the percentage behind the row expander.", v:"strong",
+      f:"You accepted the constraint, showed which column was actually the confusing one, and offered a version that is simpler than what they asked for. Proposing a smaller thing than the one being cut is the move that gets a developer invited back."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

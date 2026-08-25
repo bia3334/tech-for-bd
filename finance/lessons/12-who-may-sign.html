@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who May Sign</title>
+<meta name="description" content="Lesson 12 — segregation of duties, chief accountant against phụ trách kế toán, and the exemption clauses that decide whether your approval chain serves a legal customer or deadlocks them. For developers building financial systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="12">
+<meta name="tfbd:tags" content="segregation of duties, bất kiêm nhiệm, Luật Kế toán 2015, Nghị định 174/2016, Nghị định 80/2021, chief accountant, phụ trách kế toán, delegation, approval workflow, micro-enterprise">
+<meta name="tfbd:level" content="Applied">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- lesson 12: the legal profile form and the chain it derives ---- */
+.knob select{font:inherit; font-family:var(--ff-mono); font-size:13.5px; width:100%; padding:8px 9px; border:1px solid var(--line); border-radius:2px; background:var(--paper); color:var(--ink)}
+.knob.wide{grid-template-columns:minmax(0,1fr)}
+.picks{display:flex; flex-wrap:wrap; gap:8px}
+.pick{background:transparent; color:var(--ink-2); border:1px solid var(--line); padding:7px 12px; font-size:13px; font-family:var(--ff-mono)}
+.pick:hover{border-color:var(--muted)}
+.pick[aria-pressed="true"]{background:var(--fast-soft); border-color:var(--fast); color:var(--fast)}
+.sized{padding:13px 18px; border-bottom:1px solid var(--line); background:var(--sunk); font-family:var(--ff-mono); font-size:12px; color:var(--muted); line-height:1.8}
+.sized b{color:var(--ink); font-weight:500}
+.sized .no{color:var(--no)} .sized .yes{color:var(--ok)}
+.chain{padding:20px 18px 6px}
+.chain .flow{margin:0; max-width:none}
+.node .rl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.1em; color:var(--muted); margin-top:7px; word-break:break-word}
+.node .lw{font-size:13px; color:var(--muted); margin-top:9px; padding-top:9px; border-top:1px solid var(--line); line-height:1.55}
+.node.rebound{border-color:var(--fast)} .node.rebound .nm{color:var(--fast)}
+.checks{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.checks li{background:var(--surface); padding:13px 18px}
+.checks .hd{display:flex; gap:11px; align-items:baseline; font-size:14.5px; color:var(--ink); line-height:1.5}
+.checks .src{font-family:var(--ff-mono); font-size:10px; letter-spacing:.12em; flex:none}
+.checks .src.law{color:var(--no)} .checks .src.product{color:var(--fast)}
+.checks .art{font-size:13px; color:var(--muted); margin-top:6px; line-height:1.55}
+.checks li.off{opacity:.42}
+.checks li.off .hd .tx{text-decoration:line-through}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 12</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Supply chain finance · Lesson 12</div>
+  <h1>Who may sign, and who may not</h1>
+  <p class="lede">One person raises the payment, a second approves it, a third confirms the money left. It reads like a configuration screen and it is a question of law — carrying an exemption clause that, if you miss it, turns your approval chain into a permanent deadlock for several hundred thousand entirely legal companies.</p>
+  <div class="facts"><span>18 min</span><span>No legal knowledge assumed</span><span>Ends with the line between law and house rule</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>Three accounts, never one</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>A company owes a supplier a hundred and eighty million đồng. Follow the payment through the system and count the hands it passes through.</p>
+    <p>An accountant opens the supplier's <button class="t" data-t="chungtu">chứng từ</button>, keys in the amount, the account and the date, and submits it. A manager opens the request, checks it against what was budgeted, and approves it. Then a third person — the cashier — logs into the bank, sends the money, comes back, marks the entry as executed and attaches the payment order the bank stamped.</p>
+    <p>Three different people, three different logins. A fourth signature sits between them, and it is different in kind: the chief accountant's. The other three are decisions about the transaction — should this be paid, was it paid. That one is a decision about the paperwork: is this fit to go into the books at all.</p>
+    <p>The obvious question is why the software should care. The company can hire whomever it likes; why should the product have an opinion about which employee presses which button?</p>
+    <p>Ask what one account holding all four could do. Raise a payment to an account it controls. Approve it. Mark it executed. Attach a document naming a different supplier. Every one of those steps is ordinary on its own, and the four together are a theft that leaves a complete, internally consistent, entirely false record behind it. The separation is not ceremony. It exists so that the <button class="t" data-t="vetkiemtoan">audit trail</button> is written by more than one hand — which means faking it requires more than one person to agree to.</p>
+    <p class="vi"><b>In the code</b>A <code>PaymentRequest</code> in workflow-service carries <code>requester_user_id</code> and a snapshot of <code>requester_name</code>; each human step becomes an <code>ApprovalTask</code> row with its <code>camunda_task_id</code>, <code>candidate_group</code>, <code>assignee_user_id</code> and <code>completed_at</code>. The cashier's step is not a Camunda task at all — it is <code>TransactionService</code>, where <code>requireExecutorNotMaker</code> and <code>requireExecutorNotApprover</code> run before a transaction may reach <code>EXECUTED</code>, and <code>Roles.CASHIER</code> alone holds <code>execute</code>.</p>
+    <p class="vi"><b>Tiếng Việt</b>Một khoản chi đi qua ít nhất ba tài khoản khác nhau: người lập chứng từ, người duyệt chi, và thủ quỹ xác nhận tiền đã rời tài khoản. Lý do không phải hình thức — một người nắm cả ba vai vừa chuyển được tiền vừa dựng được một bộ hồ sơ khớp nhau hoàn toàn nhưng sai sự thật. Tách vai là để vết kiểm toán do nhiều người cùng viết.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>The law forbids a list, not a principle</h2>
+
+  <div class="stack">
+    <p>The Vietnamese name for that separation is <button class="t" data-t="batkiemnhiem">nguyên tắc bất kiêm nhiệm</button>, and the natural way for a developer to read it is as a general rule: roles must be split, so split them. That is not what the statute says, and the difference is the most commercially valuable thing in this lesson.</p>
+    <p>Read the accounting law the way you would read an API contract — what it obliges, what it forbids, what breaks if you get it wrong — and what you find is a <em>closed list</em> of forbidden combinations. Three entries:</p>
+  </div>
+
+  <ul class="uses">
+    <li><span class="u">A manager, a storekeeper, a cashier or a person who buys and sells the company's assets may not also do the accounting</span><span class="d">Luật Kế toán 2015 Điều 52 khoản 4, spelled out in Nghị định 174/2016/NĐ-CP Điều 19 khoản 3.</span></li>
+    <li><span class="u">A close relative of the legal representative or the director may not be <button class="t" data-t="ketoantruong">chief accountant</button> or head of finance</span><span class="d">Parent, spouse, child, adopted child, sibling. Luật Kế toán 2015 Điều 52 khoản 3 and Nghị định 174/2016/NĐ-CP Điều 19 khoản 2.</span></li>
+    <li><span class="u">A spending voucher needs two signatures before the money moves</span><span class="d">The person authorised to approve the spend, and the chief accountant or a person they authorised — Luật Kế toán 2015 Điều 19 khoản 3. Thông tư 99/2025/TT-BTC Điều 10 khoản 4 then forbids the chief accountant signing in the manager's slot, so those two signatures must be two people.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:26px">
+    <p>Now the part that is easy to miss. Outside that list, the default is <em>permission</em>, and it is written down rather than merely implied. Nghị định 174/2016/NĐ-CP Điều 18 khoản 1: an accounting unit may have the person doing its accounting hold other jobs as well, as long as accounting law does not specifically prohibit them.</p>
+    <p>So put the product's own rule to the list. "The person who raised the payment may not be the one who marks it executed." Which of the three entries is that? None. Nothing in the statute forbids it.</p>
+  </div>
+
+  <div class="pull"><q>The law names a closed list of forbidden pairs. Everything outside the list is your product's opinion — a good opinion, and still yours.</q></div>
+
+  <div class="stack">
+    <p>What the law does require is one level up. Luật Kế toán 2015 Điều 39 khoản 2, and more recently Thông tư 99/2025/TT-BTC Điều 3 khoản 2, put the obligation on the <em>company</em> to write internal control rules of its own that divide who creates a transaction from who controls it. The duty is to have rules. The content of those rules is the company's to decide, and separating maker from approver from cashier is an excellent way of discharging it.</p>
+    <p>It is not the duty itself. And that distinction is worth money for one blunt reason: <em>a rule that comes from law cannot be relaxed for a customer who asks, and a rule that is a product decision must be.</em> Sooner or later a lawful customer will need it relaxed. Present the second kind as the first and you have told a paying company that its legal structure is illegal — while sounding completely certain.</p>
+    <p class="vi"><b>In the code</b>The project's two documents disagree here, and the FRS is the one that is right. The research annex <code>Định Nghĩa Và Pháp Luật.md</code> presents segregation as statutory compulsion — "hệ thống bắt buộc phải… rào cản kỹ thuật cứng". FRS §5.3 SEC-08 corrects it in its own text: this is a <em>quyết định sản phẩm</em> under Điều 39 khoản 2 and Thông tư 99/2025 Điều 3 khoản 2, "không phải nghĩa vụ luật định độc lập", and it "không được trình bày với người dùng như một đòi hỏi của luật". Follow the FRS. The four identity checks split the same way: <code>DUAL_SIGNATURE_SAME_PERSON</code> in <code>WorkflowErrorCodes</code> is law; <code>APPROVER_IS_REQUESTER</code>, and <code>EXECUTED_BY_MAKER</code> and <code>EXECUTED_BY_APPROVER</code> in <code>TransactionErrorCodes</code>, are the house rules.</p>
+  </div>
+
+  <h3>Standing in for someone, for two weeks</h3>
+  <p class="prose" style="margin-bottom:20px">Notice that Điều 19 khoản 3 does not say "the chief accountant". It says the chief accountant <em>or a person they authorised</em>. The statute contemplates a stand-in, which is why the system has <button class="t" data-t="uyquyen">time-boxed delegation</button> (TM-14) rather than pretending nobody ever goes on leave. It runs on two branches, and the interesting part is the third row.</p>
+  <ul class="uses">
+    <li><span class="u">Standing in for an approver</span><span class="d">For the period of the delegation, a task that would have waited in the delegator's queue also appears in the delegate's. Nobody's role changes. <code>approval_delegations</code> · workflow-service.</span></li>
+    <li><span class="u">Granting one functional permission</span><span class="d">Exactly one named operation for the period — draft a credit-limit contract template, say — instead of handing over a whole <code>DIRECTOR</code> role that is far wider than the job being lent. <code>permission_grants</code> · identity-service.</span></li>
+    <li><span class="u">What may never be delegated by either route</span><span class="d">Approving money. The cashier's confirmation that cash really moved. The chief accountant's signing step. User administration. And you may only give away authority you actually hold.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:26px">
+    <p>That last row is the load-bearing one. Delegation is precisely the mechanism that would quietly undo everything this section has established — one account collecting both signatures on a payment, legitimately, through a feature built to be helpful. So the delegation table is where the segregation rules have to be re-checked, not the place where they get skipped.</p>
+    <p class="vi"><b>In the code</b>Both branches carry the same shape: <code>from_date</code>, <code>to_date</code>, <code>reason</code>, a recorded grantor, an <code>active</code> flag, and a <code>CHECK (to_date &gt;= from_date)</code>. Both refuse self-dealing in the schema — <code>ck_delegations_self</code> and <code>ck_permission_grants_self</code>. <code>ApprovalFlowStep.allow_delegate</code> decides per step whether delegation reaches it at all, and <code>DELEGATE_NOT_QUALIFIED</code> refuses a stand-in who does not qualify for the chief-accountant group.</p>
+    <p class="vi"><b>Tiếng Việt</b>Luật cấm theo một danh sách đóng: kế toán không được kiêm thủ quỹ, thủ kho, quản lý điều hành hay người mua bán tài sản; người thân của giám đốc không được làm kế toán trưởng; chứng từ chi tiền phải có hai chữ ký của hai người trước khi chi. Ngoài danh sách đó, Nghị định 174/2016 Điều 18 khoản 1 cho phép kiêm nhiệm. Việc tách người lập khỏi người thực chi là quyết định của sản phẩm, không phải nghĩa vụ luật định — và vì thế phải nới được.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>The exemption clause nobody looked up</h2>
+
+  <div class="stack">
+    <p>Here is how this goes wrong in practice, and it went wrong in this project before it was caught. A legal review found Điều 19 khoản 3, read that a spending voucher needs the chief accountant's signature, and built a mandatory chief-accountant step into the payment workflow. Correct article, correct reading, and a product that a large slice of its own target market cannot use — because the review looked up the obligation clause and not the exemption clause sitting a few articles away.</p>
+    <p>There are three exemptions and they do not line up with each other, which is exactly why they are easy to collapse into one.</p>
+  </div>
+
+  <h3>One: the carve-out with no size test in it</h3>
+  <div class="stack">
+    <p>Both bars from the last section — the one on holding another job, and the one on relatives — carve out <em>doanh nghiệp tư nhân</em> and <em>công ty trách nhiệm hữu hạn do một cá nhân làm chủ sở hữu</em>. Luật Kế toán 2015 Điều 13 khoản 7 and Điều 52 khoản 4. Read them and notice what is absent: neither one mentions size, revenue, headcount or capital at all.</p>
+    <p>Which means the scenario your validation layer probably rejects is lawful. The director of a one-member LLC may hold the storekeeper's job and the cashier's job himself, and may employ his own sister as chief accountant. Not as a tolerated irregularity — as a legal structure the statute names on purpose. A product that refuses it is refusing a legal customer, and telling them they are breaking a law they are not breaking.</p>
+    <p>There is a modelling trap inside the second group. It requires the owner to be an <em>individual</em>. A one-member LLC owned by a holding company is not in this group at all — it falls into the third one, below. Storing "TNHH MTV" and calling it done is not enough to decide anything; you need to know who the member is.</p>
+  </div>
+
+  <h3>Two: the one the size test does bind</h3>
+  <div class="stack">
+    <p>Nghị định 174/2016/NĐ-CP Điều 19 khoản 3 extends the same exemption to companies of other legal forms — a two-member LLC, a joint-stock company — on two conditions that must both hold: the company is a micro-enterprise, <em>and</em> it has no state capital. State capital is never exempt, at any size, in any form.</p>
+    <p>So the size test binds one of the three groups and not the other two. Collapse them into a single "is this company small enough" check and you get the first group wrong in the direction that costs you customers.</p>
+  </div>
+
+  <h3>Three: the job title that need not exist</h3>
+  <div class="stack">
+    <p>Nghị định 174/2016/NĐ-CP Điều 20 khoản 2 điểm b lets a micro-enterprise appoint a <button class="t" data-t="phutrachketoan">phụ trách kế toán</button> instead of a chief accountant — permanently, with no time limit, unlike the twelve-month stopgap in khoản 1 for a company that has not managed to appoint one yet. Thông tư 58/2026/TT-BTC Điều 3 khoản 2, in force from 1 July 2026, states plainly that this person signs wherever a chief accountant would.</p>
+    <p>Now put that next to a workflow with a hard-coded step whose candidate group is <code>chief-accountant</code>. The company lawfully has nobody in that group. The task is created, it enters a queue with no members, and it stays there. Not until somebody is hired — forever, because the arrangement is permanent and entirely legal. Every payment that company tries to make stops at the same step. That is not an edge case; it is several hundred thousand registered companies.</p>
+    <p>And notice what the fix is not. The obligation in Điều 19 khoản 3 is a <em>signature</em>, and the article itself offers three lawful people to collect it from. Binding a workflow step to a job title rather than to the authority behind it is the actual bug.</p>
+  </div>
+
+  <h3>Which makes the control level a derived value</h3>
+  <div class="stack">
+    <p>Everything above is decided by facts about the company, so the system stores the facts and computes the rest. The company declares its sector, its social-insurance headcount, its revenue, its capital, its legal form, whether the owner is a person or an organisation, and whether there is state capital in it. From that, Nghị định 80/2021/NĐ-CP Điều 5 gives a <button class="t" data-t="quymodoanhnghiep">size</button>, and the rule engine reads the exemptions off the pair.</p>
+    <p>The sizing arithmetic is worth getting exactly right, because it is easy to write as three OR conditions and be wrong. Headcount is a <em>precondition</em>: the average number of employees on social insurance across the twelve months of the preceding year, and if it is over the bound the money figures never get a vote. Only once headcount passes does the company need <em>either</em> revenue for the preceding year <em>or</em> total capital at 31 December to be under its bound — either one, not both. And the bounds differ by sector: for agriculture, forestry, fishery, industry and construction a micro-enterprise is ten employees with revenue under 3 tỷ or capital under 3 tỷ; for trade and services it is ten employees with revenue under 10 tỷ or capital under 3 tỷ. A company that has not traded yet has no revenue figure, so capital decides alone.</p>
+    <p>Then the fallback, which is the part nobody writes a ticket for. When the legal profile is incomplete, or declared and not yet verified, the answer is the <em>strictest</em> mode — not the most convenient one. A missing fact is never read as permission. It works in the other direction too: declaring a smaller size than the truth to reach a support policy is its own offence under Nghị định 80/2021, with the money paid back, so an undeclared profile must never be given the benefit of the doubt.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>A control mode is a value derived from declared facts. It is never a toggle.</p>
+    <p class="sub">Never ship a checkbox that turns off <button class="t" data-t="batkiemnhiem">segregation of duties</button>. Store what the company legally <em>is</em> — legal form, owner individual or organisation, size, state capital — and derive the mode from it. The technical effect is identical and the accountability is not: a ticked box is what an administrator ticks when a screen is in the way, and nobody can explain it a year later; a declared legal form is a statement about a legal person, with a tax code behind it and somebody answerable for it.</p>
+  </div>
+
+  <div class="stack">
+    <p class="vi"><b>In the code</b><code>companies</code> carries four columns rather than one enum, because the two exemption axes do not line up: <code>enterprise_scale</code>, <code>legal_form</code>, <code>owner_is_individual</code>, <code>has_state_capital</code> (V9). <code>ck_companies_owner_declared</code> forces the form and the owner to be declared together or not at all, and the NOT NULL defaults are the strict end — <code>'MEDIUM'</code> and <code>false</code>. The derived answer is <code>InternalControlPolicyResponse(companyId, chiefAccountantStepRequired, segregationExempt)</code>, which has a <code>strict(UUID)</code> factory for when the profile cannot be read. Every change appends a row to <code>company_legal_profile_histories</code>. V9's own comment says the system does not have, and must not have, a <code>disable_segregation_of_duties</code> column.</p>
+    <p class="vi"><b>In the code</b>The micro branch does not hide the step, it routes around it: <code>approval_flows.process_definition_key</code> points at <code>payment-approval-micro</code>, a BPMN with no <code>UserTask_ChiefAccountant</code> in it at all, and <code>ChiefAccountantStep.isPresentIn()</code> reads that off the deployed model rather than trusting a configuration row.</p>
+    <p class="vi"><b>Tiếng Việt</b>Miễn trừ bất kiêm nhiệm áp cho doanh nghiệp tư nhân và công ty TNHH do một cá nhân làm chủ sở hữu ở <em>mọi quy mô</em> (Điều 13 khoản 7, Điều 52 khoản 4 Luật Kế toán 2015); các loại hình khác chỉ được miễn khi vừa siêu nhỏ vừa không có vốn nhà nước (Nghị định 174/2016 Điều 19 khoản 3). Doanh nghiệp siêu nhỏ còn được bố trí phụ trách kế toán thay kế toán trưởng vĩnh viễn. Chế độ kiểm soát là giá trị suy ra từ hồ sơ pháp lý đã khai — chưa khai thì áp chế độ chặt nhất.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Fill in a company, watch the chain change</h2>
+  <p class="prose" style="margin-bottom:14px">This is the rule engine, with nothing hidden. Declare a company's legal profile on the left and the classification under Nghị định 80/2021 Điều 5 appears above the result, one test at a time, so you can see which condition decided it. Below that is the approval chain the engine builds, and every identity check it does or does not impose — each one tagged <b>LUẬT</b> where a statute requires it and <b>SẢN PHẨM</b> where it is the product's own choice.</p>
+  <p class="prose" style="margin-bottom:26px">Start with <em>TNHH MTV Hải Đăng</em>: six employees, the director is also the storekeeper and the cashier, and his sister is the chief accountant. That company is lawful, and a naive implementation refuses it twice over. Then try <em>DNTN Sơn Hà</em>, far too large to be an SME and exempt anyway, and <em>Chưa khai hồ sơ</em> to see the fallback.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <div class="picks" id="picks"></div>
+    </div>
+    <div class="knobs">
+      <div class="knob wide"><span class="kl">Lĩnh vực hoạt động<small>The sector decides which column of Điều 5 applies</small></span><select id="sector"><option value="TRADE">Thương mại · dịch vụ</option><option value="AGRI">Nông–lâm–thuỷ sản · công nghiệp · xây dựng</option></select></div>
+      <div class="knob"><span class="kl">Lao động BHXH bình quân năm<small>A precondition — checked before any money figure gets a vote</small></span><span class="kv" id="vHc">6</span><input type="range" id="hc" min="0" max="260" step="2" value="6"></div>
+      <div class="knob"><span class="kl">Tổng doanh thu năm liền kề<small>tỷ đồng, from last year's income statement</small></span><span class="kv" id="vRev">8</span><input type="range" id="rev" min="0" max="350" step="2" value="8"></div>
+      <div class="knob"><span class="kl">Tổng nguồn vốn<small>tỷ đồng, at 31/12 of the preceding year</small></span><span class="kv" id="vCap">2</span><input type="range" id="cap" min="0" max="160" step="1" value="2"></div>
+      <label class="sw"><input type="checkbox" id="newco"> Mới thành lập, chưa phát sinh doanh thu — capital decides alone</label>
+      <div class="knob wide"><span class="kl">Loại hình doanh nghiệp<small>legal_form — the column the biggest exemption turns on</small></span><select id="form"></select></div>
+      <label class="sw"><input type="checkbox" id="owner" checked> Chủ sở hữu là cá nhân — owner_is_individual</label>
+      <label class="sw"><input type="checkbox" id="state"> Có vốn nhà nước — has_state_capital</label>
+      <label class="sw"><input type="checkbox" id="verified" checked> Hồ sơ pháp lý đã khai và đã đối chiếu</label>
+    </div>
+    <div class="sized" id="sized"></div>
+    <div class="stats">
+      <div class="stat"><span class="k">enterprise_scale</span><span class="v" id="stScale">—</span></div>
+      <div class="stat"><span class="k">segregation_exempt</span><span class="v" id="stExempt">—</span></div>
+      <div class="stat"><span class="k">chief_accountant_step_required</span><span class="v" id="stCa">—</span></div>
+      <div class="stat"><span class="k">Human accounts needed</span><span class="v" id="stPeople">—</span></div>
+    </div>
+    <div class="chain" id="chain"></div>
+    <ul class="checks" id="checks"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Notice what never happens: no step is ever removed from the chain. The chief accountant's signature is required by Điều 19 khoản 3 whatever the company's size — what a micro-enterprise changes is who may hold the pen. The thresholds are frozen from Nghị định 80/2021/NĐ-CP Điều 5 so two readers see the same thing. The logic lives in <code>finance/sim-12.js</code> and has its own check: <code>node tools/test-12.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in front of the customer whose company you have just called illegal.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Is that a legal requirement, or is it our own control?"</div><div class="use">The question this whole lesson exists for. Law cannot be relaxed for a customer who asks; a house rule must be, because eventually a lawful customer will need it relaxed. Confusing the two in either direction is expensive, and the expensive direction is telling a paying company that its legal structure is illegal.</div></div></li>
+    <li><div><div class="say">"Which article — and did anyone read the exemption clause in it as well?"</div><div class="use">Statutes are written as an obligation followed by its carve-outs, and a legal review that reads only the first half ships a product that refuses legal customers. In this project that exact mistake reached the FRS, and it is the reason SEC-09 exists at all.</div></div></li>
+    <li><div><div class="say">"What does this workflow do at a company that does not have that job title?"</div><div class="use">A step bound to a title rather than to an authority creates a task in a candidate group with no members, and it waits there forever. Ask it about every role your chain names, because "every company has one of those" is almost never true once you look up the exemptions.</div></div></li>
+    <li><div><div class="say">"Is this a fact about the company, or a switch on our screen?"</div><div class="use">The two have the same technical effect and completely different accountability. Facts get declared, versioned and checked against a tax code; switches get ticked by whoever was blocked that afternoon. Store the facts and derive the behaviour, and the audit answers itself.</div></div></li>
+    <li><div><div class="say">"What does this do when the profile is blank?"</div><div class="use">Every derived control needs a defined answer for missing input, and in anything touching money that answer is the strictest mode rather than the most convenient one. Put it in the schema as a NOT NULL default rather than in a service, so an unfilled form cannot quietly buy a relaxation.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần biết luật kế toán. Chỉ cần đủ để hỏi lại: chỗ này là luật bắt buộc hay là quy chế nội bộ do chính mình đặt ra — và điều luật đó có điều khoản miễn trừ nào không?</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 12 · Chapter 4, Planning and control · Next: when the bank statement and the books disagree.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../terms/12.js"></script>
+<script src="../sim-12.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l12")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l12",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- the rule engine ---------- */
+var SIGN=window.SIGN;
+var el=function(id){ return document.getElementById(id); };
+var sector=el("sector"), hc=el("hc"), rev=el("rev"), cap=el("cap"), newco=el("newco"),
+    form=el("form"), owner=el("owner"), state=el("state"), verified=el("verified");
+var TIER_VI={MICRO:"Siêu nhỏ", SMALL:"Nhỏ", MEDIUM:"Vừa"};
+
+Object.keys(SIGN.FORMS).forEach(function(k){
+  var o=document.createElement("option"); o.value=k; o.textContent=SIGN.FORMS[k]; form.appendChild(o);
+});
+
+function profile(){
+  return { sector:sector.value, headcount:+hc.value,
+           revenue: newco.checked ? null : +rev.value, capital:+cap.value,
+           form:form.value, ownerIsIndividual:owner.checked,
+           stateCapital:state.checked, profileVerified:verified.checked };
+}
+
+function load(p){
+  sector.value=p.sector; hc.value=p.headcount; cap.value=p.capital;
+  newco.checked = (p.revenue===null); if(p.revenue!==null) rev.value=p.revenue;
+  form.value=p.form; owner.checked=!!p.ownerIsIndividual;
+  state.checked=!!p.stateCapital; verified.checked=p.profileVerified!==false;
+}
+
+var picks=el("picks"), buttons=[];
+SIGN.PRESETS.forEach(function(pre,i){
+  var b=document.createElement("button"); b.type="button"; b.className="pick";
+  b.textContent=pre.name; b.title=pre.note; b.setAttribute("aria-pressed","false");
+  b.addEventListener("click", function(){ load(pre.p); render(i); });
+  picks.appendChild(b); buttons.push(b);
+});
+
+/* which test decided the tier — shown line by line so the AND/OR is visible */
+function sizeLines(r){
+  var out=[], stopped=false;
+  r.tests.forEach(function(t){
+    if(stopped) return;
+    var money = r.noRevenue
+      ? "nguồn vốn " + (t.capOk ? "≤" : ">") + " " + t.bound.cap + " tỷ (chưa có doanh thu)"
+      : "doanh thu " + (t.revOk ? "≤" : ">") + " " + t.bound.rev + " tỷ HOẶC nguồn vốn " + (t.capOk ? "≤" : ">") + " " + t.bound.cap + " tỷ";
+    var verdict = !t.hcOk ? '<span class="no">lao động vượt ' + t.bound.hc + ' — dừng ở đây, số tiền không được xét</span>'
+                : t.pass ? '<span class="yes">đạt</span>'
+                : '<span class="no">cả hai tiêu chí tiền đều vượt</span>';
+    out.push("<b>" + TIER_VI[t.tier] + "</b> · lao động ≤ " + t.bound.hc + " VÀ " + money + " → " + verdict);
+    if(t.pass) stopped=true;
+  });
+  if(r.size==="LARGE") out.push('<b>Trên mức vừa</b> · Điều 5 chỉ định nghĩa ba bậc — không phải SME. <code>enterprise_scale</code> vẫn phải ghi một giá trị, và nó ghi <b>MEDIUM</b>.');
+  return out.join("<br>");
+}
+
+function render(activeIdx){
+  var r=SIGN.assess(profile());
+
+  el("vHc").textContent=hc.value;
+  el("vRev").textContent = newco.checked ? "—" : rev.value + " tỷ";
+  el("vCap").textContent = cap.value + " tỷ";
+  rev.disabled=newco.checked;
+  owner.disabled = (form.value!=="LLC_SINGLE" && form.value!=="SOLE_PROPRIETORSHIP");
+  buttons.forEach(function(b,i){ b.setAttribute("aria-pressed", i===activeIdx ? "true" : "false"); });
+
+  el("sized").innerHTML = r.known
+    ? sizeLines(r)
+    : '<span class="no">Hồ sơ pháp lý chưa khai hoặc chưa đối chiếu.</span> Không phân loại được — áp chế độ chặt nhất, mọi phép kiểm bật hết.';
+
+  var s1=el("stScale"); s1.textContent=r.scale; s1.className="v";
+  var s2=el("stExempt"); s2.textContent=r.exempt?"true":"false"; s2.className="v"+(r.exempt?" cool":" hot");
+  var s3=el("stCa"); s3.textContent=r.chiefAccountantByTitle?"true":"false"; s3.className="v"+(r.chiefAccountantByTitle?" hot":" cool");
+  var s4=el("stPeople"); s4.textContent=r.minPeople; s4.className="v"+(r.minPeople>1?" hot":" cool");
+
+  var chain=el("chain"); chain.innerHTML="";
+  var flow=document.createElement("div"); flow.className="flow";
+  r.steps.forEach(function(st,i){
+    if(i){ var a=document.createElement("div"); a.className="arrow"; a.textContent="then"; flow.appendChild(a); }
+    var n=document.createElement("div"); n.className="node"+(st.status==="rebound"?" rebound":"");
+    var nm=document.createElement("div"); nm.className="nm"; nm.textContent=st.label;
+    var ds=document.createElement("div"); ds.className="ds"; ds.textContent=st.who;
+    var rl=document.createElement("div"); rl.className="rl"; rl.textContent=st.role;
+    var lw=document.createElement("div"); lw.className="lw"; lw.textContent=st.law;
+    n.appendChild(nm); n.appendChild(ds); n.appendChild(rl); n.appendChild(lw);
+    flow.appendChild(n);
+  });
+  chain.appendChild(flow);
+
+  var box=el("checks"); box.innerHTML="";
+  r.checks.forEach(function(c){
+    var li=document.createElement("li"); li.className=c.kept?"":"off";
+    li.innerHTML='<div class="hd"><span class="src"></span><span class="tx"></span></div><div class="art"></div>';
+    var src=li.querySelector(".src");
+    src.className="src "+c.source;
+    src.textContent = c.source==="law" ? "LUẬT" : "SẢN PHẨM";
+    li.querySelector(".tx").textContent = c.label + (c.kept ? "" : " — không áp dụng");
+    li.querySelector(".art").textContent = c.article;
+    box.appendChild(li);
+  });
+
+  var flag=el("flag");
+  if(!r.known){
+    flag.innerHTML='<div class="stale">STRICTEST MODE — nothing has been declared, so nothing is assumed. Three separate human accounts are needed and the chief-accountant title is required. This is the correct answer to missing data, not a placeholder: an undeclared profile must never buy a relaxation.</div>';
+  } else if(r.exempt && r.naive.deadlock){
+    flag.innerHTML='<div class="match">A NAIVE IMPLEMENTATION REFUSES THIS COMPANY TWICE. '+r.basis.why+
+      ' One person may lawfully run the whole chain, and a fixed floor of three accounts blocks that. On top of it, a micro-enterprise may appoint a phụ trách kế toán instead of a chief accountant — permanently, Nghị định 174/2016 Điều 20 khoản 2 điểm b — so a step hard-bound to the CHIEF_ACCOUNTANT title waits in an empty queue forever.</div>';
+  } else if(r.exempt){
+    flag.innerHTML='<div class="match">SEGREGATION RELAXED, CHIEF ACCOUNTANT STILL BY TITLE. '+r.basis.why+
+      ' Note the two axes coming apart here: the company is exempt from segregation because of what it is, and still needs a chief accountant because of how big it is. One boolean could not have carried both.</div>';
+  } else if(r.micro){
+    flag.innerHTML='<div class="stale">SEGREGATION APPLIES, CHIEF-ACCOUNTANT STEP DROPS. '+r.basis.why+
+      ' The company is micro, so it may appoint a phụ trách kế toán and the step binds to the authority rather than the title — but it still needs '+r.minPeople+' separate accounts to move money. The axes come apart in this direction too.</div>';
+  } else {
+    flag.innerHTML='<div class="stale">STRICT MODE — every check applies. '+r.basis.why+
+      ' '+r.minPeople+' separate human accounts are needed before a single đồng can leave the account, and one of those checks is not the product being careful: two signatures by two people is Điều 19 khoản 3 with Thông tư 99/2025 Điều 10 khoản 4.</div>';
+  }
+  mark("sim");
+}
+
+[sector,form].forEach(function(x){ x.addEventListener("change", function(){ render(-1); }); });
+[hc,rev,cap].forEach(function(x){ x.addEventListener("input", function(){ render(-1); }); });
+[newco,owner,state,verified].forEach(function(x){ x.addEventListener("change", function(){ render(-1); }); });
+load(SIGN.PRESETS[0].p); render(0);
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A one-member LLC. The director is also the storekeeper and the cashier, and the chief accountant is his own sister. Your role-assignment screen refuses to save it. Who is wrong?",
+  o:["The company — Điều 52 Luật Kế toán 2015 forbids exactly this combination",
+     "Nobody; the screen should show a warning rather than an error",
+     "The screen — both bars carve out doanh nghiệp tư nhân and one-member LLCs owned by an individual, and neither carve-out has a size test in it",
+     "The screen, but only for as long as the company stays a micro-enterprise"],
+  a:2,
+  why:"Luật Kế toán 2015 Điều 13 khoản 7 and Điều 52 khoản 4 both name these two legal forms and say nothing about size, revenue or headcount. The last option is the trap worth remembering: the size test binds only the third group, in Nghị định 174/2016/NĐ-CP Điều 19 khoản 3 — other legal forms, which must be both micro and free of state capital. Collapse the three groups into one size check and you get the biggest one wrong."},
+ {q:"A trading company: 12 employees on social insurance, revenue 4 tỷ, total capital 2 tỷ. Is it a micro-enterprise?",
+  o:["Yes — revenue is under 10 tỷ and capital is under 3 tỷ, so both economic tests pass",
+     "No — headcount is a precondition, 12 is over the 10 the article allows, and the money figures never get a vote",
+     "Yes — capital alone decides once revenue is under the bound",
+     "It depends on which of the two money figures the system happens to read first"],
+  a:1,
+  why:"Nghị định 80/2021/NĐ-CP Điều 5 reads as headcount AND (revenue OR capital). The headcount is a gate: fail it and the classification stops there, whatever the money says. Written as three OR conditions — the natural way to code it from the table — this company comes out micro and the whole control mode below it is wrong."},
+ {q:"Your payment workflow has a mandatory step whose candidate group is chief-accountant. A micro-enterprise customer has appointed a phụ trách kế toán and has no chief accountant at all. What happens to their payments?",
+  o:["A director account can complete the step instead",
+     "The task waits in a candidate group with no members, permanently — Nghị định 174/2016 Điều 20 khoản 2 điểm b makes that arrangement indefinite, not a twelve-month stopgap",
+     "The workflow times out and the payment auto-approves",
+     "Nothing breaks; they simply have to appoint a chief accountant to use the product"],
+  a:1,
+  why:"Every payment that company attempts stops at the same step and stays there. The last option is what a product says when it has confused an obligation with a job title: the obligation in Điều 19 khoản 3 Luật Kế toán 2015 is a signature, and the article itself allows the chief accountant \"hoặc người được uỷ quyền\". Thông tư 58/2026/TT-BTC Điều 3 khoản 2 confirms the phụ trách kế toán signs where the chief accountant would. Bind the step to the authority, not the title."},
+ {q:"A customer asks for a setting to switch off segregation of duties, because they are a doanh nghiệp tư nhân. What do you build?",
+  o:["A boolean on companies, defaulting to off, editable by an administrator",
+     "The same boolean, but write an audit log entry every time it changes",
+     "Columns for the facts — legal form, owner individual or organisation, size, state capital — and derive the control mode from them",
+     "Nothing; internal controls are not negotiable"],
+  a:2,
+  why:"The switch and the derived value have the same technical effect and completely different accountability. A ticked box is what an administrator ticks when a screen is in the way that afternoon, and nobody can account for it a year later; a declared legal form is a claim about a legal person with a tax code behind it. The V9 migration in this project says it in a comment: the system does not have, and must not have, a disable_segregation_of_duties column. There is a second reason too — dropping the chief-accountant step follows size while relaxing segregation follows legal form, so one boolean cannot carry both."},
+ {q:"A company signed up this morning and has not filled in its legal profile yet. Which control mode applies to its first payment?",
+  o:["The most permissive, so that onboarding is not blocked",
+     "None — no controls until the company declares something",
+     "The strictest, because a missing fact is never read as permission",
+     "Whatever similar companies in the same sector were assigned"],
+  a:2,
+  why:"This is the fallback in SEC-09, and this project puts it in the schema rather than in a service: enterprise_scale is NOT NULL DEFAULT 'MEDIUM' and has_state_capital is NOT NULL DEFAULT false, so an unfilled form cannot buy a relaxation even if a code path forgets to check. It matters in the other direction as well — under Nghị định 80/2021 a company that declares a smaller size than the truth to reach a support policy repays what it received, so an undeclared profile must never be given the benefit of the doubt."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — backlog refinement",
+  line:'"Add a config flag so a tenant can switch the segregation rules off. A customer is complaining."',
+  o:[{t:"Sure, I'll put a boolean on the company record.", v:"weak",
+      f:"That boolean is what an administrator ticks the afternoon a screen is in the way, and it is unexplainable a year later when an inspector asks why the controls were off. It also cannot do the job: dropping the chief-accountant step follows company size, relaxing segregation follows legal form. One switch, two axes that do not line up."},
+     {t:"We can't switch off internal controls — that's the accounting law.", v:"weak",
+      f:"It isn't, for that customer, and saying it out loud tells a lawful company its structure is illegal. It also loses the argument on the spot, because the customer knows their own legal form better than you do."},
+     {t:"Let's store the facts instead of the switch — legal form, whether the owner is an individual, size, state capital — and derive the mode from them. Same outcome for that customer, and when someone asks why the controls were relaxed the answer is a declared legal form with a tax code behind it, not a checkbox.", v:"strong",
+      f:"You gave the customer what they need and kept the accountability. This is also the version that survives the next customer, because the derivation covers cases nobody has met yet — and it is what SEC-09 in this project's FRS actually asks for."}]},
+ {role:"The customer's director — during the demo",
+  line:'"I am the director, I keep the cash myself, and my sister does the books. Your system says that is not allowed."',
+  o:[{t:"That's the accounting law, I'm afraid — the roles have to be separated.", v:"weak",
+      f:"Wrong, and expensively so. A one-member LLC and a doanh nghiệp tư nhân are carved out of both bars by name, at any size. You have just told a paying customer that a structure the statute protects on purpose is illegal."},
+     {t:"It is allowed, actually — a one-member LLC is carved out of both bars, at any size. What our screen is enforcing there is our own control default, not the law, and it should be reading your legal form. Can you confirm the owner is an individual rather than a holding company? That is the field the exemption turns on.", v:"strong",
+      f:"You corrected your own product rather than the customer, separated law from house rule out loud, and finished on the single fact that decides it — because a one-member LLC owned by an organisation really is a different answer."},
+     {t:"Let me raise a ticket and someone will look at it.", v:"weak",
+      f:"True and empty. The customer leaves the room still believing your software thinks they are breaking the law, and that belief costs more than the bug does."}]},
+ {role:"Tech lead — design review",
+  line:'"Just put the chief accountant step in the BPMN and be done with it. Every company has a chief accountant."',
+  o:[{t:"Fine, and we can add an override later if anyone needs one.", v:"weak",
+      f:"An override on a signing step is the last thing you want to be adding under pressure later, and the customers who need it are the ones who cannot use the product at all in the meantime — so they will never be in the room to ask."},
+     {t:"That won't work for micro companies.", v:"weak",
+      f:"Correct and unpersuasive. \"Won't work\" with no article and no number sounds like an edge case, and edge cases lose design reviews to shipping."},
+     {t:"Micro-enterprises may appoint a phụ trách kế toán instead, permanently — Nghị định 174/2016 Điều 20 khoản 2 điểm b. There is no account in that candidate group to route to, so the task sits in an empty queue and nothing moves, ever. Could we bind the step to the authority rather than the title, and route micro tenants to a process definition without it?", v:"strong",
+      f:"An article, a concrete failure mode, and a smaller change than the one you are objecting to. That last part is what gets it accepted: you are not asking for the step to be dropped, you are asking for it to be bound to what the statute actually names."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>
