@@ -3,689 +3,170 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Redis Inside a Bank</title>
-<meta name="description" content="Lesson 01 — from what a database even is, to the line you never cross in a payment. For people who sell to banks and do not write code.">
+<title>Tech for BD — Library</title>
+<meta name="description" content="A searchable library for people who sell technology to banks and do not write code. Lessons, a plain-English glossary, and the exact lines to use in a meeting.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="assets/tokens.css">
 <style>
-:root{
-  --paper:#F5F7FA; --surface:#FFFFFF; --sunk:#EDF0F4;
-  --ink:#0F1720; --ink-2:#334155; --muted:#5A6875; --line:#D9E0E8;
-  --fast:#0E7C91; --fast-soft:#DCF0F4;
-  --slow:#A15B12; --slow-soft:#F7EBDC;
-  --ok:#157347; --ok-soft:#E1F0E7;
-  --no:#B02A2A; --no-soft:#FAE6E4;
-  --accent:#0E7C91;
-  --shadow:0 1px 2px rgba(15,23,32,.06), 0 8px 24px -12px rgba(15,23,32,.18);
-  --ff-display:"IBM Plex Serif", Georgia, "Times New Roman", serif;
-  --ff-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --ff-mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root{
-    --paper:#0B1016; --surface:#131A22; --sunk:#0F161D;
-    --ink:#E6ECF3; --ink-2:#B7C4D2; --muted:#8B9AAA; --line:#25303B;
-    --fast:#2BC4DE; --fast-soft:#0E2A33;
-    --slow:#E9A13B; --slow-soft:#2E2416;
-    --ok:#4ADE80; --ok-soft:#12291C;
-    --no:#F87171; --no-soft:#2C1618;
-    --accent:#2BC4DE;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.8);
-  }
-}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.2; margin:0}
 p{margin:0}
-a{color:var(--accent)}
+a{color:inherit; text-decoration:none}
+mark{background:var(--fast-soft); color:inherit; border-radius:2px; padding:0 1px}
 :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
-.wrap{max-width:720px; margin:0 auto; padding:0 24px}
-.prose{max-width:64ch}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; background:transparent; color:inherit}
+.wrap{max-width:1040px; margin:0 auto; padding:0 24px}
+.mono{font-family:var(--ff-mono)}
 
-.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
-.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+/* ---- top bar ---- */
+.top{position:sticky; top:0; z-index:30; background:color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+.top-in{max-width:1040px; margin:0 auto; padding:11px 24px; display:flex; align-items:center; gap:18px}
 .brand{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
 .brand b{color:var(--ink); font-weight:500}
-.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
-.dots{display:flex; gap:5px}
-.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
-.dot.on{background:var(--accent); border-color:var(--accent)}
+.top-r{margin-left:auto; display:flex; align-items:center; gap:16px; font-family:var(--ff-mono); font-size:11px; letter-spacing:.08em; color:var(--muted)}
+.kbd{border:1px solid var(--line); border-bottom-width:2px; border-radius:3px; padding:1px 6px; font-family:var(--ff-mono); font-size:11px; color:var(--muted)}
 
-.hero{padding:72px 0 56px}
-.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
-.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
-.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
-.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+/* ---- hero ---- */
+.hero{padding:56px 0 30px; max-width:62ch}
+body.searching .hero{display:none}
+body.searching .searchwrap{padding-top:26px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:18px}
+.hero h1{font-size:clamp(30px,5vw,44px); letter-spacing:-.02em}
+.hero p{margin-top:18px; font-size:18px; color:var(--ink-2)}
 
-section{padding:52px 0; border-top:1px solid var(--line)}
-.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
-.sec-no b{color:var(--ink); font-weight:500}
-h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
-h3{font-size:18px; margin:34px 0 10px}
-.stack{display:flex; flex-direction:column; gap:20px}
-.stack p{max-width:64ch}
-.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
-.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+/* ---- search ---- */
+.searchwrap{position:sticky; top:44px; z-index:20; background:var(--paper); padding:14px 0 12px; border-bottom:1px solid var(--line); margin-bottom:8px}
+.field{display:flex; align-items:center; gap:12px; background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:0 14px; box-shadow:var(--shadow); transition:border-color .15s}
+.searchwrap:focus-within .field{border-color:var(--accent)}
+.field svg{flex:none; color:var(--muted)}
+#q{flex:1; font:inherit; font-size:17px; color:var(--ink); background:transparent; border:0; outline:0; padding:15px 0}
+#q::placeholder{color:var(--muted)}
+#clr{flex:none; color:var(--muted); font-size:13px; padding:6px 8px; display:none}
+#clr:hover{color:var(--ink)}
+.chips:empty{display:none}
+.chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:11px}
+.chip{border:1px solid var(--line); color:var(--muted); padding:5px 12px; font-size:12.5px; border-radius:99px; background:var(--surface); white-space:nowrap}
+.chip:hover{border-color:var(--muted); color:var(--ink-2)}
+.chip[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:var(--paper)}
+.chip .n{font-family:var(--ff-mono); font-size:11px; opacity:.65; margin-left:5px}
 
-/* ---- tappable term ---- */
-button.t{
-  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
-  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
-}
-button.t:hover{background:var(--fast-soft)}
-button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
-.def{
-  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
-  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
-}
-.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
-.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+/* ---- result list ---- */
+.meta{font-family:var(--ff-mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:20px 0 12px}
+.hits{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:3px; overflow:hidden}
+.hit{display:block; background:var(--surface); padding:16px 18px; border-left:3px solid transparent; cursor:pointer; text-align:left; width:100%}
+.hit:hover,.hit.sel{background:var(--sunk); border-left-color:var(--accent)}
+.hit-h{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+.kind{font-family:var(--ff-mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; padding:3px 7px; border-radius:2px; flex:none; background:var(--sunk); color:var(--muted)}
+.kind.lesson{background:var(--fast-soft); color:var(--fast)}
+.kind.term{background:var(--fast-soft); color:var(--fast)}
+.kind.line{background:var(--ok-soft); color:var(--ok)}
+.kind.scene{background:var(--no-soft); color:var(--no)}
+.kind.quiz{background:var(--slow-soft); color:var(--slow)}
+.kind.planned{background:var(--sunk); color:var(--muted)}
+.hit-t{font-size:16px; color:var(--ink); font-weight:500; line-height:1.45}
+.hit-s{font-family:var(--ff-mono); font-size:11px; letter-spacing:.06em; color:var(--muted); margin-top:5px}
+.hit-x{font-size:14.5px; color:var(--ink-2); margin-top:8px; line-height:1.55; max-width:78ch}
+.hit-x .vi{display:block; color:var(--muted); margin-top:6px}
+.empty{padding:44px 4px; color:var(--muted); font-size:15.5px; max-width:60ch}
+.empty b{display:block; font-family:var(--ff-display); font-size:19px; color:var(--ink); margin-bottom:8px; font-weight:600}
+
+/* ---- lesson grid ---- */
+.grid{display:grid; grid-template-columns:1fr; gap:14px}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+.card{display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:20px 22px 18px; box-shadow:var(--shadow); transition:border-color .15s, transform .15s}
+.card:hover{border-color:var(--accent); transform:translateY(-1px)}
+.card-n{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; color:var(--fast); display:flex; gap:12px; align-items:center}
+.card-n .lv{color:var(--muted); letter-spacing:.1em}
+.card h3{font-size:19px; margin:12px 0 9px; letter-spacing:-.01em}
+.card p{font-size:14.5px; color:var(--ink-2); line-height:1.55; flex:1}
+.card-f{display:flex; align-items:center; gap:10px; margin-top:16px; padding-top:13px; border-top:1px solid var(--line); font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.dots{margin-left:auto; display:flex; gap:4px; align-items:center}
+.dot{width:8px; height:8px; border-radius:50%; border:1.5px solid var(--line)}
+.dot.on{background:var(--ok); border-color:var(--ok)}
+.card.planned{opacity:.62; box-shadow:none; background:var(--sunk); cursor:default}
+.card.planned:hover{border-color:var(--line); transform:none}
+.card.planned .card-n{color:var(--muted)}
+.tags{display:flex; flex-wrap:wrap; gap:5px; margin-top:12px}
+.tag{cursor:pointer; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); border:1px solid var(--line); border-radius:2px; padding:2px 7px}
+.tag:hover{border-color:var(--fast); color:var(--fast)}
+
+/* ---- glossary strip ---- */
+.gwrap{display:flex; flex-wrap:wrap; gap:7px}
+.gchip{border:1px solid var(--line); background:var(--surface); border-radius:2px; padding:7px 13px; font-size:14px; color:var(--ink-2)}
+.gchip:hover{border-color:var(--fast); color:var(--fast)}
+.def{margin:14px 0 4px; padding:17px 19px; background:var(--surface); border:1px solid var(--fast); border-radius:2px; box-shadow:var(--shadow); max-width:74ch}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-bottom:7px}
+.def .p{font-size:15.5px; line-height:1.6}
 .def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
-.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r{margin-top:11px; padding-top:11px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2)}
 .def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
-.hint{
-  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
-  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
-}
-.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
 
-/* ---- flow diagram ---- */
-.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
-.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
-.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
-.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
-.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
-.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
-.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
-
-.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
-.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
-
-.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
-.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
-.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
-.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
-
-.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
-.uses li{background:var(--surface); padding:16px 20px}
-.uses .u{font-size:15.5px; color:var(--ink); display:block}
-.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
-
-.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
-.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
-button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
-button:disabled{opacity:.45; cursor:not-allowed}
-.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
-.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
-.ghost:hover:not(:disabled){border-color:var(--muted)}
-.switches{display:flex; flex-wrap:wrap; gap:8px 20px; padding:13px 18px; border-bottom:1px solid var(--line)}
-.sw{display:inline-flex; align-items:center; gap:9px; font-size:13.5px; color:var(--ink-2); cursor:pointer; user-select:none}
-.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
-.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
-.sw input:checked{background:var(--fast)}
-.sw input:checked::after{transform:translateX(16px)}
-.sw input:disabled{opacity:.4; cursor:not-allowed}
-.sw:has(input:disabled){opacity:.5}
-
-.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
-@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat{background:var(--surface); padding:14px 18px}
-.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
-.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
-.stat .v.hot{color:var(--slow)} .stat .v.cool{color:var(--fast)}
-
-.track{list-style:none; margin:0; padding:8px 0}
-.lane{display:grid; grid-template-columns:minmax(0,1fr) 148px; align-items:center; gap:14px; padding:9px 18px}
-.lane .name{font-size:14.5px; color:var(--ink-2); margin-bottom:6px}
-.rail{height:7px; border-radius:4px; background:var(--sunk); overflow:hidden}
-.fill{height:100%; width:0; background:var(--slow); border-radius:4px}
-.lane.hit .fill{background:var(--fast)}
-.tag{font-family:var(--ff-mono); font-size:11px; text-align:right; font-variant-numeric:tabular-nums; color:var(--muted); white-space:nowrap}
-.lane.done.hit .tag{color:var(--fast)}
-.lane.done.miss .tag{color:var(--slow)}
-
-.ledger{border-top:1px solid var(--line); display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line)}
-.led{background:var(--surface); padding:16px 18px}
-.led .k{display:block; font-size:12px; color:var(--muted)}
-.led .v{display:block; font-family:var(--ff-mono); font-size:19px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
-.flag{grid-column:1/-1; background:var(--surface); padding:0}
-.flag div{padding:13px 18px; font-size:14px; line-height:1.6}
-.flag .stale{background:var(--no-soft); color:var(--no)}
-.flag .match{background:var(--ok-soft); color:var(--ok)}
-.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
-
-.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
-.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
-.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
-.opts{display:flex; flex-direction:column; gap:8px}
-.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
-.opt:hover:not(:disabled){border-color:var(--muted)}
-.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
-.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
-.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
-.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
-.why.show{display:block}
-.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
-.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
-.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
-
-.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
-.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
-.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
-.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
-.scene .opts{padding:18px 22px}
-.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
-.verdict.show{display:block}
-.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
-.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
-.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
-
-.lines{list-style:none; margin:0; padding:0; counter-reset:l}
-.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
-.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
-.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
-.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
-
-.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
-.gl{background:var(--surface); padding:18px 20px}
-.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
-.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
-.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
-
-footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
-@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+.sec{padding:34px 0}
+.sec-h{display:flex; align-items:baseline; gap:14px; margin-bottom:20px; border-top:1px solid var(--line); padding-top:26px}
+.sec-h h2{font-size:23px}
+.sec-h span{font-family:var(--ff-mono); font-size:11px; letter-spacing:.1em; color:var(--muted); margin-left:auto}
+footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; font-size:14px; color:var(--muted)}
+[hidden]{display:none !important}
 </style>
 </head>
 <body>
 
 <header class="top">
   <div class="top-in">
-    <span class="brand">Tech for BD · <b>Lesson 01</b></span>
-    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+    <span class="brand">Tech for BD · <b>Library</b></span>
+    <span class="top-r">
+      <span id="cnt"></span>
+      <span><span class="kbd">/</span> to search</span>
+    </span>
   </div>
 </header>
 
 <main class="wrap">
 
-<div class="hero">
-  <div class="eyebrow">Digital banking · Lesson 01</div>
-  <h1>Why does the banking app freeze at 8pm?</h1>
-  <p class="lede">Every evening, a few hundred thousand people open your customer's app to look at one number. Almost none of them are moving money. All of them are making the bank's most expensive system do work it was never built for.</p>
-  <div class="facts"><span>15 min</span><span>No code, nothing assumed</span><span>Ends with 5 lines you can use in a meeting</span></div>
-</div>
-
-<section>
-  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
-  <h2>What is actually behind the app?</h2>
-
-  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese. Nothing here assumes you have seen it before.</span></div>
-
-  <div class="stack">
-    <p>Start with the thing everyone gets wrong. The <button class="t" data-t="app">app</button> on the phone is almost empty. It does not know your balance. It is a window — when you open it, it has to go and <em>ask</em> somebody, wait, and then show you what came back.</p>
-    <p>Who does it ask? A <button class="t" data-t="server">server</button>. And that server, in turn, looks things up in a <button class="t" data-t="database">database</button>. At a bank, the database that matters is inside the <button class="t" data-t="core">core banking system</button> — the one place where your balance is genuinely true.</p>
+  <div class="hero">
+    <div class="eyebrow">For people who sell to banks</div>
+    <h1>Everything you need to hold your own in the room.</h1>
+    <p>Lessons that assume nothing, a glossary in plain English and Vietnamese, and the exact sentences to say when a CFO, a CTO or a Head of Risk pushes back. Search it the way you would ask a colleague.</p>
   </div>
 
-  <div class="flow">
-    <div class="node"><div class="nm">Phone app</div><div class="ds">The window. Holds nothing. Asks questions.</div></div>
-    <div class="arrow">asks</div>
-    <div class="node"><div class="nm">Server</div><div class="ds">A computer that never sleeps, whose job is to answer.</div></div>
-    <div class="arrow">looks it up in</div>
-    <div class="node core"><div class="nm">Core banking system + its database</div><div class="ds">Where the money is really recorded. Slow, expensive, and always right.</div></div>
-  </div>
-
-  <div class="stack">
-    <p>One question sent and one answer returned is called a <button class="t" data-t="request">request</button>. Opening a bank app home screen usually takes six to ten of them before anything appears on screen — balance, recent transactions, card status, offers. The waiting time on each one is called <button class="t" data-t="latency">latency</button>, and it is measured in milliseconds: a thousand milliseconds is one second.</p>
-    <p>So when a customer says "the app is slow", what they mean is: <em>the questions are taking too long, and there are too many of them.</em></p>
-    <p class="vi"><b>Tiếng Việt</b>App chỉ là cửa sổ. Mở màn hình chính = gửi 6–10 câu hỏi tới máy chủ, máy chủ tra trong core banking rồi trả về. "App chậm" nghĩa là: quá nhiều câu hỏi, và mỗi câu chờ quá lâu.</p>
-  </div>
-</section>
-
-<section>
-  <div class="sec-no"><b>02</b><span>The idea</span></div>
-  <h2>The vault and the cash drawer</h2>
-
-  <div class="stack">
-    <p>Here is the part that matters commercially. At 8pm, most of those hundreds of thousands of people are asking the <em>same questions they asked yesterday</em>, and the core answers every single one from scratch. Worse: many <button class="t" data-t="core">core banking</button> contracts charge the bank based on how much work the core does, so every one of those repeat questions has a price on it.</p>
-    <p>Most of those people then close the app four seconds later without doing anything at all. They were looking, not paying. The bank was billed either way.</p>
-  </div>
-
-  <div class="pull"><q>The core is the vault. The cache is the teller's cash drawer.</q></div>
-
-  <div class="stack">
-    <p>Nobody opens the vault to hand over five hundred thousand đồng. The teller keeps a drawer for the routine work of the day, and the vault stays the place where the truth lives.</p>
-    <p>That drawer is a <button class="t" data-t="cache">cache</button> — a copy of an answer, kept somewhere much closer and much faster, so the same question does not have to travel all the way to the vault again. The product almost every bank uses to do this is called <button class="t" data-t="redis">Redis</button>.</p>
-    <p>Why is it so much faster? Because it keeps those copies in the computer's short-term <button class="t" data-t="memory">memory</button> rather than on a disk. Roughly a hundred times quicker to read — but small, expensive, and wiped if the machine restarts. Which tells you immediately what it is <em>not</em>: it is not where a bank keeps its records.</p>
-    <p>Two words you will hear in every meeting about this: when the answer was already in the drawer, that is a <button class="t" data-t="hit">cache hit</button>. When it was not there and someone had to walk to the vault, that is a cache miss.</p>
-    <p class="vi"><b>Tiếng Việt</b>Core = két sắt, giữ sự thật, chậm và tốn tiền mỗi lần mở. Cache = ngăn kéo của giao dịch viên, giữ bản sao câu trả lời, lấy ra trong tích tắc. Redis là sản phẩm làm cái ngăn kéo đó.</p>
-  </div>
-</section>
-
-<section>
-  <div class="sec-no"><b>03</b><span>The danger</span></div>
-  <h2>Where a copy becomes a problem</h2>
-
-  <div class="stack">
-    <p>A copy has one obvious weakness: the moment the real number changes, the copy is wrong. Money lands in the account, the vault knows, the drawer does not — and the customer opens the app and sees the old figure.</p>
-    <p>Banks control this in two ways, and both have names you should recognise. First, every copy gets an expiry stamp: keep this for thirty seconds, then delete yourself. That stamp is called <button class="t" data-t="ttl">TTL</button>, and the same mechanism is what makes an OTP code expire, what logs you out after fifteen idle minutes, and what unlocks an account fifteen minutes after too many wrong PINs. Second, the moment a transaction posts, the bank deliberately throws the copy away — that is called <button class="t" data-t="invalidate">invalidating</button> it.</p>
-  </div>
-
-  <div class="rule">
-    <div class="lbl">The line you never cross</div>
-    <p>Copy the balance you <em>show</em>. Never copy the balance you <em>approve a payment against</em>.</p>
-    <p class="sub">A number on screen being two seconds old is a display problem. Letting money leave an account based on a number that is two seconds old is a loss, a broken reconciliation, and a conversation with the regulator. Everything inside the <button class="t" data-t="authpath">authorisation path</button> reads from the vault, always. Every risk officer you meet will test you on exactly this — and most salespeople fail it by being vague.</p>
-  </div>
-
-  <h3>What else lives in that drawer</h3>
-  <p class="prose" style="margin-bottom:20px">This is the part that moves you from "the person selling speed" to someone the bank's architects take seriously. Most of what Redis holds in a bank is not a balance at all — it is short-lived information that deletes itself.</p>
-  <ul class="uses">
-    <li><span class="u">Who is currently logged in</span><span class="d">Your <button class="t" data-t="session">session</button>. Kept for fifteen minutes of inactivity, then gone — which is why the app logs you out.</span></li>
-    <li><span class="u">"This code expires in 60 seconds"</span><span class="d">An OTP is a value with a sixty-second expiry stamp on it. That is the whole implementation.</span></li>
-    <li><span class="u">"Five wrong PINs and the account locks for 15 minutes"</span><span class="d">A counter that erases itself after fifteen minutes. Checked on every attempt, so it has to be instant.</span></li>
-    <li><span class="u">Stopping a double payment</span><span class="d">A customer taps Transfer, the app seems frozen on weak 4G, they tap again. The bank attaches a ticket number to each instruction and remembers it for a few minutes — same ticket, same instruction, money leaves once. That ticket number is called an <button class="t" data-t="idem">idempotency key</button>.</span></li>
-    <li><span class="u">Fraud checks in the middle of a payment</span><span class="d">"How many transfers has this account made in the last sixty seconds?" — needed in under a millisecond, while the customer is waiting.</span></li>
-    <li><span class="u">Exchange rates</span><span class="d">Read by everybody, changed by almost nobody. The textbook case for a copy.</span></li>
-  </ul>
-  <p class="vi" style="margin-top:24px"><b>Tiếng Việt</b>Redis trong ngân hàng không chỉ để nhanh. Nó là chỗ chứa mọi thứ "sống ngắn rồi tự mất": phiên đăng nhập, OTP, đếm số lần sai PIN, mã chống trừ tiền hai lần, đếm giao dịch để phát hiện gian lận. Tất cả đều chạy bằng một cơ chế: dán hạn dùng, hết hạn tự xoá.</p>
-</section>
-
-<section>
-  <div class="sec-no"><b>04</b><span>See it</span></div>
-  <h2>Open the app at 8pm</h2>
-  <p class="prose" style="margin-bottom:14px">Each row below is one question the app asks. The bar is how long the answer takes. Run it once with the cache switched off, then switch it on and run it twice — the second run is the one that changes a CFO's mind.</p>
-  <p class="prose" style="margin-bottom:26px">Then press <em>Incoming transfer</em> and open the app again. That is the part that changes a risk officer's mind.</p>
-
-  <div class="sim">
-    <div class="sim-bar">
-      <button class="btn" id="run">Open the app</button>
-      <button class="ghost" id="pay">Incoming transfer +5.000.000 ₫</button>
-      <button class="ghost" id="clear">Empty the drawer</button>
+  <div class="searchwrap">
+    <div class="field">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="cache, TTL, &ldquo;why is the app slow&rdquo;, chuyển tiền hai lần…" aria-label="Search the library">
+      <button id="clr" type="button">clear</button>
     </div>
-    <div class="switches">
-      <label class="sw"><input type="checkbox" id="cacheOn"> Use a cache (Redis)</label>
-      <label class="sw"><input type="checkbox" id="inval" disabled> Throw the copy away when money moves</label>
-    </div>
-    <div class="stats">
-      <div class="stat"><span class="k">Time to load the screen</span><span class="v" id="stTime">—</span></div>
-      <div class="stat"><span class="k">Questions that reached the core</span><span class="v hot" id="stDb">0</span></div>
-      <div class="stat"><span class="k">Answered from the drawer</span><span class="v cool" id="stHit">0</span></div>
-      <div class="stat"><span class="k">Share answered from the drawer</span><span class="v" id="stRate">—</span></div>
-    </div>
-    <ol class="track" id="track"></ol>
-    <div class="ledger">
-      <div class="led"><span class="k">Balance the customer sees</span><span class="v" id="shown">—</span></div>
-      <div class="led"><span class="k">Balance really in the core</span><span class="v" id="truth">—</span></div>
-      <div class="flag" id="flag"></div>
-    </div>
-    <p class="sim-note">The timings are realistic for a bank at peak: 70–160 milliseconds to reach the core, about 1 millisecond from the cache. The animation runs about four times slower than reality so you can watch it happen.</p>
+    <div class="chips" id="chips"></div>
   </div>
-</section>
 
-<section>
-  <div class="sec-no"><b>05</b><span>Test it</span></div>
-  <h2>Five questions</h2>
-  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in front of a bank's head of risk.</p>
-  <div id="quiz"></div>
-  <p class="score" id="score">0 / 5 answered</p>
-</section>
+  <div id="results" hidden>
+    <div class="meta" id="rmeta"></div>
+    <div class="hits" id="hits"></div>
+    <div class="empty" id="none" hidden></div>
+  </div>
 
-<section>
-  <div class="sec-no"><b>06</b><span>Use it</span></div>
-  <h2>In front of the bank</h2>
-  <p class="prose" style="margin-bottom:26px">Three moments from a real banking cycle. Choose what you would actually say.</p>
-  <div id="play"></div>
-</section>
+  <div id="browse">
+    <section class="sec">
+      <div class="sec-h"><h2>Lessons</h2><span id="lcount"></span></div>
+      <div class="grid" id="lessons"></div>
+    </section>
 
-<section>
-  <div class="sec-no"><b>07</b><span>Take away</span></div>
-  <h2>Five lines worth stealing</h2>
-  <ol class="lines">
-    <li><div><div class="say">"How much of your evening peak is people looking, not people paying?"</div><div class="use">Splits one vague complaint into two different problems with two very different price tags. People looking is a cache problem. People paying is a core problem. Most vendors quote the expensive one by default.</div></div></li>
-    <li><div><div class="say">"We are not replacing your core. We are stopping it from being asked the same question two million times a day."</div><div class="use">Protects the decision they already made and paid for, instead of attacking it. You are adding a layer in front, not proposing a migration nobody asked for.</div></div></li>
-    <li><div><div class="say">"Nothing in the payment approval reads from a copy. What we show and what we approve are two different risks."</div><div class="use">The sentence that gets you past the risk committee. Say it before they ask, not after.</div></div></li>
-    <li><div><div class="say">"How do you handle a customer tapping Transfer twice on a bad connection today?"</div><div class="use">Money leaving twice is a headline risk at any retail bank, and almost nobody in a sales meeting asks about it. Ask it and you stop being a vendor.</div></div></li>
-    <li><div><div class="say">"If it holds login sessions and OTP codes, it holds personal data — let's put that on the agenda now, not in the security review."</div><div class="use">Phone numbers, session records and OTPs are personal data under Nghị định 13/2023, and the bank's security assessment will ask where those servers physically sit. Raising it yourself is worth more than answering it late.</div></div></li>
-  </ol>
-  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Dùng nguyên văn tiếng Anh khi làm việc với C-level ngân hàng. Ý cốt lõi: đừng bán tốc độ. Bán việc gỡ tải khỏi core, số tiền khách hoãn được nhờ đó, và ranh giới rủi ro mà bạn chủ động nêu trước khi họ hỏi.</p>
-</section>
+    <section class="sec">
+      <div class="sec-h"><h2>Glossary</h2><span>Tap a word · English + Tiếng Việt</span></div>
+      <div class="gwrap" id="gloss"></div>
+      <div id="gdef"></div>
+    </section>
+  </div>
 
-<section>
-  <div class="sec-no"><b>08</b><span>Reference</span></div>
-  <h2>Every word, in plain English</h2>
-  <p class="prose" style="margin-bottom:26px">Nothing new here — this is the same set of explanations, collected in one place to read again before a meeting.</p>
-  <div class="gloss" id="gloss"></div>
-</section>
-
-<footer>Tech for BD — Lesson 01 of 08 · Next: what an API is, and why "does it integrate with our existing system?" decides most deals.</footer>
+  <footer>Tech for BD — an internal study library. Lessons are written to be read in order, but the search is there because meetings are not.</footer>
 </main>
 
-<script>
-(function(){
-"use strict";
-var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-var vnd = new Intl.NumberFormat("vi-VN");
-function money(n){ return vnd.format(n)+" ₫"; }
-
-/* ---------- glossary ---------- */
-var TERMS={
- app:{w:"App",
-   p:"The thing on the phone. It is mostly a window and holds almost nothing itself — every number it shows, it had to go and ask for first.",
-   v:"App trên điện thoại chỉ là cái cửa sổ. Nó không giữ dữ liệu; mọi con số nó hiển thị đều phải đi hỏi rồi mới có."},
- server:{w:"Server",
-   p:"A computer in a data centre that never switches off, sitting there waiting to answer questions from apps. When people say \"the system is down\", they usually mean a server stopped answering.",
-   v:"Máy chủ — máy tính chạy 24/7 trong trung tâm dữ liệu, chờ trả lời câu hỏi từ app. \"Hệ thống sập\" thường có nghĩa là máy chủ ngừng trả lời."},
- database:{w:"Database (people say \"DB\")",
-   p:"Where information is written down and kept. Picture an enormous, very organised set of filing cabinets. It does not decide anything and it does not think — it stores things and hands them back when asked. Finding a record takes real time, which is why it is never instant.",
-   v:"Cơ sở dữ liệu — nơi lưu thông tin, như một dãy tủ hồ sơ khổng lồ được sắp xếp rất kỹ. Nó không tự quyết định gì, chỉ cất và lấy ra khi được hỏi. Việc tìm ra bản ghi mất thời gian thật, nên không bao giờ tức thì.",
-   r:"When a technical person says \"the DB\", this is what they mean. Every business application in the world sits on top of one."},
- core:{w:"Core banking system",
-   p:"The bank's central system: its database plus every rule about money. It is the only place an account balance is genuinely true, and it is what auditors and the regulator look at. T24, Flexcube and Symbols are the common brand names in this market.",
-   v:"Hệ thống lõi ngân hàng — cơ sở dữ liệu cộng toàn bộ quy tắc về tiền. Là nơi duy nhất số dư là thật, và là hệ thống mà kiểm toán với Ngân hàng Nhà nước soi vào.",
-   r:"It was designed for branch counters and end-of-day batch runs, not for hundreds of thousands of people refreshing a phone app at once. That mismatch is the whole opportunity."},
- request:{w:"Request (also called a \"call\")",
-   p:"One question sent from the app to a server, and one answer coming back. Opening a bank app home screen usually sends six to ten of them before anything appears on screen.",
-   v:"Một lần app gửi câu hỏi tới máy chủ và nhận lại câu trả lời. Mở màn hình chính của app ngân hàng thường cần 6–10 lần như vậy."},
- latency:{w:"Latency",
-   p:"The waiting time between asking and getting the answer, measured in milliseconds. One thousand milliseconds is one second. A screen that needs eight answers of 150 milliseconds each keeps the customer waiting well over a second before anything appears.",
-   v:"Độ trễ — thời gian chờ từ lúc hỏi tới lúc có câu trả lời, tính bằng phần nghìn giây. 1000 phần nghìn giây = 1 giây."},
- cache:{w:"Cache (pronounced \"cash\")",
-   p:"A copy of an answer, kept somewhere much closer and much faster, so the same question does not have to travel all the way to the original source again.",
-   v:"Bộ nhớ đệm — bản sao của câu trả lời, giữ ở chỗ gần hơn và nhanh hơn, để khỏi phải đi hỏi lại nguồn gốc."},
- redis:{w:"Redis",
-   p:"The product most banks use to do the caching. Software that sits in front of the core, keeps copies of answers, and hands them back in about one millisecond. It is a well-known open-source product, so the software itself is free — the memory it needs and the people who run it are not.",
-   v:"Phần mềm cache phổ biến nhất. Đứng trước core, giữ bản sao câu trả lời và trả về trong khoảng 1 phần nghìn giây. Bản thân phần mềm miễn phí, nhưng bộ nhớ và đội vận hành thì không."},
- memory:{w:"Memory (RAM)",
-   p:"A computer's short-term memory. Roughly a hundred times faster to read than a hard disk, but small, expensive per gigabyte, and wiped when the machine restarts. That trade-off is exactly why a cache is fast, and exactly why a bank never keeps its records there.",
-   v:"Bộ nhớ tạm — đọc nhanh gấp khoảng 100 lần ổ cứng, nhưng dung lượng nhỏ, đắt, và mất sạch khi khởi động lại. Đó là lý do cache nhanh, và cũng là lý do ngân hàng không bao giờ lưu sổ sách ở đó."},
- hit:{w:"Cache hit / cache miss",
-   p:"Hit: the answer was already in the drawer, so no trip to the vault. Miss: it was not there, so someone had to go to the core — and then kept a copy for next time.",
-   v:"Hit = đã có sẵn trong ngăn kéo. Miss = chưa có, phải đi tới core lấy, rồi giữ lại một bản sao cho lần sau.",
-   r:"\"What is your hit rate?\" means: out of a hundred questions, how many were answered from the drawer. Ninety-five percent means the core only had to handle five."},
- ttl:{w:"TTL — time to live",
-   p:"An expiry stamp on a copy: keep this for thirty seconds, then delete yourself automatically. The same simple mechanism is what makes an OTP expire, what logs you out after idle time, and what unlocks an account after a temporary lock.",
-   v:"Thời hạn sống — dán hạn dùng lên bản sao, hết hạn thì tự xoá. OTP hết hiệu lực, tự động đăng xuất, khoá tài khoản tạm 15 phút — tất cả đều chạy bằng cơ chế này.",
-   r:"Too long and customers see old numbers. Too short and you are back to asking the core every time. Deciding it per screen is a business conversation, not a technical one — which means you can lead it."},
- invalidate:{w:"Invalidate",
-   p:"Deliberately throwing a copy away the moment the real value changes — for example the instant a transfer lands in an account.",
-   v:"Chủ động xoá bản sao ngay khi giá trị thật thay đổi, ví dụ đúng lúc tiền về tài khoản."},
- authpath:{w:"Authorisation path",
-   p:"The moment the bank decides yes, this money can leave this account. Everything checked in that moment has to be exact, and has to come from the core.",
-   v:"Đường duyệt lệnh — khoảnh khắc ngân hàng quyết định cho tiền rời khỏi tài khoản. Mọi thứ kiểm tra ở khoảnh khắc đó phải chính xác tuyệt đối và phải lấy từ core."},
- idem:{w:"Idempotency key",
-   p:"A ticket number attached to an instruction. If the same ticket number arrives twice, the bank knows it is one instruction repeated, not two payments — so the money leaves once. The word itself just means \"doing it twice has the same effect as doing it once\".",
-   v:"Mã vé gắn vào một lệnh. Cùng một mã vé đến hai lần thì ngân hàng hiểu đó là một lệnh bị lặp, không phải hai lệnh chuyển tiền — nên tiền chỉ ra một lần. Bản thân từ này nghĩa là \"làm hai lần cũng ra kết quả như làm một lần\".",
-   r:"Ask a bank \"how do you handle a double tap on a bad connection?\" Very few salespeople do, and everybody in the room will notice."},
- session:{w:"Session",
-   p:"The record that says you are currently logged in. It is kept for a while and then expires, which is why an app signs you out after a period of doing nothing.",
-   v:"Phiên đăng nhập — bản ghi cho biết bạn đang đăng nhập. Nó tồn tại một lúc rồi hết hạn, nên app tự đăng xuất khi bạn không dùng."}
-};
-
-var open=null;
-function closeDef(){
-  if(!open) return;
-  open.panel.remove();
-  open.btn.setAttribute("aria-expanded","false");
-  open=null;
-}
-function showDef(btn){
-  var key=btn.dataset.t, t=TERMS[key];
-  if(!t) return;
-  if(open && open.btn===btn){ closeDef(); return; }
-  closeDef();
-  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
-  var d=document.createElement("div"); d.className="def";
-  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
-  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
-  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
-  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the room"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
-  host.after(d);
-  btn.setAttribute("aria-expanded","true");
-  open={btn:btn, panel:d};
-}
-document.querySelectorAll("button.t").forEach(function(b){
-  b.setAttribute("aria-expanded","false");
-  b.addEventListener("click", function(){ showDef(b); });
-});
-
-var gl=document.getElementById("gloss");
-Object.keys(TERMS).forEach(function(k){
-  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
-  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
-  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
-  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
-  d.appendChild(w); d.appendChild(p); d.appendChild(v); gl.appendChild(d);
-});
-
-/* ---------- progress ---------- */
-var done={sim:false,quiz:false,play:false};
-try{ done=Object.assign(done, JSON.parse(localStorage.getItem("tfbd-l1")||"{}")); }catch(e){}
-function paint(){
-  var n=0;
-  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
-  document.getElementById("progTxt").textContent=n+" / 3";
-}
-function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("tfbd-l1",JSON.stringify(done));}catch(e){} paint(); }
-paint();
-
-/* ---------- simulator ---------- */
-var CALLS=[
- {k:"balance", n:"What is my balance?",        src:"core",    ms:140},
- {k:"txns",    n:"My last 10 transactions",    src:"core",    ms:160},
- {k:"card",    n:"Is my card still active?",   src:"cards",   ms:90},
- {k:"offers",  n:"Any cashback offers for me?",src:"CRM",     ms:110},
- {k:"fx",      n:"Today's exchange rates",     src:"market",  ms:80},
- {k:"points",  n:"My loyalty points",          src:"loyalty", ms:70}
-];
-var SCALE=4, HIT_MS=1;
-var cache={}, cachedBalance=null, coreBalance=12450000, ran=false;
-var track=document.getElementById("track");
-var runBtn=document.getElementById("run"), payBtn=document.getElementById("pay"), clearBtn=document.getElementById("clear");
-var cacheOn=document.getElementById("cacheOn"), inval=document.getElementById("inval");
-
-function build(){
-  track.innerHTML="";
-  CALLS.forEach(function(c){
-    var li=document.createElement("li"); li.className="lane";
-    li.innerHTML='<div><div class="name"></div><div class="rail"><div class="fill"></div></div></div><div class="tag">waiting</div>';
-    li.querySelector(".name").textContent=c.n;
-    track.appendChild(li);
-  });
-}
-build();
-
-function setStats(t,db,hit){
-  document.getElementById("stTime").textContent = t===null?"—":t+" ms";
-  document.getElementById("stDb").textContent=db;
-  document.getElementById("stHit").textContent=hit;
-  document.getElementById("stRate").textContent=(db+hit)===0?"—":Math.round(hit/(db+hit)*100)+"%";
-}
-function ledger(shownVal){
-  document.getElementById("truth").textContent=money(coreBalance);
-  document.getElementById("shown").textContent = shownVal===null?"—":money(shownVal);
-  var f=document.getElementById("flag");
-  if(shownVal===null){ f.innerHTML=""; return; }
-  if(shownVal!==coreBalance){
-    f.innerHTML='<div class="stale">WRONG NUMBER — the customer is looking at a balance that is '+money(coreBalance-shownVal)+' short, because the app was handed an old copy. Switch on "throw the copy away when money moves" and open the app again.</div>';
-  }else{
-    f.innerHTML='<div class="match">CORRECT — what the customer sees matches what the core really holds.</div>';
-  }
-}
-function step(lane,ms,hit,src){
-  return new Promise(function(res){
-    lane.classList.add(hit?"hit":"miss");
-    lane.querySelector(".tag").textContent = hit ? "from drawer · "+ms+" ms" : "from "+src+" · "+ms+" ms";
-    var fill=lane.querySelector(".fill");
-    var vis = reduce ? 0 : Math.max(ms*SCALE, hit?200:0);
-    fill.style.transition = vis ? "width "+vis+"ms linear" : "none";
-    requestAnimationFrame(function(){ fill.style.width="100%"; });
-    setTimeout(function(){ lane.classList.add("done"); res(); }, vis+(reduce?40:60));
-  });
-}
-async function run(){
-  runBtn.disabled=payBtn.disabled=clearBtn.disabled=cacheOn.disabled=inval.disabled=true;
-  build(); setStats(null,0,0);
-  var lanes=track.querySelectorAll(".lane"), total=0, db=0, hit=0, shown=null;
-  for(var i=0;i<CALLS.length;i++){
-    var c=CALLS[i], on=cacheOn.checked, isHit = on && cache[c.k]!==undefined;
-    var ms = isHit ? HIT_MS : c.ms;
-    await step(lanes[i], ms, isHit, c.src);
-    total+=ms;
-    if(isHit){ hit++; if(c.k==="balance") shown=cachedBalance; }
-    else{
-      db++;
-      if(c.k==="balance"){ shown=coreBalance; if(on) cachedBalance=coreBalance; }
-      if(on) cache[c.k]=true;
-    }
-    setStats(total,db,hit);
-  }
-  ledger(shown); ran=true;
-  runBtn.disabled=payBtn.disabled=clearBtn.disabled=cacheOn.disabled=false;
-  inval.disabled=!cacheOn.checked;
-  runBtn.textContent="Open it again";
-  mark("sim");
-}
-runBtn.addEventListener("click",run);
-payBtn.addEventListener("click",function(){
-  coreBalance+=5000000;
-  if(cacheOn.checked && inval.checked){ delete cache.balance; cachedBalance=null; }
-  document.getElementById("truth").textContent=money(coreBalance);
-  if(ran) document.getElementById("flag").innerHTML='<div class="stale">The money has arrived in the core. Open the app again to see what the customer is actually shown.</div>';
-});
-clearBtn.addEventListener("click",function(){
-  cache={}; cachedBalance=null; ran=false; build(); setStats(null,0,0); ledger(null);
-  document.getElementById("truth").textContent="—";
-  runBtn.textContent="Open the app";
-});
-cacheOn.addEventListener("change",function(){
-  inval.disabled=!cacheOn.checked;
-  if(!cacheOn.checked){ cache={}; cachedBalance=null; }
-});
-
-/* ---------- quiz ---------- */
-var QUIZ=[
- {q:"A bank's app is slow every evening. The company that supplies their core system offers to sell them more capacity — a bigger bill every year. What is the sharpest first question you ask?",
-  o:["How much is the upgrade, and when could it go live?",
-     "How many of those evening visits are people just looking at a number, rather than moving money?",
-     "Have you thought about moving the core to the cloud?",
-     "How many registered app users do you have?"],
-  a:1,
-  why:"People looking and people paying are two completely different problems with two completely different price tags. Most of an evening peak is people looking — and a copy kept close by can serve all of them. The bank only needs to pay for core capacity for the ones actually moving money. Separating the two is where your value is."},
- {q:"Which of these is the one thing that must never be answered from a copy?",
-  o:["The balance shown on the home screen",
-     "The exchange rate displayed on the transfer screen",
-     "The balance the bank checks before letting money leave",
-     "The list of recent transactions"],
-  a:2,
-  why:"A number on screen can be a second old and nobody is harmed. A payment approved against a number that is a second old can send money that is not there. That decision always reads from the core — the one system that is officially correct. This is the boundary a bank's risk team will test you on."},
- {q:"A customer taps Transfer twice because the app looks frozen on a weak connection. What stops the money leaving twice?",
-  o:["The bank's nightly backup",
-     "A ticket number attached to the instruction, so the second tap is recognised as the same one",
-     "The loading spinner in the app",
-     "The bank's contract with its core system supplier"],
-  a:1,
-  why:"The app attaches a unique ticket number to the instruction. The first one goes through; the second arrives with the same number and is recognised as a repeat, not a new payment. The technical name is an idempotency key, and it lives in the fast copy layer because it has to be checked in under a millisecond on every single payment."},
- {q:"\"Five wrong PIN attempts and the account locks for fifteen minutes.\" Which part of the bank's setup is counting those attempts?",
-  o:["The core banking system",
-     "A counter kept in the fast memory layer, which erases itself after fifteen minutes",
-     "The app on the customer's phone",
-     "The audit log"],
-  a:1,
-  why:"It has to be instant, it is per customer, and it must disappear on its own after fifteen minutes — that is an expiry stamp, the same mechanism as an OTP or an automatic logout. Once you see this, you start recognising Redis in a bank's security controls, not only in its performance story."},
- {q:"The bank's security officer asks where login sessions and OTP codes are kept. Why does that matter for your deal?",
-  o:["It doesn't — that information disappears by itself anyway",
-     "Because it is personal data, so it falls under data protection rules and the bank's own security assessment",
-     "Because that layer cannot be encrypted",
-     "Because sessions are legally required to sit in the core banking system"],
-  a:1,
-  why:"Temporary is not the same as out of scope. Session records, phone numbers and OTPs are personal data under Nghị định 13/2023, and the bank's security assessment will ask about encryption, how long it is kept, and where the servers physically sit. Raising this yourself in the second meeting is the difference between a vendor and an advisor."}
-];
-var answered=0, correct=0, quizBox=document.getElementById("quiz");
-QUIZ.forEach(function(item,qi){
-  var d=document.createElement("div"); d.className="q";
-  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
-  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
-  var box=document.createElement("div"); box.className="opts";
-  var why=document.createElement("div"); why.className="why";
-  item.o.forEach(function(txt,oi){
-    var b=document.createElement("button"); b.type="button"; b.className="opt";
-    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
-    b.querySelector(".ltr").textContent="ABCD"[oi];
-    b.querySelector(".tx").textContent=txt;
-    b.addEventListener("click",function(){
-      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
-      var right=oi===item.a;
-      b.classList.add(right?"right":"wrong");
-      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
-      why.className="why show "+(right?"good":"bad");
-      why.innerHTML="<b></b>";
-      why.querySelector("b").textContent = right?"Correct":"Not quite";
-      why.appendChild(document.createTextNode(item.why));
-      answered++; if(right) correct++;
-      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
-      if(answered===QUIZ.length) mark("quiz");
-    });
-    box.appendChild(b);
-  });
-  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
-});
-
-/* ---------- roleplay ---------- */
-var PLAY=[
- {role:"Chief Technology Officer, digital bank — second meeting",
-  line:'"We already pay for our core system. Why would I buy another data layer?"',
-  o:[{t:"Because Redis is much faster than your core banking system.", v:"weak",
-      f:"You have just told him the platform he chose and paid for is the slow part. Now he is defending it instead of exploring the gap with you — and it is not even accurate, because the two do completely different jobs."},
-     {t:"You are not replacing the core. You are stopping it being asked the same question two million times a day. The core still records every transaction; the new layer just answers the people who are only looking.", v:"strong",
-      f:"Accurate, and it protects the decision he already made. Follow it with a scoping question rather than a pitch: which screens do customers open most often? That is where you would start."},
-     {t:"It is open source, so there is no extra licence cost.", v:"weak",
-      f:"You led with price and dodged the question he actually asked. It is also misleading — the software is free, the memory and the people running it are not. He asked why; you answered how much."}]},
- {role:"Chief Financial Officer — commercial review",
-  line:'"Give me the business case in two lines."',
-  o:[{t:"Sub-millisecond reads and over one hundred thousand operations per second.", v:"weak",
-      f:"That is a specification, not a business case. No CFO approves a millisecond. Translate every technical number into either time his customers stop losing or money he stops spending."},
-     {t:"One: the home screen opens in under a second at the evening peak instead of six — that is your app store rating and your churn. Two: you postpone the core capacity upgrade, because most of that traffic never reaches the core.", v:"strong",
-      f:"One benefit he can feel, one he can put in a budget line — and the second one carries a number that came from his own supplier's quote. That is the shape every CFO answer should take."},
-     {t:"Every major bank in the region already runs it.", v:"weak",
-      f:"An appeal to popularity. It says nothing about his business, and it invites the obvious reply: then why is it not already in mine?"}]},
- {role:"Head of Risk — hostile, in front of the CTO",
-  line:'"I am not letting you keep copies of account balances. That is how a customer gets shown the wrong number, or spends money that is not there."',
-  o:[{t:"The copies refresh constantly, so in practice that will not happen.", v:"weak",
-      f:"You answered a question about controls with a promise. Risk officers do not buy promises, they buy controls — and you have just volunteered to be the person blamed when it does happen."},
-     {t:"Our solution architects will define the caching policy during the design phase.", v:"weak",
-      f:"Deflection, in front of the CTO. It tells the room you did not understand the objection, and hands the floor back to the one person you needed to convince."},
-     {t:"You are right about the second half, and I would not argue it. Nothing in the payment approval reads from a copy — that always goes to the core. What we copy is the balance we display, and it is thrown away the moment a transaction posts. Different risk, different control.", v:"strong",
-      f:"You conceded the valid half, drew the boundary yourself before he had to, and named the control. That is how the most sceptical person in the room becomes the one who explains your architecture to the committee when you are not there."}]}
-];
-var playBox=document.getElementById("play"), played=0;
-PLAY.forEach(function(sc){
-  var d=document.createElement("div"); d.className="scene";
-  var w=document.createElement("div"); w.className="who";
-  w.innerHTML='<div class="role"></div><div class="line"></div>';
-  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
-  d.appendChild(w);
-  var box=document.createElement("div"); box.className="opts";
-  var v=document.createElement("div"); v.className="verdict";
-  sc.o.forEach(function(op,oi){
-    var b=document.createElement("button"); b.type="button"; b.className="opt";
-    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
-    b.querySelector(".ltr").textContent="ABC"[oi];
-    b.querySelector(".tx").textContent=op.t;
-    b.addEventListener("click",function(){
-      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
-      b.classList.add(op.v==="strong"?"right":"wrong");
-      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
-      v.className="verdict show "+op.v;
-      v.innerHTML="<b></b>";
-      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
-      v.appendChild(document.createTextNode(op.f));
-      played++; if(played===PLAY.length) mark("play");
-    });
-    box.appendChild(b);
-  });
-  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
-});
-})();
-</script>
+<script src="assets/minisearch.min.js"></script>
+<script src="assets/glossary.js"></script>
+<script src="data/lessons.js"></script>
+<script src="assets/search-core.js"></script>
+<script src="assets/library.js"></script>
 </body>
 </html>
