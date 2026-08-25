@@ -3,24 +3,24 @@ window.LIB = {
  "lessons": [
   {
    "n": "01",
-   "href": "lessons/01-dong-tien-ccc.html",
-   "title": "Có lãi ba tháng liền, mà tháng thứ hai không đủ tiền trả lương.",
-   "dek": "Đây không phải là một nghịch lý, cũng không phải gian lận sổ sách. Đây là tình huống bình thường nhất của một doanh nghiệp vừa và nhỏ — và là lý do toàn bộ hệ thống bạn đang code tồn tại.",
-   "minutes": "15 phút",
+   "href": "lessons/01-cash-conversion-cycle.html",
+   "title": "Why is a profitable company short of cash?",
+   "dek": "Three months of profit in the books, and not enough in the bank to make payroll in month two. This is not a paradox and it is not fraud. It is the ordinary condition of a small business — and the reason the system you are building exists.",
+   "minutes": "15 min",
    "facts": [
-    "15 phút",
-    "Không cần biết kế toán",
-    "Kết thúc bằng 5 câu để hỏi BA"
+    "15 min",
+    "No accounting assumed",
+    "Ends with 5 questions to ask your BA"
    ],
-   "level": "Nền tảng",
+   "level": "Foundation",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
    "terms": [
     "hoadon",
@@ -46,154 +46,154 @@ window.LIB = {
    "sections": [
     {
      "id": "s01",
-     "label": "Nền tảng",
-     "h2": "Bán được hàng không có nghĩa là có tiền"
+     "label": "Ground floor",
+     "h2": "Selling something is not the same as being paid"
     },
     {
      "id": "s02",
-     "label": "Ý tưởng",
-     "h2": "Cái hố ba mươi lăm ngày"
+     "label": "The idea",
+     "h2": "The thirty-five day hole"
     },
     {
      "id": "s03",
-     "label": "Nguy hiểm",
-     "h2": "Chỗ mà một dòng code làm sai cả bức tranh"
+     "label": "The danger",
+     "h2": "Where one line of code breaks the whole picture"
     },
     {
      "id": "s04",
-     "label": "Nhìn thấy nó",
-     "h2": "Chín mươi ngày của một công ty đang có lãi"
+     "label": "See it",
+     "h2": "Ninety days of a profitable company"
     },
     {
      "id": "s05",
-     "label": "Tự kiểm tra",
-     "h2": "Năm câu hỏi"
+     "label": "Test it",
+     "h2": "Five questions"
     },
     {
      "id": "s06",
-     "label": "Dùng nó",
-     "h2": "Ba tình huống trong dự án"
+     "label": "Use it",
+     "h2": "Three moments in the project"
     },
     {
      "id": "s07",
-     "label": "Mang về",
-     "h2": "Năm câu đáng hỏi BA"
+     "label": "Take away",
+     "h2": "Five questions worth asking"
     },
     {
      "id": "s08",
-     "label": "Tra cứu",
-     "h2": "Toàn bộ thuật ngữ, bằng tiếng người"
+     "label": "Reference",
+     "h2": "Every word, in plain English"
     }
    ]
   },
   {
    "n": "02",
-   "title": "Hoá đơn không phải là tiền",
-   "dek": "Vì sao invoices.status không có OPEN, vì sao hoá đơn đã phát hành thì không được xoá, và vì sao một trường direction lại quyết định cả chiều sổ sách.",
+   "title": "An invoice is not money",
+   "dek": "Why invoices.status has no OPEN, why an issued invoice cannot be deleted, and how a single direction column decides which side of the books a row lands on.",
    "tags": [
-    "hoá đơn",
-    "công nợ",
+    "invoice",
+    "receivables",
     "VAT",
     "Nghị định 70/2025",
-    "trạng thái"
+    "state machine"
    ],
-   "level": "Nền tảng",
-   "minutes": "15 phút",
+   "level": "Foundation",
+   "minutes": "15 min",
    "status": "planned",
    "sections": []
   },
   {
    "n": "03",
-   "title": "Ba cách biến hoá đơn thành tiền",
-   "dek": "Chiết khấu hoá đơn, tài trợ ngược dòng, tài trợ hàng tồn kho. Ai khởi xướng, ai chịu rủi ro, và vì sao có/miễn truy đòi là chuyện pháp lý chứ không phải một cái enum cho vui.",
+   "title": "Three ways to turn an invoice into cash",
+   "dek": "Invoice discounting, reverse factoring, inventory financing. Who starts each one, who carries the risk, and why with-recourse or without is a legal fact rather than a convenient enum.",
    "tags": [
     "SCF",
-    "chiết khấu",
+    "discounting",
     "reverse factoring",
-    "tồn kho",
-    "bao thanh toán"
+    "inventory",
+    "factoring"
    ],
-   "level": "Cốt lõi",
-   "minutes": "18 phút",
+   "level": "Core",
+   "minutes": "18 min",
    "status": "planned",
    "sections": []
   },
   {
    "n": "04",
-   "title": "Tín dụng không phải là một con điểm",
-   "dek": "Hạn mức, dư nợ, chấm điểm, xếp hạng, báo cáo tuổi nợ và bù trừ công nợ hai chiều — sáu khái niệm mà credit-service gói trong hai mươi bảng.",
+   "title": "Credit is not a score",
+   "dek": "Limits, exposure, scoring, grading, aging reports and two-way offsetting — six ideas that credit-service wraps in twenty tables.",
    "tags": [
-    "tín dụng",
-    "hạn mức",
-    "dư nợ",
-    "tuổi nợ",
-    "bù trừ công nợ"
+    "credit",
+    "limit",
+    "exposure",
+    "aging",
+    "offsetting"
    ],
-   "level": "Cốt lõi",
-   "minutes": "18 phút",
+   "level": "Core",
+   "minutes": "18 min",
    "status": "planned",
    "sections": []
   },
   {
    "n": "05",
-   "title": "Lãi chậm trả — chỗ dễ code sai nhất hệ thống",
-   "dek": "Vì sao trần 20%/năm của Bộ luật Dân sự không áp vào đây, vì sao không được tính lãi trên tiền phạt, và một án lệ có thể biến thành hai bộ lọc trong code như thế nào.",
+   "title": "Late-payment interest — the easiest thing here to code wrongly",
+   "dek": "Why the 20% civil-code ceiling does not apply, why interest may never be charged on a penalty, and how one court precedent becomes two filters in code.",
    "tags": [
-    "lãi chậm trả",
+    "late interest",
     "Án lệ 09/2016",
     "Điều 306",
-    "phạt vi phạm",
+    "penalty",
     "CM-19"
    ],
-   "level": "Cốt lõi",
-   "minutes": "20 phút",
+   "level": "Core",
+   "minutes": "20 min",
    "status": "planned",
    "sections": []
   },
   {
    "n": "06",
-   "title": "Ngân sách không phải là một con số dự đoán",
-   "dek": "Kế hoạch, phân bổ, cam kết, thực chi, chênh lệch. Bốn trạng thái của cùng một đồng tiền, và vì sao kiểm soát ngân sách phải chặn ở lúc duyệt chứ không phải lúc chi.",
+   "title": "A budget is not a forecast",
+   "dek": "Plan, allocation, commitment, actual, variance. Four states of the same đồng, and why budget control has to block at approval rather than at payment.",
    "tags": [
-    "ngân sách",
-    "phân bổ",
-    "cam kết",
-    "chênh lệch",
-    "dự báo"
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "forecast"
    ],
-   "level": "Ứng dụng",
-   "minutes": "16 phút",
+   "level": "Applied",
+   "minutes": "16 min",
    "status": "planned",
    "sections": []
   },
   {
    "n": "07",
-   "title": "Ai được ký, ai không được ký",
-   "dek": "Nguyên tắc bất kiêm nhiệm, kế toán trưởng và phụ trách kế toán, và vì sao một luồng duyệt cứng sẽ khoá chết hàng trăm nghìn doanh nghiệp siêu nhỏ hoàn toàn hợp pháp.",
+   "title": "Who may sign, and who may not",
+   "dek": "Segregation of duties, chief accountant versus person in charge of accounting, and why a hard-coded approval chain deadlocks hundreds of thousands of perfectly legal micro-enterprises.",
    "tags": [
-    "bất kiêm nhiệm",
+    "segregation of duties",
     "Luật Kế toán 2015",
     "Nghị định 80/2021",
-    "phân quyền",
+    "permissions",
     "workflow"
    ],
-   "level": "Ứng dụng",
-   "minutes": "18 phút",
+   "level": "Applied",
+   "minutes": "18 min",
    "status": "planned",
    "sections": []
   },
   {
    "n": "08",
-   "title": "Đọc một báo cáo tài chính trong mười phút",
-   "dek": "Báo cáo tình hình tài chính, kết quả kinh doanh, lưu chuyển tiền tệ. Ba tờ giấy, ba câu hỏi khác nhau — và cái tên mới mà Thông tư 99/2025 vừa đặt lại.",
+   "title": "Reading a set of financial statements in ten minutes",
+   "dek": "Statement of financial position, income statement, cash flow statement. Three sheets answering three different questions — and the new name Thông tư 99/2025 just gave the first of them.",
    "tags": [
-    "báo cáo tài chính",
+    "financial statements",
     "Thông tư 99/2025",
     "Thông tư 58/2026",
-    "tài khoản kế toán"
+    "chart of accounts"
    ],
-   "level": "Ứng dụng",
-   "minutes": "20 phút",
+   "level": "Applied",
+   "minutes": "20 min",
    "status": "planned",
    "sections": []
   }
@@ -203,417 +203,417 @@ window.LIB = {
    "id": "01#s01",
    "type": "section",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s01",
-   "title": "Bán được hàng không có nghĩa là có tiền",
-   "subtitle": "Bài 01 · Nền tảng",
-   "text": "BẤM Mọi từ có gạch chân chấm đều bấm được để xem giải thích đời thường, tên tiếng Anh, và chỗ nó nằm trong code của dự án. Không có gì ở đây mặc định là bạn đã biết. Bắt đầu từ chỗ dân kỹ thuật hiểu sai nhiều nhất. Khi công ty giao hàng và xuất hoá đơn , sổ sách ghi ngay doanh thu và ghi ngay lợi nhuận . Ngay hôm đó. Còn tiền thì chưa về — thường là bốn mươi lăm ngày sau. Khoảng trống giữa hai mốc đó có tên: khoản phải thu . Nó là tài sản trên báo cáo, nhưng bạn không trả lương nhân viên bằng khoản phải thu được. Và ở đầu bên kia, trước khi bán được, công ty đã phải bỏ tiền mua hàng về. Hàng nằm trong kho là tồn kho — tiền của bạn đang nằm im dưới dạng thùng hộp. Chỉ có đúng một thứ trong bức tranh này đang giúp bạn: khoản phải trả — tiền mình đang nợ nhà cung cấp. Nghe thì xấu, nhưng mỗi ngày chưa phải trả là một ngày tiền vẫn còn nằm trong tài khoản của mình. Ngày 0 — nhập hàng Tiền ra khỏi tài khoản, hoặc hẹn trả nhà cung cấp sau vài chục ngày. hàng nằm kho 20 ngày Ngày 20 — bán hàng, xuất hoá đơn Sổ sách ghi doanh thu và lợi nhuận ngay tại đây. Tài khoản ngân hàng vẫn không nhúc nhích. chờ khách trả 45 ngày Ngày 65 — khách thanh toán Bây giờ mới có tiền thật. Sáu mươi lăm ngày sau khi bạn đã tiêu tiền của mình. Vậy nên khi giám đốc nói \"công ty đang lãi mà sao lúc nào cũng thiếu tiền\", điều họ đang mô tả là: lợi nhuận nằm trên sổ, còn tiền đang nằm trong kho và trong túi khách hàng. Cái mà hệ thống của bạn theo dõi từng ngày không phải là lợi nhuận. Nó là dòng tiền — tiền thật, vào ngày nó thật sự chuyển. Trong code Doanh thu sinh ra một Invoice ở trạng thái ISSUED , và không sinh ra CashFlowEntry nào cả. Tiền chỉ xuất hiện khi có InvoicePayment . Hai bảng khác nhau, hai mốc thời gian khác nhau — nếu bạn suy cái này từ cái kia là hệ thống nói dối.",
+   "href": "lessons/01-cash-conversion-cycle.html#s01",
+   "title": "Selling something is not the same as being paid",
+   "subtitle": "Lesson 01 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. Start with what technical people get wrong most often. The day a company delivers goods and issues an invoice , the books record revenue and record profit . That same day. The money, meanwhile, has not arrived — typically it arrives forty-five days later. The gap between those two moments has a name: accounts receivable . It is an asset on the balance sheet, and you cannot pay anyone with it. At the other end, before anything could be sold, the company had already spent money buying the goods. Stock sitting in the warehouse is inventory — your money, standing still, in the shape of boxes. Exactly one thing in this picture is working in your favour: accounts payable , the money you owe your own suppliers. It sounds like the bad column, and every day you have not yet paid is a day the cash is still in your account. Day 0 — stock arrives Money leaves the account, or a promise is made to pay the supplier in a few weeks. stock sits for 20 days Day 20 — sold, invoice issued The books record revenue and profit right here. The bank account does not move at all. wait 45 days to be paid Day 65 — the customer pays Only now is there real money. Sixty-five days after you spent your own. So when a managing director says \"we are profitable, why are we always short of money\", what they are describing is this: the profit is on paper, and the cash is in the warehouse and in the customer's pocket. What your system tracks day by day is not profit. It is cash flow — real money, on the day it really moves. In the code Revenue produces an Invoice in status ISSUED , and produces no CashFlowEntry at all. Cash only appears when an InvoicePayment does. Two tables, two different moments — derive one from the other and the system is lying. Tiếng Việt Doanh thu ghi vào sổ ngay lúc giao hàng và xuất hoá đơn; tiền thì 45 ngày sau mới về. Khoảng trống đó là khoản phải thu — tài sản trên sổ nhưng không tiêu được. Cái hệ thống theo dõi hằng ngày là dòng tiền, không phải lợi nhuận.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
    "id": "01#s02",
    "type": "section",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s02",
-   "title": "Cái hố ba mươi lăm ngày",
-   "subtitle": "Bài 01 · Ý tưởng",
-   "text": "Ba khoảng thời gian ở trên có tên riêng, và chúng là ba con số mà mọi người làm tài chính đều thuộc lòng. Hàng nằm kho bao lâu là DIO . Khách trả tiền sau bao lâu là DSO . Còn mình được nợ nhà cung cấp bao lâu là DPO . Hai cái đầu là thời gian tiền của bạn bị kẹt. Cái thứ ba là thời gian bạn được xài tiền của người khác. Trừ đi nhau ra một con số duy nhất: CCC = DIO + DSO − DPO. Số ngày bạn phải tự bỏ tiền túi nuôi công việc kinh doanh của chính mình. Đó là chu kỳ chuyển đổi tiền mặt . Với ví dụ ở trên: 20 + 45 − 30 = 35 ngày. Mỗi vòng quay, công ty phải tự tài trợ ba mươi lăm ngày bằng tiền của mình. Nhân với quy mô đơn hàng, đó chính là số tiền công ty phải luôn có sẵn — cái mà kế toán gọi là vốn lưu động . Và đây là chỗ nó trở thành nguy hiểm: cái hố đó không đứng yên. Công ty bán càng chạy, mở càng nhiều đơn, thì số tiền bị kẹt càng lớn. Doanh nghiệp có thể chết vì tăng trưởng quá nhanh. Nghe vô lý, nhưng đó là nguyên nhân phá sản phổ biến hơn cả thua lỗ. Mỗi tháng tài khoản mỏng đi bao nhiêu gọi là burn rate . Lấy tiền còn lại chia cho nó ra runway — còn bao nhiêu ngày nữa thì hết sạch. Đó là hai con số làm giám đốc mất ngủ, và là thứ mọi cảnh báo trong hệ thống này đang phục vụ. Trong code Cả bốn con số nằm chung một bảng: cash_flow_metrics với các cột dio_days , dso_days , dpo_days , ccc_days , cộng burn_rate và runway_days . Job hằng đêm ghi đè bằng UPSERT, API chỉ đọc (CF-07).",
+   "href": "lessons/01-cash-conversion-cycle.html#s02",
+   "title": "The thirty-five day hole",
+   "subtitle": "Lesson 01 · The idea",
+   "text": "The three stretches of time above have names, and they are three numbers every finance person knows by heart. How long stock sits is DIO . How long the customer takes to pay is DSO . How long you get to owe your supplier is DPO . The first two are time your money is trapped. The third is time you get to use somebody else's. Subtract, and you get a single number: CCC = DIO + DSO − DPO. The number of days you fund your own business out of your own pocket. That is the cash conversion cycle . In the example above: 20 + 45 − 30 = 35 days. Every turn of the cycle, the company self-funds thirty-five days. Multiply by the size of an order and you have the amount of money the company must always have lying around — what an accountant calls working capital . And here is where it turns dangerous: the hole does not stay still. The better sales go, the more orders are open, the more cash is trapped. A company can die of growing too fast. It sounds absurd, and it kills more small businesses than losses do. How much thinner the account gets each month is the burn rate . Divide the cash on hand by it and you get runway — the number of days before there is nothing left. Those are the two numbers that keep a director awake, and the two that every warning in this system is ultimately serving. In the code All four live in one table: cash_flow_metrics , with dio_days , dso_days , dpo_days , ccc_days , alongside burn_rate and runway_days . A nightly job overwrites them by UPSERT; the API is read-only (CF-07). Tiếng Việt Chu kỳ chuyển đổi tiền mặt = số ngày hàng nằm kho + số ngày khách trả tiền − số ngày mình được nợ nhà cung cấp. Đó là số ngày doanh nghiệp phải tự bỏ tiền túi nuôi vòng quay của chính mình. Bán càng chạy thì tiền kẹt càng nhiều — chết vì tăng trưởng là chuyện có thật.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
    "id": "01#s03",
    "type": "section",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s03",
-   "title": "Chỗ mà một dòng code làm sai cả bức tranh",
-   "subtitle": "Bài 01 · Nguy hiểm",
-   "text": "Bây giờ đến phần đáng để bạn nhớ khi ngồi họp. Có một cám dỗ rất tự nhiên với dân kỹ thuật: cần biểu đồ dòng tiền theo ngày, mà trong bảng chỉ có doanh thu theo tháng, thế là lấy doanh thu chia cho ba mươi. Nó chạy. Biểu đồ lên rất đẹp. Và nó sai theo cái cách tệ nhất: biểu đồ sẽ báo an toàn đúng vào tuần công ty hết tiền, vì tiền thật không về đều mỗi ngày — nó về thành từng cục, vào những ngày đến hạn. Ranh giới đừng bao giờ vượt Lợi nhuận là một ý kiến. Tiền mặt là một sự thật. Không bao giờ suy ra dòng tiền từ doanh thu. Dòng tiền chỉ được dựng từ những ngày tiền thật sự chuyển: ngày đến hạn của hoá đơn, ngày ghi nhận thanh toán, ngày lịch chi trả. Một công ty có lãi vẫn chết nếu đến ngày trả lương mà tài khoản trống — mất thanh khoản là chết, còn lỗ thì vẫn sống được nhiều năm. Ba con số đó còn quay lại ở đâu trong hệ thống Đây là phần đưa bạn từ \"người code theo spec\" thành người hiểu vì sao spec viết như vậy. DIO, DSO, DPO không chỉ nằm trong một màn hình báo cáo — chúng là đầu vào của gần như mọi tính năng nghiệp vụ khác. Cảnh báo thiếu hụt tiền mặt Ngưỡng cấu hình được, so với dự báo số dư từng ngày. CashAlert · CF-11. Dự báo dòng tiền tương lai Dự báo dựng từ lịch thanh toán và hạn hoá đơn, chứ không phải từ đường xu hướng doanh thu. ForecastRun , ForecastScenario · CF-10. Lịch thanh toán tự động Sinh ra từ điều khoản thanh toán với từng nhà cung cấp — tức là từ DPO. PaymentSchedule · CF-15. Đề xuất điều khoản thanh toán tối ưu Nghe như một tính năng gợi ý mơ hồ. Thực chất nó đi kéo DPO lên mà không làm nhà cung cấp bỏ đi · CM-04. Chấm điểm tín dụng đối tác \"Lịch sử thanh toán\" trong bộ tiêu chí chấm điểm chính là DSO của riêng đối tác đó. CreditScoringRule · CM-07. Hạn mức tài trợ Một hạn mức được cấp dựa trên chính khoảng thời gian tiền bị kẹt mà nó đang lấp vào · SCF-09, SCF-13. Tóm lại Khi bạn thấy một con số về tiền trong dự án này, câu hỏi đầu tiên luôn là: con số này ghi nhận vào lúc nào — lúc xuất hoá đơn, hay lúc tiền vào tài khoản? Trả lời sai câu đó là sai cả tính năng.",
+   "href": "lessons/01-cash-conversion-cycle.html#s03",
+   "title": "Where one line of code breaks the whole picture",
+   "subtitle": "Lesson 01 · The danger",
+   "text": "Now the part worth remembering in a meeting. There is a very natural temptation for a developer: the chart needs cash per day, the table only holds revenue per month, so you divide revenue by thirty. It runs. The chart looks great. And it is wrong in the worst possible way: the chart will show a healthy line during exactly the week the company runs out of money, because real cash does not arrive evenly — it arrives in lumps, on the days things fall due. The line you never cross Profit is an opinion. Cash is a fact. Never derive cash flow from revenue. Cash flow is built only from days money genuinely moves: an invoice's due date , a recorded payment, a scheduled disbursement. A profitable company still dies if the account is empty on payday — losing liquidity kills, while a loss can be survived for years. Where those three numbers come back This is the part that moves you from someone who codes the spec to someone who understands why the spec reads the way it does. DIO, DSO and DPO are not confined to one reporting screen — they are the input to nearly every other business feature in the system. The cash shortfall warning A configured threshold checked against the day-by-day forecast balance. CashAlert · CF-11. The forward cash forecast Built from payment schedules and invoice due dates, never from a revenue trend line. ForecastRun , ForecastScenario · CF-10. Automatic payment schedules Generated from the terms agreed with each supplier — which is to say, from DPO. PaymentSchedule · CF-15. \"Suggest optimal payment terms\" Reads like a vague recommendation feature. It is DPO being pushed up without driving the supplier away · CM-04. Partner credit scoring \"Payment history\" among the scoring criteria is that one partner's own DSO. CreditScoringRule · CM-07. Financing limits A limit is granted against the very gap in time it is there to fill · SCF-09, SCF-13. In one line Whenever you meet a number about money in this project, the first question is always: when is this recognised — when the invoice is issued, or when the cash lands? Get that wrong and the whole feature is wrong. Tiếng Việt Đừng bao giờ suy ra dòng tiền từ doanh thu. Tiền thật không về đều mỗi ngày, nó về thành từng cục vào những ngày đến hạn — chia đều thì biểu đồ sẽ báo an toàn đúng vào tuần công ty hết tiền.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
    "id": "01#s04",
    "type": "section",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s04",
-   "title": "Chín mươi ngày của một công ty đang có lãi",
-   "subtitle": "Bài 01 · Nhìn thấy nó",
-   "text": "Một công ty nhỏ, mỗi tháng nhập 300 triệu tiền hàng và bán được 360 triệu. Lãi gộp 60 triệu một tháng, chi phí cố định 40 triệu. Trên sổ sách, tháng nào cũng lãi. Bắt đầu với 300 triệu trong tài khoản. Cột màu xanh là số dư dương, cột đỏ là âm — tức là ngày công ty không trả nổi một khoản đến hạn. Kéo ba cần gạt để xem con số nào cứu được nó, hoặc bật chiết khấu hoá đơn để thấy cái giá của việc lấy tiền về sớm. Và bấm bán chạy gấp đôi để xem điều xảy ra với một công ty đang ăn nên làm ra. Bán chạy gấp đôi Về mặc định Hàng nằm kho trước khi bán DIO — mua về rồi bao lâu mới bán được 20 ngày Khách trả tiền sau DSO — điều khoản thanh toán bạn cho khách 45 ngày Mình trả nhà cung cấp sau DPO — điều khoản nhà cung cấp cho bạn 30 ngày Chiết khấu hoá đơn — bán khoản phải thu để lấy tiền ngay, phí 1,2% mỗi tháng ứng trước Chu kỳ chuyển đổi tiền mặt — Lãi trên sổ, ba tháng — Tiền mặt lúc thấp nhất — Số ngày âm tiền — NGÀY 0 NGÀY 30 NGÀY 60 NGÀY 90 Mỗi 30 ngày mở một vòng kinh doanh mới. Lợi nhuận được ghi nhận vào ngày bán hàng, đúng như kế toán làm — nên nó vẫn dương kể cả trong những ngày tài khoản đã âm. Đó không phải lỗi của mô phỏng, đó chính là bài học. Phần tính toán nằm ở finance/sim-ccc.js và có test riêng: node tools/test-ccc.mjs .",
+   "href": "lessons/01-cash-conversion-cycle.html#s04",
+   "title": "Ninety days of a profitable company",
+   "subtitle": "Lesson 01 · See it",
+   "text": "A small company buys 300 million of stock a month and sells it for 360. Gross margin 60 million a month, fixed costs 40 million. In the books, every month is profitable. It starts with 300 million in the bank. Blue bars are a positive balance, red bars a negative one — days the company cannot cover something that has fallen due. Move the three levers to find out which number saves it, switch on invoice discounting to see the price of getting cash early, and press sell twice as much to see what happens to a company whose sales are going well. Sell twice as much Reset Days stock sits before it sells DIO — bought in, and how long until sold 20 days Days the customer takes to pay DSO — the terms you give your customer 45 days Days you take to pay the supplier DPO — the terms your supplier gives you 30 days Invoice discounting — sell the receivable for cash today, fee 1.2% per month advanced Cash conversion cycle — Profit in the books, 3 months — Lowest the cash gets — Days in the red — DAY 0 DAY 30 DAY 60 DAY 90 A new cycle opens every 30 days. Profit is booked on the day of the sale, exactly as an accountant would — which is why it stays positive through days the account is already empty. That is not a flaw in the simulation, that is the lesson. The maths lives in finance/sim-ccc.js and has its own check: node tools/test-ccc.mjs .",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
    "id": "01#s05",
    "type": "section",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s05",
-   "title": "Năm câu hỏi",
-   "subtitle": "Bài 01 · Tự kiểm tra",
-   "text": "Chọn một đáp án để xem vì sao nó đúng hoặc sai. Sai ở đây rẻ hơn nhiều so với sai trong một buổi nghiệm thu. 0 / 5 câu đã trả lời",
+   "href": "lessons/01-cash-conversion-cycle.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 01 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
    "id": "01#s06",
    "type": "section",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s06",
-   "title": "Ba tình huống trong dự án",
-   "subtitle": "Bài 01 · Dùng nó",
-   "text": "Ba câu bạn sẽ nghe thật, từ ba người khác nhau. Chọn cái bạn thực sự sẽ nói.",
+   "href": "lessons/01-cash-conversion-cycle.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 01 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
    "id": "01#s07",
    "type": "section",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s07",
-   "title": "Năm câu đáng hỏi BA",
-   "subtitle": "Bài 01 · Mang về",
-   "text": "\"Con số này ghi nhận vào lúc nào — lúc xuất hoá đơn, hay lúc tiền vào tài khoản?\" Câu hỏi quan trọng nhất trong cả dự án. Nó tách một cột số thành hai nghiệp vụ khác hẳn nhau, và phân nửa số bug nghiệp vụ về tiền đều bắt đầu từ chỗ không ai hỏi câu này. \"DSO thực tế của khách hàng lớn nhất là bao nhiêu, chứ không phải điều khoản ghi trong hợp đồng?\" Hợp đồng ghi 45 ngày, thực tế trả 70 ngày. Nếu dự báo dòng tiền dựng theo hợp đồng thì nó sai một cách có hệ thống, và luôn sai về phía lạc quan. \"Cột này để null khi nào? Null ở đây nghĩa là chưa tính được, hay nghĩa là không áp dụng?\" Trong dữ liệu tài chính, hai loại null đó dẫn tới hai cách hiển thị và hai cách cảnh báo hoàn toàn khác nhau. Nhầm là báo động giả — hoặc tệ hơn, im lặng đúng lúc cần kêu. \"Nếu con số này sai năm phần trăm thì ai là người mất tiền?\" Câu này biến một yêu cầu mơ hồ thành một mức độ ưu tiên. Sai ở màn hình dashboard là khó chịu; sai ở chỗ tính lãi hay hạn mức là mất tiền thật và có thể ra toà. \"Nghiệp vụ này có căn cứ pháp lý nào không, hay là quy ước nội bộ của doanh nghiệp?\" Trong dự án này rất nhiều quy tắc đến thẳng từ luật — hoá đơn không được huỷ, lãi không được tính chồng lên tiền phạt, doanh nghiệp siêu nhỏ được miễn một số ràng buộc. Cái đến từ luật thì không được phép \"tối ưu\" cho gọn code. Ghi nhớ Bạn không cần trở thành kế toán. Bạn chỉ cần biết đủ để nhận ra lúc nào một yêu cầu đang mô tả tiền trên sổ và lúc nào nó đang mô tả tiền trong tài khoản — và hỏi lại trước khi code.",
+   "href": "lessons/01-cash-conversion-cycle.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 01 · Take away",
+   "text": "\"When is this number recognised — when the invoice is issued, or when the money lands?\" The single most important question in the project. It splits one column into two different pieces of business, and half the money-related bugs in a system like this begin with nobody asking it. \"What is the actual DSO of the largest customer, rather than the terms written in the contract?\" The contract says forty-five days and they pay in seventy. A forecast built on contract terms is wrong systematically, and always wrong in the optimistic direction. \"When is this column null? Does null mean not computed yet, or does it mean not applicable?\" In financial data those two nulls lead to different displays and different alerts. Confusing them means false alarms — or worse, silence at the moment the system should be shouting. \"If this number is five percent wrong, who loses money?\" This turns a vague requirement into a priority. Wrong on a dashboard is annoying; wrong where interest or a credit limit is computed costs real money and can end up in front of an arbitrator. \"Is there a legal basis for this rule, or is it the company's own convention?\" A lot of the rules here come straight from law — an issued invoice cannot be cancelled, interest may not be charged on a penalty, micro-enterprises are exempt from some controls. Anything that comes from law must not be tidied up for the sake of cleaner code. Tiếng Việt Bạn không cần trở thành kế toán. Chỉ cần đủ để nhận ra lúc nào một yêu cầu đang nói về tiền trên sổ và lúc nào nó nói về tiền trong tài khoản — rồi hỏi lại trước khi code.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
    "id": "01#s08",
    "type": "section",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s08",
-   "title": "Toàn bộ thuật ngữ, bằng tiếng người",
-   "subtitle": "Bài 01 · Tra cứu",
-   "text": "Không có gì mới ở đây — vẫn là những giải thích bên trên, gom lại một chỗ để đọc lại trước buổi họp.",
+   "href": "lessons/01-cash-conversion-cycle.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 01 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
    "id": "01#q0",
    "type": "quiz",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s05",
-   "title": "Một công ty bán đều 360 triệu mỗi tháng, lãi gộp 60 triệu, chi phí cố định 40 triệu. Trên sổ tháng nào cũng lãi. Đến tháng thứ hai không đủ tiền trả lương. Chuyện gì đang xảy ra?",
-   "subtitle": "Bài 01 · Tự kiểm tra",
-   "text": "Tiền của các đơn đã bán vẫn đang nằm ở khoản phải thu và trong kho, chưa về tài khoản Lợi nhuận được ghi nhận vào ngày giao hàng, còn tiền về sau đó 45 ngày. Trong lúc chờ, công ty vẫn phải trả lương, trả nhà cung cấp, nhập lô hàng mới. Không có gì sai trong sổ sách cả — chỉ là sổ sách đo một thứ, còn tài khoản ngân hàng đo một thứ khác.",
+   "href": "lessons/01-cash-conversion-cycle.html#s05",
+   "title": "A company sells 360 million a month at a gross margin of 60 million, with fixed costs of 40 million. Every month is profitable in the books. In month two it cannot make payroll. What is happening?",
+   "subtitle": "Lesson 01 · Test yourself",
+   "text": "The cash from the sales already made is still sitting in receivables and in the warehouse Profit is recognised on the day goods are delivered; the money arrives forty-five days later. In between, the company still pays salaries, still pays suppliers, still buys the next batch of stock. Nothing in the books is wrong — the books measure one thing and the bank account measures another.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "answer": "Tiền của các đơn đã bán vẫn đang nằm ở khoản phải thu và trong kho, chưa về tài khoản",
-   "why": "Lợi nhuận được ghi nhận vào ngày giao hàng, còn tiền về sau đó 45 ngày. Trong lúc chờ, công ty vẫn phải trả lương, trả nhà cung cấp, nhập lô hàng mới. Không có gì sai trong sổ sách cả — chỉ là sổ sách đo một thứ, còn tài khoản ngân hàng đo một thứ khác."
+   "answer": "The cash from the sales already made is still sitting in receivables and in the warehouse",
+   "why": "Profit is recognised on the day goods are delivered; the money arrives forty-five days later. In between, the company still pays salaries, still pays suppliers, still buys the next batch of stock. Nothing in the books is wrong — the books measure one thing and the bank account measures another."
   },
   {
    "id": "01#q1",
    "type": "quiz",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s05",
-   "title": "BA yêu cầu thêm cột ccc_days vào bảng cash_flow_metrics. Để tính được nó, tối thiểu bạn cần dữ liệu gì?",
-   "subtitle": "Bài 01 · Tự kiểm tra",
-   "text": "Số ngày hàng nằm kho, số ngày khách trả tiền, và số ngày mình trả nhà cung cấp — ba nguồn dữ liệu ở ba service khác nhau CCC = DIO + DSO − DPO. DIO cần dữ liệu tồn kho (scf-service), DSO và DPO cần ngày thanh toán thực tế của cả hai chiều công nợ (credit-service). Đúng vì vậy mà bốn cột này từng bị gỡ khỏi migration V5 — lúc đó chưa có nguồn nào tính được — rồi mới quay lại ở V6.",
+   "href": "lessons/01-cash-conversion-cycle.html#s05",
+   "title": "Your BA asks for a ccc_days column on cash_flow_metrics. What is the minimum data needed to compute it?",
+   "subtitle": "Lesson 01 · Test yourself",
+   "text": "Days stock sits, days customers take to pay, and days you take to pay suppliers — three sources in three different services CCC = DIO + DSO − DPO. DIO needs inventory data from scf-service; DSO and DPO need actual settlement dates on both sides of the ledger from credit-service. That is exactly why these four columns were dropped in migration V5 — nothing could compute them yet — and only came back in V6.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "answer": "Số ngày hàng nằm kho, số ngày khách trả tiền, và số ngày mình trả nhà cung cấp — ba nguồn dữ liệu ở ba service khác nhau",
-   "why": "CCC = DIO + DSO − DPO. DIO cần dữ liệu tồn kho (scf-service), DSO và DPO cần ngày thanh toán thực tế của cả hai chiều công nợ (credit-service). Đúng vì vậy mà bốn cột này từng bị gỡ khỏi migration V5 — lúc đó chưa có nguồn nào tính được — rồi mới quay lại ở V6."
+   "answer": "Days stock sits, days customers take to pay, and days you take to pay suppliers — three sources in three different services",
+   "why": "CCC = DIO + DSO − DPO. DIO needs inventory data from scf-service; DSO and DPO need actual settlement dates on both sides of the ledger from credit-service. That is exactly why these four columns were dropped in migration V5 — nothing could compute them yet — and only came back in V6."
   },
   {
    "id": "01#q2",
    "type": "quiz",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s05",
-   "title": "Khách hàng lớn nhất bắt đầu trả trễ đều đặn thêm 30 ngày. Con số nào xấu đi trước tiên?",
-   "subtitle": "Bài 01 · Tự kiểm tra",
-   "text": "DSO — kéo CCC lên 30 ngày, và runway ngắn lại tương ứng Doanh thu và lợi nhuận không đổi một đồng nào, vì hàng vẫn bán được đúng như cũ. Thứ đổi là thời điểm tiền về. Đó là lý do một hệ thống chỉ theo dõi doanh thu sẽ không nhìn thấy gì cả, cho tới đúng ngày công ty không trả nổi lương.",
+   "href": "lessons/01-cash-conversion-cycle.html#s05",
+   "title": "Your largest customer starts paying thirty days later than before. Which number moves first?",
+   "subtitle": "Lesson 01 · Test yourself",
+   "text": "DSO — which pushes CCC up thirty days and shortens runway to match Revenue and profit do not change by a single đồng, because the same goods still sell on the same terms. What changes is when the money arrives. That is why a system tracking only revenue sees nothing at all — right up until the day payroll fails.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "answer": "DSO — kéo CCC lên 30 ngày, và runway ngắn lại tương ứng",
-   "why": "Doanh thu và lợi nhuận không đổi một đồng nào, vì hàng vẫn bán được đúng như cũ. Thứ đổi là thời điểm tiền về. Đó là lý do một hệ thống chỉ theo dõi doanh thu sẽ không nhìn thấy gì cả, cho tới đúng ngày công ty không trả nổi lương."
+   "answer": "DSO — which pushes CCC up thirty days and shortens runway to match",
+   "why": "Revenue and profit do not change by a single đồng, because the same goods still sell on the same terms. What changes is when the money arrives. That is why a system tracking only revenue sees nothing at all — right up until the day payroll fails."
   },
   {
    "id": "01#q3",
    "type": "quiz",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s05",
-   "title": "Cột runway_days trong cash_flow_metrics để null khi dòng tiền ròng của kỳ đang dương. Vì sao không điền 0 hay một số rất lớn cho tiện?",
-   "subtitle": "Bài 01 · Tự kiểm tra",
-   "text": "Vì không cạn tiền thì không tồn tại khái niệm \"số ngày cầm cự\" — điền 0 là báo động giả, điền số lớn là ngụ ý một lời hứa mà không ai tính được Đây là kiểu quyết định nghiệp vụ trông giống quyết định kỹ thuật. Null ở đây mang nghĩa \"không áp dụng\", khác hẳn null nghĩa là \"chưa tính được\". Hai loại null đó dẫn tới hai cách hiển thị và hai cách cảnh báo khác nhau — và nhầm lẫn giữa chúng là nguồn bug nghiệp vụ kinh điển.",
+   "href": "lessons/01-cash-conversion-cycle.html#s05",
+   "title": "runway_days is left null when net cash flow for the period is positive. Why not write 0, or some very large number, for convenience?",
+   "subtitle": "Lesson 01 · Test yourself",
+   "text": "Because a company that is not running out has no days-left figure — 0 is a false alarm, and a large number implies a promise nobody computed This is a business decision wearing technical clothes. Null here means \"does not apply\", which is a different thing from null meaning \"not computed yet\". The two lead to different displays and different alerts, and confusing them is a classic source of business bugs.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "answer": "Vì không cạn tiền thì không tồn tại khái niệm \"số ngày cầm cự\" — điền 0 là báo động giả, điền số lớn là ngụ ý một lời hứa mà không ai tính được",
-   "why": "Đây là kiểu quyết định nghiệp vụ trông giống quyết định kỹ thuật. Null ở đây mang nghĩa \"không áp dụng\", khác hẳn null nghĩa là \"chưa tính được\". Hai loại null đó dẫn tới hai cách hiển thị và hai cách cảnh báo khác nhau — và nhầm lẫn giữa chúng là nguồn bug nghiệp vụ kinh điển."
+   "answer": "Because a company that is not running out has no days-left figure — 0 is a false alarm, and a large number implies a promise nobody computed",
+   "why": "This is a business decision wearing technical clothes. Null here means \"does not apply\", which is a different thing from null meaning \"not computed yet\". The two lead to different displays and different alerts, and confusing them is a classic source of business bugs."
   },
   {
    "id": "01#q4",
    "type": "quiz",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s05",
-   "title": "Chiết khấu hoá đơn làm lợi nhuận giảm xuống thật. Vậy vì sao doanh nghiệp vẫn dùng?",
-   "subtitle": "Bài 01 · Tự kiểm tra",
-   "text": "Vì nó đổi một phần lợi nhuận lấy thanh khoản — mà phá sản là chết vì hết tiền, không phải vì lỗ Trong mô phỏng ở trên, bật chiết khấu làm lãi tụt từ 60 triệu xuống khoảng 40 triệu — nhưng xoá sạch những ngày âm tiền. Một công ty lãi ít vẫn sống; một công ty lãi nhiều mà không trả nổi lương đúng hạn thì mất người, mất nhà cung cấp, rồi mất luôn công ty.",
+   "href": "lessons/01-cash-conversion-cycle.html#s05",
+   "title": "Invoice discounting genuinely lowers profit. So why do companies use it?",
+   "subtitle": "Lesson 01 · Test yourself",
+   "text": "Because it trades a slice of profit for liquidity — and bankruptcy means running out of cash, not making a loss In the simulation above, switching it on drops profit from 60 million to about 40 — and removes every day in the red. A company earning a little less keeps trading; a company that cannot make payroll on the day loses its people, then its suppliers, then itself.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "answer": "Vì nó đổi một phần lợi nhuận lấy thanh khoản — mà phá sản là chết vì hết tiền, không phải vì lỗ",
-   "why": "Trong mô phỏng ở trên, bật chiết khấu làm lãi tụt từ 60 triệu xuống khoảng 40 triệu — nhưng xoá sạch những ngày âm tiền. Một công ty lãi ít vẫn sống; một công ty lãi nhiều mà không trả nổi lương đúng hạn thì mất người, mất nhà cung cấp, rồi mất luôn công ty."
+   "answer": "Because it trades a slice of profit for liquidity — and bankruptcy means running out of cash, not making a loss",
+   "why": "In the simulation above, switching it on drops profit from 60 million to about 40 — and removes every day in the red. A company earning a little less keeps trading; a company that cannot make payroll on the day loses its people, then its suppliers, then itself."
   },
   {
    "id": "01#p0",
    "type": "scene",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s06",
-   "title": "\"Chỗ biểu đồ dòng tiền ấy, em cứ lấy tổng doanh thu tháng chia cho 30 là ra số theo ngày nhé.\"",
-   "subtitle": "BA của dự án — họp refinement",
-   "text": "Doanh thu ghi nhận lúc xuất hoá đơn, còn tiền về theo due_date — hai mốc lệch nhau trung bình 45 ngày. Chia đều thì biểu đồ sẽ báo an toàn đúng vào tuần công ty hết tiền. Mình dựng theo ngày thanh toán thực tế được không ạ? Bạn nói bằng ngôn ngữ của BA chứ không phải của code, chỉ ra hậu quả cụ thể thay vì phán đúng sai, và kết bằng một đề xuất. Đây là cách một dev được mời vào những cuộc họp quan trọng hơn.",
+   "href": "lessons/01-cash-conversion-cycle.html#s06",
+   "title": "\"For the cash flow chart, just take monthly revenue and divide it by thirty.\"",
+   "subtitle": "Your BA — backlog refinement",
+   "text": "Revenue is recognised when the invoice is issued, but the cash lands on due_date, and the two are about forty-five days apart. Divided evenly, the chart shows safe in exactly the week the company runs dry. Could we build it from actual settlement dates instead? You spoke in the BA's language rather than in code, named a concrete consequence instead of a verdict, and finished with a proposal. That is how a developer gets invited to the meetings that matter.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "answer": "Doanh thu ghi nhận lúc xuất hoá đơn, còn tiền về theo due_date — hai mốc lệch nhau trung bình 45 ngày. Chia đều thì biểu đồ sẽ báo an toàn đúng vào tuần công ty hết tiền. Mình dựng theo ngày thanh toán thực tế được không ạ?",
-   "why": "Bạn nói bằng ngôn ngữ của BA chứ không phải của code, chỉ ra hậu quả cụ thể thay vì phán đúng sai, và kết bằng một đề xuất. Đây là cách một dev được mời vào những cuộc họp quan trọng hơn."
+   "answer": "Revenue is recognised when the invoice is issued, but the cash lands on due_date, and the two are about forty-five days apart. Divided evenly, the chart shows safe in exactly the week the company runs dry. Could we build it from actual settlement dates instead?",
+   "why": "You spoke in the BA's language rather than in code, named a concrete consequence instead of a verdict, and finished with a proposal. That is how a developer gets invited to the meetings that matter."
   },
   {
    "id": "01#p1",
    "type": "scene",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s06",
-   "title": "\"Sao màn hình của em báo công ty chị âm tiền, trong khi báo cáo của chị đang lãi?\"",
-   "subtitle": "Kế toán trưởng của khách hàng — buổi demo",
-   "text": "Hai màn hình đo hai thứ khác nhau ạ. Báo cáo của chị đo lợi nhuận — ghi nhận lúc xuất hoá đơn. Màn hình này đo tiền trong tài khoản theo từng ngày. Chị đang lãi và đồng thời đang thiếu tiền, vì tiền của các đơn đã bán còn nằm ở khoản phải thu. Bạn khẳng định cả hai con số đều đúng, đặt tên cho khoảng cách giữa chúng, và không đổ lỗi cho ai. Câu tiếp theo nên là một câu hỏi: khách nào đang trả chậm nhất ạ?",
+   "href": "lessons/01-cash-conversion-cycle.html#s06",
+   "title": "\"Why does your screen say we are in the red, when my report says we are profitable?\"",
+   "subtitle": "The customer's chief accountant — during the demo",
+   "text": "The two screens measure different things. Your report measures profit, which is recognised when the invoice is issued. This one measures the money in the account, day by day. You are profitable and short of cash at the same time, because the cash from those sales is still sitting in receivables. You confirmed both numbers are right, named the gap between them, and blamed nobody. The next thing out of your mouth should be a question: which customer is slowest to pay?",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "answer": "Hai màn hình đo hai thứ khác nhau ạ. Báo cáo của chị đo lợi nhuận — ghi nhận lúc xuất hoá đơn. Màn hình này đo tiền trong tài khoản theo từng ngày. Chị đang lãi và đồng thời đang thiếu tiền, vì tiền của các đơn đã bán còn nằm ở khoản phải thu.",
-   "why": "Bạn khẳng định cả hai con số đều đúng, đặt tên cho khoảng cách giữa chúng, và không đổ lỗi cho ai. Câu tiếp theo nên là một câu hỏi: khách nào đang trả chậm nhất ạ?"
+   "answer": "The two screens measure different things. Your report measures profit, which is recognised when the invoice is issued. This one measures the money in the account, day by day. You are profitable and short of cash at the same time, because the cash from those sales is still sitting in receivables.",
+   "why": "You confirmed both numbers are right, named the gap between them, and blamed nobody. The next thing out of your mouth should be a question: which customer is slowest to pay?"
   },
   {
    "id": "01#p2",
    "type": "scene",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s06",
-   "title": "\"Cắt phần chiết khấu hoá đơn ra khỏi sprint này đi. Nó chỉ là một cái nút gọi API bên thứ ba thôi mà.\"",
-   "subtitle": "Product owner — chốt phạm vi sprint",
-   "text": "Nút thì đơn giản, nhưng đây là tính năng duy nhất trong sản phẩm thực sự đưa được tiền về sớm. Phần còn lại chỉ đo và cảnh báo. Nếu cắt thì hệ thống chỉ nói cho khách biết họ sắp hết tiền chứ không giúp được gì. Cắt hạn mức và báo cáo hiệu quả trước có được không anh? Bạn phân biệt cái đo được với cái giải quyết được, rồi tự đề xuất một đường cắt nhỏ hơn. Đưa ra lựa chọn thay thế luôn hiệu quả hơn là từ chối — và nó cho thấy bạn hiểu sản phẩm chứ không chỉ hiểu ticket.",
+   "href": "lessons/01-cash-conversion-cycle.html#s06",
+   "title": "\"Drop invoice discounting from this sprint. It is just a button that calls a third-party API.\"",
+   "subtitle": "Product owner — scoping the sprint",
+   "text": "The button is simple, but this is the only feature in the product that actually pulls cash forward. Everything else measures and warns. Cut it and the system tells the customer they are about to run out and offers nothing. Could we cut the limits and the performance report first instead? You separated what measures from what solves, then proposed a smaller cut yourself. Offering an alternative beats refusing — and it shows you understand the product, not only the ticket.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "answer": "Nút thì đơn giản, nhưng đây là tính năng duy nhất trong sản phẩm thực sự đưa được tiền về sớm. Phần còn lại chỉ đo và cảnh báo. Nếu cắt thì hệ thống chỉ nói cho khách biết họ sắp hết tiền chứ không giúp được gì. Cắt hạn mức và báo cáo hiệu quả trước có được không anh?",
-   "why": "Bạn phân biệt cái đo được với cái giải quyết được, rồi tự đề xuất một đường cắt nhỏ hơn. Đưa ra lựa chọn thay thế luôn hiệu quả hơn là từ chối — và nó cho thấy bạn hiểu sản phẩm chứ không chỉ hiểu ticket."
+   "answer": "The button is simple, but this is the only feature in the product that actually pulls cash forward. Everything else measures and warns. Cut it and the system tells the customer they are about to run out and offers nothing. Could we cut the limits and the performance report first instead?",
+   "why": "You separated what measures from what solves, then proposed a smaller cut yourself. Offering an alternative beats refusing — and it shows you understand the product, not only the ticket."
   },
   {
    "id": "01#l0",
    "type": "line",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s07",
-   "title": "\"Con số này ghi nhận vào lúc nào — lúc xuất hoá đơn, hay lúc tiền vào tài khoản?\"",
-   "subtitle": "Bài 01 · Câu đáng hỏi",
-   "text": "Câu hỏi quan trọng nhất trong cả dự án. Nó tách một cột số thành hai nghiệp vụ khác hẳn nhau, và phân nửa số bug nghiệp vụ về tiền đều bắt đầu từ chỗ không ai hỏi câu này.",
+   "href": "lessons/01-cash-conversion-cycle.html#s07",
+   "title": "\"When is this number recognised — when the invoice is issued, or when the money lands?\"",
+   "subtitle": "Lesson 01 · Line worth stealing",
+   "text": "The single most important question in the project. It splits one column into two different pieces of business, and half the money-related bugs in a system like this begin with nobody asking it.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "why": "Câu hỏi quan trọng nhất trong cả dự án. Nó tách một cột số thành hai nghiệp vụ khác hẳn nhau, và phân nửa số bug nghiệp vụ về tiền đều bắt đầu từ chỗ không ai hỏi câu này."
+   "why": "The single most important question in the project. It splits one column into two different pieces of business, and half the money-related bugs in a system like this begin with nobody asking it."
   },
   {
    "id": "01#l1",
    "type": "line",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s07",
-   "title": "\"DSO thực tế của khách hàng lớn nhất là bao nhiêu, chứ không phải điều khoản ghi trong hợp đồng?\"",
-   "subtitle": "Bài 01 · Câu đáng hỏi",
-   "text": "Hợp đồng ghi 45 ngày, thực tế trả 70 ngày. Nếu dự báo dòng tiền dựng theo hợp đồng thì nó sai một cách có hệ thống, và luôn sai về phía lạc quan.",
+   "href": "lessons/01-cash-conversion-cycle.html#s07",
+   "title": "\"What is the actual DSO of the largest customer, rather than the terms written in the contract?\"",
+   "subtitle": "Lesson 01 · Line worth stealing",
+   "text": "The contract says forty-five days and they pay in seventy. A forecast built on contract terms is wrong systematically, and always wrong in the optimistic direction.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "why": "Hợp đồng ghi 45 ngày, thực tế trả 70 ngày. Nếu dự báo dòng tiền dựng theo hợp đồng thì nó sai một cách có hệ thống, và luôn sai về phía lạc quan."
+   "why": "The contract says forty-five days and they pay in seventy. A forecast built on contract terms is wrong systematically, and always wrong in the optimistic direction."
   },
   {
    "id": "01#l2",
    "type": "line",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s07",
-   "title": "\"Cột này để null khi nào? Null ở đây nghĩa là chưa tính được, hay nghĩa là không áp dụng?\"",
-   "subtitle": "Bài 01 · Câu đáng hỏi",
-   "text": "Trong dữ liệu tài chính, hai loại null đó dẫn tới hai cách hiển thị và hai cách cảnh báo hoàn toàn khác nhau. Nhầm là báo động giả — hoặc tệ hơn, im lặng đúng lúc cần kêu.",
+   "href": "lessons/01-cash-conversion-cycle.html#s07",
+   "title": "\"When is this column null? Does null mean not computed yet, or does it mean not applicable?\"",
+   "subtitle": "Lesson 01 · Line worth stealing",
+   "text": "In financial data those two nulls lead to different displays and different alerts. Confusing them means false alarms — or worse, silence at the moment the system should be shouting.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "why": "Trong dữ liệu tài chính, hai loại null đó dẫn tới hai cách hiển thị và hai cách cảnh báo hoàn toàn khác nhau. Nhầm là báo động giả — hoặc tệ hơn, im lặng đúng lúc cần kêu."
+   "why": "In financial data those two nulls lead to different displays and different alerts. Confusing them means false alarms — or worse, silence at the moment the system should be shouting."
   },
   {
    "id": "01#l3",
    "type": "line",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s07",
-   "title": "\"Nếu con số này sai năm phần trăm thì ai là người mất tiền?\"",
-   "subtitle": "Bài 01 · Câu đáng hỏi",
-   "text": "Câu này biến một yêu cầu mơ hồ thành một mức độ ưu tiên. Sai ở màn hình dashboard là khó chịu; sai ở chỗ tính lãi hay hạn mức là mất tiền thật và có thể ra toà.",
+   "href": "lessons/01-cash-conversion-cycle.html#s07",
+   "title": "\"If this number is five percent wrong, who loses money?\"",
+   "subtitle": "Lesson 01 · Line worth stealing",
+   "text": "This turns a vague requirement into a priority. Wrong on a dashboard is annoying; wrong where interest or a credit limit is computed costs real money and can end up in front of an arbitrator.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "why": "Câu này biến một yêu cầu mơ hồ thành một mức độ ưu tiên. Sai ở màn hình dashboard là khó chịu; sai ở chỗ tính lãi hay hạn mức là mất tiền thật và có thể ra toà."
+   "why": "This turns a vague requirement into a priority. Wrong on a dashboard is annoying; wrong where interest or a credit limit is computed costs real money and can end up in front of an arbitrator."
   },
   {
    "id": "01#l4",
    "type": "line",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html#s07",
-   "title": "\"Nghiệp vụ này có căn cứ pháp lý nào không, hay là quy ước nội bộ của doanh nghiệp?\"",
-   "subtitle": "Bài 01 · Câu đáng hỏi",
-   "text": "Trong dự án này rất nhiều quy tắc đến thẳng từ luật — hoá đơn không được huỷ, lãi không được tính chồng lên tiền phạt, doanh nghiệp siêu nhỏ được miễn một số ràng buộc. Cái đến từ luật thì không được phép \"tối ưu\" cho gọn code.",
+   "href": "lessons/01-cash-conversion-cycle.html#s07",
+   "title": "\"Is there a legal basis for this rule, or is it the company's own convention?\"",
+   "subtitle": "Lesson 01 · Line worth stealing",
+   "text": "A lot of the rules here come straight from law — an issued invoice cannot be cancelled, interest may not be charged on a penalty, micro-enterprises are exempt from some controls. Anything that comes from law must not be tidied up for the sake of cleaner code.",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ],
-   "why": "Trong dự án này rất nhiều quy tắc đến thẳng từ luật — hoá đơn không được huỷ, lãi không được tính chồng lên tiền phạt, doanh nghiệp siêu nhỏ được miễn một số ràng buộc. Cái đến từ luật thì không được phép \"tối ưu\" cho gọn code."
+   "why": "A lot of the rules here come straight from law — an issued invoice cannot be cancelled, interest may not be charged on a penalty, micro-enterprises are exempt from some controls. Anything that comes from law must not be tidied up for the sake of cleaner code."
   },
   {
    "id": "01",
    "type": "lesson",
    "lesson": "01",
-   "href": "lessons/01-dong-tien-ccc.html",
-   "title": "Có lãi ba tháng liền, mà tháng thứ hai không đủ tiền trả lương.",
-   "subtitle": "Bài 01 · Nền tảng",
-   "text": "Đây không phải là một nghịch lý, cũng không phải gian lận sổ sách. Đây là tình huống bình thường nhất của một doanh nghiệp vừa và nhỏ — và là lý do toàn bộ hệ thống bạn đang code tồn tại. Bán được hàng không có nghĩa là có tiền Nền tảng Cái hố ba mươi lăm ngày Ý tưởng Chỗ mà một dòng code làm sai cả bức tranh Nguy hiểm Chín mươi ngày của một công ty đang có lãi Nhìn thấy nó Năm câu hỏi Tự kiểm tra Ba tình huống trong dự án Dùng nó Năm câu đáng hỏi BA Mang về Toàn bộ thuật ngữ, bằng tiếng người Tra cứu",
+   "href": "lessons/01-cash-conversion-cycle.html",
+   "title": "Why is a profitable company short of cash?",
+   "subtitle": "Lesson 01 · Foundation",
+   "text": "Three months of profit in the books, and not enough in the bank to make payroll in month two. This is not a paradox and it is not fraud. It is the ordinary condition of a small business — and the reason the system you are building exists. Selling something is not the same as being paid Ground floor The thirty-five day hole The idea Where one line of code breaks the whole picture The danger Ninety days of a profitable company See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
    "tags": [
-    "dòng tiền",
+    "cash flow",
     "CCC",
     "DSO",
     "DPO",
-    "khoản phải thu",
+    "receivables",
     "runway",
-    "chiết khấu hoá đơn"
+    "invoice discounting"
    ]
   },
   {
@@ -621,15 +621,15 @@ window.LIB = {
    "type": "planned",
    "lesson": "02",
    "href": "",
-   "title": "Hoá đơn không phải là tiền",
-   "subtitle": "Bài 02 · chưa viết",
-   "text": "Vì sao invoices.status không có OPEN, vì sao hoá đơn đã phát hành thì không được xoá, và vì sao một trường direction lại quyết định cả chiều sổ sách.",
+   "title": "An invoice is not money",
+   "subtitle": "Lesson 02 · not written yet",
+   "text": "Why invoices.status has no OPEN, why an issued invoice cannot be deleted, and how a single direction column decides which side of the books a row lands on.",
    "tags": [
-    "hoá đơn",
-    "công nợ",
+    "invoice",
+    "receivables",
     "VAT",
     "Nghị định 70/2025",
-    "trạng thái"
+    "state machine"
    ]
   },
   {
@@ -637,15 +637,15 @@ window.LIB = {
    "type": "planned",
    "lesson": "03",
    "href": "",
-   "title": "Ba cách biến hoá đơn thành tiền",
-   "subtitle": "Bài 03 · chưa viết",
-   "text": "Chiết khấu hoá đơn, tài trợ ngược dòng, tài trợ hàng tồn kho. Ai khởi xướng, ai chịu rủi ro, và vì sao có/miễn truy đòi là chuyện pháp lý chứ không phải một cái enum cho vui.",
+   "title": "Three ways to turn an invoice into cash",
+   "subtitle": "Lesson 03 · not written yet",
+   "text": "Invoice discounting, reverse factoring, inventory financing. Who starts each one, who carries the risk, and why with-recourse or without is a legal fact rather than a convenient enum.",
    "tags": [
     "SCF",
-    "chiết khấu",
+    "discounting",
     "reverse factoring",
-    "tồn kho",
-    "bao thanh toán"
+    "inventory",
+    "factoring"
    ]
   },
   {
@@ -653,15 +653,15 @@ window.LIB = {
    "type": "planned",
    "lesson": "04",
    "href": "",
-   "title": "Tín dụng không phải là một con điểm",
-   "subtitle": "Bài 04 · chưa viết",
-   "text": "Hạn mức, dư nợ, chấm điểm, xếp hạng, báo cáo tuổi nợ và bù trừ công nợ hai chiều — sáu khái niệm mà credit-service gói trong hai mươi bảng.",
+   "title": "Credit is not a score",
+   "subtitle": "Lesson 04 · not written yet",
+   "text": "Limits, exposure, scoring, grading, aging reports and two-way offsetting — six ideas that credit-service wraps in twenty tables.",
    "tags": [
-    "tín dụng",
-    "hạn mức",
-    "dư nợ",
-    "tuổi nợ",
-    "bù trừ công nợ"
+    "credit",
+    "limit",
+    "exposure",
+    "aging",
+    "offsetting"
    ]
   },
   {
@@ -669,14 +669,14 @@ window.LIB = {
    "type": "planned",
    "lesson": "05",
    "href": "",
-   "title": "Lãi chậm trả — chỗ dễ code sai nhất hệ thống",
-   "subtitle": "Bài 05 · chưa viết",
-   "text": "Vì sao trần 20%/năm của Bộ luật Dân sự không áp vào đây, vì sao không được tính lãi trên tiền phạt, và một án lệ có thể biến thành hai bộ lọc trong code như thế nào.",
+   "title": "Late-payment interest — the easiest thing here to code wrongly",
+   "subtitle": "Lesson 05 · not written yet",
+   "text": "Why the 20% civil-code ceiling does not apply, why interest may never be charged on a penalty, and how one court precedent becomes two filters in code.",
    "tags": [
-    "lãi chậm trả",
+    "late interest",
     "Án lệ 09/2016",
     "Điều 306",
-    "phạt vi phạm",
+    "penalty",
     "CM-19"
    ]
   },
@@ -685,15 +685,15 @@ window.LIB = {
    "type": "planned",
    "lesson": "06",
    "href": "",
-   "title": "Ngân sách không phải là một con số dự đoán",
-   "subtitle": "Bài 06 · chưa viết",
-   "text": "Kế hoạch, phân bổ, cam kết, thực chi, chênh lệch. Bốn trạng thái của cùng một đồng tiền, và vì sao kiểm soát ngân sách phải chặn ở lúc duyệt chứ không phải lúc chi.",
+   "title": "A budget is not a forecast",
+   "subtitle": "Lesson 06 · not written yet",
+   "text": "Plan, allocation, commitment, actual, variance. Four states of the same đồng, and why budget control has to block at approval rather than at payment.",
    "tags": [
-    "ngân sách",
-    "phân bổ",
-    "cam kết",
-    "chênh lệch",
-    "dự báo"
+    "budget",
+    "allocation",
+    "commitment",
+    "variance",
+    "forecast"
    ]
   },
   {
@@ -701,14 +701,14 @@ window.LIB = {
    "type": "planned",
    "lesson": "07",
    "href": "",
-   "title": "Ai được ký, ai không được ký",
-   "subtitle": "Bài 07 · chưa viết",
-   "text": "Nguyên tắc bất kiêm nhiệm, kế toán trưởng và phụ trách kế toán, và vì sao một luồng duyệt cứng sẽ khoá chết hàng trăm nghìn doanh nghiệp siêu nhỏ hoàn toàn hợp pháp.",
+   "title": "Who may sign, and who may not",
+   "subtitle": "Lesson 07 · not written yet",
+   "text": "Segregation of duties, chief accountant versus person in charge of accounting, and why a hard-coded approval chain deadlocks hundreds of thousands of perfectly legal micro-enterprises.",
    "tags": [
-    "bất kiêm nhiệm",
+    "segregation of duties",
     "Luật Kế toán 2015",
     "Nghị định 80/2021",
-    "phân quyền",
+    "permissions",
     "workflow"
    ]
   },
@@ -717,14 +717,14 @@ window.LIB = {
    "type": "planned",
    "lesson": "08",
    "href": "",
-   "title": "Đọc một báo cáo tài chính trong mười phút",
-   "subtitle": "Bài 08 · chưa viết",
-   "text": "Báo cáo tình hình tài chính, kết quả kinh doanh, lưu chuyển tiền tệ. Ba tờ giấy, ba câu hỏi khác nhau — và cái tên mới mà Thông tư 99/2025 vừa đặt lại.",
+   "title": "Reading a set of financial statements in ten minutes",
+   "subtitle": "Lesson 08 · not written yet",
+   "text": "Statement of financial position, income statement, cash flow statement. Three sheets answering three different questions — and the new name Thông tư 99/2025 just gave the first of them.",
    "tags": [
-    "báo cáo tài chính",
+    "financial statements",
     "Thông tư 99/2025",
     "Thông tư 58/2026",
-    "tài khoản kế toán"
+    "chart of accounts"
    ]
   }
  ]

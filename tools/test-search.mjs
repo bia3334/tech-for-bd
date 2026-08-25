@@ -42,19 +42,19 @@ const CASES = {
   finance: {
     find: [
       ["dso", "t-dso"],                       // exact term
-      ["dòng tiền", "t-dongtien"],            // with diacritics
-      ["dong tien", "t-dongtien"],            // …and without
-      ["khoản phải thu", "t-phaithu"],
-      ["chiet khau hoa don", "t-chietkhau"],
+      ["days sales outstanding", "t-dso"],    // the spelled-out name
+      ["receivable", "t-phaithu"],
+      ["chiết khấu hoá đơn", "t-chietkhau"],  // Vietnamese-only body text
+      ["chiet khau hoa don", "t-chietkhau"],  // …and without diacritics
       ["cash_flow_metrics", "t-ccc"],         // only in the "in the code" note
-      ["ba mươi lăm", "01"],                  // the lesson itself
+      ["payroll", "01"],                      // the lesson itself
       ["runway_days", "01#q3"],               // a quiz question
-      ["Kế toán trưởng", "01#p1"],            // roleplay scene
+      ["chief accountant", "01#p1"],          // roleplay scene
       ["null", "01#l2"],                      // the question worth asking
       ["Án lệ", "05"],                        // a planned lesson
       ["an le", "05"]
     ],
-    top: [["CCC chu kỳ chuyển đổi tiền mặt", "t-ccc"]]
+    top: [["CCC cash conversion cycle", "t-ccc"]]
   }
 };
 const expect = CASES[name.replace(/\/$/, "")];

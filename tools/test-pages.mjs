@@ -1,7 +1,7 @@
-/* Soi mọi trang bài học của cả hai site — thứ mà node chạy được mà không cần trình duyệt:
+/* Lint every page of both sites — the part node can check without a browser:
      node tools/test-pages.mjs
-   Bắt được: script trong trang sai cú pháp, getElementById trỏ vào id không tồn tại,
-   data-t trỏ vào từ không có trong từ điển, và thẻ section/div lệch nhau.                */
+   Catches: a syntax error in an inline script, getElementById pointing at an id that
+   does not exist, data-t pointing at a term that is not in the glossary, unbalanced tags. */
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import assert from "node:assert/strict";
 
@@ -22,29 +22,29 @@ for (const name of sites) {
     const where = name + "/" + file;
     pages++;
 
-    // script trong trang phải biên dịch được
+    // every inline script must at least compile
     for (const m of html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)) {
-      assert.doesNotThrow(() => new Function(m[1]), `${where}: script sai cú pháp`);
+      assert.doesNotThrow(() => new Function(m[1]), `${where}: script has a script that will not compile`);
     }
 
-    // mọi id được gọi trong script đều phải tồn tại trong markup
+    // every id the script reaches for must exist in the markup
     const declared = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]));
     for (const m of html.matchAll(/getElementById\("([^"]+)"\)/g)) {
-      assert.ok(declared.has(m[1]), `${where}: getElementById("${m[1]}") không có phần tử nào mang id đó`);
+      assert.ok(declared.has(m[1]), `${where}: getElementById("${m[1]}") matches no element`);
     }
 
-    // mọi từ bấm được đều phải có trong từ điển
+    // every tappable term must be in the glossary
     for (const m of html.matchAll(/data-t="([^"]+)"/g)) {
-      assert.ok(terms[m[1]], `${where}: data-t="${m[1]}" không có trong glossary.js`);
+      assert.ok(terms[m[1]], `${where}: data-t="${m[1]}" is not in glossary.js`);
     }
 
-    // thẻ khối phải cân
+    // block tags must balance
     const body = html.replace(/<(script|style)[\s\S]*?<\/\1>/gi, "");
     for (const tag of ["section", "div", "ul", "ol", "li"]) {
       const open = (body.match(new RegExp(`<${tag}[\\s>]`, "g")) || []).length;
       const close = (body.match(new RegExp(`</${tag}>`, "g")) || []).length;
-      assert.equal(open, close, `${where}: <${tag}> mở ${open} lần, đóng ${close} lần`);
+      assert.equal(open, close, `${where}: <${tag}> opened ${open} times, closed ${close}`);
     }
   }
 }
-console.log(`ok — ${pages} trang, script biên dịch được, id và data-t đều khớp`);
+console.log(`ok — ${pages} pages, scripts compile, ids and data-t all resolve`);

@@ -1,9 +1,9 @@
-/* Mô phỏng dòng tiền của một vòng kinh doanh lặp lại — dùng trong bài 01.
-   Không có DOM ở đây, nên tools/test-ccc.mjs chạy được nó bằng node.
+/* The repeating cash cycle behind lesson 01. No DOM in here, so tools/test-ccc.mjs
+   can run it in node.
 
-   Một chu kỳ: nhập hàng ngày t → bán ngày t+DIO (xuất hoá đơn, CHƯA có tiền)
-               → khách trả ngày t+DIO+DSO · mình trả nhà cung cấp ngày t+DPO.
-   Chu kỳ mới mở mỗi 30 ngày. Lương và chi phí cố định trả cuối mỗi tháng.      */
+   One cycle: buy stock on day t → sell on day t+DIO (invoice issued, NO cash yet)
+              → customer pays on day t+DIO+DSO · you pay the supplier on day t+DPO.
+   A new cycle opens every 30 days. Payroll and fixed costs go out at month end.   */
 (function (root) {
 "use strict";
 
@@ -16,21 +16,21 @@ function simulate(o) {
 
   var sold = 0, fees = 0;
   for (var start = 0; start < days; start += 30) {
-    add(start + o.dpo, "Trả nhà cung cấp", -o.cogs);
+    add(start + o.dpo, "Pay the supplier", -o.cogs);
 
     var saleDay = start + o.dio;
-    if (saleDay > days) continue;          /* chưa bán được trong cửa sổ 90 ngày */
+    if (saleDay > days) continue;          /* not sold yet inside the 90-day window */
     sold++;
     if (o.discount) {
-      /* bán luôn khoản phải thu: nhận tiền ngay hôm xuất hoá đơn, trừ phí theo số ngày ứng trước */
+      /* sell the receivable: cash on the day the invoice is issued, less a fee for the days advanced */
       var fee = Math.round(o.revenue * o.feeRate * o.dso / 30);
       fees += fee;
-      add(saleDay, "Chiết khấu hoá đơn", o.revenue - fee);
+      add(saleDay, "Invoice discounted", o.revenue - fee);
     } else {
-      add(saleDay + o.dso, "Khách thanh toán", o.revenue);
+      add(saleDay + o.dso, "Customer pays", o.revenue);
     }
   }
-  for (var m = 30; m <= days; m += 30) add(m, "Lương + chi phí cố định", -o.opex);
+  for (var m = 30; m <= days; m += 30) add(m, "Payroll + fixed costs", -o.opex);
   ev.sort(function (a, b) { return a.d - b.d; });
 
   var series = [], cash = o.cash0, i = 0, minCash = cash, negDays = 0;
@@ -46,7 +46,7 @@ function simulate(o) {
     series: series,
     minCash: minCash,
     negDays: negDays,
-    /* lãi trên sổ: ghi nhận lúc BÁN, không phải lúc thu tiền — đó là cả bài học */
+    /* profit is booked on the day of the SALE, not the day of payment — that is the whole lesson */
     profit: sold * (o.revenue - o.cogs) - o.opex * Math.floor(days / 30) - fees,
     fees: fees,
     events: ev

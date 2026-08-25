@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profitable and Broke</title>
+<meta name="description" content="Lesson 01 — from revenue not being cash, to the three numbers that decide whether a business lives. For developers building financial systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="01">
+<meta name="tfbd:tags" content="cash flow, CCC, DSO, DPO, receivables, runway, invoice discounting">
+<meta name="tfbd:level" content="Foundation">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 01</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Supply chain finance · Lesson 01</div>
+  <h1>Why is a profitable company short of cash?</h1>
+  <p class="lede">Three months of profit in the books, and not enough in the bank to make payroll in month two. This is not a paradox and it is not fraud. It is the ordinary condition of a small business — and the reason the system you are building exists.</p>
+  <div class="facts"><span>15 min</span><span>No accounting assumed</span><span>Ends with 5 questions to ask your BA</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>Selling something is not the same as being paid</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>Start with what technical people get wrong most often. The day a company delivers goods and issues an <button class="t" data-t="hoadon">invoice</button>, the books record <button class="t" data-t="doanhthu">revenue</button> and record <button class="t" data-t="loinhuan">profit</button>. That same day. The money, meanwhile, has not arrived — typically it arrives forty-five days later.</p>
+    <p>The gap between those two moments has a name: <button class="t" data-t="phaithu">accounts receivable</button>. It is an asset on the balance sheet, and you cannot pay anyone with it.</p>
+    <p>At the other end, before anything could be sold, the company had already spent money buying the goods. Stock sitting in the warehouse is <button class="t" data-t="tonkho">inventory</button> — your money, standing still, in the shape of boxes.</p>
+    <p>Exactly one thing in this picture is working in your favour: <button class="t" data-t="phaitra">accounts payable</button>, the money you owe your own suppliers. It sounds like the bad column, and every day you have not yet paid is a day the cash is still in your account.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Day 0 — stock arrives</div><div class="ds">Money leaves the account, or a promise is made to pay the supplier in a few weeks.</div></div>
+    <div class="arrow">stock sits for 20 days</div>
+    <div class="node"><div class="nm">Day 20 — sold, invoice issued</div><div class="ds">The books record revenue and profit right here. The bank account does not move at all.</div></div>
+    <div class="arrow">wait 45 days to be paid</div>
+    <div class="node core"><div class="nm">Day 65 — the customer pays</div><div class="ds">Only now is there real money. Sixty-five days after you spent your own.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>So when a managing director says "we are profitable, why are we always short of money", what they are describing is this: <em>the profit is on paper, and the cash is in the warehouse and in the customer's pocket.</em></p>
+    <p>What your system tracks day by day is not profit. It is <button class="t" data-t="dongtien">cash flow</button> — real money, on the day it really moves.</p>
+    <p class="vi"><b>In the code</b>Revenue produces an <code>Invoice</code> in status <code>ISSUED</code>, and produces no <code>CashFlowEntry</code> at all. Cash only appears when an <code>InvoicePayment</code> does. Two tables, two different moments — derive one from the other and the system is lying.</p>
+    <p class="vi"><b>Tiếng Việt</b>Doanh thu ghi vào sổ ngay lúc giao hàng và xuất hoá đơn; tiền thì 45 ngày sau mới về. Khoảng trống đó là khoản phải thu — tài sản trên sổ nhưng không tiêu được. Cái hệ thống theo dõi hằng ngày là dòng tiền, không phải lợi nhuận.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>The thirty-five day hole</h2>
+
+  <div class="stack">
+    <p>The three stretches of time above have names, and they are three numbers every finance person knows by heart. How long stock sits is <button class="t" data-t="dio">DIO</button>. How long the customer takes to pay is <button class="t" data-t="dso">DSO</button>. How long you get to owe your supplier is <button class="t" data-t="dpo">DPO</button>.</p>
+    <p>The first two are time your money is trapped. The third is time you get to use somebody else's. Subtract, and you get a single number:</p>
+  </div>
+
+  <div class="pull"><q>CCC = DIO + DSO − DPO. The number of days you fund your own business out of your own pocket.</q></div>
+
+  <div class="stack">
+    <p>That is the <button class="t" data-t="ccc">cash conversion cycle</button>. In the example above: 20 + 45 − 30 = 35 days. Every turn of the cycle, the company self-funds thirty-five days. Multiply by the size of an order and you have the amount of money the company must always have lying around — what an accountant calls <button class="t" data-t="vonluudong">working capital</button>.</p>
+    <p>And here is where it turns dangerous: the hole does not stay still. The better sales go, the more orders are open, the more cash is trapped. <em>A company can die of growing too fast.</em> It sounds absurd, and it kills more small businesses than losses do.</p>
+    <p>How much thinner the account gets each month is the <button class="t" data-t="burnrate">burn rate</button>. Divide the cash on hand by it and you get <button class="t" data-t="runway">runway</button> — the number of days before there is nothing left. Those are the two numbers that keep a director awake, and the two that every warning in this system is ultimately serving.</p>
+    <p class="vi"><b>In the code</b>All four live in one table: <code>cash_flow_metrics</code>, with <code>dio_days</code>, <code>dso_days</code>, <code>dpo_days</code>, <code>ccc_days</code>, alongside <code>burn_rate</code> and <code>runway_days</code>. A nightly job overwrites them by UPSERT; the API is read-only (CF-07).</p>
+    <p class="vi"><b>Tiếng Việt</b>Chu kỳ chuyển đổi tiền mặt = số ngày hàng nằm kho + số ngày khách trả tiền − số ngày mình được nợ nhà cung cấp. Đó là số ngày doanh nghiệp phải tự bỏ tiền túi nuôi vòng quay của chính mình. Bán càng chạy thì tiền kẹt càng nhiều — chết vì tăng trưởng là chuyện có thật.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Where one line of code breaks the whole picture</h2>
+
+  <div class="stack">
+    <p>Now the part worth remembering in a meeting. There is a very natural temptation for a developer: the chart needs cash per day, the table only holds revenue per month, so you divide revenue by thirty.</p>
+    <p>It runs. The chart looks great. And it is wrong in the worst possible way: the chart will show a healthy line during exactly the week the company runs out of money, because real cash does not arrive evenly — it arrives in lumps, on the days things fall due.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Profit is an opinion. Cash is a fact.</p>
+    <p class="sub">Never derive cash flow from revenue. Cash flow is built only from days money genuinely moves: an invoice's <button class="t" data-t="hanthanhtoan">due date</button>, a recorded payment, a scheduled disbursement. A profitable company still dies if the account is empty on payday — losing <button class="t" data-t="thanhkhoan">liquidity</button> kills, while a loss can be survived for years.</p>
+  </div>
+
+  <h3>Where those three numbers come back</h3>
+  <p class="prose" style="margin-bottom:20px">This is the part that moves you from someone who codes the spec to someone who understands why the spec reads the way it does. DIO, DSO and DPO are not confined to one reporting screen — they are the input to nearly every other business feature in the system.</p>
+  <ul class="uses">
+    <li><span class="u">The cash shortfall warning</span><span class="d">A configured threshold checked against the day-by-day forecast balance. <code>CashAlert</code> · CF-11.</span></li>
+    <li><span class="u">The forward cash forecast</span><span class="d">Built from payment schedules and invoice due dates, never from a revenue trend line. <code>ForecastRun</code>, <code>ForecastScenario</code> · CF-10.</span></li>
+    <li><span class="u">Automatic payment schedules</span><span class="d">Generated from the terms agreed with each supplier — which is to say, from DPO. <code>PaymentSchedule</code> · CF-15.</span></li>
+    <li><span class="u">"Suggest optimal payment terms"</span><span class="d">Reads like a vague recommendation feature. It is DPO being pushed up without driving the supplier away · CM-04.</span></li>
+    <li><span class="u">Partner credit scoring</span><span class="d">"Payment history" among the scoring criteria is that one partner's own DSO. <code>CreditScoringRule</code> · CM-07.</span></li>
+    <li><span class="u">Financing limits</span><span class="d">A <button class="t" data-t="hanmuc">limit</button> is granted against the very gap in time it is there to fill · SCF-09, SCF-13.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>In one line</b>Whenever you meet a number about money in this project, the first question is always: when is this recognised — when the invoice is issued, or when the cash lands? Get that wrong and the whole feature is wrong.</p>
+  <p class="vi"><b>Tiếng Việt</b>Đừng bao giờ suy ra dòng tiền từ doanh thu. Tiền thật không về đều mỗi ngày, nó về thành từng cục vào những ngày đến hạn — chia đều thì biểu đồ sẽ báo an toàn đúng vào tuần công ty hết tiền.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Ninety days of a profitable company</h2>
+  <p class="prose" style="margin-bottom:14px">A small company buys 300 million of stock a month and sells it for 360. Gross margin 60 million a month, fixed costs 40 million. In the books, every month is profitable. It starts with 300 million in the bank.</p>
+  <p class="prose" style="margin-bottom:26px">Blue bars are a positive balance, red bars a negative one — days the company cannot cover something that has fallen due. Move the three levers to find out which number saves it, switch on <button class="t" data-t="chietkhau">invoice discounting</button> to see the price of getting cash early, and press <em>sell twice as much</em> to see what happens to a company whose sales are going well.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="grow" aria-pressed="false">Sell twice as much</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Days stock sits before it sells<small>DIO — bought in, and how long until sold</small></span><span class="kv" id="vDio">20 days</span><input type="range" id="dio" min="0" max="45" step="5" value="20"></div>
+      <div class="knob"><span class="kl">Days the customer takes to pay<small>DSO — the terms you give your customer</small></span><span class="kv" id="vDso">45 days</span><input type="range" id="dso" min="0" max="90" step="15" value="45"></div>
+      <div class="knob"><span class="kl">Days you take to pay the supplier<small>DPO — the terms your supplier gives you</small></span><span class="kv" id="vDpo">30 days</span><input type="range" id="dpo" min="0" max="90" step="15" value="30"></div>
+      <label class="sw"><input type="checkbox" id="disc"> Invoice discounting — sell the receivable for cash today, fee 1.2% per month advanced</label>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Cash conversion cycle</span><span class="v" id="stCcc">—</span></div>
+      <div class="stat"><span class="k">Profit in the books, 3 months</span><span class="v" id="stProfit">—</span></div>
+      <div class="stat"><span class="k">Lowest the cash gets</span><span class="v" id="stMin">—</span></div>
+      <div class="stat"><span class="k">Days in the red</span><span class="v" id="stNeg">—</span></div>
+    </div>
+    <div class="chart" id="chart"></div>
+    <div class="axis"><span>DAY 0</span><span>DAY 30</span><span>DAY 60</span><span>DAY 90</span></div>
+    <ul class="evs" id="evs"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">A new cycle opens every 30 days. Profit is booked on the day of the sale, exactly as an accountant would — which is why it stays positive through days the account is already empty. That is not a flaw in the simulation, that is the lesson. The maths lives in <code>finance/sim-ccc.js</code> and has its own check: <code>node tools/test-ccc.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"When is this number recognised — when the invoice is issued, or when the money lands?"</div><div class="use">The single most important question in the project. It splits one column into two different pieces of business, and half the money-related bugs in a system like this begin with nobody asking it.</div></div></li>
+    <li><div><div class="say">"What is the actual DSO of the largest customer, rather than the terms written in the contract?"</div><div class="use">The contract says forty-five days and they pay in seventy. A forecast built on contract terms is wrong systematically, and always wrong in the optimistic direction.</div></div></li>
+    <li><div><div class="say">"When is this column null? Does null mean not computed yet, or does it mean not applicable?"</div><div class="use">In financial data those two nulls lead to different displays and different alerts. Confusing them means false alarms — or worse, silence at the moment the system should be shouting.</div></div></li>
+    <li><div><div class="say">"If this number is five percent wrong, who loses money?"</div><div class="use">This turns a vague requirement into a priority. Wrong on a dashboard is annoying; wrong where interest or a credit limit is computed costs real money and can end up in front of an arbitrator.</div></div></li>
+    <li><div><div class="say">"Is there a legal basis for this rule, or is it the company's own convention?"</div><div class="use">A lot of the rules here come straight from law — an issued invoice cannot be cancelled, interest may not be charged on a penalty, micro-enterprises are exempt from some controls. Anything that comes from law must not be tidied up for the sake of cleaner code.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần trở thành kế toán. Chỉ cần đủ để nhận ra lúc nào một yêu cầu đang nói về tiền trên sổ và lúc nào nó nói về tiền trong tài khoản — rồi hỏi lại trước khi code.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 01 of 08 · Next: an invoice is not money, and why one that has been issued cannot be deleted.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-ccc.js"></script>
+<script>
+(function(){
+"use strict";
+function tr(n){ return (n/1e6).toFixed(1) + "m"; }
+function sign(n){ return (n>0?"+":n<0?"−":"") + tr(Math.abs(n)); }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l1")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l1",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var CCC=window.CCC, BASE=CCC.BASE;
+var dio=document.getElementById("dio"), dso=document.getElementById("dso"), dpo=document.getElementById("dpo");
+var disc=document.getElementById("disc"), chart=document.getElementById("chart"), evs=document.getElementById("evs");
+var grow=document.getElementById("grow");
+var scale=1, bars=[], zline=null;
+
+/* bars are built once and then updated, so the CSS transition has something to run on */
+function buildChart(n){
+  if(bars.length===n) return;
+  chart.innerHTML="";
+  zline=document.createElement("div"); zline.className="zero";
+  zline.innerHTML='<span>0 ₫</span>';
+  chart.appendChild(zline);
+  bars=[];
+  var w=100/n;
+  for(var i=0;i<n;i++){
+    var b=document.createElement("div"); b.className="bar";
+    b.style.left=(i*w)+"%"; b.style.width=Math.max(w-0.25,0.4)+"%";
+    b.style.height="0%"; b.style.bottom="0%";
+    chart.appendChild(b); bars.push(b);
+  }
+}
+
+function render(){
+  var r=CCC.simulate(Object.assign({}, BASE, {
+    dio:+dio.value, dso:+dso.value, dpo:+dpo.value, discount:disc.checked,
+    cogs:BASE.cogs*scale, revenue:BASE.revenue*scale
+  }));
+
+  document.getElementById("vDio").textContent=dio.value+" days";
+  document.getElementById("vDso").textContent=dso.value+" days";
+  document.getElementById("vDpo").textContent=dpo.value+" days";
+  document.getElementById("stCcc").textContent=r.ccc+" days";
+  var pf=document.getElementById("stProfit");
+  pf.textContent=tr(r.profit); pf.className="v"+(r.profit<0?" hot":" cool");
+  var min=document.getElementById("stMin");
+  min.textContent=tr(r.minCash); min.className="v"+(r.minCash<0?" hot":" cool");
+  var neg=document.getElementById("stNeg");
+  neg.textContent=r.negDays+" days"; neg.className="v"+(r.negDays?" hot":" cool");
+
+  /* bars grow up from, or hang down below, the zero line */
+  buildChart(r.series.length);
+  var top=Math.max.apply(null,r.series.concat(0));
+  var bot=Math.min.apply(null,r.series.concat(0));
+  var span=(top-bot)||1, zero=(-bot)/span*100;
+  zline.style.bottom=zero+"%";
+  r.series.forEach(function(v,i){
+    var b=bars[i], h=Math.abs(v)/span*100;
+    b.className="bar"+(v<0?" neg":"");
+    b.style.height=h+"%";
+    b.style.bottom=(v<0 ? zero-h : zero)+"%";
+    b.title="Day "+i+" · "+tr(v);
+  });
+
+  evs.innerHTML="";
+  var bal=BASE.cash0;
+  r.events.forEach(function(e){
+    bal+=e.amount;
+    var li=document.createElement("li"); li.className="ev";
+    li.innerHTML='<span class="d"></span><span class="n"></span><span class="a"></span>';
+    li.querySelector(".d").textContent="Day "+e.d;
+    li.querySelector(".n").textContent=e.label;
+    var a=li.querySelector(".a");
+    a.className="a "+(e.amount>0?"in":"out");
+    a.textContent=sign(e.amount)+"  →  "+tr(bal);
+    evs.appendChild(li);
+  });
+
+  var flag=document.getElementById("flag");
+  if(r.minCash<0){
+    flag.innerHTML='<div class="stale">OUT OF CASH — the books say a profit of '+tr(r.profit)+
+      ', and there are '+r.negDays+' days in the red, '+tr(-r.minCash)+
+      ' short at the worst point. Those are days payroll and suppliers cannot be paid. Try pulling DSO down, pushing DPO up, or switching on invoice discounting.</div>';
+  } else if(r.fees>0){
+    flag.innerHTML='<div class="match">IT SURVIVES — not a single day in the red. The price is '+tr(r.fees)+
+      ' in fees, so the profit in the books is only '+tr(r.profit)+
+      '. A slice of profit traded for liquidity — and for a company short of cash that is a very good trade.</div>';
+  } else {
+    flag.innerHTML='<div class="match">IT SURVIVES — a cash conversion cycle of '+r.ccc+
+      ' days and never a day in the red. Fix the cycle and you do not need to borrow at all.</div>';
+  }
+  mark("sim");
+}
+
+[dio,dso,dpo].forEach(function(el){ el.addEventListener("input", render); });
+disc.addEventListener("change", render);
+grow.addEventListener("click", function(){
+  scale = scale===1 ? 2 : 1;
+  grow.setAttribute("aria-pressed", scale===2);
+  grow.textContent = scale===2 ? "Back to normal size" : "Sell twice as much";
+  render();
+});
+document.getElementById("reset").addEventListener("click", function(){
+  dio.value=BASE.dio; dso.value=BASE.dso; dpo.value=BASE.dpo; disc.checked=false;
+  scale=1; grow.setAttribute("aria-pressed","false"); grow.textContent="Sell twice as much";
+  render();
+});
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A company sells 360 million a month at a gross margin of 60 million, with fixed costs of 40 million. Every month is profitable in the books. In month two it cannot make payroll. What is happening?",
+  o:["The accountant has made a bookkeeping error",
+     "The cash from the sales already made is still sitting in receivables and in the warehouse",
+     "The company is really loss-making and the report hides it",
+     "Fixed costs have been understated"],
+  a:1,
+  why:"Profit is recognised on the day goods are delivered; the money arrives forty-five days later. In between, the company still pays salaries, still pays suppliers, still buys the next batch of stock. Nothing in the books is wrong — the books measure one thing and the bank account measures another."},
+ {q:"Your BA asks for a ccc_days column on cash_flow_metrics. What is the minimum data needed to compute it?",
+  o:["The transactions table on its own",
+     "Days stock sits, days customers take to pay, and days you take to pay suppliers — three sources in three different services",
+     "Revenue and profit for the period",
+     "The opening and closing balance"],
+  a:1,
+  why:"CCC = DIO + DSO − DPO. DIO needs inventory data from scf-service; DSO and DPO need actual settlement dates on both sides of the ledger from credit-service. That is exactly why these four columns were dropped in migration V5 — nothing could compute them yet — and only came back in V6."},
+ {q:"Your largest customer starts paying thirty days later than before. Which number moves first?",
+  o:["Revenue",
+     "Profit",
+     "DSO — which pushes CCC up thirty days and shortens runway to match",
+     "DPO"],
+  a:2,
+  why:"Revenue and profit do not change by a single đồng, because the same goods still sell on the same terms. What changes is when the money arrives. That is why a system tracking only revenue sees nothing at all — right up until the day payroll fails."},
+ {q:"runway_days is left null when net cash flow for the period is positive. Why not write 0, or some very large number, for convenience?",
+  o:["Because the column type does not allow it",
+     "Because a company that is not running out has no days-left figure — 0 is a false alarm, and a large number implies a promise nobody computed",
+     "Because null saves storage",
+     "Because the frontend will deal with it"],
+  a:1,
+  why:"This is a business decision wearing technical clothes. Null here means \"does not apply\", which is a different thing from null meaning \"not computed yet\". The two lead to different displays and different alerts, and confusing them is a classic source of business bugs."},
+ {q:"Invoice discounting genuinely lowers profit. So why do companies use it?",
+  o:["Because they have miscalculated the cost",
+     "Because it trades a slice of profit for liquidity — and bankruptcy means running out of cash, not making a loss",
+     "Because the bank requires it",
+     "Because it hides a loss on the report"],
+  a:1,
+  why:"In the simulation above, switching it on drops profit from 60 million to about 40 — and removes every day in the red. A company earning a little less keeps trading; a company that cannot make payroll on the day loses its people, then its suppliers, then itself."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — backlog refinement",
+  line:'"For the cash flow chart, just take monthly revenue and divide it by thirty."',
+  o:[{t:"Sure, I'll do that for now and we can make it accurate later.", v:"weak",
+      f:"It will run, the chart will look good, and nobody will notice until the screen shows a healthy line during the very week the business runs out of money. This is the kind of technical debt somebody else pays for."},
+     {t:"That's not technically correct.", v:"weak",
+      f:"Right in substance, wrong in framing: this is not a technical point, it is a business one. Put that way, the BA hears reluctance and keeps the requirement as written."},
+     {t:"Revenue is recognised when the invoice is issued, but the cash lands on due_date, and the two are about forty-five days apart. Divided evenly, the chart shows safe in exactly the week the company runs dry. Could we build it from actual settlement dates instead?", v:"strong",
+      f:"You spoke in the BA's language rather than in code, named a concrete consequence instead of a verdict, and finished with a proposal. That is how a developer gets invited to the meetings that matter."}]},
+ {role:"The customer's chief accountant — during the demo",
+  line:'"Why does your screen say we are in the red, when my report says we are profitable?"',
+  o:[{t:"Let me check — there's probably an error in the calculation.", v:"weak",
+      f:"You have just accepted a bug that does not exist and undermined the most valuable feature in the product. A meaningless ticket will be opened after this meeting."},
+     {t:"The two screens measure different things. Your report measures profit, which is recognised when the invoice is issued. This one measures the money in the account, day by day. You are profitable and short of cash at the same time, because the cash from those sales is still sitting in receivables.", v:"strong",
+      f:"You confirmed both numbers are right, named the gap between them, and blamed nobody. The next thing out of your mouth should be a question: which customer is slowest to pay?"},
+     {t:"This is cash flow, not profit.", v:"weak",
+      f:"True and useless. The listener still does not know why the two differ, so they still distrust the system. A correct sentence that explains nothing convinces nobody."}]},
+ {role:"Product owner — scoping the sprint",
+  line:'"Drop invoice discounting from this sprint. It is just a button that calls a third-party API."',
+  o:[{t:"Fine, dropping it.", v:"weak",
+      f:"You have just removed the only way out of a cash squeeze the product offers, without saying so. What remains can measure the problem and can do nothing about it."},
+     {t:"We can't, it's complicated.", v:"weak",
+      f:"\"It's complicated\" is what a product owner hears every day and is immune to. It talks about your effort rather than the user's value, so it always loses."},
+     {t:"The button is simple, but this is the only feature in the product that actually pulls cash forward. Everything else measures and warns. Cut it and the system tells the customer they are about to run out and offers nothing. Could we cut the limits and the performance report first instead?", v:"strong",
+      f:"You separated what measures from what solves, then proposed a smaller cut yourself. Offering an alternative beats refusing — and it shows you understand the product, not only the ticket."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

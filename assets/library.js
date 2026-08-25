@@ -4,22 +4,11 @@
 var LIB = window.LIB, TERMS = window.TERMS, C = window.TFBD;
 var fold = C.fold, esc = C.esc, hl = C.hl, snip = C.snip;
 var docs = C.docs, byId = C.byId, LABEL = C.LABEL, ORDER = C.ORDER;
-/* Every visible string lives here; a site overrides what it needs via window.UI. */
-var UI = Object.assign({
-  PLURAL: { lesson: "Lessons", section: "Sections", term: "Glossary",
-            quiz: "Questions", line: "Lines to steal", scene: "Objections",
-            planned: "Coming up" },
-  everything: "Everything",
-  soon: "soon",
-  room: "In the room",
-  ns: "tfbd",
-  written: function (live, total) { return live + " of " + total + " written"; },
-  count: function (live, terms, entries) {
-    return live + (live === 1 ? " lesson · " : " lessons · ") + terms + " terms · " + entries + " entries";
-  },
-  results: function (n, qs) { return n + (n === 1 ? " result" : " results") + " for \u201C" + qs + "\u201D"; }
-}, window.UI || {});
-var PLURAL = UI.PLURAL;
+var PLURAL = { lesson: "Lessons", section: "Sections", term: "Glossary",
+               quiz: "Questions", line: "Lines to steal", scene: "Objections",
+               planned: "Coming up" };
+/* The only two things that differ between the two sites. */
+var UI = Object.assign({ ns: "tfbd", room: "In the room" }, window.UI || {});
 
 /* ---------- browse ---------- */
 function progress(n) {
@@ -42,7 +31,7 @@ function tagHtml(tags) {
     var done = live ? progress(l.n) : 0;
     var dots = live ? '<span class="dots">' + [0, 1, 2].map(function (i) {
       return '<i class="dot' + (i < done ? " on" : "") + '"></i>';
-    }).join("") + "</span>" : '<span class="dots mono">' + esc(UI.soon) + "</span>";
+    }).join("") + "</span>" : '<span class="dots mono">soon</span>';
     out += (live ? '<a class="card" href="' + esc(l.href) + '">' : '<div class="card planned">') +
       '<div class="card-n"><span>' + esc(l.n) + "</span>" +
         (l.level ? '<span class="lv">' + esc(l.level) + "</span>" : "") + "</div>" +
@@ -53,8 +42,8 @@ function tagHtml(tags) {
   });
   box.innerHTML = out;
   var live = LIB.lessons.filter(function (l) { return l.status === "published"; }).length;
-  document.getElementById("lcount").textContent = UI.written(live, LIB.lessons.length);
-  document.getElementById("cnt").textContent = UI.count(live, Object.keys(TERMS).length, docs.length);
+  document.getElementById("lcount").textContent = live + " of " + LIB.lessons.length + " written";
+  document.getElementById("cnt").textContent = live + (live === 1 ? " lesson · " : " lessons · ") + Object.keys(TERMS).length + " terms · " + docs.length + " entries";
 })();
 
 function defHtml(t, toks) {
@@ -85,7 +74,7 @@ function renderChips(counts) {
   var types = ORDER.filter(function (t) { return counts[t]; });
   var total = Object.keys(counts).reduce(function (a, k) { return a + counts[k]; }, 0);
   chipBox.innerHTML = ['<button class="chip" type="button" data-f="all" aria-pressed="' + (filter === "all") +
-      '">' + esc(UI.everything) + '<span class="n">' + total + "</span></button>"]
+      '">Everything<span class="n">' + total + "</span></button>"]
     .concat(types.map(function (t) {
       return '<button class="chip" type="button" data-f="' + t + '" aria-pressed="' + (filter === t) + '">' +
         PLURAL[t] + '<span class="n">' + counts[t] + "</span></button>";
@@ -135,7 +124,7 @@ function run() {
   var toks = C.tokens(qs);
   browse.hidden = true; results.hidden = false; sel = -1;
   document.body.classList.add("searching");
-  rmeta.textContent = UI.results(current.length, qs);
+  rmeta.textContent = current.length + (current.length === 1 ? " result" : " results") + " for “" + qs + "”";
   hitsBox.innerHTML = current.map(function (d, i) { return hitHtml(d, toks, i); }).join("");
   hitsBox.hidden = !current.length;
   noneBox.hidden = !!current.length;
