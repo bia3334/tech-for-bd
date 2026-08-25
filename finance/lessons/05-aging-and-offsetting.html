@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aging, and the debt that cancels itself</title>
+<meta name="description" content="Lesson 05 — reading debt by age, and settling it without money moving. Aging buckets, two-way offsetting under Điều 378, and what a write-off really is. For developers building financial systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="05">
+<meta name="tfbd:tags" content="aging, tuổi nợ, offsetting, bù trừ công nợ, Điều 378, write-off, receivables, payables, CM-20, CM-21">
+<meta name="tfbd:level" content="Core">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- aging + offsetting widget ---- */
+.two{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:640px){.two{grid-template-columns:1fr 1fr}}
+.side{background:var(--surface); padding:18px 18px 4px}
+.side h4{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:500; margin:0}
+.side .tot{font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; color:var(--ink); margin-top:6px}
+.side .sub{font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.5; min-height:19px}
+.agebar{display:flex; height:13px; margin:13px 0 11px; background:var(--sunk); border-radius:2px; overflow:hidden}
+.agebar i{display:block; min-width:0; transition:width .35s ease}
+.b0{background:var(--ok)} .b1{background:var(--fast)} .b2{background:var(--slow)}
+.b3{background:color-mix(in srgb, var(--no) 50%, var(--surface))} .b4{background:var(--no)}
+.agekey{list-style:none; margin:0 0 4px; padding:0; display:grid; gap:5px}
+.ak{display:grid; grid-template-columns:11px minmax(0,1fr) auto; gap:10px; align-items:center; font-size:13px; color:var(--ink-2)}
+.ak i{width:11px; height:11px; border-radius:2px; display:block}
+.ak b{font-family:var(--ff-mono); font-size:13px; font-weight:400; font-variant-numeric:tabular-nums; color:var(--ink)}
+.ak.zero{opacity:.38}
+.picks{list-style:none; margin:14px 0 0; padding:0; border-top:1px solid var(--line)}
+.pick{padding:11px 0 12px; border-bottom:1px solid var(--line); display:grid; grid-template-columns:minmax(0,1fr) 74px; gap:6px 10px; align-items:center}
+.pick .pl{grid-column:1/-1}
+.pick .pn{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.pick .pm{font-size:12.5px; color:var(--muted); margin-top:2px; line-height:1.45}
+.pick input[type=range]{width:100%; accent-color:var(--fast); margin:0}
+.pick .pv{font-family:var(--ff-mono); font-size:13px; text-align:right; font-variant-numeric:tabular-nums; color:var(--ink)}
+.pick .st{grid-column:1/-1; font-family:var(--ff-mono); font-size:11.5px; color:var(--fast); letter-spacing:.02em}
+.pick.off{opacity:.5}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 05</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Debt between companies · Lesson 05</div>
+  <h1>Aging, and the debt that cancels itself</h1>
+  <p class="lede">Ten billion đồng owed to you is not a number, it is a shape. This lesson is about reading that shape — and then about two debts that settle each other without a single đồng leaving either bank account.</p>
+  <div class="facts"><span>18 min</span><span>CM-20, CM-21, Điều 378</span><span>Ends with five lines worth stealing</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>Ten billion owed tells you almost nothing</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>Two companies open the dashboard. Both are owed ten billion đồng. The first one's ten billion is every invoice issued in the last fortnight and not one of them is late yet. The second one's ten billion includes three and a half billion that has been sitting there since before Tết.</p>
+    <p>Same number on the screen. The first company is healthy. The second has already lost money and has not admitted it out loud yet.</p>
+    <p>The total hides it because it adds together two things that are not the same substance: money that is merely waiting, and money that is not coming. Split the total by how far past its <button class="t" data-t="hanthanhtoan">due date</button> each piece is, and the difference is visible at a glance. That split has a name — the <button class="t" data-t="tuoino">aging report</button>.</p>
+    <p>The default grouping here is five buckets: still in term, 1–30 days past due, 31–60, 61–90, and over 90. A bucket is not a statistic, it is a different conversation. Nothing in term needs doing. One to thirty days over is a phone call to accounts payable. Thirty-one to sixty means stop shipping on credit until it clears. Past ninety, you are not collecting a debt any more — you are negotiating a settlement, and part of that money is already gone.</p>
+    <p>The boundaries are configurable, and not for the sake of flexibility. A construction supplier is routinely paid at 120 days and nothing is wrong. A food distributor whose customer is 45 days late is already in trouble. Different industries collapse at different speeds, so the boundaries belong to the company, which means the column headings are data rather than captions.</p>
+  </div>
+
+  <h3>Why DSO does not tell you this</h3>
+  <div class="stack">
+    <p><button class="t" data-t="dso">DSO</button> is an average over the invoices that have settled. Forty customers paying at thirty days and one large customer two hundred days late produces a DSO of about thirty-four. It looks like a well-run receivables book, and it is one large customer away from a write-off.</p>
+    <p>Worse, the debts that never settle at all never enter the average. DSO answers "how long does our money usually take". Aging answers a different question: "how much of it is in trouble <em>right now</em>". A good DSO sitting on top of a fat tail is the most common shape of a company about to lose money, and the total on its own shows neither.</p>
+  </div>
+
+  <h3>Now turn the report around</h3>
+  <div class="stack">
+    <p>Everything above was about <button class="t" data-t="phaithu">what you are owed</button>. Run the same report on <button class="t" data-t="phaitra">what you owe</button> and it stops being about your customers and starts being about you. Vietnamese has one word for both directions at once — <button class="t" data-t="congno">công nợ</button> — which is convenient here, because with some partners the two reports are about the same company.</p>
+    <p>If half of what you owe your suppliers is already past due, nobody decided that. It happened. It means the business has been quietly funding itself on its suppliers' money — which is a real source of finance right up to the morning the supplier stops delivering, and it is accruing late-payment interest that nobody has booked. The payables aging is the cheapest early warning a finance director has, and it is the report nobody asks for.</p>
+    <p class="vi"><b>In the code</b><code>GET /credit/reports/aging</code> (CM-20) returns five figures — <code>current</code>, <code>bucket1..3</code>, <code>over</code> — plus the <code>bucketBoundaries</code> they were built from. The boundaries come from <code>credit_settings.aging_buckets</code>, default <code>[30,60,90]</code>. That table is a dated series keyed on <code>(company_id, effective_from)</code> rather than one row per company, so re-running last quarter's report still groups it the way last quarter did. Only <button class="t" data-t="duno">exposures</button> in <code>OUTSTANDING</code> or <code>OVERDUE</code> are counted, and the column labels are built in the backend by <code>AgingBucketLabels</code> — one of the few places display text does not live in the frontend, because the number of columns is not known until you read the config.</p>
+    <p class="vi"><b>Tiếng Việt</b>Một con số tổng công nợ gần như không nói lên điều gì; phải chia theo số ngày quá hạn thì mới thấy. Báo cáo tuổi nợ chia dư nợ thành các nhóm — trong hạn, 1–30, 31–60, 61–90, trên 90 ngày — và ranh giới nhóm là cấu hình của từng công ty, vì mỗi ngành sập với tốc độ khác nhau. Chạy báo cáo đó cho cả chiều phải trả nữa: nửa số tiền mình nợ nhà cung cấp đã quá hạn nghĩa là mình đang lấy vốn của họ mà xài.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>The debt that cancels itself</h2>
+
+  <div class="stack">
+    <p>Công ty Thành Đạt buys packaging from us and sells us cartons. Two relationships, one company, and on the thirty-first of March the books say two things at once: they owe us 150 million on an invoice that fell due last December, and we owe them 130 million falling due in ten days.</p>
+    <p>The obvious thing is two bank transfers in opposite directions. Two payment orders, two approvals, two sets of bank charges, and 280 million of money moving to settle 20 million of actual difference.</p>
+    <p>The other thing you can do is write down that 130 million of what they owe us and 130 million of what we owe them are the same 130 million, and that both of them are now over. Nobody transfers anything. In Vietnamese this is <button class="t" data-t="butrucongno">bù trừ công nợ</button>; in English, offsetting.</p>
+    <p>This is not the accountant being clever with the books. Điều 378 of the Bộ luật Dân sự 2015 lists offsetting among the ways an obligation is extinguished — the same list that payment is on. The debt does not get smaller or get postponed. It ends, with the same legal finality as money arriving.</p>
+  </div>
+
+  <div class="pull"><q>Nothing moved, and both debts are over. Offsetting is not a tidy-up — it is a payment made out of paper.</q></div>
+
+  <div class="stack">
+    <p>The paper is a <button class="t" data-t="bienbanbutru">biên bản bù trừ công nợ</button>, an offset minutes, and it is not a memo. It names each debt on each side, how much is being taken off each one, and the single total both parties are cancelling. Both companies sign it, and after that the amount is gone from both sets of books.</p>
+    <p>Three conditions make it lawful rather than merely convenient. The debts must be with the <em>same partner</em> — what A owes you cannot cancel what you owe B, because B never agreed to anything. They must be in the <em>same currency</em>, since a claim in dollars and a claim in đồng are two different things until somebody fixes a rate and that is a separate decision with a separate date. And the two sides of the minutes must total <em>exactly</em> the same amount.</p>
+    <p>That last one is where the next section lives, because it is the rule a developer is most likely to be asked to relax.</p>
+    <p class="vi"><b>In the code</b>The minutes is <code>credit_offsets</code> with its lines in <code>credit_offset_lines</code>. <code>OffsetStatus</code> has exactly two values, <code>CONFIRMED → CANCELED</code>, with no <code>DRAFT</code> — a minutes only gets written once both sides have agreed, so it takes effect the moment it exists. The lines are append-only and have no setters: editing one means cancelling the minutes and writing a new one. Each line adds to <code>credit_exposures.offset_amount</code>, and when <code>amount − offset_amount</code> reaches zero the exposure becomes <code>SETTLED</code> with <code>settled_date</code> set to the date of the minutes, publishing the same <code>credit.exposure-settled.v1</code> event a real payment would. Offsetting adds no status and no event type: it is the second road to settlement, not a new kind of thing (CM-21).</p>
+    <p class="vi"><b>Tiếng Việt</b>Khi một đối tác vừa là khách hàng vừa là nhà cung cấp, hai khoản nợ ngược chiều có thể triệt tiêu nhau mà không bên nào chuyển tiền. Đó là bù trừ công nợ, căn cứ Điều 378 Bộ luật Dân sự 2015 — nghĩa vụ chấm dứt đúng như đã trả tiền. Điều kiện: cùng đối tác, cùng loại tiền, và tổng hai phía của biên bản phải bằng nhau tuyệt đối.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Exactly equal, and the word "deleted"</h2>
+
+  <div class="stack">
+    <p>Somebody will ask you for a tolerance. The two sides of a minutes come out 300 thousand apart because of an old rounding, the paperwork is signed already, and the request is to let a difference through. It looks like a form validation being stubborn.</p>
+    <p>It is not a validation. The total is the thing both parties are signing: each side is agreeing that <em>this exact amount</em> of its own claim has ended. If the receivable side totals 150 million and the payable side 130, there is no such amount. You would be extinguishing 150 million of their obligation against 130 million of yours, and the extra 20 million has been given away by nobody, on the authority of nobody, recorded as no decision at all. Depending on which side of the table you sit, that is a gift or a theft. It is never a rounding.</p>
+    <p>And there is nowhere for it to hide afterwards. A payment leaves a bank line. A write-off leaves an approval. An unbalanced offset leaves two ledgers that disagree by an amount neither company can explain, and it surfaces at the worst possible moment — the year-end confirmation letter, when the partner's accountant sends over their figure for the balance and it is not yours.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Two sides that are not exactly equal are not an offset.</p>
+    <p class="sub">Same partner, same currency, both sides identical to the đồng — and no line larger than what is actually left of that debt. A debt that is already settled or written off has no obligation left to cancel, and offsetting it a second time hands the same <button class="t" data-t="hanmuc">credit limit</button> back twice out of thin air. None of these can be a database constraint: no <code>CHECK</code> can see more than one row at a time, so all of them live inside one service method. That method is the only thing standing between the ledger and a balance nobody agreed to.</p>
+  </div>
+
+  <h3>Part of a debt, and taking it back</h3>
+  <div class="stack">
+    <p>A line may be smaller than the debt it sits on. Offsetting 130 million against a 150 million invoice leaves 20 million alive: still owed, still aging from its <em>original</em> due date, still accruing late interest. Partial offsetting does not reset anything — the remainder keeps the age it already had, which is exactly why the aging report has to read the remaining balance rather than the invoice amount.</p>
+    <p>A minutes can also be cancelled, and then every đồng goes back. What does not go back is the calendar. Whether each debt returns as in term or as overdue is worked out against the day of the cancellation, not the day of the minutes. A payable that was comfortably in term on the thirty-first of March comes back on the twentieth of April ten days overdue. Nobody changed it and no job made a mistake; time passed while the debt was in suspension, and the aging report is always a report as of a date.</p>
+  </div>
+
+  <h3>And the sentence that should alarm you</h3>
+  <div class="stack">
+    <p>Sooner or later a debt is not coming back at all. Marking it <button class="t" data-t="xoasono">written off</button> is a real decision: we have stopped expecting this money, take it out of the live book, and someone signs their name to the loss.</p>
+    <p>The row stays. It stays because the loss is a fact that has to be visible somewhere, because the decision had an owner and a date, and because a partner who cost you money is a partner whose credit standing should carry it. Writing off removes the claim, not the history.</p>
+    <p>So "we finally deleted those old debts" is a sentence that should stop the meeting. Deleting is not writing off. If the rows are gone, the aging report is clean, the loss appears nowhere, the partner's record is spotless, and nobody can now say who decided any of it. Ask which of the two actually happened — and if the answer is a <code>DELETE</code>, that is the bug, not the tidy aging report it produced.</p>
+    <p class="vi"><b>In the code</b><code>CreditOffsetService.create</code> enforces five invariants, all of them 422s rather than 400s — the request is well formed, the business simply does not allow it: every debt still open, all of them on the same credit profile, all the same currency, the two sides equal, and each line no larger than what is left of that debt <em>at the time of writing</em>. <code>cancel</code> restores <code>offset_amount</code> and then decides <code>OUTSTANDING</code> against <code>OVERDUE</code> using <code>LocalDate.now(clock)</code> — an injected <code>Clock</code>, never a bare <code>now()</code>. A debt settled by offsetting is recognised by being <code>SETTLED</code> with nothing remaining, not by matching dates, so a debt paid in real money is never resurrected. And <code>WRITTEN_OFF</code> keeps its row for the audit trail (SEC-04), while a transaction cancelled before disbursement <em>deletes</em> its exposure outright — because that debt never came into existence, and confusing the two makes every partner with a cancelled order look like a bad debtor.</p>
+    <p class="vi"><b>Tiếng Việt</b>Tổng hai phía phải bằng nhau tuyệt đối, không có dung sai: chênh một đồng nghĩa là có người mất tiền mà không ai quyết định. Bù trừ một phần thì phần còn lại vẫn sống, vẫn tính tuổi từ ngày đến hạn cũ. Huỷ biên bản thì số dư quay lại nguyên vẹn nhưng ngày tháng thì không — khoản đang trong hạn lúc bù trừ có thể quay về đã quá hạn. Và xoá sổ nợ khác hoàn toàn với xoá bản ghi: mất tiền chứ không được mất dấu vết.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>One partner, both directions, one piece of paper</h2>
+  <p class="prose" style="margin-bottom:14px">Công ty Thành Đạt again, as of 31 March 2026. On the left, what they owe us; on the right, what we owe them. Read the two bars before you touch anything: the same 440 million looks very different once it is split by age, and a third of it is past ninety days.</p>
+  <p class="prose" style="margin-bottom:26px">Drag an amount on each side to build a minutes. The confirm button stays disabled until the two sides are exactly equal, and tells you what is wrong until they are. One combination clears the whole over-90 tail — and needs a partial line to do it. Confirm, watch the buckets redraw, then cancel the minutes and watch the calendar do something to a debt that nobody touched.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="confirm" disabled>Confirm the minutes</button>
+      <button class="ghost" id="undo" disabled>Cancel the minutes, three weeks later</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Report as of</span><span class="v" id="stAsOf">—</span></div>
+      <div class="stat"><span class="k">They owe us</span><span class="v" id="stR">—</span></div>
+      <div class="stat"><span class="k">We owe them</span><span class="v" id="stP">—</span></div>
+      <div class="stat"><span class="k">Picked · them / us</span><span class="v" id="stSel">—</span></div>
+    </div>
+    <div class="two">
+      <div class="side">
+        <h4>They owe us · receivable</h4>
+        <div class="tot" id="totR">—</div>
+        <div class="sub" id="subR"></div>
+        <div class="agebar" id="barR"></div>
+        <ul class="agekey" id="keyR"></ul>
+        <ul class="picks" id="pickR"></ul>
+      </div>
+      <div class="side">
+        <h4>We owe them · payable</h4>
+        <div class="tot" id="totP">—</div>
+        <div class="sub" id="subP"></div>
+        <div class="agebar" id="barP"></div>
+        <ul class="agekey" id="keyP"></ul>
+        <ul class="picks" id="pickP"></ul>
+      </div>
+    </div>
+    <div class="flag" id="bal"></div>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Amounts move in steps of ten million because the sliders have to be able to land on exactly equal — in the real screen these are typed amounts on each line, which is harder, not easier. The written-off invoice is shown because that is the point: the row is still there, it is simply not in any bucket and cannot be offset. The maths lives in <code>finance/sim-05.js</code> and has its own check: <code>node tools/test-05.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Can I see that total split by age — how much of it is past ninety days?"</div><div class="use">Turns a number nobody can act on into a number with an owner. It is also the fastest way to find out whether the person quoting the total has ever looked at what is inside it.</div></div></li>
+    <li><div><div class="say">"Are those bucket boundaries configuration, or did we write 1–30 into the template?"</div><div class="use">The boundaries belong to the company and live in a dated settings row, so a hard-coded heading is wrong for every customer who changes them and wrong for every report re-run over an older period. It is a one-line question that saves a rewrite of the report layer.</div></div></li>
+    <li><div><div class="say">"The two sides differ by three hundred thousand — who is signing for that difference?"</div><div class="use">Reframes a validation error as what it actually is: an amount somebody loses without deciding to. Asked this way it stops being your form being difficult and starts being their problem to answer.</div></div></li>
+    <li><div><div class="say">"Did we write those debts off, or did we delete them?"</div><div class="use">Two operations that produce the same clean screen and opposite legal positions. One is a decision with an owner, a date and a row that survives it; the other is evidence disappearing, and it is usually said out loud by someone who thinks they did housekeeping.</div></div></li>
+    <li><div><div class="say">"Overdue as of which date?"</div><div class="use">An aging figure with no as-of date is a screenshot of nothing — the same debt is in term on Friday and thirty days over next month, without anybody touching it. This is also the question that catches a report quietly built on today instead of the date the user asked for.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Không cần biết kế toán. Chỉ cần đủ để hỏi: tổng này chia theo tuổi nợ ra sao, ranh giới nhóm lấy từ đâu, và ai chịu trách nhiệm cho phần chênh lệch. Ba câu đó bắt gần hết lỗi nghiệp vụ của hai tính năng này.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 05 · Chapter 2, debt between companies · Next: late-payment interest, and why the twenty percent ceiling everybody quotes does not apply to it.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<!-- temporary: lesson 05's own terms, until they are merged into glossary.js -->
+<script src="../terms/05.js"></script>
+<script src="../sim-05.js"></script>
+<script>
+(function(){
+"use strict";
+var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function m(n){ return (n/1e6).toFixed(0)+"m"; }
+function dmy(iso){ var p=iso.split("-"); return (+p[2])+" "+MON[+p[1]-1]+" "+p[0]; }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l5")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l5",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- aging + offsetting ---------- */
+var AGE=window.AGE, BASE=AGE.BASE, B=BASE.bounds;
+var state={items:BASE.items, picked:{}, lines:[], phase:"open", on:BASE.asOf};
+
+var elConfirm=document.getElementById("confirm"), elUndo=document.getElementById("undo");
+var SIDES={
+  RECEIVABLE:{bar:document.getElementById("barR"), key:document.getElementById("keyR"),
+              pick:document.getElementById("pickR"), tot:document.getElementById("totR"),
+              sub:document.getElementById("subR"), stat:document.getElementById("stR")},
+  PAYABLE:{bar:document.getElementById("barP"), key:document.getElementById("keyP"),
+           pick:document.getElementById("pickP"), tot:document.getElementById("totP"),
+           sub:document.getElementById("subP"), stat:document.getElementById("stP")}
+};
+
+function ageLine(it){
+  var st=AGE.statusOf(it, state.on), over=AGE.daysOverdue(it, state.on);
+  if(st==="WRITTEN_OFF") return "written off — the row stays, the claim does not";
+  if(st==="SETTLED") return "settled by the minutes, nothing left to collect";
+  if(!over) return "in term";
+  return over+" days over · "+AGE.labels(B)[AGE.slot(it, state.on, B)];
+}
+
+function renderSide(dir){
+  var s=SIDES[dir], a=AGE.aging(state.items, dir, state.on, B);
+
+  s.bar.innerHTML="";
+  s.key.innerHTML="";
+  a.buckets.forEach(function(v,i){
+    var seg=document.createElement("i");
+    seg.className="b"+i;
+    seg.style.width=(a.total ? v/a.total*100 : 0)+"%";
+    seg.title=a.labels[i]+" · "+m(v);
+    s.bar.appendChild(seg);
+
+    var li=document.createElement("li"); li.className="ak"+(v?"":" zero");
+    li.innerHTML='<i></i><span></span><b></b>';
+    li.querySelector("i").className="b"+i;
+    li.querySelector("span").textContent=a.labels[i]+(i?" days over":"");
+    li.querySelector("b").textContent=m(v);
+    s.key.appendChild(li);
+  });
+
+  s.tot.textContent=m(a.total);
+  s.stat.textContent=m(a.total);
+  s.sub.textContent = a.total
+    ? Math.round(100*a.overdue/a.total)+"% overdue, "+Math.round(100*a.tail/a.total)+"% past 90 days"
+    : "nothing open with this partner";
+
+  s.pick.innerHTML="";
+  state.items.forEach(function(it){
+    if(it.dir!==dir) return;
+    var st=AGE.statusOf(it, state.on), rem=AGE.remaining(it);
+    var live=(st==="OUTSTANDING"||st==="OVERDUE");
+    var li=document.createElement("li"); li.className="pick"+(live?"":" off");
+    li.innerHTML='<div class="pl"><div class="pn"></div><div class="pm"></div></div>';
+    li.querySelector(".pn").textContent=it.no+" · "+m(rem<0?0:rem);
+    li.querySelector(".pm").textContent="due "+dmy(it.due)+" · "+ageLine(it);
+
+    if(live && state.phase==="open"){
+      var r=document.createElement("input");
+      r.type="range"; r.min=0; r.max=rem; r.step=10e6; r.value=state.picked[it.id]||0;
+      r.setAttribute("aria-label","Amount of "+it.no+" to offset");
+      var out=document.createElement("div"); out.className="pv"; out.textContent=m(+r.value);
+      r.addEventListener("input", function(){
+        state.picked[it.id]=+r.value;
+        out.textContent=m(+r.value);
+        balance();
+      });
+      li.appendChild(r); li.appendChild(out);
+    } else if(live && state.picked[it.id]){
+      var d=document.createElement("div"); d.className="st";
+      d.textContent="offset "+m(state.picked[it.id])+" of it — "+m(rem)+" still owed";
+      li.appendChild(d);
+    }
+    s.pick.appendChild(li);
+  });
+}
+
+function balance(){
+  var v=AGE.check(state.items, state.picked, state.on);
+  document.getElementById("stSel").textContent=m(v.recv)+" / "+m(v.pay);
+  var bal=document.getElementById("bal");
+  if(state.phase!=="open"){ bal.innerHTML=""; elConfirm.disabled=true; return; }
+  elConfirm.disabled=!v.ok;
+  var d=document.createElement("div");
+  d.className=v.ok?"match":"stale";
+  d.textContent = v.ok
+    ? "BALANCED — "+m(v.recv)+" on each side, across "+v.lines+" debts, all in "+v.currency+". The minutes can be signed."
+    : (v.gap ? "NOT BALANCED — the two sides differ by "+m(Math.abs(v.gap))+". " : "") + v.why;
+  bal.innerHTML=""; bal.appendChild(d);
+}
+
+function render(){
+  document.getElementById("stAsOf").textContent=dmy(state.on);
+  renderSide("RECEIVABLE"); renderSide("PAYABLE");
+  elUndo.disabled = state.phase!=="done";
+  balance();
+}
+
+function say(cls, text){
+  var flag=document.getElementById("flag"), d=document.createElement("div");
+  d.className=cls; d.textContent=text;
+  flag.innerHTML=""; flag.appendChild(d);
+}
+
+elConfirm.addEventListener("click", function(){
+  var r=AGE.confirmOffset(state.items, state.picked, state.on);
+  if(!r.ok) return;
+  state.items=r.items; state.lines=r.lines; state.phase="done";
+  var part=state.items.filter(function(it){ return it.offset>0 && AGE.remaining(it)>0; });
+  render();
+  say("match", BASE.offsetNo+" CONFIRMED — "+m(r.total)+" cancelled on each side on "+dmy(state.on)+
+      ", across "+r.lines.length+" debts. Not one đồng left either bank account and both books now agree. "+
+      (part.length
+        ? part[0].no+" was only partly offset: "+m(AGE.remaining(part[0]))+" of it is still owed, still aging from its original due date."
+        : "Every debt in the minutes was cleared in full."));
+  mark("sim");
+});
+
+elUndo.addEventListener("click", function(){
+  var lines=state.lines, inMinutes={};
+  lines.forEach(function(l){ inMinutes[l.id]=true; });
+  state.items=AGE.cancelOffset(state.items, lines);
+  state.lines=[]; state.picked={}; state.phase="undone"; state.on=BASE.cancelOn;
+  render();
+  /* a debt that was in term on the day of the minutes and is not on the day it comes back */
+  var flipped=state.items.filter(function(it){
+    return inMinutes[it.id] && AGE.slot(it, BASE.asOf, B)===0 && AGE.slot(it, state.on, B)>0;
+  });
+  say("stale", BASE.offsetNo+" CANCELLED on "+dmy(state.on)+" — every balance is exactly what it was, "+
+      "and the report is not. Three weeks passed while those debts sat in suspension, and the whole book "+
+      "aged with them. "+
+      (flipped.length
+        ? flipped[0].no+" was in term on the day it was offset and comes back "+
+          AGE.daysOverdue(flipped[0], state.on)+" days overdue. Nobody touched it."
+        : "Aging is always a report as of a date."));
+});
+
+document.getElementById("reset").addEventListener("click", function(){
+  state={items:BASE.items, picked:{}, lines:[], phase:"open", on:BASE.asOf};
+  document.getElementById("flag").innerHTML="";
+  render();
+});
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A partner's DSO has barely moved in six months, but the over-90 bucket on their aging report has grown from 40 million to 300 million. Which fact is the more urgent one?",
+  o:["The DSO, because it is the number on the dashboard",
+     "The bucket — DSO is an average over what has settled, and the debts that never settle never enter it",
+     "Neither, until the total owed goes up",
+     "The DSO, because aging is only a presentation of the same data"],
+  a:1,
+  why:"DSO answers how long money usually takes; aging answers how much of it is in trouble right now. A stable DSO with a growing tail is the standard shape of a receivables book about to lose money, because the worst debts drop out of the average entirely by never settling at all."},
+ {q:"The two sides of an offset minutes come out 300 thousand apart because of an old rounding. Sales asks for a tolerance so the signed paperwork does not have to be redone. What is actually being asked for?",
+  o:["A sensible relaxation of a strict form validation",
+     "A configuration value, so each customer can set their own tolerance",
+     "An amount of money to be given up by one side with nobody deciding to and nothing recording it",
+     "A rounding rule, which belongs in the money helper"],
+  a:2,
+  why:"The total is what both parties sign: each side is agreeing that exactly this much of its own claim has ended. If the totals differ, there is no such amount — one side has extinguished more than the other, and the difference has no payment, no approval and no owner. It resurfaces at the year-end confirmation letter as two ledgers that disagree."},
+ {q:"An offset minutes made on 31 March is cancelled on 20 April. One of its lines was a payable due 10 April, in term on the day of the minutes. What should it come back as?",
+  o:["OUTSTANDING — it was in term when it was offset, so that is what is restored",
+     "SETTLED, since cancelling a minutes cannot undo a settlement",
+     "OVERDUE, by ten days — status is decided against the day of the cancellation",
+     "OUTSTANDING, and the nightly job will fix it later"],
+  a:2,
+  why:"Cancelling restores the balances, not the calendar. The service works out OUTSTANDING against OVERDUE by comparing due_date with LocalDate.now(clock) at the moment of cancellation, so a debt suspended across its own due date comes back late. Restoring the old status instead would hide a genuinely overdue debt from the aging report until the next nightly run."},
+ {q:"A transaction is cancelled before any money is disbursed. Its credit exposure should be:",
+  o:["Set to WRITTEN_OFF, which is the status for exposures that will never be collected",
+     "Deleted — the debt never came into existence, and WRITTEN_OFF says something different and much worse about the partner",
+     "Left OUTSTANDING with amount 0",
+     "Set to SETTLED with today as the settled date"],
+  a:1,
+  why:"WRITTEN_OFF means a real debt was given up: it belongs in the audit trail and it should drag the partner's credit standing down. A cancelled transaction never produced an obligation at all. Use the first for the second and every partner who has ever had an order cancelled starts looking like a bad debtor."},
+ {q:"A 150 million receivable that is 111 days past due gets 130 million of it offset. What does the next aging report show for it?",
+  o:["Nothing — the invoice has been offset",
+     "150 million, because aging reads the invoice amount",
+     "20 million, and back in the in-term bucket because the offset is recent",
+     "20 million, still in the over-90 bucket — the remainder keeps the age it already had"],
+  a:3,
+  why:"Partial offsetting settles part of an obligation; it does not renegotiate the due date. The remainder is the same debt, the same age, still accruing late interest. This is why the report has to be built from amount minus offset_amount rather than from the invoice value."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — refining the aging report",
+  line:'"Just put the column headings in the template: in term, 1–30, 31–60, 61–90, over 90. Nobody ever changes those."',
+  o:[{t:"Fine, they are in the template.", v:"weak",
+      f:"They are configuration in a dated settings row, so the first customer who moves a boundary gets a report whose headings lie about its own numbers. Worse, re-running an older period regroups it correctly and still labels it with today's boundaries."},
+     {t:"We cannot hard-code strings, they have to be in i18n.", v:"weak",
+      f:"Correct instinct, wrong reason, and it loses the argument. The BA hears a coding-standards objection to a five-minute change and overrules it. The problem is not where the strings live, it is that nobody knows how many of them there are."},
+     {t:"The boundaries are a company setting and they are versioned by date, so the number of columns is not known until we read the config — and a report re-run over last quarter has to come back labelled the way last quarter was grouped. Can we render the headings from bucketBoundaries in the response?", v:"strong",
+      f:"You named the two consequences, one for the customer who changes the setting and one for anyone re-running an old report, and you finished with the smaller fix rather than an objection. That is why the labels are built by the service that knows the boundaries."}]},
+ {role:"The customer's chief accountant — during UAT",
+  line:'"The two sides of my offset minutes differ by 300 thousand. Both directors have signed already. Just let it save."',
+  o:[{t:"I will add a tolerance for small differences.", v:"weak",
+      f:"You have just built a way to make money disappear without a decision. The next unbalanced minutes will be larger, the tolerance will be raised, and the difference surfaces a year later in a confirmation letter nobody can reconcile."},
+     {t:"The system will not allow it, the totals have to match.", v:"weak",
+      f:"True and useless. To the accountant that is your software being rigid about their signed paperwork, so the next call is to your product owner and it is framed as a defect."},
+     {t:"If we let that through, one side ends 300 thousand more of its claim than the other, and there is no payment or approval anywhere saying who gave it up — it comes back at the year-end confirmation. Take 300 thousand off the larger line instead: the offset balances, and the 300 thousand stays as a live debt you can settle or write off with its own approval.", v:"strong",
+      f:"You explained the consequence in their language, avoided calling anybody wrong, and handed over a route that keeps the signatures valid. Partial offsetting is exactly the tool for this, and most people asking for a tolerance do not know it exists."}]},
+ {role:"Tech lead — sprint planning",
+  line:'"The 2024 exposures are cluttering the aging report. Let us add a cleanup job that deletes anything older than eighteen months."',
+  o:[{t:"I will write the job behind a feature flag so we can turn it off.", v:"weak",
+      f:"A flag on a delete is not a safety measure. Once the rows are gone the loss appears nowhere, the partner's record is spotless, and nobody can say who decided any of it — the flag only decides when that happens."},
+     {t:"Deleting them is not the same operation as writing them off. Written off means somebody decided the money is gone, and the row has to survive that decision — it is the evidence, and it is what should be dragging that partner's credit standing down. The report already excludes written-off exposures, so if the screen is cluttered it means nobody has written them off yet, and that is the actual gap.", v:"strong",
+      f:"You separated the symptom from the cause, showed the clean report they wanted is already available lawfully, and turned a delete job into a missing business decision. That is a smaller ticket and a better product."},
+     {t:"We cannot delete financial records.", v:"weak",
+      f:"A rule with no reason attached sounds like caution, and caution is negotiable. Say why — audit trail, an owner for the loss, credit history — or somebody will find a workaround that satisfies the letter of your objection."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

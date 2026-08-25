@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An Invoice Is Not Money</title>
+<meta name="description" content="Lesson 02 — what an invoice legally is, why invoices.status has no OPEN and no way back from ISSUED to CANCELED, and how one direction column decides which side of the books a row lands on.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="02">
+<meta name="tfbd:tags" content="invoice, VAT, receivables, Nghị định 70/2025, state machine, payment allocation, e-invoice">
+<meta name="tfbd:level" content="Foundation">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- lesson 02: one long enum value per stat, and refusals in the log ---- */
+.stat .v.st{font-size:15px; letter-spacing:.02em; line-height:1.35; word-break:break-word}
+.ev.no{background:var(--no-soft)}
+.ev .a.code{font-size:10.5px; letter-spacing:.1em; color:var(--no)}
+.ev .nt{display:block; font-style:normal; color:var(--muted); font-size:13px; margin-top:6px; line-height:1.55}
+.knobs .btn{margin-top:4px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 02</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">The two ledgers · Lesson 02</div>
+  <h1>An invoice is not money</h1>
+  <p class="lede">It is also not a row you invented. It names a seller, a buyer, an amount and a day, it carries a code the tax authority issued, and the state keeps its own copy. Most of the strange-looking rules in the invoices table are that fact, showing through.</p>
+  <div class="facts"><span>15 min</span><span>No accounting assumed</span><span>Drive one invoice through its whole life</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>What is actually on the piece of paper</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>A company delivers goods and sends the customer a document. The document says: I sold, you bought, the amount is this, pay me by that day. It is signed, it carries a code the tax authority issued, and the tax authority keeps a copy of it too.</p>
+    <p>That document is an <button class="t" data-t="hoadon">invoice</button>. In Vietnam it is almost always an <button class="t" data-t="hoadondientu">e-invoice</button> now — signed electronically, coded by the state, never printed. Your system does not create it. External invoice software signs it and the tax authority codes it; the invoices table records that this happened.</p>
+    <p>Understand that ordering and half the rules stop looking arbitrary. You are not the owner of the document. You are holding the second copy.</p>
+  </div>
+
+  <h3>Two dates, two different jobs</h3>
+  <div class="stack">
+    <p>Every invoice carries two dates and developers routinely conflate them. <code>issue_date</code> is the day the document came into existence. <code>due_date</code> is the day the money is supposed to arrive. They are usually thirty to sixty days apart.</p>
+    <p>The first one drives the books. On <code>issue_date</code>, <button class="t" data-t="doanhthu">revenue</button> is recognised, the <button class="t" data-t="phaithu">receivable</button> comes into existence, and the VAT on the invoice becomes something the company will have to declare. All of that happens with the bank account untouched.</p>
+    <p>The second one drives collection. <code>due_date</code> is what <button class="t" data-t="dso">DSO</button> is measured against, what an aging report buckets by, and what decides whether this invoice is <button class="t" data-t="quahan">overdue</button>. It is also the date the <button class="t" data-t="hanthanhtoan">payment terms</button> produced — net 45 means <code>due_date = issue_date + 45</code>.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Day 0 — issue_date</div><div class="ds">Signed, coded, sent. Revenue is recognised, the receivable exists, output VAT becomes declarable. The bank account does not move.</div></div>
+    <div class="arrow">45 days of agreed credit — the system does nothing at all</div>
+    <div class="node"><div class="nm">Day 45 — due_date</div><div class="ds">The day the money is supposed to arrive. Nothing arrives by itself, and no status changes when the day passes.</div></div>
+    <div class="arrow">the following night</div>
+    <div class="node core"><div class="nm">Day 46 — a job sets OVERDUE</div><div class="ds">Two columns compared, no user involved. Being late is derived from data, not reported by anyone.</div></div>
+  </div>
+
+  <div class="stack">
+    <p class="vi"><b>In the code</b><code>Invoice.issueDate</code> and <code>Invoice.dueDate</code>, both <code>LocalDate</code>, both <code>NOT NULL</code>, with <code>ck_invoices_due_date CHECK (due_date &gt;= issue_date)</code> standing between them. An invoice due before it existed is not a validation nicety — it is a document that could not have been signed.</p>
+    <p class="vi"><b>Tiếng Việt</b>Hoá đơn là chứng từ pháp lý, không phải một dòng dữ liệu mình tự nghĩ ra: có người bán, người mua, số tiền, ngày đến hạn, và cơ quan thuế giữ một bản. Ngày xuất hoá đơn quyết định doanh thu và công nợ; ngày đến hạn quyết định DSO và chuyện quá hạn. Hai ngày, hai việc khác hẳn nhau.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>One column decides which side, one column was never yours</h2>
+
+  <div class="stack">
+    <p>The same table holds invoices your company sent and invoices your company received. Nothing separates them except a column called <code>direction</code>.</p>
+    <p><code>RECEIVABLE</code> means we sold and they owe us — a <button class="t" data-t="phaithu">receivable</button>, an asset. <code>PAYABLE</code> means they sold and we owe them — a <button class="t" data-t="phaitra">payable</button>, a liability. One value apart, opposite sides of the balance sheet, opposite signs in every report that touches the row.</p>
+    <p>It also decides which financing product the invoice can feed. A <code>RECEIVABLE</code> is what you sell to a financier under <button class="t" data-t="chietkhau">invoice discounting</button>. A <code>PAYABLE</code> is what a large buyer confirms so its small supplier can borrow cheaply — the mirror product. Wrong direction, wrong product, wrong <button class="t" data-t="duno">outstanding exposure</button> written into credit-service the moment the invoice is issued.</p>
+    <p class="vi"><b>In the code</b><code>InvoiceDirection = RECEIVABLE | PAYABLE</code>, mapped <code>updatable = false</code>. It cannot be edited after insert, and that is not tidiness: credit-service reads it off <code>scf.invoice-registered.v1</code> to decide the direction of the exposure it books. Changing the value later would change one ledger and not the other.</p>
+  </div>
+
+  <h3>Three amounts, and one of them is the state's</h3>
+  <div class="stack">
+    <p>An invoice does not carry one number. It carries <code>net_amount</code> — the price of the goods, <code>tax_amount</code> — the <button class="t" data-t="vat">VAT</button> added on top, and <code>total_amount</code>, which is simply the two added together.</p>
+    <p>Here is the part that catches people. Sell 100 million of goods at ten percent VAT and the customer transfers 110 million. Revenue is 100. The other 10 million sits in the company's bank account and belongs to the tax authority from the second it lands there. The company is holding it, not earning it, and at the end of the declaration period it hands it over.</p>
+  </div>
+
+  <div class="pull"><q>Of the 110 million in the account, 10 million was never the company's money. It is the state's, passing through.</q></div>
+
+  <div class="stack">
+    <p>So a dashboard that adds up <code>total_amount</code> and calls it revenue is overstating the business by the VAT rate. A cash forecast, on the other hand, must use <code>total_amount</code>, because 110 million is genuinely what arrives — and then must remember that a VAT payment goes out later. Same invoice, two different correct answers, depending on which question is being asked.</p>
+    <p class="vi"><b>In the code</b><code>ck_invoices_total CHECK (total_amount = net_amount + tax_amount)</code>. There is no setter for <code>totalAmount</code> alone — <code>setAmounts(net, tax)</code> recomputes it, because the constraint bites at the database if the service layer ever disagrees with itself. On the declaration side the numbers live in <code>transaction-service · TransactionTax</code>, where <code>tax_amount</code> is sent by the client rather than recomputed: rounding rules and exemptions make the paper document the authority, not the multiplication (TM-08).</p>
+    <p class="vi"><b>Tiếng Việt</b>Một cột <code>direction</code> quyết định hoá đơn nằm bên phải thu hay phải trả, và kéo theo cả sản phẩm tài trợ dùng được. Ba con số thì luôn ràng nhau: net + tax = total. Phần thuế GTGT nằm trong tài khoản nhưng là tiền thu hộ nhà nước — cộng nó vào doanh thu là thổi phồng đúng bằng thuế suất.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>The status machine, and the two values that are missing</h2>
+
+  <div class="stack">
+    <p>An invoice has nine statuses. Read them once and two things are conspicuously absent, and both absences are legal decisions rather than someone's shortcut.</p>
+  </div>
+
+  <ul class="uses">
+    <li><span class="u">DRAFT</span><span class="d">Typed in, not issued. No legal standing, no debt, nothing owed. The only status <code>CANCELED</code> can be reached from.</span></li>
+    <li><span class="u">ISSUED</span><span class="d">Signed and coded. Means <em>issued and not yet collected in full</em> — nothing about whether it is late. Publishes <code>scf.invoice-registered.v1</code>.</span></li>
+    <li><span class="u">FINANCING</span><span class="d">A financing request is out with providers. Asked, not funded.</span></li>
+    <li><span class="u">FINANCED</span><span class="d">A financier has disbursed. The buyer still owes the money, so this invoice is still swept for lateness.</span></li>
+    <li><span class="u">PARTIALLY_PAID</span><span class="d">Some money collected. Derived from the sum of the allocation rows, never set by a command.</span></li>
+    <li><span class="u">PAID</span><span class="d">Collected in full. Final.</span></li>
+    <li><span class="u">OVERDUE</span><span class="d">Past <code>due_date</code> and still owed. Set by a nightly job, and it can go back to <code>PARTIALLY_PAID</code> or <code>PAID</code> when money arrives.</span></li>
+    <li><span class="u">REPLACED</span><span class="d">Voided by a replacement invoice. Final. The debt has moved to the new record.</span></li>
+    <li><span class="u">CANCELED</span><span class="d">An abandoned draft. Final, and reachable from <code>DRAFT</code> alone.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:24px">
+    <p><b>There is no OPEN.</b> A junior developer looks at that list and reaches for a status meaning "issued but not yet being chased". There is no such moment. The receivable exists at the instant of issue — the accountant debits account 131 on <code>issue_date</code> itself. And "in term" against "overdue" is not a state either: it is <code>due_date</code> compared with today, computed fresh whenever anyone asks. Storing it would mean an invoice that quietly stays in term forever because no job ran.</p>
+    <p><b>There is no ISSUED → CANCELED.</b> This is the one that surprises people, and it is the most expensive to get wrong.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never build a delete for an issued invoice. There is nothing to build it out of.</p>
+    <p class="sub">Nghị định 70/2025/NĐ-CP removed cancellation of an e-invoice once it has been issued. A mistake is corrected by a <button class="t" data-t="dieuchinh">replacement or an adjustment invoice</button> — and both of those are <em>new rows</em> pointing back at the original through <code>original_invoice_id</code>, not a state the original moves into. If a screen offers Delete, either it is lying to the user or somebody is about to be fined.</p>
+  </div>
+
+  <h3>The paid amount is not a column you set</h3>
+  <div class="stack">
+    <p>A customer transfers one round sum against four invoices. Or pays one invoice in three instalments over two months. Both are ordinary, and both mean the link between money and invoice is many-to-many.</p>
+    <p>So every slice is its own row: this transaction, that invoice, this much. That is <button class="t" data-t="phanbothanhtoan">payment allocation</button>. When the person recording the money says how to split it, the split is theirs. When they say nothing, the system settles the oldest due date first and moves on down the list until the money runs out.</p>
+    <p>Which makes <code>paid_amount</code> on the invoice a derived number — the sum of its allocation rows and nothing else. <code>PARTIALLY_PAID</code> falls out of that sum too. A developer who sets the status directly in a payment handler has just created a second source of truth for the same fact, and the one that drifts will be the one nobody is checking.</p>
+    <p class="vi"><b>In the code</b><code>invoice_payments</code>, with <code>uk_invoice_payments_invoice_txn UNIQUE (invoice_id, transaction_id)</code> — the guard that stops a redelivered Kafka message crediting the same money twice, at the database rather than in an if-statement. Rows are only ever inserted and deleted, never updated, so the allocation history stays readable. <code>Invoice.recalculatePaidAmount()</code> re-reads the total each time instead of incrementing, because an increment that rolls back halfway leaves a wrong number forever. <code>allocation_method = MANUAL | FIFO</code>, and <code>allocated_by</code> is null for FIFO because no human pressed anything (TM-21).</p>
+    <p>One deliberate exception is worth knowing before you meet it in a bug report: money arriving on an invoice in <code>FINANCING</code> or <code>FINANCED</code> is recorded, but does not drag the status to <code>PARTIALLY_PAID</code>. Doing that would erase the fact that the invoice is inside a financing flow while an offer is still live on it.</p>
+  </div>
+
+  <h3>The invoice a financier will not touch</h3>
+  <div class="stack">
+    <p>An invoice offered up for financing is a document somebody is about to lend real money against. So the first question a financier asks is whether it exists at all — whether the tax authority has a record matching the seller's tax code, the buyer's tax code and the lookup code printed on it.</p>
+    <p>The system stores all four identifiers and a <code>verification_status</code> that has exactly two values: <code>UNVERIFIED</code>, and <code>VERIFIED_MANUAL</code> meaning a person went to the tax portal and checked by hand. There is no <code>VERIFIED_API</code>, because the portal has a captcha and publishes no interface to third parties. Declaring a value for a route that does not exist would be a promise made inside an enum.</p>
+    <p>Separately there is <code>eligible_for_financing</code>, a boolean set by an explicit command that runs four checks first: the invoice must be <code>ISSUED</code>, not past due, not partly collected, and must have under a year left to run. Every one of those comes from Điều 7 of Thông tư 20/2024/TT-NHNN, not from product design. And the flag alone is not a ticket — when an offer is actually created the status is checked again, because the flag was set at some earlier moment and the world moved on.</p>
+    <p class="vi"><b>Tiếng Việt</b>Máy trạng thái hoá đơn cố ý thiếu hai thứ: không có <code>OPEN</code> vì công nợ tồn tại ngay khi phát hành, và không có đường <code>ISSUED → CANCELED</code> vì NĐ 70/2025 đã bỏ việc huỷ hoá đơn điện tử đã lập — sai thì lập hoá đơn thay thế hoặc điều chỉnh, đều là bản ghi mới. Số đã thu luôn là tổng các dòng phân bổ, không phải một cột ai đó gán tay.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>One invoice, its whole life</h2>
+  <p class="prose" style="margin-bottom:14px">Goods worth 100 million, VAT at ten percent, so the document is presented at 110 million. Terms are net 45: issued on day 0, due on day 45. The clock only moves when you move it.</p>
+  <p class="prose" style="margin-bottom:26px">Try to do things in the wrong order. Cancel it after issuing it. Finance it after it has gone late. Pay a draft. Every refusal prints the reason and the error code the API would return — that refusal is the lesson, not the happy path.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="aIssue">Issue it</button>
+      <button class="ghost" id="aVerify">Verify at the tax portal</button>
+      <button class="ghost" id="aEligible">Mark eligible</button>
+      <button class="ghost" id="aFinance">Submit for financing</button>
+      <button class="ghost" id="aDisburse">Financier disburses</button>
+      <button class="ghost" id="aReplace">Replace it</button>
+      <button class="ghost" id="aCancel">Cancel it</button>
+      <button class="ghost" id="aDay">Move the clock 30 days</button>
+      <button class="ghost" id="aReset">Start over</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Receive a payment<small>One incoming transaction, allocated against this invoice</small></span><span class="kv" id="vPay">40.0m</span><input type="range" id="pay" min="10" max="130" step="10" value="40"></div>
+      <button class="btn" id="aPay">Allocate this payment</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">status</span><span class="v st" id="stStatus">—</span></div>
+      <div class="stat"><span class="k">paid_amount of total</span><span class="v st" id="stPaid">—</span></div>
+      <div class="stat"><span class="k">Days to due_date</span><span class="v" id="stDue">—</span></div>
+      <div class="stat"><span class="k">eligible_for_financing</span><span class="v st" id="stElig">—</span></div>
+    </div>
+    <div class="flag" id="flag"></div>
+    <ul class="evs" id="log"></ul>
+    <p class="sim-note">Day numbers rather than calendar dates, so the same clicks always give the same answer. The refusals are the real ones: every legal citation printed here is a check that exists in <code>InvoiceService</code>, <code>InvoicePaymentService</code> or the nightly job. The state machine lives in <code>finance/sim-02.js</code> and has its own check: <code>node tools/test-02.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Is this field a fact about the document, or a fact about our workflow?"</div><div class="use">The seller's tax code is the document. A flag saying somebody has reviewed it is our workflow. The first cannot be edited after issue and the second can — mixing them in one enum is how a status list grows a value that has to be removed in a migration later.</div></div></li>
+    <li><div><div class="say">"When the user says cancel, do they mean abandon a draft or correct something already issued?"</div><div class="use">One word, two features with nothing in common. The first is a status change; the second is creating a new invoice that points back at the old one. Ask before estimating, because the gap between them is a sprint.</div></div></li>
+    <li><div><div class="say">"Which of these three amounts does this screen need — net, tax, or total?"</div><div class="use">Revenue reporting needs net. A cash forecast needs total. A tax declaration needs the tax. Nobody ever says which, everybody assumes it is obvious, and the VAT rate is the size of the error.</div></div></li>
+    <li><div><div class="say">"Is this status stored, or derived? And if it is stored, what happens when the job does not run?"</div><div class="use">In term against overdue is derived from due_date. Partly paid is derived from the allocation rows. Storing a derived value gives you a second source of truth and a silent failure mode — the number stays plausible while it goes stale.</div></div></li>
+    <li><div><div class="say">"Is there a legal basis for this rule, or is it the company's own convention?"</div><div class="use">Cancellation removed by decree, factoring forbidden on an overdue receivable, a remaining term under one year. Rules that come from law must not be tidied up for the sake of cleaner code, and they must be cited in the comment so the next person does not delete them.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Không cần thành kế toán. Chỉ cần nhận ra lúc nào một trường là sự thật pháp lý của chứng từ và lúc nào nó là quy trình nội bộ của mình — vì hai loại đó sửa được theo hai cách hoàn toàn khác nhau.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 02 of 15 · Next: why you can never delete a financial record, and the three legal ways to be wrong.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../terms/02.js"></script>
+<script src="../sim-02.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l2")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l2",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- the invoice ---------- */
+var INV=window.INV, st=INV.start(), logBox=document.getElementById("log"), payIn=document.getElementById("pay");
+
+function line(res){
+  var li=document.createElement("li"); li.className="ev"+(res.ok?"":" no");
+  li.innerHTML='<span class="d"></span><span class="n"></span><span class="a"></span>';
+  li.querySelector(".d").textContent="Day "+st.day;
+  var n=li.querySelector(".n");
+  n.textContent=res.msg;
+  if(res.note){ var em=document.createElement("em"); em.className="nt"; em.textContent=res.note; n.appendChild(em); }
+  var a=li.querySelector(".a");
+  a.className="a"+(res.ok?"":" code");
+  a.textContent=res.ok?"200":res.code;
+  logBox.insertBefore(li, logBox.firstChild);
+}
+
+function render(){
+  var due=INV.daysToDue(st);
+  var s=document.getElementById("stStatus"); s.textContent=st.status;
+  s.className="v st"+(st.status==="OVERDUE"?" hot":st.status==="PAID"?" cool":"");
+  document.getElementById("stPaid").textContent=INV.fmt(st.paid)+" / "+INV.fmt(st.total);
+  var d=document.getElementById("stDue");
+  d.textContent=(due<0?"−"+(-due):due)+" days"; d.className="v"+(due<0?" hot":"");
+  var e=document.getElementById("stElig");
+  e.textContent=st.eligible?(st.verified?"true · verified":"true · unverified"):"false";
+  e.className="v st"+(st.eligible&&st.verified?" cool":st.eligible?" hot":"");
+
+  var flag=document.getElementById("flag");
+  if(st.status==="DRAFT"){
+    flag.innerHTML='<div>No debt exists yet. A draft is a form somebody filled in — the tax authority has never heard of it, and nothing here can be collected, financed or gone late on.</div>';
+  } else if(st.status==="PAID"){
+    flag.innerHTML='<div class="match">SETTLED — paid_amount reached total_amount, so the status followed. Final, and the only ending anyone wanted.</div>';
+  } else if(st.status==="REPLACED"||st.status==="CANCELED"){
+    flag.innerHTML='<div>'+st.status+' — final. Nothing is owed on this row any more'+(st.replacedBy?', and '+st.replacedBy+' carries the debt now':'')+'.</div>';
+  } else if(due<0){
+    flag.innerHTML='<div class="stale">OVERDUE BY '+(-due)+' DAYS — '+INV.fmt(INV.outstanding(st))+
+      ' still outstanding. Nobody reported this: it is due_date compared with today. And an overdue receivable can no longer be factored (Điều 7 TT 20/2024/TT-NHNN).</div>';
+  } else {
+    flag.innerHTML='<div class="match">IN TERM — '+due+' days to go, '+INV.fmt(INV.outstanding(st))+
+      ' outstanding. In term is not a status: it is a comparison, made fresh every time anyone asks.</div>';
+  }
+}
+
+function act(name, arg){
+  return function(){
+    var res=INV.apply(st, name, arg===undefined?undefined:arg());
+    st=res.state; line(res); render(); mark("sim");
+  };
+}
+document.getElementById("aIssue").addEventListener("click", act("issue"));
+document.getElementById("aVerify").addEventListener("click", act("verify"));
+document.getElementById("aEligible").addEventListener("click", act("eligible"));
+document.getElementById("aFinance").addEventListener("click", act("finance"));
+document.getElementById("aDisburse").addEventListener("click", act("disburse"));
+document.getElementById("aReplace").addEventListener("click", act("replace"));
+document.getElementById("aCancel").addEventListener("click", act("cancel"));
+document.getElementById("aDay").addEventListener("click", act("advance", function(){ return 30; }));
+document.getElementById("aPay").addEventListener("click", act("pay", function(){ return +payIn.value*1e6; }));
+payIn.addEventListener("input", function(){ document.getElementById("vPay").textContent=INV.fmt(+payIn.value*1e6); });
+document.getElementById("aReset").addEventListener("click", function(){
+  st=INV.start(); logBox.innerHTML=""; payIn.value=40;
+  document.getElementById("vPay").textContent=INV.fmt(40e6);
+  render();
+});
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"Your BA asks for an OPEN status on invoices, meaning \"issued but not yet chased\". Why does the state machine refuse to have one?",
+  o:["Because the enum is already too long",
+     "Because the receivable exists the instant the invoice is issued, and in-term versus overdue is derived from due_date rather than stored",
+     "Because OPEN is a reserved word in Postgres",
+     "Because the frontend would have to add a filter"],
+  a:1,
+  why:"The accountant debits account 131 on issue_date itself — there is no interval where an issued invoice is not yet a debt. And late-or-not is due_date compared with today, computed on demand. Store it and you get an invoice that stays in term forever because a job did not run one night."},
+ {q:"A user issued an invoice with the wrong buyer on it. They want a Delete button. What does the system actually do?",
+  o:["Sets status = CANCELED and hides the row",
+     "Soft-deletes it and keeps it for audit",
+     "Creates a new invoice pointing back at the original through original_invoice_id, and moves the original to REPLACED",
+     "Lets an admin edit the buyer in place"],
+  a:2,
+  why:"Nghị định 70/2025/NĐ-CP removed cancellation of an issued e-invoice. The correction is a replacement or an adjustment, and both are new records — CANCELED exists only for abandoning a draft that never had legal standing. A Delete button here is a compliance problem wearing a UI."},
+ {q:"An invoice reads: net 100 million, tax 10 million, total 110 million. The customer transfers 110 million. What did the company earn?",
+  o:["110 million — that is what arrived",
+     "100 million. The other 10 million is VAT the company collected on the state's behalf and will hand over",
+     "100 million, and the 10 million is a fee to the bank",
+     "It depends on the payment terms"],
+  a:1,
+  why:"VAT passes through the bank account and was never the company's money. A report that sums total_amount and calls it revenue overstates the business by exactly the VAT rate — while a cash forecast is right to use 110, because 110 really does arrive and a VAT payment really does go out later."},
+ {q:"One customer transfer of 300 million arrives against four unpaid invoices, and the person recording it does not say how to split it. What does the system do?",
+  o:["Rejects it and asks the user to allocate manually",
+     "Splits it evenly across the four",
+     "Settles the oldest due date first, invoice by invoice, until the money runs out — writing one allocation row per slice",
+     "Puts it on the largest invoice"],
+  a:2,
+  why:"FIFO by oldest due date is the Vietnamese debt-reconciliation convention, and TM-21 makes it the default when nobody specifies. Each slice becomes a row in invoice_payments, and each invoice's paid_amount is recomputed as the sum of its rows. Money left over after the last invoice is not an error — it is simply logged."},
+ {q:"You are writing the handler that records a payment. Why must you not set status = PARTIALLY_PAID yourself?",
+  o:["Because the status column is read-only in JPA",
+     "Because PARTIALLY_PAID is derived from the sum of the allocation rows, and setting it by hand creates a second source of truth for the same fact",
+     "Because only a nightly job may change status",
+     "Because the user has to confirm it first"],
+  a:1,
+  why:"paid_amount is recomputed from invoice_payments after every write, and the payment statuses fall out of that number. Two places writing the same fact means one of them will drift, and it will be the one nobody is checking. It also matters that FINANCING and FINANCED are deliberately left alone — money arriving must not erase the fact that an offer is live on the invoice."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — backlog refinement",
+  line:'"Add a delete button on the invoice list. Users keep asking for it."',
+  o:[{t:"Sure — soft delete, so nothing is really lost.", v:"weak",
+      f:"A hidden row still exists at the tax authority, and the customer still holds their copy. You have built a button that makes a legal document disappear from one screen and nowhere else — which is worse than no button, because now people trust it."},
+     {t:"We can't, it's against the law.", v:"weak",
+      f:"True, and it ends the conversation without solving the user's problem. They still have a wrong invoice in front of them and now they think the system is obstinate. Being right is not the same as being useful."},
+     {t:"Which case are they hitting — a draft they mistyped, or an issued invoice with a wrong figure? The first is a delete and we already have it. The second can't be deleted at all since Nghị định 70/2025; it needs a replacement invoice that points back at the original. That's a bigger feature and users will ask for it next, so it's worth scoping now.", v:"strong",
+      f:"You split one word into the two features it actually covers, gave the legal reason in one clause instead of a lecture, and pointed at the work that really needs doing. That is the difference between blocking a request and redirecting it."}]},
+ {role:"The customer's chief accountant — during the demo",
+  line:'"Your revenue figure is wrong. Our books say 100 million for that order and your screen says 110."',
+  o:[{t:"I'll check the calculation, there may be a bug.", v:"weak",
+      f:"There is no bug, and you have just promised to investigate one. Worse, you have signalled that you do not know which of the three amounts your own screen is showing — in a room full of accountants that is expensive."},
+     {t:"That screen shows total_amount, which includes the ten percent VAT. Your revenue figure is net_amount, and it should be 100 — the extra 10 is tax you are collecting for the state, not something you earned. Should this screen be showing net instead?", v:"strong",
+      f:"You named the column, explained the difference in the accountant's own terms, agreed with their number, and turned it into a product question. Nobody was wrong, and you left with a requirement."},
+     {t:"That's the total including tax.", v:"weak",
+      f:"Correct and too short. The accountant still does not know whether the screen is wrong for their purpose, so they will raise it again in writing after the demo. A one-line answer to a trust question does not settle it."}]},
+ {role:"A teammate — during code review",
+  line:'"In the payment handler I just set invoice.status = PARTIALLY_PAID when the amount is less than the total. One line, done."',
+  o:[{t:"Looks fine to me, ship it.", v:"weak",
+      f:"Now two places decide the same fact: the sum of invoice_payments, and this line. They agree today. The day a payment is deleted, or an allocation is redone, or the handler runs on an invoice that is FINANCED, they stop agreeing — and the disagreement will not throw anything."},
+     {t:"That's not how we do it, use the entity method.", v:"weak",
+      f:"A house-style objection, so it gets house-style compliance: they will change the call and not learn the reason. The next person writes the same line somewhere else."},
+     {t:"paid_amount is always the sum of the allocation rows, so the status has to be recomputed from it rather than set — that's what recalculatePaidAmount is for. It also skips FINANCING and FINANCED on purpose, because money arriving must not erase the fact that an offer is live on the invoice. Setting it directly would quietly kill that.", v:"strong",
+      f:"You gave the invariant, then the one non-obvious consequence of breaking it. Reviews that name what would go wrong get fixed properly; reviews that name a convention get argued about."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

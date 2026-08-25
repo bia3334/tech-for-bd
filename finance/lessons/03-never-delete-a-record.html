@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Never Delete a Record</title>
+<meta name="description" content="Lesson 03 — a financial row is not application state, it is evidence. Reversal, adjustment and replacement: the legal ways to be wrong, and the two illegal ones. For developers building financial systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="03">
+<meta name="tfbd:tags" content="audit trail, chứng từ, Luật Kế toán 2015, Thông tư 99/2025, reversal, adjustment, soft delete, period close">
+<meta name="tfbd:level" content="Foundation">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- lesson 03: four ways to fix one wrong row ---- */
+.case{font-family:var(--ff-mono); font-size:12.5px; color:var(--muted); line-height:1.7}
+.case b{color:var(--no); font-weight:500}
+.fixes{display:grid; grid-template-columns:1fr; gap:8px; padding:16px 18px; border-bottom:1px solid var(--line)}
+@media(min-width:560px){.fixes{grid-template-columns:repeat(2,1fr)}}
+.fix{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 14px; font-size:14.5px; line-height:1.4}
+.fix:hover:not(.on){border-color:var(--muted)}
+.fix.on{border-color:var(--fast); background:var(--fast-soft)}
+.fix .fn{display:block}
+.fix .fs{display:block; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); margin-top:5px; line-height:1.5}
+.fix.on .fs{color:var(--fast)}
+.panes{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:640px){.panes{grid-template-columns:1fr 1fr}}
+.pane{background:var(--surface); padding:16px 18px}
+.pane .ph{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:14px}
+.rows{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px}
+.rw{border-left:2px solid var(--line); padding:1px 0 1px 12px}
+.rw .c{display:block; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.02em}
+.rw .m{display:block; font-family:var(--ff-mono); font-size:15px; font-variant-numeric:tabular-nums; color:var(--ink); margin-top:3px}
+.rw .n{display:block; font-size:14px; color:var(--muted); line-height:1.55; margin-top:4px}
+.rw.new{border-left-color:var(--ok)} .rw.new .m{color:var(--ok)}
+.rw.bad{border-left-color:var(--no)} .rw.bad .m{color:var(--no)}
+.net{margin-top:16px; padding-top:13px; border-top:1px solid var(--line); font-size:14px; color:var(--muted)}
+.net b{display:block; font-family:var(--ff-mono); font-size:15px; font-variant-numeric:tabular-nums; color:var(--ink); font-weight:500; margin-top:3px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 03</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Supply chain finance · Lesson 03</div>
+  <h1>Why you can never delete a financial record</h1>
+  <p class="lede">A row in this system is not the current state of something. It is a claim about something that happened in the world, and one day a person who does not work here may need to check it. That single difference is where DELETE stops being cleanup and starts being an offence with a name in the Accounting Law.</p>
+  <div class="facts"><span>16 min</span><span>No accounting assumed</span><span>Ends with a rule you can quote in review</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>A row of paper stands behind every row of data</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>A payment of forty-two million đồng goes out of a company's bank account on a Monday. By the time it reaches this system it has left a trail of physical things behind it: a supplier's <button class="t" data-t="hoadon">invoice</button>, a payment order the bank stamped, a slip somebody signed. In Vietnamese each of those is a <button class="t" data-t="chungtu">chứng từ</button>, and the word carries more weight than "attachment" suggests.</p>
+    <p>The row in the database does not create the payment. The payment already happened. The row is the company's assertion that it happened, in that amount, on that day, to that partner — and the chứng từ is what makes the assertion something other than a claim. An entry with no chứng từ behind it is a number somebody typed. An accountant will not book it, and a tax inspector can strike the cost out of the return.</p>
+    <p>This is the part that reads strangely to anyone who has spent a career on ordinary CRUD. In most software a row is state: it should reflect the current truth, and when it stops doing so you fix it. Here a row is testimony. It has to stay readable long after the thing it describes is over, because the reader is not the user.</p>
+    <p>The reader is somebody outside the company. A tax inspector reconstructing a year. An independent auditor sampling transactions. An arbitrator in a payment dispute deciding which of two companies is telling the truth about a delivery in March. None of them will log into your application. They will ask for the books and for the documents, and they will check that the two agree.</p>
+    <p class="vi"><b>In the code</b>A <code>Document</code> in document-service with a <code>DocType</code> of <code>INVOICE</code>, <code>RECEIPT</code>, <code>CONTRACT</code> or <code>PAYMENT_SLIP</code>, linked to an entry through <code>transaction_documents</code> (TM-04). The link is not decorative: <code>requireExecutionEvidence</code> refuses to let a cashier mark a payment <code>EXECUTED</code> without either a bank reference or an attached document of a configured evidence type.</p>
+    <p class="vi"><b>Tiếng Việt</b>Mỗi dòng dữ liệu tài chính đều có một chứng từ đứng sau: hoá đơn, uỷ nhiệm chi, phiếu chi có chữ ký. Bản ghi không tạo ra nghiệp vụ, nó chỉ khẳng định nghiệp vụ đã xảy ra — và chứng từ là thứ biến lời khẳng định đó thành bằng chứng. Người đọc cuối cùng không phải người dùng, mà là thanh tra thuế, kiểm toán viên hoặc trọng tài trong một vụ tranh chấp.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>A mistake is answered, never removed</h2>
+
+  <div class="stack">
+    <p>So what happens when the number really is wrong? Every accounting system in the world, on paper or in a database, gives the same answer: you write another entry.</p>
+    <p>There are three shapes it can take. A <em>reversal</em> cancels the original entry in full so a correct one can be posted beside it. An <em>adjustment</em> moves only the part that was wrong — the six million, not the forty-eight. A <em>replacement document</em> is the same idea one level up, where a whole invoice is superseded by a new one that points back at it. All three are the same move: the wrong record stays, and a second record answers it.</p>
+  </div>
+
+  <div class="pull"><q>The wrong record and its correction both stay. The pair tells a truth that neither of them tells alone.</q></div>
+
+  <div class="stack">
+    <p>That sounds wasteful until you notice what the pair contains that a corrected row does not. It contains the fact that somebody got it wrong, the date they noticed, the person who fixed it, and the reason. Those four things are the entire content of an audit. A single row with the right number in it has none of them.</p>
+    <p>It also explains a design decision you will meet in this codebase and might otherwise read as timidity. <code>EXECUTED</code> — money has genuinely moved — is a terminal state with no way out. Not "editable by an administrator", not "editable with a reason". No outgoing transition at all. The only thing you can do next is create a new entry.</p>
+    <p>And there is a door that closes behind all of this. At the end of a month or a year the books are <button class="t" data-t="khoaso">closed</button>: the figures went to an owner, a bank, the tax authority, and they must not move underneath a report that has already been signed. Errors found afterwards are still corrected — the correction simply carries the date of the period that is still open, not the one that is shut. Same act, different door.</p>
+    <p class="vi"><b>In the code</b><code>TransactionType.ADJUSTMENT</code>, whose javadoc calls it the only way to change an <code>EXECUTED</code> transaction, and <code>TransactionStateMachine</code>, which gives <code>EXECUTED</code> and <code>CANCELED</code> empty transition sets. On the invoice side the same pair is <code>AdjustmentKind</code>: <code>ADJUSTMENT</code> leaves the original alone and the effective amount becomes <code>total_amount</code> plus the sum of adjustments, while <code>REPLACEMENT</code> moves the original to <code>InvoiceStatus.REPLACED</code> — because Nghị định 70/2025/NĐ-CP removed cancellation of an issued e-invoice altogether.</p>
+    <p class="vi"><b>Tiếng Việt</b>Sai thì không xoá, mà ghi thêm: <button class="t" data-t="butoandao">bút toán đảo</button> huỷ toàn bộ bút toán cũ, bút toán điều chỉnh chỉ sửa phần chênh, hoá đơn thay thế thì vô hiệu hoá hoá đơn gốc. Bản ghi sai và bản ghi sửa đều ở lại — cặp đó nói lên sự thật mà không dòng nào nói được một mình.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>An UPDATE destroys evidence even when the new number is right</h2>
+
+  <div class="stack">
+    <p>Điều 13 of Luật Kế toán 2015 does not describe good practice. It lists prohibited acts, and it names them in language that maps uncomfortably well onto ordinary database operations: falsifying or erasing a chứng từ, keeping assets off the books, knowingly supplying false figures, and destroying accounting records before the end of the <button class="t" data-t="luutru">retention period</button> set by Điều 41 — which for anything used to write the books and produce the annual statements is at least ten years.</p>
+    <p>Read that list again with a developer's eye. <code>UPDATE transactions SET amount = …</code> on a posted row is the erasure. <code>DELETE</code> is the destruction. Neither of them stops being what it is because the new value is the correct one — and this is the part that catches people. You can end up with a perfectly accurate set of books and still have committed the prohibited act, because what the law protects is not the figure. It is the ability to reconstruct how the figure got there.</p>
+    <p>Which is why a soft-delete flag, on its own, does not rescue the situation. A <code>deleted</code> boolean answers exactly one question: should this row still be displayed. It says nothing about what the row said before, who removed it, at what moment, or why — and those four are the whole of what anybody will ask. Soft delete is a display decision wearing the costume of an accounting one.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Correcting a number and destroying the record of the old one are two different acts. Only the first is legal.</p>
+    <p class="sub">Never <code>UPDATE</code> an amount, a date or a partner on a record that has been posted, and never <code>DELETE</code> a record that has left <code>DRAFT</code>. Post a reversal, an adjustment or a replacement instead, and let both rows stand. If the application refuses you and you are reaching for a SQL client to get round it, stop: the refusal is the feature.</p>
+  </div>
+
+  <div class="stack">
+    <p>All of which turns the audit trail from plumbing into a product feature with a specification. It has to answer four questions and it is only as good as its weakest one: <em>who</em> touched the record, <em>when</em>, <em>what changed from what to what</em>, and <em>why</em>.</p>
+    <p>Developers build the first three almost by reflex and treat the fourth as a nullable free-text field somebody will probably leave blank. Auditors read them in the opposite order. A correction with no explanation attached looks precisely like a correction somebody preferred not to explain, and the person reading it has no way to tell the difference. If you take one implementation decision from this lesson, make the reason mandatory on anything that adjusts a posted figure.</p>
+    <p>There is now a second reason to care, and it is new. Thông tư 99/2025/TT-BTC, in force from 1 January 2026, requires in Điều 3 that a company write its own internal rules setting out who may create a transaction and who may control it. The obligation is on the company, not on the software — but rules nobody can show were followed are worth nothing at an inspection. The <button class="t" data-t="vetkiemtoan">audit trail</button> is what converts a sentence in a company handbook into something an inspector can verify, one record at a time.</p>
+    <p class="vi"><b>In the code</b>Two trails, deliberately. <code>transaction_histories</code> (TM-06) holds <code>changed_fields</code> as <code>{field:{old,new}}</code>, a <code>note</code>, and a snapshot of <code>actor_name</code> rather than a foreign key — a user can be renamed or disabled and the history must still read as it did. <code>audit_logs</code> in identity-service is append-only: no setters, no <code>updated_at</code>, no <code>version</code>, and no endpoint that can write one. The only path in is <code>BusinessAuditConsumer</code>, listening to fifteen business topics (SEC-04).</p>
+    <p class="vi"><b>Tiếng Việt</b>Điều 13 Luật Kế toán 2015 cấm thẳng: tẩy xoá chứng từ, để ngoài sổ tài sản, cung cấp số liệu sai, huỷ tài liệu kế toán trước thời hạn lưu trữ. Sửa đúng số mà xoá mất dấu vết vẫn là hành vi bị cấm, vì thứ luật bảo vệ là khả năng truy ngược chứ không phải con số. Thông tư 99/2025 Điều 3 còn buộc doanh nghiệp tự ban hành quy chế phân định người lập và người kiểm soát giao dịch — nhật ký hệ thống chính là bằng chứng quy chế đó được tuân thủ.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Four ways to fix one wrong row</h2>
+  <p class="prose" style="margin-bottom:14px">On 30 March a payment to Minh Anh Logistics was keyed as 48,000,000 ₫ and went through the whole chain: submitted, approved by the chief accountant, marked as paid by the cashier. The supplier's invoice says 42,000,000 ₫. So does the uỷ nhiệm chi attached to the entry, and so does the bank statement line. Somebody typed an 8 where a 2 belongs, six million đồng ago.</p>
+  <p class="prose" style="margin-bottom:26px">Pick each of the four fixes in turn. The left pane is what the books say afterwards; the right pane is what an auditor finds in the trail. Two of the four reach the correct total and are still prohibited — watch which pane changes when that happens. Then switch March to closed and pick again.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <span class="case">TRX-2026-000412 · PAYMENT · 30/03/2026 · EXECUTED<br>recorded <b>48,000,000 ₫</b> · chứng từ UNC-88213 says 42,000,000 ₫ · difference 6,000,000 ₫</span>
+    </div>
+    <div class="fixes" id="fixes"></div>
+    <div class="knobs">
+      <label class="sw"><input type="checkbox" id="closed"> March is already closed — the figures went to the owner in a report on 05/04</label>
+    </div>
+    <div class="panes">
+      <div class="pane"><div class="ph">What the books now say</div><ul class="rows" id="books"></ul><div class="net" id="net"></div></div>
+      <div class="pane"><div class="ph">What an auditor sees in the trail</div><ul class="rows" id="trail"></ul></div>
+    </div>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Every figure here is fixed — nothing is generated, so two readers see the same thing. The two prohibited options are the two that make the right pane shorter. That is the whole test: a fix that removes rows from the trail is not a fix.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in a code review.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Is this row state, or is it evidence?"</div><div class="use">The question that decides whether an UPDATE is allowed at all. State is kept correct; evidence is kept whole. Nearly every table in this project that touches money is the second kind, and the few that are not are worth naming out loud so nobody has to guess.</div></div></li>
+    <li><div><div class="say">"If we have to correct this later, what does the trail look like afterwards?"</div><div class="use">Asked during design it costs a minute. Asked after go-live it is an incident with a lawyer in the room. It is also the question that turns "add an adjustment entry" from extra work into the obviously cheaper of the two options.</div></div></li>
+    <li><div><div class="say">"Who is going to read this record, and will they believe it?"</div><div class="use">The audience for a financial record is not the user. It is a tax inspector, an auditor, or an arbitrator in a payment dispute — none of whom will run your application, and all of whom will ask for the documents and check that the books agree with them.</div></div></li>
+    <li><div><div class="say">"Is the reason field required here, or optional?"</div><div class="use">Developers see a nullable varchar; auditors read it first. Optional means empty in practice, and a correction nobody explained is indistinguishable from a correction somebody is hiding. Make it mandatory on anything that adjusts a posted figure.</div></div></li>
+    <li><div><div class="say">"Is that accounting period closed?"</div><div class="use">The same correction is routine in an open period and a misstatement in a closed one. Before you write anything that back-dates a record, find out whether a report has already gone out with the old figure in it.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Không cần biết kế toán để tránh được lỗi này. Chỉ cần dừng lại trước mỗi lệnh UPDATE hoặc DELETE trên dữ liệu đã hạch toán và hỏi: sau thao tác này, còn ai chứng minh được chuyện gì đã xảy ra không?</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 03 · Chapter 1, The two ledgers · Next: what a receivable is once you admit it is a loan.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l3")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l3",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- four ways to fix one wrong row ---------- */
+var FIX=[
+ {nm:"Edit the amount on the row", fs:"UPDATE transactions SET amount = 42000000", ok:false,
+  books:[
+   {c:"TRX-2026-000412 · PAYMENT · 30/03", m:"42,000,000 ₫", n:"Still EXECUTED. The figure on the screen is now the right one.", cl:"new"}],
+  net:"42,000,000 ₫ — the correct total",
+  trail:[
+   {c:"transactions", m:"one row, one amount", n:"48,000,000 ₫ is not stored anywhere else. There is no second value left to compare against."},
+   {c:"transaction_histories", m:"4 lines, none about this", n:"CREATED · SUBMITTED · APPROVED · EXECUTED. Raw SQL never reaches the service that writes history — and the API would have refused anyway, because EXECUTED is not editable.", cl:"bad"},
+   {c:"what was approved", m:"nobody can say", n:"The APPROVED line records who and when, not how much. The amount lived in the row you just overwrote, so there is no way to show what the chief accountant actually signed.", cl:"bad"},
+   {c:"chứng từ UNC-88213", m:"42,000,000 ₫", n:"It agrees with the books again. Nothing anywhere records the four days when it did not."}],
+  law:"PROHIBITED — Điều 13 Luật Kế toán 2015",
+  say:"Notice how strange this is: the total is now correct, and the act is still prohibited. Điều 13 forbids erasing or altering a chứng từ, not merely reporting a wrong figure. What the law protects is the ability to reconstruct how a number got there — and a right number with no trail behind it is indistinguishable, to an inspector, from a number somebody moved on purpose."},
+
+ {nm:"Delete it and key it in again", fs:"DELETE FROM transactions WHERE code = 'TRX-2026-000412'", ok:false,
+  books:[
+   {c:"TRX-2026-000487 · PAYMENT · 02/04", m:"42,000,000 ₫", n:"A fresh row with the correct amount — and today's date.", cl:"new"}],
+  net:"42,000,000 ₫ — the correct total, in the wrong month",
+  trail:[
+   {c:"transactions", m:"…000411, then …000413", n:"412 is simply absent. A gap in a numbered sequence is the first thing a trained eye lands on.", cl:"bad"},
+   {c:"ON DELETE CASCADE", m:"4 history lines, 1 tax line, 1 document link", n:"All removed with the parent row. The uỷ nhiệm chi is still sitting on MinIO and now belongs to nothing.", cl:"bad"},
+   {c:"audit_logs", m:"4 rows still standing", n:"They live in another service's database, so nothing cascaded to them. They describe entity_code TRX-2026-000412, a record that no longer exists — which is exactly why entity_code is a snapshot rather than a foreign key.", cl:"bad"},
+   {c:"March", m:"short by 42,000,000 ₫", n:"Money that genuinely left the account on 30 March now claims to have left it in April."}],
+  law:"PROHIBITED — Điều 13 with Điều 41 Luật Kế toán 2015",
+  say:"This is the harder one to argue away. Destroying an accounting record before its retention period has run — ten years for anything used to write the books — is named in Điều 13 as its own prohibited act, and it takes the cascade with it. You have not corrected a mistake here. You have moved a payment between two accounting periods and removed the evidence that you did."},
+
+ {nm:"Reverse the whole entry, post it again", fs:"ADJUSTMENT −48,000,000 ₫, then PAYMENT 42,000,000 ₫", ok:true,
+  books:[
+   {c:"TRX-2026-000412 · PAYMENT · 30/03", m:"48,000,000 ₫", n:"EXECUTED, untouched. Still wrong, and still there. That is the point."},
+   {c:"TRX-2026-000488 · ADJUSTMENT · 02/04", m:"− 48,000,000 ₫", n:"Reverses 412 in full. note: \"Sai số tiền khi nhập liệu, đảo toàn bộ bút toán TRX-2026-000412.\"", cl:"new"},
+   {c:"TRX-2026-000489 · PAYMENT · 02/04", m:"42,000,000 ₫", n:"Posted again, this time against UNC-88213.", cl:"new"}],
+  net:"42,000,000 ₫ — reached by three rows instead of one",
+  trail:[
+   {c:"transactions", m:"three rows, no gaps", n:"412, 488, 489. Read in order they say: this was posted, this was wrong, this is right."},
+   {c:"transaction_histories", m:"4 + 4 + 4 lines", n:"Every one of the twelve carries actor_user_id, a snapshot of actor_name, and created_at. Who, and when, for all three entries."},
+   {c:"the note field", m:"\"Sai số tiền khi nhập liệu\"", n:"The why. One nullable varchar, and the first thing an auditor reads."},
+   {c:"audit_logs", m:"three more rows", n:"Written by identity-service from the events the three entries emitted. Nobody typed them and nobody can edit them."}],
+  law:"LEGAL — and what the state machine was built for",
+  say:"TransactionStateMachine gives EXECUTED no outgoing transition at all, and TransactionType.ADJUSTMENT exists for precisely this move. Reverse the whole entry when more than the amount was wrong — wrong supplier, wrong account, wrong direction — because a single difference cannot express two separate mistakes."},
+
+ {nm:"Post one adjustment for the difference", fs:"ADJUSTMENT −6,000,000 ₫ against 412", ok:true,
+  books:[
+   {c:"TRX-2026-000412 · PAYMENT · 30/03", m:"48,000,000 ₫", n:"EXECUTED, untouched."},
+   {c:"TRX-2026-000488 · ADJUSTMENT · 02/04", m:"− 6,000,000 ₫", n:"Corrects only the part that was wrong. note: \"Chênh 6.000.000 ₫ so với UNC-88213, sửa số tiền nhập sai.\"", cl:"new"}],
+  net:"42,000,000 ₫ — reached by two rows",
+  trail:[
+   {c:"transactions", m:"two rows", n:"The original and its correction. Shorter to read than a full reversal, and it says the same thing."},
+   {c:"the effective amount", m:"48,000,000 − 6,000,000", n:"No column holds 42,000,000 anywhere. Every screen, report and exposure calculation has to sum the original and its adjustments — the same shape as AdjustmentKind.ADJUSTMENT on an invoice, where the effective figure is total_amount plus the sum of adjustments."},
+   {c:"the note field", m:"\"Chênh 6.000.000 ₫ so với UNC-88213\"", n:"Names the chứng từ the correction was checked against, which is what makes it verifiable rather than merely explained."},
+   {c:"audit_logs", m:"one more row", n:"CREATE on entity_type TRANSACTION, written from the event the adjustment emitted."}],
+  law:"LEGAL — and usually what an accountant reaches for",
+  say:"Only the number was wrong, so only the number is corrected. The cost lands on your side rather than theirs: nothing stores the true figure as a single value, so every place that shows this payment must add the adjustments. Get that sum wrong in one screen and the books quietly disagree with themselves."}
+];
+
+var CLOSED_BAD={c:"the March report", m:"issued 05/04 with 48,000,000 ₫", n:"A report went out carrying the old figure. Changing the row underneath it afterwards is the difference between an error and a misstatement.", cl:"bad"};
+var CLOSED_OK={c:"the date on the correction", m:"02/04, not 30/03", n:"March is closed, so the correction cannot be back-dated into it. March keeps the figure it was reported with, April carries the correction, and the two periods read together tell the truth.", cl:"new"};
+
+var fixBox=document.getElementById("fixes"), booksEl=document.getElementById("books"),
+    trailEl=document.getElementById("trail"), netEl=document.getElementById("net"),
+    flagEl=document.getElementById("flag"), closedEl=document.getElementById("closed");
+var picked=0, buttons=[];
+
+function rows(host, list){
+  host.innerHTML="";
+  list.forEach(function(r){
+    var li=document.createElement("li"); li.className="rw"+(r.cl?" "+r.cl:"");
+    var c=document.createElement("span"); c.className="c"; c.textContent=r.c;
+    var m=document.createElement("span"); m.className="m"; m.textContent=r.m;
+    var n=document.createElement("span"); n.className="n"; n.textContent=r.n;
+    li.appendChild(c); li.appendChild(m); li.appendChild(n);
+    host.appendChild(li);
+  });
+}
+
+function render(){
+  var f=FIX[picked], shut=closedEl.checked;
+  buttons.forEach(function(b,i){ b.classList.toggle("on", i===picked); });
+
+  rows(booksEl, f.books);
+  netEl.innerHTML="<span></span><b></b>";
+  netEl.querySelector("span").textContent="Net effect on the books";
+  netEl.querySelector("b").textContent=f.net;
+
+  rows(trailEl, f.trail.concat(shut ? [f.ok ? CLOSED_OK : CLOSED_BAD] : []));
+
+  var extra = !shut ? "" : f.ok
+    ? " And because March is closed, the correction takes an April date — back-dating into a shut period is how a system that means well produces a report that changes after it was signed."
+    : " With March already reported, this stops being an internal slip and becomes a figure the owner was given that the books no longer support.";
+  flagEl.innerHTML='<div class="'+(f.ok?"match":"stale")+'"></div>';
+  flagEl.firstChild.textContent=f.law+" — "+f.say+extra;
+}
+
+FIX.forEach(function(f,i){
+  var b=document.createElement("button"); b.type="button"; b.className="fix";
+  b.innerHTML='<span class="fn"></span><span class="fs"></span>';
+  b.querySelector(".fn").textContent=f.nm;
+  b.querySelector(".fs").textContent=f.fs;
+  b.addEventListener("click", function(){ picked=i; render(); mark("sim"); });
+  fixBox.appendChild(b); buttons.push(b);
+});
+closedEl.addEventListener("change", render);
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A payment was posted at 48,000,000 ₫ when the invoice, the uỷ nhiệm chi and the bank statement all say 42,000,000 ₫. Somebody runs UPDATE transactions SET amount = 42000000. The books are now correct. What is wrong with it?",
+  o:["Nothing, as long as the final figure matches the bank",
+     "The record of the error is gone — nobody can now show what was approved, what changed, by whom or when",
+     "The UPDATE should have been wrapped in a database transaction",
+     "The amount column should have been immutable at the database level"],
+  a:1,
+  why:"Điều 13 Luật Kế toán 2015 prohibits erasing or altering a chứng từ, not merely reporting a wrong number — so a correct figure with no trail behind it is still the prohibited act, and to an inspector it is indistinguishable from a figure somebody moved deliberately. The application already refuses: EXECUTED is not editable in TransactionStateMachine, so the only way to do this at all is to go round the service with a SQL client."},
+ {q:"Instead of DELETE, a developer proposes a deleted boolean on the transaction and filtering it out of every query. Is a soft delete enough on its own?",
+  o:["Yes — the row survives, so the evidence survives",
+     "Yes, provided the flag is indexed and the filter is applied consistently",
+     "No — it answers \"should this be displayed\", which is not the question anybody will ask",
+     "No, because soft deletes make queries slower"],
+  a:2,
+  why:"The flag records that something stopped being shown. It records nothing about what the row said, who hid it, when, or why — and those four are the entire content of an audit. That is why transaction_histories carries changed_fields as {field:{old,new}} alongside actor_name and created_at, and why a posted entry is answered by a new ADJUSTMENT rather than hidden. Soft delete is a display decision; correction is an accounting act."},
+ {q:"TransactionStateMachine gives EXECUTED an empty set of outgoing transitions. What does the system expect when an executed transaction turns out to be wrong?",
+  o:["Move it back to DRAFT through an internal endpoint",
+     "Cancel it, then create a replacement",
+     "Create an offsetting TransactionType.ADJUSTMENT entry — the original stays exactly as it is",
+     "Ask an administrator to correct it directly in the database"],
+  a:2,
+  why:"That is the golden rule written in the class's own javadoc. CANCELED is terminal too and does not apply here: cancelling is for something that has not happened yet. Money genuinely moved, so the books must show that it moved and then show the correction beside it."},
+ {q:"March closed and the figures went to the owner in a report on 5 April. On 8 April an error in a 30 March payment is found. What date should the correcting entry carry?",
+  o:["30 March, so that the March report becomes right",
+     "8 April, in the period that is still open — March keeps the figure it was reported with",
+     "It cannot be corrected at all once the period is closed",
+     "Whichever date leaves the two months balanced"],
+  a:1,
+  why:"Back-dating into a closed period means a report signed on one set of numbers now describes a different set. The correction is still made; it simply goes through a different door, landing in the open period so that the two periods read together tell the truth. This is what khoá sổ means, and it is why BudgetStatus.CLOSED is a final state whose figures are frozen for period comparison (BM-11)."},
+ {q:"Thông tư 99/2025/TT-BTC Điều 3 requires a company to write its own internal rules on who may create a transaction and who may control it. What does that make the audit log?",
+  o:["A debugging aid that has now become mandatory",
+     "A backup mechanism for financial data",
+     "The evidence that the company's own written rules were actually followed",
+     "A report that has to be filed with the tax authority"],
+  a:2,
+  why:"The obligation is on the company to have the rules, and rules nobody can show were obeyed are worth nothing at an inspection. audit_logs is what turns \"the person who creates a payment may not approve it\" from a sentence in a handbook into something verifiable one record at a time — which is why the table is append-only with no setters and no updated_at, and why the only write path is BusinessAuditConsumer rather than any endpoint (SEC-04)."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — a support ticket, Friday afternoon",
+  line:'"The customer keyed the wrong amount on a payment yesterday. Can you just fix it in the database for them?"',
+  o:[{t:"Sure, I'll run an UPDATE and let you know when it's done.", v:"weak",
+      f:"One line of SQL, five seconds, and the company can no longer prove what it approved. You will have forgotten doing it by Monday; the hole in the trail will be found by somebody else, a year from now, sitting opposite a person whose entire job is finding them."},
+     {t:"I can't change a posted amount — the service refuses it and so does Điều 13. What they need is an adjustment entry: the wrong row stays, a second row corrects it, and the pair explains itself. If the screen doesn't offer that yet, that's the real ticket.", v:"strong",
+      f:"You refused the act rather than the person, named the legal alternative in the same breath, and turned a database favour into a product gap worth fixing. That last move is what gets a developer taken seriously by a BA."},
+     {t:"That would be tampering with an audit trail.", v:"weak",
+      f:"True, and it lands as an accusation. The BA is relaying a customer in trouble, not proposing fraud. A refusal with no alternative attached gets solved by somebody else with database access and fewer scruples."}]},
+ {role:"Your tech lead — design review",
+  line:'"Just add a deleted flag to transactions and filter it out everywhere. Simpler than all this adjustment machinery."',
+  o:[{t:"Fair enough, that's a lot less work.", v:"weak",
+      f:"It is, right up to the first dispute. A flag records that a row stopped being displayed and nothing else — not what it said, not who hid it, not when, not why, which is every question that will actually be asked."},
+     {t:"Soft deletes are an anti-pattern.", v:"weak",
+      f:"A slogan, and not even a true one here: DocumentStatus.DELETED in this very system is a soft delete, kept precisely so the file stays on MinIO for audit. Arguing from a rule instead of from this case loses to whoever has the shorter estimate."},
+     {t:"A flag answers \"should we show this\". An auditor asks what it said, who changed it, when and why — four things a boolean can't hold. And we already have the answer: an ADJUSTMENT entry, which is one insert. EXECUTED is terminal in the state machine anyway, so hiding a row isn't even reachable through the service.", v:"strong",
+      f:"You separated a display concern from an accounting one, priced your alternative honestly — one insert, not machinery — and pointed at a rule already agreed inside the codebase. Nobody has to take your word for any of it."}]},
+ {role:"The customer's chief accountant — acceptance testing",
+  line:'"Your history screen shows me who and when. Where do I see why?"',
+  o:[{t:"There's a note field, but it's optional so most people leave it blank.", v:"weak",
+      f:"You have just told the person signing off the system that its most important column is usually empty. Everything else on that screen is metadata; the reason is the only part carrying intent."},
+     {t:"It's the note on each history line. Right now it's optional, which means it's usually empty — and an unexplained correction reads exactly like a hidden one. I'd make it required on adjustments and on returns. Shall I raise that as a change request?", v:"strong",
+      f:"You answered the question, named the weakness before they found it, proposed the narrow fix rather than a policy, and handed them the decision. Chief accountants trust developers who volunteer the gap."},
+     {t:"Everything is in audit_logs — we can query it for you whenever you need.", v:"weak",
+      f:"You offered a database query to somebody who needs a screen. It also misses the question: audit_logs records which event happened, not the human reason behind it. The why lives in the note."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

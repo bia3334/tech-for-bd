@@ -116,88 +116,399 @@ window.LIB = {
   },
   {
    "n": "02",
-   "ch": 1,
+   "href": "lessons/02-an-invoice-is-not-money.html",
    "title": "An invoice is not money",
-   "dek": "Why invoices.status has no OPEN, why an issued invoice cannot be deleted, and how a single direction column decides which side of the books a row lands on.",
+   "dek": "It is also not a row you invented. It names a seller, a buyer, an amount and a day, it carries a code the tax authority issued, and the state keeps its own copy. Most of the strange-looking rules in the invoices table are that fact, showing through.",
+   "minutes": "15 min",
+   "facts": [
+    "15 min",
+    "No accounting assumed",
+    "Drive one invoice through its whole life"
+   ],
+   "level": "Foundation",
    "tags": [
     "invoice",
     "VAT",
     "receivables",
     "Nghị định 70/2025",
-    "state machine"
+    "state machine",
+    "payment allocation",
+    "e-invoice"
    ],
-   "level": "Foundation",
-   "minutes": "15 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "hoadon",
+    "hoadondientu",
+    "doanhthu",
+    "phaithu",
+    "dso",
+    "quahan",
+    "hanthanhtoan",
+    "phaitra",
+    "chietkhau",
+    "duno",
+    "vat",
+    "dieuchinh",
+    "phanbothanhtoan"
+   ],
+   "ch": 1,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "What is actually on the piece of paper"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "One column decides which side, one column was never yours"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "The status machine, and the two values that are missing"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "One invoice, its whole life"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "03",
-   "ch": 1,
+   "href": "lessons/03-never-delete-a-record.html",
    "title": "Why you can never delete a financial record",
-   "dek": "A financial row is not application state, it is evidence. Reversal, adjustment and replacement — the three legal ways to be wrong, and the two illegal ones.",
-   "tags": [
-    "audit trail",
-    "Luật Kế toán 2015",
-    "reversal",
-    "chứng từ",
-    "Thông tư 99/2025"
+   "dek": "A row in this system is not the current state of something. It is a claim about something that happened in the world, and one day a person who does not work here may need to check it. That single difference is where DELETE stops being cleanup and starts being an offence with a name in the Accounting Law.",
+   "minutes": "16 min",
+   "facts": [
+    "16 min",
+    "No accounting assumed",
+    "Ends with a rule you can quote in review"
    ],
    "level": "Foundation",
-   "minutes": "16 min",
-   "status": "planned",
-   "sections": []
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "terms": [
+    "hoadon",
+    "chungtu",
+    "khoaso",
+    "butoandao",
+    "luutru",
+    "vetkiemtoan"
+   ],
+   "ch": 1,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "A row of paper stands behind every row of data"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "A mistake is answered, never removed"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "An UPDATE destroys evidence even when the new number is right"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "Four ways to fix one wrong row"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "04",
-   "ch": 2,
+   "href": "lessons/04-credit-is-not-a-score.html",
    "title": "Credit is not a score",
-   "dek": "Limit, exposure and headroom are three different numbers people call the same thing. Plus what a score is for, and why blocking is usually the wrong action to attach to it.",
+   "dek": "Credit here has nothing to do with a bank. It is the everyday trust between two companies — take the goods today, pay me in forty-five days. Three numbers describe it, everyone in the room calls all three \"the limit\", and the one that should be on the screen is usually the one nobody computed.",
+   "minutes": "18 min",
+   "facts": [
+    "18 min",
+    "No accounting assumed",
+    "Ends with five lines worth stealing"
+   ],
+   "level": "Core",
    "tags": [
     "credit",
     "limit",
     "exposure",
+    "utilisation",
     "scoring",
-    "risk threshold"
+    "credit grade",
+    "risk threshold",
+    "credit contract"
    ],
-   "level": "Core",
-   "minutes": "18 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "phaithu",
+    "duno",
+    "congno",
+    "hanmuc",
+    "hosotindung",
+    "tyleusudung",
+    "hopdongtindung",
+    "hanthanhtoan",
+    "chamdiemtindung",
+    "xephangtindung",
+    "nguongruiro",
+    "dso"
+   ],
+   "ch": 2,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "You lent them the money and nobody used the word"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "Three numbers, and only one of them belongs on the screen"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "The number that changes while somebody is looking at it"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "One partner, and every number that moves with them"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "05",
-   "ch": 2,
+   "href": "lessons/05-aging-and-offsetting.html",
    "title": "Aging, and the debt that cancels itself",
-   "dek": "One total tells you nothing; the same total split by age tells you everything. Then two-way offsetting under Điều 378, where a debt is settled without money moving.",
-   "tags": [
-    "aging",
-    "offsetting",
-    "Điều 378",
-    "write-off",
-    "exposure"
+   "dek": "Ten billion đồng owed to you is not a number, it is a shape. This lesson is about reading that shape — and then about two debts that settle each other without a single đồng leaving either bank account.",
+   "minutes": "18 min",
+   "facts": [
+    "18 min",
+    "CM-20, CM-21, Điều 378",
+    "Ends with five lines worth stealing"
    ],
    "level": "Core",
-   "minutes": "18 min",
-   "status": "planned",
-   "sections": []
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "terms": [
+    "hanthanhtoan",
+    "tuoino",
+    "dso",
+    "phaithu",
+    "phaitra",
+    "congno",
+    "duno",
+    "butrucongno",
+    "bienbanbutru",
+    "hanmuc",
+    "xoasono"
+   ],
+   "ch": 2,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "Ten billion owed tells you almost nothing"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "The debt that cancels itself"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "Exactly equal, and the word \"deleted\""
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "One partner, both directions, one piece of paper"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "06",
-   "ch": 2,
+   "href": "lessons/06-late-payment-interest.html",
    "title": "Late-payment interest, the easiest thing here to code wrongly",
-   "dek": "Why the 20% civil ceiling does not apply, why interest may never be charged on a penalty, and how one court precedent becomes two filters in code.",
+   "dek": "A buyer pays six months late and the seller is owed interest. The two most natural lines of code you could write to compute it each move tens of millions of đồng to the wrong party — and both look like careful, defensive engineering. One Vietnamese court decision from 2016 settles exactly which.",
+   "minutes": "20 min",
+   "facts": [
+    "20 min",
+    "No legal training assumed",
+    "Ends with a calculator you can be wrong on"
+   ],
+   "level": "Core",
    "tags": [
     "late interest",
     "Án lệ 09/2016",
     "Điều 306",
+    "Điều 468",
+    "Điều 301",
     "penalty",
+    "damages",
     "CM-19"
    ],
-   "level": "Core",
-   "minutes": "20 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "laichamtra",
+    "congno",
+    "anle",
+    "laisuatquahan",
+    "noigoc",
+    "phatvipham",
+    "boithuong",
+    "duno"
+   ],
+   "ch": 2,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "Somebody is holding your money"
+    },
+    {
+     "id": "s02",
+     "label": "The precedent",
+     "h2": "Six years, four steel contracts, two rules"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "The two lines that move somebody else's money"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "One overdue debt, four ways to compute it"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five sentences worth having ready"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "07",
@@ -766,82 +1077,2219 @@ window.LIB = {
    ]
   },
   {
-   "id": "02",
-   "type": "planned",
+   "id": "02#s01",
+   "type": "section",
    "lesson": "02",
-   "href": "",
-   "title": "An invoice is not money",
-   "subtitle": "Lesson 02 · not written yet",
-   "text": "Why invoices.status has no OPEN, why an issued invoice cannot be deleted, and how a single direction column decides which side of the books a row lands on.",
+   "href": "lessons/02-an-invoice-is-not-money.html#s01",
+   "title": "What is actually on the piece of paper",
+   "subtitle": "Lesson 02 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. A company delivers goods and sends the customer a document. The document says: I sold, you bought, the amount is this, pay me by that day. It is signed, it carries a code the tax authority issued, and the tax authority keeps a copy of it too. That document is an invoice . In Vietnam it is almost always an e-invoice now — signed electronically, coded by the state, never printed. Your system does not create it. External invoice software signs it and the tax authority codes it; the invoices table records that this happened. Understand that ordering and half the rules stop looking arbitrary. You are not the owner of the document. You are holding the second copy. Two dates, two different jobs Every invoice carries two dates and developers routinely conflate them. issue_date is the day the document came into existence. due_date is the day the money is supposed to arrive. They are usually thirty to sixty days apart. The first one drives the books. On issue_date , revenue is recognised, the receivable comes into existence, and the VAT on the invoice becomes something the company will have to declare. All of that happens with the bank account untouched. The second one drives collection. due_date is what DSO is measured against, what an aging report buckets by, and what decides whether this invoice is overdue . It is also the date the payment terms produced — net 45 means due_date = issue_date + 45 . Day 0 — issue_date Signed, coded, sent. Revenue is recognised, the receivable exists, output VAT becomes declarable. The bank account does not move. 45 days of agreed credit — the system does nothing at all Day 45 — due_date The day the money is supposed to arrive. Nothing arrives by itself, and no status changes when the day passes. the following night Day 46 — a job sets OVERDUE Two columns compared, no user involved. Being late is derived from data, not reported by anyone. In the code Invoice.issueDate and Invoice.dueDate , both LocalDate , both NOT NULL , with ck_invoices_due_date CHECK (due_date >= issue_date) standing between them. An invoice due before it existed is not a validation nicety — it is a document that could not have been signed. Tiếng Việt Hoá đơn là chứng từ pháp lý, không phải một dòng dữ liệu mình tự nghĩ ra: có người bán, người mua, số tiền, ngày đến hạn, và cơ quan thuế giữ một bản. Ngày xuất hoá đơn quyết định doanh thu và công nợ; ngày đến hạn quyết định DSO và chuyện quá hạn. Hai ngày, hai việc khác hẳn nhau.",
    "tags": [
     "invoice",
     "VAT",
     "receivables",
     "Nghị định 70/2025",
-    "state machine"
+    "state machine",
+    "payment allocation",
+    "e-invoice"
    ]
+  },
+  {
+   "id": "02#s02",
+   "type": "section",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s02",
+   "title": "One column decides which side, one column was never yours",
+   "subtitle": "Lesson 02 · The idea",
+   "text": "The same table holds invoices your company sent and invoices your company received. Nothing separates them except a column called direction . RECEIVABLE means we sold and they owe us — a receivable , an asset. PAYABLE means they sold and we owe them — a payable , a liability. One value apart, opposite sides of the balance sheet, opposite signs in every report that touches the row. It also decides which financing product the invoice can feed. A RECEIVABLE is what you sell to a financier under invoice discounting . A PAYABLE is what a large buyer confirms so its small supplier can borrow cheaply — the mirror product. Wrong direction, wrong product, wrong outstanding exposure written into credit-service the moment the invoice is issued. In the code InvoiceDirection = RECEIVABLE | PAYABLE , mapped updatable = false . It cannot be edited after insert, and that is not tidiness: credit-service reads it off scf.invoice-registered.v1 to decide the direction of the exposure it books. Changing the value later would change one ledger and not the other. Three amounts, and one of them is the state's An invoice does not carry one number. It carries net_amount — the price of the goods, tax_amount — the VAT added on top, and total_amount , which is simply the two added together. Here is the part that catches people. Sell 100 million of goods at ten percent VAT and the customer transfers 110 million. Revenue is 100. The other 10 million sits in the company's bank account and belongs to the tax authority from the second it lands there. The company is holding it, not earning it, and at the end of the declaration period it hands it over. Of the 110 million in the account, 10 million was never the company's money. It is the state's, passing through. So a dashboard that adds up total_amount and calls it revenue is overstating the business by the VAT rate. A cash forecast, on the other hand, must use total_amount , because 110 million is genuinely what arrives — and then must remember that a VAT payment goes out later. Same invoice, two different correct answers, depending on which question is being asked. In the code ck_invoices_total CHECK (total_amount = net_amount + tax_amount) . There is no setter for totalAmount alone — setAmounts(net, tax) recomputes it, because the constraint bites at the database if the service layer ever disagrees with itself. On the declaration side the numbers live in transaction-service · TransactionTax , where tax_amount is sent by the client rather than recomputed: rounding rules and exemptions make the paper document the authority, not the multiplication (TM-08). Tiếng Việt Một cột direction quyết định hoá đơn nằm bên phải thu hay phải trả, và kéo theo cả sản phẩm tài trợ dùng được. Ba con số thì luôn ràng nhau: net + tax = total. Phần thuế GTGT nằm trong tài khoản nhưng là tiền thu hộ nhà nước — cộng nó vào doanh thu là thổi phồng đúng bằng thuế suất.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ]
+  },
+  {
+   "id": "02#s03",
+   "type": "section",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s03",
+   "title": "The status machine, and the two values that are missing",
+   "subtitle": "Lesson 02 · The danger",
+   "text": "An invoice has nine statuses. Read them once and two things are conspicuously absent, and both absences are legal decisions rather than someone's shortcut. DRAFT Typed in, not issued. No legal standing, no debt, nothing owed. The only status CANCELED can be reached from. ISSUED Signed and coded. Means issued and not yet collected in full — nothing about whether it is late. Publishes scf.invoice-registered.v1 . FINANCING A financing request is out with providers. Asked, not funded. FINANCED A financier has disbursed. The buyer still owes the money, so this invoice is still swept for lateness. PARTIALLY_PAID Some money collected. Derived from the sum of the allocation rows, never set by a command. PAID Collected in full. Final. OVERDUE Past due_date and still owed. Set by a nightly job, and it can go back to PARTIALLY_PAID or PAID when money arrives. REPLACED Voided by a replacement invoice. Final. The debt has moved to the new record. CANCELED An abandoned draft. Final, and reachable from DRAFT alone. There is no OPEN. A junior developer looks at that list and reaches for a status meaning \"issued but not yet being chased\". There is no such moment. The receivable exists at the instant of issue — the accountant debits account 131 on issue_date itself. And \"in term\" against \"overdue\" is not a state either: it is due_date compared with today, computed fresh whenever anyone asks. Storing it would mean an invoice that quietly stays in term forever because no job ran. There is no ISSUED → CANCELED. This is the one that surprises people, and it is the most expensive to get wrong. The line you never cross Never build a delete for an issued invoice. There is nothing to build it out of. Nghị định 70/2025/NĐ-CP removed cancellation of an e-invoice once it has been issued. A mistake is corrected by a replacement or an adjustment invoice — and both of those are new rows pointing back at the original through original_invoice_id , not a state the original moves into. If a screen offers Delete, either it is lying to the user or somebody is about to be fined. The paid amount is not a column you set A customer transfers one round sum against four invoices. Or pays one invoice in three instalments over two months. Both are ordinary, and both mean the link between money and invoice is many-to-many. So every slice is its own row: this transaction, that invoice, this much. That is payment allocation . When the person recording the money says how to split it, the split is theirs. When they say nothing, the system settles the oldest due date first and moves on down the list until the money runs out. Which makes paid_amount on the invoice a derived number — the sum of its allocation rows and nothing else. PARTIALLY_PAID falls out of that sum too. A developer who sets the status directly in a payment handler has just created a second source of truth for the same fact, and the one that drifts will be the one nobody is checking. In the code invoice_payments , with uk_invoice_payments_invoice_txn UNIQUE (invoice_id, transaction_id) — the guard that stops a redelivered Kafka message crediting the same money twice, at the database rather than in an if-statement. Rows are only ever inserted and deleted, never updated, so the allocation history stays readable. Invoice.recalculatePaidAmount() re-reads the total each time instead of incrementing, because an increment that rolls back halfway leaves a wrong number forever. allocation_method = MANUAL | FIFO , and allocated_by is null for FIFO because no human pressed anything (TM-21). One deliberate exception is worth knowing before you meet it in a bug report: money arriving on an invoice in FINANCING or FINANCED is recorded, but does not drag the status to PARTIALLY_PAID . Doing that would erase the fact that the invoice is inside a financing flow while an offer is still live on it. The invoice a financier will not touch An invoice offered up for financing is a document somebody is about to lend real money against. So the first question a financier asks is whether it exists at all — whether the tax authority has a record matching the seller's tax code, the buyer's tax code and the lookup code printed on it. The system stores all four identifiers and a verification_status that has exactly two values: UNVERIFIED , and VERIFIED_MANUAL meaning a person went to the tax portal and checked by hand. There is no VERIFIED_API , because the portal has a captcha and publishes no interface to third parties. Declaring a value for a route that does not exist would be a promise made inside an enum. Separately there is eligible_for_financing , a boolean set by an explicit command that runs four checks first: the invoice must be ISSUED , not past due, not partly collected, and must have under a year left to run. Every one of those comes from Điều 7 of Thông tư 20/2024/TT-NHNN, not from product design. And the flag alone is not a ticket — when an offer is actually created the status is checked again, because the flag was set at some earlier moment and the world moved on. Tiếng Việt Máy trạng thái hoá đơn cố ý thiếu hai thứ: không có OPEN vì công nợ tồn tại ngay khi phát hành, và không có đường ISSUED → CANCELED vì NĐ 70/2025 đã bỏ việc huỷ hoá đơn điện tử đã lập — sai thì lập hoá đơn thay thế hoặc điều chỉnh, đều là bản ghi mới. Số đã thu luôn là tổng các dòng phân bổ, không phải một cột ai đó gán tay.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ]
+  },
+  {
+   "id": "02#s04",
+   "type": "section",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s04",
+   "title": "One invoice, its whole life",
+   "subtitle": "Lesson 02 · See it",
+   "text": "Goods worth 100 million, VAT at ten percent, so the document is presented at 110 million. Terms are net 45: issued on day 0, due on day 45. The clock only moves when you move it. Try to do things in the wrong order. Cancel it after issuing it. Finance it after it has gone late. Pay a draft. Every refusal prints the reason and the error code the API would return — that refusal is the lesson, not the happy path. Issue it Verify at the tax portal Mark eligible Submit for financing Financier disburses Replace it Cancel it Move the clock 30 days Start over Receive a payment One incoming transaction, allocated against this invoice 40.0m Allocate this payment status — paid_amount of total — Days to due_date — eligible_for_financing — Day numbers rather than calendar dates, so the same clicks always give the same answer. The refusals are the real ones: every legal citation printed here is a check that exists in InvoiceService , InvoicePaymentService or the nightly job. The state machine lives in finance/sim-02.js and has its own check: node tools/test-02.mjs .",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ]
+  },
+  {
+   "id": "02#s05",
+   "type": "section",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 02 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ]
+  },
+  {
+   "id": "02#s06",
+   "type": "section",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 02 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ]
+  },
+  {
+   "id": "02#s07",
+   "type": "section",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 02 · Take away",
+   "text": "\"Is this field a fact about the document, or a fact about our workflow?\" The seller's tax code is the document. A flag saying somebody has reviewed it is our workflow. The first cannot be edited after issue and the second can — mixing them in one enum is how a status list grows a value that has to be removed in a migration later. \"When the user says cancel, do they mean abandon a draft or correct something already issued?\" One word, two features with nothing in common. The first is a status change; the second is creating a new invoice that points back at the old one. Ask before estimating, because the gap between them is a sprint. \"Which of these three amounts does this screen need — net, tax, or total?\" Revenue reporting needs net. A cash forecast needs total. A tax declaration needs the tax. Nobody ever says which, everybody assumes it is obvious, and the VAT rate is the size of the error. \"Is this status stored, or derived? And if it is stored, what happens when the job does not run?\" In term against overdue is derived from due_date. Partly paid is derived from the allocation rows. Storing a derived value gives you a second source of truth and a silent failure mode — the number stays plausible while it goes stale. \"Is there a legal basis for this rule, or is it the company's own convention?\" Cancellation removed by decree, factoring forbidden on an overdue receivable, a remaining term under one year. Rules that come from law must not be tidied up for the sake of cleaner code, and they must be cited in the comment so the next person does not delete them. Tiếng Việt Không cần thành kế toán. Chỉ cần nhận ra lúc nào một trường là sự thật pháp lý của chứng từ và lúc nào nó là quy trình nội bộ của mình — vì hai loại đó sửa được theo hai cách hoàn toàn khác nhau.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ]
+  },
+  {
+   "id": "02#s08",
+   "type": "section",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 02 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ]
+  },
+  {
+   "id": "02#q0",
+   "type": "quiz",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s05",
+   "title": "Your BA asks for an OPEN status on invoices, meaning \"issued but not yet chased\". Why does the state machine refuse to have one?",
+   "subtitle": "Lesson 02 · Test yourself",
+   "text": "Because the receivable exists the instant the invoice is issued, and in-term versus overdue is derived from due_date rather than stored The accountant debits account 131 on issue_date itself — there is no interval where an issued invoice is not yet a debt. And late-or-not is due_date compared with today, computed on demand. Store it and you get an invoice that stays in term forever because a job did not run one night.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "answer": "Because the receivable exists the instant the invoice is issued, and in-term versus overdue is derived from due_date rather than stored",
+   "why": "The accountant debits account 131 on issue_date itself — there is no interval where an issued invoice is not yet a debt. And late-or-not is due_date compared with today, computed on demand. Store it and you get an invoice that stays in term forever because a job did not run one night."
+  },
+  {
+   "id": "02#q1",
+   "type": "quiz",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s05",
+   "title": "A user issued an invoice with the wrong buyer on it. They want a Delete button. What does the system actually do?",
+   "subtitle": "Lesson 02 · Test yourself",
+   "text": "Creates a new invoice pointing back at the original through original_invoice_id, and moves the original to REPLACED Nghị định 70/2025/NĐ-CP removed cancellation of an issued e-invoice. The correction is a replacement or an adjustment, and both are new records — CANCELED exists only for abandoning a draft that never had legal standing. A Delete button here is a compliance problem wearing a UI.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "answer": "Creates a new invoice pointing back at the original through original_invoice_id, and moves the original to REPLACED",
+   "why": "Nghị định 70/2025/NĐ-CP removed cancellation of an issued e-invoice. The correction is a replacement or an adjustment, and both are new records — CANCELED exists only for abandoning a draft that never had legal standing. A Delete button here is a compliance problem wearing a UI."
+  },
+  {
+   "id": "02#q2",
+   "type": "quiz",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s05",
+   "title": "An invoice reads: net 100 million, tax 10 million, total 110 million. The customer transfers 110 million. What did the company earn?",
+   "subtitle": "Lesson 02 · Test yourself",
+   "text": "100 million. The other 10 million is VAT the company collected on the state's behalf and will hand over VAT passes through the bank account and was never the company's money. A report that sums total_amount and calls it revenue overstates the business by exactly the VAT rate — while a cash forecast is right to use 110, because 110 really does arrive and a VAT payment really does go out later.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "answer": "100 million. The other 10 million is VAT the company collected on the state's behalf and will hand over",
+   "why": "VAT passes through the bank account and was never the company's money. A report that sums total_amount and calls it revenue overstates the business by exactly the VAT rate — while a cash forecast is right to use 110, because 110 really does arrive and a VAT payment really does go out later."
+  },
+  {
+   "id": "02#q3",
+   "type": "quiz",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s05",
+   "title": "One customer transfer of 300 million arrives against four unpaid invoices, and the person recording it does not say how to split it. What does the system do?",
+   "subtitle": "Lesson 02 · Test yourself",
+   "text": "Settles the oldest due date first, invoice by invoice, until the money runs out — writing one allocation row per slice FIFO by oldest due date is the Vietnamese debt-reconciliation convention, and TM-21 makes it the default when nobody specifies. Each slice becomes a row in invoice_payments, and each invoice's paid_amount is recomputed as the sum of its rows. Money left over after the last invoice is not an error — it is simply logged.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "answer": "Settles the oldest due date first, invoice by invoice, until the money runs out — writing one allocation row per slice",
+   "why": "FIFO by oldest due date is the Vietnamese debt-reconciliation convention, and TM-21 makes it the default when nobody specifies. Each slice becomes a row in invoice_payments, and each invoice's paid_amount is recomputed as the sum of its rows. Money left over after the last invoice is not an error — it is simply logged."
+  },
+  {
+   "id": "02#q4",
+   "type": "quiz",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s05",
+   "title": "You are writing the handler that records a payment. Why must you not set status = PARTIALLY_PAID yourself?",
+   "subtitle": "Lesson 02 · Test yourself",
+   "text": "Because PARTIALLY_PAID is derived from the sum of the allocation rows, and setting it by hand creates a second source of truth for the same fact paid_amount is recomputed from invoice_payments after every write, and the payment statuses fall out of that number. Two places writing the same fact means one of them will drift, and it will be the one nobody is checking. It also matters that FINANCING and FINANCED are deliberately left alone — money arriving must not erase the fact that an offer is live on the invoice.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "answer": "Because PARTIALLY_PAID is derived from the sum of the allocation rows, and setting it by hand creates a second source of truth for the same fact",
+   "why": "paid_amount is recomputed from invoice_payments after every write, and the payment statuses fall out of that number. Two places writing the same fact means one of them will drift, and it will be the one nobody is checking. It also matters that FINANCING and FINANCED are deliberately left alone — money arriving must not erase the fact that an offer is live on the invoice."
+  },
+  {
+   "id": "02#p0",
+   "type": "scene",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s06",
+   "title": "\"Add a delete button on the invoice list. Users keep asking for it.\"",
+   "subtitle": "Your BA — backlog refinement",
+   "text": "Which case are they hitting — a draft they mistyped, or an issued invoice with a wrong figure? The first is a delete and we already have it. The second can't be deleted at all since Nghị định 70/2025; it needs a replacement invoice that points back at the original. That's a bigger feature and users will ask for it next, so it's worth scoping now. You split one word into the two features it actually covers, gave the legal reason in one clause instead of a lecture, and pointed at the work that really needs doing. That is the difference between blocking a request and redirecting it.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "answer": "Which case are they hitting — a draft they mistyped, or an issued invoice with a wrong figure? The first is a delete and we already have it. The second can't be deleted at all since Nghị định 70/2025; it needs a replacement invoice that points back at the original. That's a bigger feature and users will ask for it next, so it's worth scoping now.",
+   "why": "You split one word into the two features it actually covers, gave the legal reason in one clause instead of a lecture, and pointed at the work that really needs doing. That is the difference between blocking a request and redirecting it."
+  },
+  {
+   "id": "02#p1",
+   "type": "scene",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s06",
+   "title": "\"Your revenue figure is wrong. Our books say 100 million for that order and your screen says 110.\"",
+   "subtitle": "The customer's chief accountant — during the demo",
+   "text": "That screen shows total_amount, which includes the ten percent VAT. Your revenue figure is net_amount, and it should be 100 — the extra 10 is tax you are collecting for the state, not something you earned. Should this screen be showing net instead? You named the column, explained the difference in the accountant's own terms, agreed with their number, and turned it into a product question. Nobody was wrong, and you left with a requirement.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "answer": "That screen shows total_amount, which includes the ten percent VAT. Your revenue figure is net_amount, and it should be 100 — the extra 10 is tax you are collecting for the state, not something you earned. Should this screen be showing net instead?",
+   "why": "You named the column, explained the difference in the accountant's own terms, agreed with their number, and turned it into a product question. Nobody was wrong, and you left with a requirement."
+  },
+  {
+   "id": "02#p2",
+   "type": "scene",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s06",
+   "title": "\"In the payment handler I just set invoice.status = PARTIALLY_PAID when the amount is less than the total. One line, done.\"",
+   "subtitle": "A teammate — during code review",
+   "text": "paid_amount is always the sum of the allocation rows, so the status has to be recomputed from it rather than set — that's what recalculatePaidAmount is for. It also skips FINANCING and FINANCED on purpose, because money arriving must not erase the fact that an offer is live on the invoice. Setting it directly would quietly kill that. You gave the invariant, then the one non-obvious consequence of breaking it. Reviews that name what would go wrong get fixed properly; reviews that name a convention get argued about.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "answer": "paid_amount is always the sum of the allocation rows, so the status has to be recomputed from it rather than set — that's what recalculatePaidAmount is for. It also skips FINANCING and FINANCED on purpose, because money arriving must not erase the fact that an offer is live on the invoice. Setting it directly would quietly kill that.",
+   "why": "You gave the invariant, then the one non-obvious consequence of breaking it. Reviews that name what would go wrong get fixed properly; reviews that name a convention get argued about."
+  },
+  {
+   "id": "02#l0",
+   "type": "line",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s07",
+   "title": "\"Is this field a fact about the document, or a fact about our workflow?\"",
+   "subtitle": "Lesson 02 · Line worth stealing",
+   "text": "The seller's tax code is the document. A flag saying somebody has reviewed it is our workflow. The first cannot be edited after issue and the second can — mixing them in one enum is how a status list grows a value that has to be removed in a migration later.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "why": "The seller's tax code is the document. A flag saying somebody has reviewed it is our workflow. The first cannot be edited after issue and the second can — mixing them in one enum is how a status list grows a value that has to be removed in a migration later."
+  },
+  {
+   "id": "02#l1",
+   "type": "line",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s07",
+   "title": "\"When the user says cancel, do they mean abandon a draft or correct something already issued?\"",
+   "subtitle": "Lesson 02 · Line worth stealing",
+   "text": "One word, two features with nothing in common. The first is a status change; the second is creating a new invoice that points back at the old one. Ask before estimating, because the gap between them is a sprint.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "why": "One word, two features with nothing in common. The first is a status change; the second is creating a new invoice that points back at the old one. Ask before estimating, because the gap between them is a sprint."
+  },
+  {
+   "id": "02#l2",
+   "type": "line",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s07",
+   "title": "\"Which of these three amounts does this screen need — net, tax, or total?\"",
+   "subtitle": "Lesson 02 · Line worth stealing",
+   "text": "Revenue reporting needs net. A cash forecast needs total. A tax declaration needs the tax. Nobody ever says which, everybody assumes it is obvious, and the VAT rate is the size of the error.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "why": "Revenue reporting needs net. A cash forecast needs total. A tax declaration needs the tax. Nobody ever says which, everybody assumes it is obvious, and the VAT rate is the size of the error."
+  },
+  {
+   "id": "02#l3",
+   "type": "line",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s07",
+   "title": "\"Is this status stored, or derived? And if it is stored, what happens when the job does not run?\"",
+   "subtitle": "Lesson 02 · Line worth stealing",
+   "text": "In term against overdue is derived from due_date. Partly paid is derived from the allocation rows. Storing a derived value gives you a second source of truth and a silent failure mode — the number stays plausible while it goes stale.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "why": "In term against overdue is derived from due_date. Partly paid is derived from the allocation rows. Storing a derived value gives you a second source of truth and a silent failure mode — the number stays plausible while it goes stale."
+  },
+  {
+   "id": "02#l4",
+   "type": "line",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html#s07",
+   "title": "\"Is there a legal basis for this rule, or is it the company's own convention?\"",
+   "subtitle": "Lesson 02 · Line worth stealing",
+   "text": "Cancellation removed by decree, factoring forbidden on an overdue receivable, a remaining term under one year. Rules that come from law must not be tidied up for the sake of cleaner code, and they must be cited in the comment so the next person does not delete them.",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ],
+   "why": "Cancellation removed by decree, factoring forbidden on an overdue receivable, a remaining term under one year. Rules that come from law must not be tidied up for the sake of cleaner code, and they must be cited in the comment so the next person does not delete them."
+  },
+  {
+   "id": "02",
+   "type": "lesson",
+   "lesson": "02",
+   "href": "lessons/02-an-invoice-is-not-money.html",
+   "title": "An invoice is not money",
+   "subtitle": "Lesson 02 · Foundation",
+   "text": "It is also not a row you invented. It names a seller, a buyer, an amount and a day, it carries a code the tax authority issued, and the state keeps its own copy. Most of the strange-looking rules in the invoices table are that fact, showing through. What is actually on the piece of paper Ground floor One column decides which side, one column was never yours The idea The status machine, and the two values that are missing The danger One invoice, its whole life See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "invoice",
+    "VAT",
+    "receivables",
+    "Nghị định 70/2025",
+    "state machine",
+    "payment allocation",
+    "e-invoice"
+   ]
+  },
+  {
+   "id": "03#s01",
+   "type": "section",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s01",
+   "title": "A row of paper stands behind every row of data",
+   "subtitle": "Lesson 03 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. A payment of forty-two million đồng goes out of a company's bank account on a Monday. By the time it reaches this system it has left a trail of physical things behind it: a supplier's invoice , a payment order the bank stamped, a slip somebody signed. In Vietnamese each of those is a chứng từ , and the word carries more weight than \"attachment\" suggests. The row in the database does not create the payment. The payment already happened. The row is the company's assertion that it happened, in that amount, on that day, to that partner — and the chứng từ is what makes the assertion something other than a claim. An entry with no chứng từ behind it is a number somebody typed. An accountant will not book it, and a tax inspector can strike the cost out of the return. This is the part that reads strangely to anyone who has spent a career on ordinary CRUD. In most software a row is state: it should reflect the current truth, and when it stops doing so you fix it. Here a row is testimony. It has to stay readable long after the thing it describes is over, because the reader is not the user. The reader is somebody outside the company. A tax inspector reconstructing a year. An independent auditor sampling transactions. An arbitrator in a payment dispute deciding which of two companies is telling the truth about a delivery in March. None of them will log into your application. They will ask for the books and for the documents, and they will check that the two agree. In the code A Document in document-service with a DocType of INVOICE , RECEIPT , CONTRACT or PAYMENT_SLIP , linked to an entry through transaction_documents (TM-04). The link is not decorative: requireExecutionEvidence refuses to let a cashier mark a payment EXECUTED without either a bank reference or an attached document of a configured evidence type. Tiếng Việt Mỗi dòng dữ liệu tài chính đều có một chứng từ đứng sau: hoá đơn, uỷ nhiệm chi, phiếu chi có chữ ký. Bản ghi không tạo ra nghiệp vụ, nó chỉ khẳng định nghiệp vụ đã xảy ra — và chứng từ là thứ biến lời khẳng định đó thành bằng chứng. Người đọc cuối cùng không phải người dùng, mà là thanh tra thuế, kiểm toán viên hoặc trọng tài trong một vụ tranh chấp.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ]
+  },
+  {
+   "id": "03#s02",
+   "type": "section",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s02",
+   "title": "A mistake is answered, never removed",
+   "subtitle": "Lesson 03 · The idea",
+   "text": "So what happens when the number really is wrong? Every accounting system in the world, on paper or in a database, gives the same answer: you write another entry. There are three shapes it can take. A reversal cancels the original entry in full so a correct one can be posted beside it. An adjustment moves only the part that was wrong — the six million, not the forty-eight. A replacement document is the same idea one level up, where a whole invoice is superseded by a new one that points back at it. All three are the same move: the wrong record stays, and a second record answers it. The wrong record and its correction both stay. The pair tells a truth that neither of them tells alone. That sounds wasteful until you notice what the pair contains that a corrected row does not. It contains the fact that somebody got it wrong, the date they noticed, the person who fixed it, and the reason. Those four things are the entire content of an audit. A single row with the right number in it has none of them. It also explains a design decision you will meet in this codebase and might otherwise read as timidity. EXECUTED — money has genuinely moved — is a terminal state with no way out. Not \"editable by an administrator\", not \"editable with a reason\". No outgoing transition at all. The only thing you can do next is create a new entry. And there is a door that closes behind all of this. At the end of a month or a year the books are closed : the figures went to an owner, a bank, the tax authority, and they must not move underneath a report that has already been signed. Errors found afterwards are still corrected — the correction simply carries the date of the period that is still open, not the one that is shut. Same act, different door. In the code TransactionType.ADJUSTMENT , whose javadoc calls it the only way to change an EXECUTED transaction, and TransactionStateMachine , which gives EXECUTED and CANCELED empty transition sets. On the invoice side the same pair is AdjustmentKind : ADJUSTMENT leaves the original alone and the effective amount becomes total_amount plus the sum of adjustments, while REPLACEMENT moves the original to InvoiceStatus.REPLACED — because Nghị định 70/2025/NĐ-CP removed cancellation of an issued e-invoice altogether. Tiếng Việt Sai thì không xoá, mà ghi thêm: bút toán đảo huỷ toàn bộ bút toán cũ, bút toán điều chỉnh chỉ sửa phần chênh, hoá đơn thay thế thì vô hiệu hoá hoá đơn gốc. Bản ghi sai và bản ghi sửa đều ở lại — cặp đó nói lên sự thật mà không dòng nào nói được một mình.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ]
+  },
+  {
+   "id": "03#s03",
+   "type": "section",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s03",
+   "title": "An UPDATE destroys evidence even when the new number is right",
+   "subtitle": "Lesson 03 · The danger",
+   "text": "Điều 13 of Luật Kế toán 2015 does not describe good practice. It lists prohibited acts, and it names them in language that maps uncomfortably well onto ordinary database operations: falsifying or erasing a chứng từ, keeping assets off the books, knowingly supplying false figures, and destroying accounting records before the end of the retention period set by Điều 41 — which for anything used to write the books and produce the annual statements is at least ten years. Read that list again with a developer's eye. UPDATE transactions SET amount = … on a posted row is the erasure. DELETE is the destruction. Neither of them stops being what it is because the new value is the correct one — and this is the part that catches people. You can end up with a perfectly accurate set of books and still have committed the prohibited act, because what the law protects is not the figure. It is the ability to reconstruct how the figure got there. Which is why a soft-delete flag, on its own, does not rescue the situation. A deleted boolean answers exactly one question: should this row still be displayed. It says nothing about what the row said before, who removed it, at what moment, or why — and those four are the whole of what anybody will ask. Soft delete is a display decision wearing the costume of an accounting one. The line you never cross Correcting a number and destroying the record of the old one are two different acts. Only the first is legal. Never UPDATE an amount, a date or a partner on a record that has been posted, and never DELETE a record that has left DRAFT . Post a reversal, an adjustment or a replacement instead, and let both rows stand. If the application refuses you and you are reaching for a SQL client to get round it, stop: the refusal is the feature. All of which turns the audit trail from plumbing into a product feature with a specification. It has to answer four questions and it is only as good as its weakest one: who touched the record, when , what changed from what to what , and why . Developers build the first three almost by reflex and treat the fourth as a nullable free-text field somebody will probably leave blank. Auditors read them in the opposite order. A correction with no explanation attached looks precisely like a correction somebody preferred not to explain, and the person reading it has no way to tell the difference. If you take one implementation decision from this lesson, make the reason mandatory on anything that adjusts a posted figure. There is now a second reason to care, and it is new. Thông tư 99/2025/TT-BTC, in force from 1 January 2026, requires in Điều 3 that a company write its own internal rules setting out who may create a transaction and who may control it. The obligation is on the company, not on the software — but rules nobody can show were followed are worth nothing at an inspection. The audit trail is what converts a sentence in a company handbook into something an inspector can verify, one record at a time. In the code Two trails, deliberately. transaction_histories (TM-06) holds changed_fields as {field:{old,new}} , a note , and a snapshot of actor_name rather than a foreign key — a user can be renamed or disabled and the history must still read as it did. audit_logs in identity-service is append-only: no setters, no updated_at , no version , and no endpoint that can write one. The only path in is BusinessAuditConsumer , listening to fifteen business topics (SEC-04). Tiếng Việt Điều 13 Luật Kế toán 2015 cấm thẳng: tẩy xoá chứng từ, để ngoài sổ tài sản, cung cấp số liệu sai, huỷ tài liệu kế toán trước thời hạn lưu trữ. Sửa đúng số mà xoá mất dấu vết vẫn là hành vi bị cấm, vì thứ luật bảo vệ là khả năng truy ngược chứ không phải con số. Thông tư 99/2025 Điều 3 còn buộc doanh nghiệp tự ban hành quy chế phân định người lập và người kiểm soát giao dịch — nhật ký hệ thống chính là bằng chứng quy chế đó được tuân thủ.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ]
+  },
+  {
+   "id": "03#s04",
+   "type": "section",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s04",
+   "title": "Four ways to fix one wrong row",
+   "subtitle": "Lesson 03 · See it",
+   "text": "On 30 March a payment to Minh Anh Logistics was keyed as 48,000,000 ₫ and went through the whole chain: submitted, approved by the chief accountant, marked as paid by the cashier. The supplier's invoice says 42,000,000 ₫. So does the uỷ nhiệm chi attached to the entry, and so does the bank statement line. Somebody typed an 8 where a 2 belongs, six million đồng ago. Pick each of the four fixes in turn. The left pane is what the books say afterwards; the right pane is what an auditor finds in the trail. Two of the four reach the correct total and are still prohibited — watch which pane changes when that happens. Then switch March to closed and pick again. TRX-2026-000412 · PAYMENT · 30/03/2026 · EXECUTED recorded 48,000,000 ₫ · chứng từ UNC-88213 says 42,000,000 ₫ · difference 6,000,000 ₫ March is already closed — the figures went to the owner in a report on 05/04 What the books now say What an auditor sees in the trail Every figure here is fixed — nothing is generated, so two readers see the same thing. The two prohibited options are the two that make the right pane shorter. That is the whole test: a fix that removes rows from the trail is not a fix.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ]
+  },
+  {
+   "id": "03#s05",
+   "type": "section",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 03 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in a code review. 0 / 5 answered",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ]
+  },
+  {
+   "id": "03#s06",
+   "type": "section",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 03 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ]
+  },
+  {
+   "id": "03#s07",
+   "type": "section",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 03 · Take away",
+   "text": "\"Is this row state, or is it evidence?\" The question that decides whether an UPDATE is allowed at all. State is kept correct; evidence is kept whole. Nearly every table in this project that touches money is the second kind, and the few that are not are worth naming out loud so nobody has to guess. \"If we have to correct this later, what does the trail look like afterwards?\" Asked during design it costs a minute. Asked after go-live it is an incident with a lawyer in the room. It is also the question that turns \"add an adjustment entry\" from extra work into the obviously cheaper of the two options. \"Who is going to read this record, and will they believe it?\" The audience for a financial record is not the user. It is a tax inspector, an auditor, or an arbitrator in a payment dispute — none of whom will run your application, and all of whom will ask for the documents and check that the books agree with them. \"Is the reason field required here, or optional?\" Developers see a nullable varchar; auditors read it first. Optional means empty in practice, and a correction nobody explained is indistinguishable from a correction somebody is hiding. Make it mandatory on anything that adjusts a posted figure. \"Is that accounting period closed?\" The same correction is routine in an open period and a misstatement in a closed one. Before you write anything that back-dates a record, find out whether a report has already gone out with the old figure in it. Tiếng Việt Không cần biết kế toán để tránh được lỗi này. Chỉ cần dừng lại trước mỗi lệnh UPDATE hoặc DELETE trên dữ liệu đã hạch toán và hỏi: sau thao tác này, còn ai chứng minh được chuyện gì đã xảy ra không?",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ]
+  },
+  {
+   "id": "03#s08",
+   "type": "section",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 03 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ]
+  },
+  {
+   "id": "03#q0",
+   "type": "quiz",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s05",
+   "title": "A payment was posted at 48,000,000 ₫ when the invoice, the uỷ nhiệm chi and the bank statement all say 42,000,000 ₫. Somebody runs UPDATE transactions SET amount = 42000000. The books are now correct. What is wrong with it?",
+   "subtitle": "Lesson 03 · Test yourself",
+   "text": "The record of the error is gone — nobody can now show what was approved, what changed, by whom or when Điều 13 Luật Kế toán 2015 prohibits erasing or altering a chứng từ, not merely reporting a wrong number — so a correct figure with no trail behind it is still the prohibited act, and to an inspector it is indistinguishable from a figure somebody moved deliberately. The application already refuses: EXECUTED is not editable in TransactionStateMachine, so the only way to do this at all is to go round the service with a SQL client.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "answer": "The record of the error is gone — nobody can now show what was approved, what changed, by whom or when",
+   "why": "Điều 13 Luật Kế toán 2015 prohibits erasing or altering a chứng từ, not merely reporting a wrong number — so a correct figure with no trail behind it is still the prohibited act, and to an inspector it is indistinguishable from a figure somebody moved deliberately. The application already refuses: EXECUTED is not editable in TransactionStateMachine, so the only way to do this at all is to go round the service with a SQL client."
+  },
+  {
+   "id": "03#q1",
+   "type": "quiz",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s05",
+   "title": "Instead of DELETE, a developer proposes a deleted boolean on the transaction and filtering it out of every query. Is a soft delete enough on its own?",
+   "subtitle": "Lesson 03 · Test yourself",
+   "text": "No — it answers \"should this be displayed\", which is not the question anybody will ask The flag records that something stopped being shown. It records nothing about what the row said, who hid it, when, or why — and those four are the entire content of an audit. That is why transaction_histories carries changed_fields as {field:{old,new}} alongside actor_name and created_at, and why a posted entry is answered by a new ADJUSTMENT rather than hidden. Soft delete is a display decision; correction is an accounting act.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "answer": "No — it answers \"should this be displayed\", which is not the question anybody will ask",
+   "why": "The flag records that something stopped being shown. It records nothing about what the row said, who hid it, when, or why — and those four are the entire content of an audit. That is why transaction_histories carries changed_fields as {field:{old,new}} alongside actor_name and created_at, and why a posted entry is answered by a new ADJUSTMENT rather than hidden. Soft delete is a display decision; correction is an accounting act."
+  },
+  {
+   "id": "03#q2",
+   "type": "quiz",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s05",
+   "title": "TransactionStateMachine gives EXECUTED an empty set of outgoing transitions. What does the system expect when an executed transaction turns out to be wrong?",
+   "subtitle": "Lesson 03 · Test yourself",
+   "text": "Create an offsetting TransactionType.ADJUSTMENT entry — the original stays exactly as it is That is the golden rule written in the class's own javadoc. CANCELED is terminal too and does not apply here: cancelling is for something that has not happened yet. Money genuinely moved, so the books must show that it moved and then show the correction beside it.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "answer": "Create an offsetting TransactionType.ADJUSTMENT entry — the original stays exactly as it is",
+   "why": "That is the golden rule written in the class's own javadoc. CANCELED is terminal too and does not apply here: cancelling is for something that has not happened yet. Money genuinely moved, so the books must show that it moved and then show the correction beside it."
+  },
+  {
+   "id": "03#q3",
+   "type": "quiz",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s05",
+   "title": "March closed and the figures went to the owner in a report on 5 April. On 8 April an error in a 30 March payment is found. What date should the correcting entry carry?",
+   "subtitle": "Lesson 03 · Test yourself",
+   "text": "8 April, in the period that is still open — March keeps the figure it was reported with Back-dating into a closed period means a report signed on one set of numbers now describes a different set. The correction is still made; it simply goes through a different door, landing in the open period so that the two periods read together tell the truth. This is what khoá sổ means, and it is why BudgetStatus.CLOSED is a final state whose figures are frozen for period comparison (BM-11).",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "answer": "8 April, in the period that is still open — March keeps the figure it was reported with",
+   "why": "Back-dating into a closed period means a report signed on one set of numbers now describes a different set. The correction is still made; it simply goes through a different door, landing in the open period so that the two periods read together tell the truth. This is what khoá sổ means, and it is why BudgetStatus.CLOSED is a final state whose figures are frozen for period comparison (BM-11)."
+  },
+  {
+   "id": "03#q4",
+   "type": "quiz",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s05",
+   "title": "Thông tư 99/2025/TT-BTC Điều 3 requires a company to write its own internal rules on who may create a transaction and who may control it. What does that make the audit log?",
+   "subtitle": "Lesson 03 · Test yourself",
+   "text": "The evidence that the company's own written rules were actually followed The obligation is on the company to have the rules, and rules nobody can show were obeyed are worth nothing at an inspection. audit_logs is what turns \"the person who creates a payment may not approve it\" from a sentence in a handbook into something verifiable one record at a time — which is why the table is append-only with no setters and no updated_at, and why the only write path is BusinessAuditConsumer rather than any endpoint (SEC-04).",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "answer": "The evidence that the company's own written rules were actually followed",
+   "why": "The obligation is on the company to have the rules, and rules nobody can show were obeyed are worth nothing at an inspection. audit_logs is what turns \"the person who creates a payment may not approve it\" from a sentence in a handbook into something verifiable one record at a time — which is why the table is append-only with no setters and no updated_at, and why the only write path is BusinessAuditConsumer rather than any endpoint (SEC-04)."
+  },
+  {
+   "id": "03#p0",
+   "type": "scene",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s06",
+   "title": "\"The customer keyed the wrong amount on a payment yesterday. Can you just fix it in the database for them?\"",
+   "subtitle": "Your BA — a support ticket, Friday afternoon",
+   "text": "I can't change a posted amount — the service refuses it and so does Điều 13. What they need is an adjustment entry: the wrong row stays, a second row corrects it, and the pair explains itself. If the screen doesn't offer that yet, that's the real ticket. You refused the act rather than the person, named the legal alternative in the same breath, and turned a database favour into a product gap worth fixing. That last move is what gets a developer taken seriously by a BA.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "answer": "I can't change a posted amount — the service refuses it and so does Điều 13. What they need is an adjustment entry: the wrong row stays, a second row corrects it, and the pair explains itself. If the screen doesn't offer that yet, that's the real ticket.",
+   "why": "You refused the act rather than the person, named the legal alternative in the same breath, and turned a database favour into a product gap worth fixing. That last move is what gets a developer taken seriously by a BA."
+  },
+  {
+   "id": "03#p1",
+   "type": "scene",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s06",
+   "title": "\"Just add a deleted flag to transactions and filter it out everywhere. Simpler than all this adjustment machinery.\"",
+   "subtitle": "Your tech lead — design review",
+   "text": "A flag answers \"should we show this\". An auditor asks what it said, who changed it, when and why — four things a boolean can't hold. And we already have the answer: an ADJUSTMENT entry, which is one insert. EXECUTED is terminal in the state machine anyway, so hiding a row isn't even reachable through the service. You separated a display concern from an accounting one, priced your alternative honestly — one insert, not machinery — and pointed at a rule already agreed inside the codebase. Nobody has to take your word for any of it.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "answer": "A flag answers \"should we show this\". An auditor asks what it said, who changed it, when and why — four things a boolean can't hold. And we already have the answer: an ADJUSTMENT entry, which is one insert. EXECUTED is terminal in the state machine anyway, so hiding a row isn't even reachable through the service.",
+   "why": "You separated a display concern from an accounting one, priced your alternative honestly — one insert, not machinery — and pointed at a rule already agreed inside the codebase. Nobody has to take your word for any of it."
+  },
+  {
+   "id": "03#p2",
+   "type": "scene",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s06",
+   "title": "\"Your history screen shows me who and when. Where do I see why?\"",
+   "subtitle": "The customer's chief accountant — acceptance testing",
+   "text": "It's the note on each history line. Right now it's optional, which means it's usually empty — and an unexplained correction reads exactly like a hidden one. I'd make it required on adjustments and on returns. Shall I raise that as a change request? You answered the question, named the weakness before they found it, proposed the narrow fix rather than a policy, and handed them the decision. Chief accountants trust developers who volunteer the gap.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "answer": "It's the note on each history line. Right now it's optional, which means it's usually empty — and an unexplained correction reads exactly like a hidden one. I'd make it required on adjustments and on returns. Shall I raise that as a change request?",
+   "why": "You answered the question, named the weakness before they found it, proposed the narrow fix rather than a policy, and handed them the decision. Chief accountants trust developers who volunteer the gap."
+  },
+  {
+   "id": "03#l0",
+   "type": "line",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s07",
+   "title": "\"Is this row state, or is it evidence?\"",
+   "subtitle": "Lesson 03 · Line worth stealing",
+   "text": "The question that decides whether an UPDATE is allowed at all. State is kept correct; evidence is kept whole. Nearly every table in this project that touches money is the second kind, and the few that are not are worth naming out loud so nobody has to guess.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "why": "The question that decides whether an UPDATE is allowed at all. State is kept correct; evidence is kept whole. Nearly every table in this project that touches money is the second kind, and the few that are not are worth naming out loud so nobody has to guess."
+  },
+  {
+   "id": "03#l1",
+   "type": "line",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s07",
+   "title": "\"If we have to correct this later, what does the trail look like afterwards?\"",
+   "subtitle": "Lesson 03 · Line worth stealing",
+   "text": "Asked during design it costs a minute. Asked after go-live it is an incident with a lawyer in the room. It is also the question that turns \"add an adjustment entry\" from extra work into the obviously cheaper of the two options.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "why": "Asked during design it costs a minute. Asked after go-live it is an incident with a lawyer in the room. It is also the question that turns \"add an adjustment entry\" from extra work into the obviously cheaper of the two options."
+  },
+  {
+   "id": "03#l2",
+   "type": "line",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s07",
+   "title": "\"Who is going to read this record, and will they believe it?\"",
+   "subtitle": "Lesson 03 · Line worth stealing",
+   "text": "The audience for a financial record is not the user. It is a tax inspector, an auditor, or an arbitrator in a payment dispute — none of whom will run your application, and all of whom will ask for the documents and check that the books agree with them.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "why": "The audience for a financial record is not the user. It is a tax inspector, an auditor, or an arbitrator in a payment dispute — none of whom will run your application, and all of whom will ask for the documents and check that the books agree with them."
+  },
+  {
+   "id": "03#l3",
+   "type": "line",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s07",
+   "title": "\"Is the reason field required here, or optional?\"",
+   "subtitle": "Lesson 03 · Line worth stealing",
+   "text": "Developers see a nullable varchar; auditors read it first. Optional means empty in practice, and a correction nobody explained is indistinguishable from a correction somebody is hiding. Make it mandatory on anything that adjusts a posted figure.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "why": "Developers see a nullable varchar; auditors read it first. Optional means empty in practice, and a correction nobody explained is indistinguishable from a correction somebody is hiding. Make it mandatory on anything that adjusts a posted figure."
+  },
+  {
+   "id": "03#l4",
+   "type": "line",
+   "lesson": "03",
+   "href": "lessons/03-never-delete-a-record.html#s07",
+   "title": "\"Is that accounting period closed?\"",
+   "subtitle": "Lesson 03 · Line worth stealing",
+   "text": "The same correction is routine in an open period and a misstatement in a closed one. Before you write anything that back-dates a record, find out whether a report has already gone out with the old figure in it.",
+   "tags": [
+    "audit trail",
+    "chứng từ",
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
+   ],
+   "why": "The same correction is routine in an open period and a misstatement in a closed one. Before you write anything that back-dates a record, find out whether a report has already gone out with the old figure in it."
   },
   {
    "id": "03",
-   "type": "planned",
+   "type": "lesson",
    "lesson": "03",
-   "href": "",
+   "href": "lessons/03-never-delete-a-record.html",
    "title": "Why you can never delete a financial record",
-   "subtitle": "Lesson 03 · not written yet",
-   "text": "A financial row is not application state, it is evidence. Reversal, adjustment and replacement — the three legal ways to be wrong, and the two illegal ones.",
+   "subtitle": "Lesson 03 · Foundation",
+   "text": "A row in this system is not the current state of something. It is a claim about something that happened in the world, and one day a person who does not work here may need to check it. That single difference is where DELETE stops being cleanup and starts being an offence with a name in the Accounting Law. A row of paper stands behind every row of data Ground floor A mistake is answered, never removed The idea An UPDATE destroys evidence even when the new number is right The danger Four ways to fix one wrong row See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
    "tags": [
     "audit trail",
-    "Luật Kế toán 2015",
-    "reversal",
     "chứng từ",
-    "Thông tư 99/2025"
+    "Luật Kế toán 2015",
+    "Thông tư 99/2025",
+    "reversal",
+    "adjustment",
+    "soft delete",
+    "period close"
    ]
   },
   {
-   "id": "04",
-   "type": "planned",
+   "id": "04#s01",
+   "type": "section",
    "lesson": "04",
-   "href": "",
-   "title": "Credit is not a score",
-   "subtitle": "Lesson 04 · not written yet",
-   "text": "Limit, exposure and headroom are three different numbers people call the same thing. Plus what a score is for, and why blocking is usually the wrong action to attach to it.",
+   "href": "lessons/04-credit-is-not-a-score.html#s01",
+   "title": "You lent them the money and nobody used the word",
+   "subtitle": "Lesson 04 · Ground floor",
+   "text": "TAP Any word with a dotted underline opens a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have met it before. A sales rep agrees an order on the phone. The warehouse packs it, a driver delivers it, and an invoice goes out with Net 45 printed at the bottom. Every part of that feels like selling. None of it feels like lending. But look at what actually happened. For the next forty-five days the partner has your goods and you have a piece of paper. You paid for those goods weeks ago. If the partner never pays, that money is simply gone — you have no security, you charge no interest, and the whole thing was approved by somebody who has never heard of a credit committee. That is a loan. An unsecured, interest-free, informally granted loan. The accountant's name for it is accounts receivable ; the amount still open with one partner at this moment is their dư nợ ; and the Vietnamese word covering what they owe you and what you owe them at once is công nợ . Because it is a loan, a company that has been burned once decides the size of it in advance , before any particular order exists. That decision is the credit limit , and it lives on a row of its own: the partner's credit profile . Before any order — the limit is agreed \"We are willing to have up to 500 million out with Minh Phát at any one time.\" Signed, in a contract, by somebody senior enough to lose their job over it. an order arrives The check — is there room? One synchronous call, under three seconds, on the path of a user pressing save. Not a report, not a nightly job: a gate. goods go out, invoice issued Forty-five days of exposure Their debt is on your balance sheet. Every new order on top of it takes another bite out of the same ceiling. So when a requirement says \"check the credit limit before creating the transaction\", it is not asking for a validation rule. It is asking you to enforce a decision somebody already made about how much of the company's own cash may sit in a stranger's warehouse. In the code One row per partner: CreditProfile , table credit_profiles (CM-06). It is the only entity in credit-service carrying @Version , because two approvals for the same partner really do run at the same time, and optimistic locking is the only thing that stops both of them spending the last of the headroom. Tiếng Việt Bán chịu chính là cho vay — không thế chấp, không lãi, và do một nhân viên kinh doanh duyệt. Vì vậy doanh nghiệp phải chốt trước mức tối đa được phép nợ với từng đối tác, đó là hạn mức. Yêu cầu \"kiểm hạn mức trước khi tạo giao dịch\" không phải là một luật validate, nó là chỗ thi hành một quyết định đã có từ trước.",
    "tags": [
     "credit",
     "limit",
     "exposure",
+    "utilisation",
     "scoring",
-    "risk threshold"
+    "credit grade",
+    "risk threshold",
+    "credit contract"
    ]
+  },
+  {
+   "id": "04#s02",
+   "type": "section",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s02",
+   "title": "Three numbers, and only one of them belongs on the screen",
+   "subtitle": "Lesson 04 · The idea",
+   "text": "Sit in one meeting about this feature and you will hear the word \"limit\" used for three different quantities inside ten minutes. They are worth separating once and for all. The limit is the ceiling that was agreed — 500 million. It changes only when a human changes it. The exposure is what is actually owed right now — 240 million across four open invoices. It changes every time an order ships or a payment lands. The headroom is what is left, 260 million, and it is the only one of the three that answers \"can this order go through\". Now the fourth number, the one that is worth more than the other three put together. Divide exposure by limit and you get utilisation — 48%. Its whole value is that it means the same thing for a corner shop and for a factory. \"Minh Phát owes 240 million\" tells a manager nothing until they remember the ceiling. \"Minh Phát is at 48%\" tells them immediately, and \"Minh Phát is at 96%\" gets a phone call. Every alert, every sort order, every red row on a dashboard should be reading utilisation, not the raw amount. A credit limit is not a technical constraint. It is a company deciding, in advance, how much of its own cash it is willing to lend a stranger. Which raises the obvious question: where did 500 million come from? Not from the code, and not from a settings screen. It comes from a signed credit contract — a document with a ceiling, payment terms in days, a late-payment rate if the two sides agreed one, a start date and usually an end date. The Vietnamese name matters here and it is a genuine trap. In Vietnamese law hợp đồng tín dụng means a bank lending money under the Law on Credit Institutions. What we have is two ordinary companies agreeing terms of trade — hợp đồng nguyên tắc , or a hạn mức công nợ . Print the wrong phrase on the interface and you have described your customer as a bank. Contracts are generated from templates so that the standard clauses are not retyped by a salesperson at eleven at night, and every contract keeps a pointer back to the template it came from. Which is why a template is never deleted when it falls out of use — it is switched off, and the contracts that were built from it still resolve. In the code credit_profiles holds all three numbers, and available_credit is a generated column in PostgreSQL — GENERATED ALWAYS AS (credit_limit - used_credit) STORED . Hibernate reads it back and there is no setter. Do not compute the same subtraction anywhere else: two formulas for one number is how they eventually disagree. The contract itself is CreditContract plus ContractTemplate with {{placeholder}} bodies (CM-15, CM-18). Tiếng Việt Ba con số hay bị gọi lẫn: hạn mức (trần đã cấp), dư nợ (đang nợ thật), và phần còn lại. Con số nên hiển thị là tỷ lệ sử dụng — dư nợ chia hạn mức — vì chỉ nó mới so sánh được giữa đối tác lớn và nhỏ. Hạn mức đến từ hợp đồng hạn mức công nợ, và đừng gọi nó là \"hợp đồng tín dụng\" trên giao diện.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ]
+  },
+  {
+   "id": "04#s03",
+   "type": "section",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s03",
+   "title": "The number that changes while somebody is looking at it",
+   "subtitle": "Lesson 04 · The danger",
+   "text": "A limit is a decision made once a year. Credit scoring is the attempt to keep an opinion about a partner up to date every single day, and the requirement names exactly five things it may look at: how reliably they have paid, how long you have worked together, how much business they bring, how often, and how well they honour what they signed. Each of those gets a weight — payment history carries 35 of the 100, transaction value 20, the other three 15 each — and each gets a table converting a measured value into points. Ninety-eight percent of invoices paid on time scores 100 on that criterion; below sixty percent scores 10. Multiply, add, and out comes a number from 0 to 100. Show that number to a human and they will squint, so it is also displayed as a letter: a grade , AAA down to D. Here is the part that surprises developers. There is a nightly job, but it is not what keeps the number current: the score is recomputed the moment a transaction settles, so it moves under your feet: a partner sitting at 73 and grade A pays one invoice thirty days late and lands at 48, grade B, in a different risk band, while an order for them is halfway packed in the warehouse. Somebody now has to decide whether an opinion that changed four minutes ago should stop a lorry that is already loaded. It should not — not on its own. The score is evidence assembled for a person, not a verdict. And the codebase agrees with that in a way worth noticing: the letter grade controls absolutely nothing. No rule anywhere reads it. Its boundaries are hard-coded precisely because they were never meant to drive behaviour. The line you never cross Over the limit is not the same as refused. The gate refuses an order only when both readings agree: the amount is bigger than the headroom, and this partner's risk level is configured to block. Anything else is a warning that still lets the order through with a message attached. Never make blocking the default for a company that has not configured its risk thresholds yet — that freezes every transaction in the business on the day you deploy, and no log line explains why. In a system the sales team depends on, silence with a locked door is far more expensive than an order that needed a phone call afterwards. Two ceilings, because there are two questions The limit and the risk threshold look like duplicates of each other and they are not. The limit answers how much are we willing to have out with this particular partner — negotiated, per partner, written in a contract. The threshold answers given what we now think of partners in this state, how much is prudent at all — a policy, set once per risk level, applying to everybody who lands in that band. A partner can be comfortably inside a generous limit agreed last January and well past the ceiling their current risk level allows. Both numbers are right; they were answering different questions. Each threshold row carries one action, and there are only two of them: warn, or block. There is no \"require another approval\" here, and adding one is a trap that has already been walked into once — budget control has a three-way version of this enum, and copying it across means the database's own CHECK constraint rejects the write. Not in review, not in a test. In production, the first time somebody selects it. And underneath it, a contract quietly expires The failure nobody plans for is not a partner going bad. It is the day the contract behind the limit runs out. Nothing happens loudly: a nightly job moves it from active to expired, the limit it granted stops applying, and the first anyone hears is a sales rep on the phone saying the system refused an order. That is what the notice period is for — a warning sent while there are still thirty days to renew. Note what \"about to expire\" is not : it is not a status. It is derived, end date minus today, and the contract stays fully active the whole time. Make it a status and every check for \"is this contract valid\" has to remember two values instead of one, which is a bug with a very long tail. And expiry does not cancel anything already owed — an expired contract stops new business, it does not forgive the công nợ that arose while it was alive. Who is actually asking None of this lives on a credit screen for its own sake. Four other parts of the system stop and ask before they will do their job. Saving a transaction A synchronous call to the credit check, on the user's save button, budgeted under three seconds · TM-18. Registering an invoice for financing The financier wants the same answer before advancing money against the receivable · SCF-09. \"Payment history\" in the score The same behaviour DSO measures in days, counted here as the percentage of invoices settled on or before their due date · CM-07. The overdue job, every night Moves exposures past due, counts the days, and accrues late interest as a tracking figure — never added to the principal · CM-02, CM-19. In the code Weights and conversion bands live in credit_scoring_rules , not in Java — the active rows must total exactly 100, and the engine throws rather than quietly scoring everybody 20% low. Each run appends a row to credit_score_histories with its trigger_reason , so you can tell later whether a drop came from the partner's behaviour or from somebody pressing recalculate. Thresholds are RiskThreshold with ThresholdAction = NOTIFY | BLOCK (CM-11, CM-12). Tiếng Việt Điểm tín dụng chạy lại ngay sau mỗi khoản tất toán, nên một lần trả trễ có thể kéo đối tác tụt hai hạng trong lúc đơn hàng đang đóng gói. Điểm là căn cứ để người quyết định, không phải bản thân quyết định — hạng bằng chữ trong hệ thống này không điều khiển gì cả. Chỉ chặn khi vừa vượt hạn mức vừa có ngưỡng đặt BLOCK; mặc định chặn là khoá cứng cả doanh nghiệp.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ]
+  },
+  {
+   "id": "04#s04",
+   "type": "section",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s04",
+   "title": "One partner, and every number that moves with them",
+   "subtitle": "Lesson 04 · See it",
+   "text": "Minh Phát is a customer of two and a half years with a 500 million limit. Two of their invoices are paid and closed, two are still open at 120 million each. That is 240 million of exposure, 48% of the ceiling used, a score of 73, grade A, risk level low. Push them. Take more orders and watch the headroom close; settle an invoice on time or thirty days late and watch the score move with it; or let one sit forty days past its due date and notice what that does not do. The dashed line on the bar is the exposure ceiling for whichever risk level they are currently in — it moves when they are re-graded, which is the whole point. Take another order · 120m Oldest invoice paid on time Oldest paid 30 days late Let the oldest run 40 days overdue Reset Exposure — owed right now — Limit used — Score, out of 100 — Grade · risk level — — — The weights and the point bands are the ones the project seeds into the database, and the decision at the bottom is the real gate, rule for rule. Notice two things the weights make true: taking on more debt raises the score, because value and frequency are 35 of the 100 between them; and contract compliance is never scored at all, because nothing in the system measures whether a delivery arrived on spec — its weight is shared out among the rest rather than handed over as free points. The maths lives in finance/sim-04.js and has its own check: node tools/test-04.mjs .",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ]
+  },
+  {
+   "id": "04#s05",
+   "type": "section",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 04 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ]
+  },
+  {
+   "id": "04#s06",
+   "type": "section",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 04 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ]
+  },
+  {
+   "id": "04#s07",
+   "type": "section",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 04 · Take away",
+   "text": "\"When you say the limit — do you mean the ceiling, the amount owed, or what is left?\" Ask it the first time, in front of everyone, and you save three sprints of quiet confusion. These are three different columns with three different owners, and in most conversations all three are called the limit. \"When the score changes, what actually changes for a user?\" If the honest answer is \"nothing until somebody opens the screen\", say so out loud — that is a fine design. If the answer is \"an order stops\", then a person's name has to be attached to that decision, because a machine is about to refuse revenue. \"What should happen when we have no measurement for this criterion at all?\" Absent is not zero and it is not average. Defaulting a missing criterion invents a partner who does not exist — flattering a brand-new one, or punishing them for data the system never collected. Drop the criterion and renormalise the rest. \"Is the action on this threshold warn or block — and who decided that?\" It has to come from the customer, in writing, per risk level. A developer choosing block because it feels safer will lock the sales team out of their own system on go-live day, and the ticket will read \"credit feature broken\". \"What happens the day this contract expires — does it stop new business, or cancel what is already owed?\" It stops new business only. Debts that arose while the contract was alive survive it, interest and all. Anyone who assumes otherwise writes off money the company is still legally entitled to collect. Tiếng Việt Bạn không cần thành chuyên viên tín dụng. Chỉ cần phân biệt được ba con số hay bị gọi chung là \"hạn mức\", và nhận ra lúc nào một con số chỉ để người đọc tham khảo, lúc nào nó thật sự chặn một đơn hàng — rồi hỏi lại trước khi code.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ]
+  },
+  {
+   "id": "04#s08",
+   "type": "section",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 04 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ]
+  },
+  {
+   "id": "04#q0",
+   "type": "quiz",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s05",
+   "title": "A dashboard has to highlight the partners who are close to their ceiling. Which number should the query sort on?",
+   "subtitle": "Lesson 04 · Test yourself",
+   "text": "Utilisation — exposure divided by the limit An exposure of 240 million is alarming for one partner and trivial for another; only the ratio means the same thing for both. Note that no column stores it — exposure and the limit are stored, utilisation is derived at read time. A fourth stored number that has to agree with the other three is exactly how they eventually stop agreeing.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "answer": "Utilisation — exposure divided by the limit",
+   "why": "An exposure of 240 million is alarming for one partner and trivial for another; only the ratio means the same thing for both. Note that no column stores it — exposure and the limit are stored, utilisation is derived at read time. A fourth stored number that has to agree with the other three is exactly how they eventually stop agreeing."
+  },
+  {
+   "id": "04#q1",
+   "type": "quiz",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s05",
+   "title": "A partner was onboarded last week. Nothing they have bought has settled yet, so payment history — 35 of the 100 points — has nothing to measure. What should the scoring engine do with it?",
+   "subtitle": "Lesson 04 · Test yourself",
+   "text": "Drop the criterion from this run and renormalise the weights of the rest back to 100 Zero punishes a partner for data the system has not collected, and caps their score below 100 forever. A neutral default is worse: it writes a made-up number into an append-only history where no later reader can tell it was invented. The engine drops what it cannot measure and divides by the weight it actually scored. Contract compliance is dropped on every single run for exactly this reason — nothing in the system records whether a delivery arrived on spec.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "answer": "Drop the criterion from this run and renormalise the weights of the rest back to 100",
+   "why": "Zero punishes a partner for data the system has not collected, and caps their score below 100 forever. A neutral default is worse: it writes a made-up number into an append-only history where no later reader can tell it was invented. The engine drops what it cannot measure and divides by the weight it actually scored. Contract compliance is dropped on every single run for exactly this reason — nothing in the system records whether a delivery arrived on spec."
+  },
+  {
+   "id": "04#q2",
+   "type": "quiz",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s05",
+   "title": "A partner sits at grade A, risk level low. An order arrives that is 80 million bigger than their remaining headroom. The action configured on their risk level is NOTIFY. What does the credit check return?",
+   "subtitle": "Lesson 04 · Test yourself",
+   "text": "Allowed, with a reason attached explaining the overrun Being over the limit is one of two conditions, not the decision. The gate refuses only when the amount exceeds the headroom AND that partner's risk level is configured to block. A company that has not configured thresholds at all also gets the permissive answer — because defaulting to block would freeze every transaction in the business on the day the feature ships, and no log line would explain why.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "answer": "Allowed, with a reason attached explaining the overrun",
+   "why": "Being over the limit is one of two conditions, not the decision. The gate refuses only when the amount exceeds the headroom AND that partner's risk level is configured to block. A company that has not configured thresholds at all also gets the permissive answer — because defaulting to block would freeze every transaction in the business on the day the feature ships, and no log line would explain why."
+  },
+  {
+   "id": "04#q3",
+   "type": "quiz",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s05",
+   "title": "You want a third option on risk thresholds — warn, block, and require another approval — the way budget control already does it. What actually happens when you add REQUIRE_APPROVAL to the enum?",
+   "subtitle": "Lesson 04 · Test yourself",
+   "text": "The database CHECK constraint rejects the write, in production, the first time a user picks it The column carries CHECK (action IN ('NOTIFY','BLOCK')). Java is happy, the unit tests are happy, and the failure waits for a real user on a real database. Budget control's three-way version has a multi-level approval workflow standing behind it; credit risk has no such requirement and no such workflow. If the third action is genuinely wanted, it starts with a requirement and a migration — never with an enum constant.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "answer": "The database CHECK constraint rejects the write, in production, the first time a user picks it",
+   "why": "The column carries CHECK (action IN ('NOTIFY','BLOCK')). Java is happy, the unit tests are happy, and the failure waits for a real user on a real database. Budget control's three-way version has a multi-level approval workflow standing behind it; credit risk has no such requirement and no such workflow. If the third action is genuinely wanted, it starts with a requirement and a migration — never with an enum constant."
+  },
+  {
+   "id": "04#q4",
+   "type": "quiz",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s05",
+   "title": "The system must warn thirty days before a credit contract expires. Why is there no EXPIRING status?",
+   "subtitle": "Lesson 04 · Test yourself",
+   "text": "Because about-to-expire is derived from the end date, and a contract in that window is still fully in force A contract thirty days from expiry grants its limit exactly as before and debts still arise under it. Turn the warning window into a status and every check for a valid contract has to remember two values instead of one — and the day somebody forgets, perfectly valid contracts start refusing orders. The nightly job sends the notice and leaves the status alone. Expiry itself is caused by the clock rather than by anyone pressing a button, which makes it the transition most often missing from the tests.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "answer": "Because about-to-expire is derived from the end date, and a contract in that window is still fully in force",
+   "why": "A contract thirty days from expiry grants its limit exactly as before and debts still arise under it. Turn the warning window into a status and every check for a valid contract has to remember two values instead of one — and the day somebody forgets, perfectly valid contracts start refusing orders. The nightly job sends the notice and leaves the status alone. Expiry itself is caused by the clock rather than by anyone pressing a button, which makes it the transition most often missing from the tests."
+  },
+  {
+   "id": "04#p0",
+   "type": "scene",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s06",
+   "title": "\"Simple enough: if the partner is over their limit, block the order.\"",
+   "subtitle": "Your BA — refining the credit story",
+   "text": "Over the limit is one of two conditions in the spec — the other is the action configured on that partner's risk level. If that action is warn, the order still goes through carrying a message. Could we default new customers to warn, so nobody is locked out on day one? You quoted the rule accurately, named the consequence of the simpler version in the customer's own terms, and proposed the safe default rather than merely objecting. That is the entire job in three sentences.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "answer": "Over the limit is one of two conditions in the spec — the other is the action configured on that partner's risk level. If that action is warn, the order still goes through carrying a message. Could we default new customers to warn, so nobody is locked out on day one?",
+   "why": "You quoted the rule accurately, named the consequence of the simpler version in the customer's own terms, and proposed the safe default rather than merely objecting. That is the entire job in three sentences."
+  },
+  {
+   "id": "04#p1",
+   "type": "scene",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s06",
+   "title": "\"Your system just dropped my best customer two grades over one late payment. That customer is twelve percent of our revenue.\"",
+   "subtitle": "The customer's sales director — mid-demo",
+   "text": "Payment history carries thirty-five of the hundred points, so one late settlement moves a lot at once. But the grade itself blocks nothing — it changed a label. The thing that can actually stop an order is the risk threshold, and those numbers are yours. Shall we look at what your low and medium rows say, and at whether thirty-five is the weight you want? One sentence of mechanism, then the distinction that matters: the alarming thing and the harmful thing are not the same thing. You finished by handing the controls back to the person who should be holding them. This is the answer that keeps the feature turned on.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "answer": "Payment history carries thirty-five of the hundred points, so one late settlement moves a lot at once. But the grade itself blocks nothing — it changed a label. The thing that can actually stop an order is the risk threshold, and those numbers are yours. Shall we look at what your low and medium rows say, and at whether thirty-five is the weight you want?",
+   "why": "One sentence of mechanism, then the distinction that matters: the alarming thing and the harmful thing are not the same thing. You finished by handing the controls back to the person who should be holding them. This is the answer that keeps the feature turned on."
+  },
+  {
+   "id": "04#p2",
+   "type": "scene",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s06",
+   "title": "\"Contract compliance comes out unscored on every profile. Just default it to 100 so the scores stop looking lopsided.\"",
+   "subtitle": "Your tech lead — reviewing the pull request",
+   "text": "There is genuinely nothing to score — nothing in the system records whether a delivery arrived on spec. The engine already handles that: unmeasurable criteria are dropped and the remaining weights renormalise, so nobody is being penalised, the score is simply out of the four we can see. If we want the fifth, it starts with capturing delivery acceptance. You explained why the gap exists, showed that the design already answers it, and priced what a real fix would cost. A missing measurement and a measurement of zero are different facts, and a history meant to be read years later has to be able to tell them apart.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "answer": "There is genuinely nothing to score — nothing in the system records whether a delivery arrived on spec. The engine already handles that: unmeasurable criteria are dropped and the remaining weights renormalise, so nobody is being penalised, the score is simply out of the four we can see. If we want the fifth, it starts with capturing delivery acceptance.",
+   "why": "You explained why the gap exists, showed that the design already answers it, and priced what a real fix would cost. A missing measurement and a measurement of zero are different facts, and a history meant to be read years later has to be able to tell them apart."
+  },
+  {
+   "id": "04#l0",
+   "type": "line",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s07",
+   "title": "\"When you say the limit — do you mean the ceiling, the amount owed, or what is left?\"",
+   "subtitle": "Lesson 04 · Line worth stealing",
+   "text": "Ask it the first time, in front of everyone, and you save three sprints of quiet confusion. These are three different columns with three different owners, and in most conversations all three are called the limit.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "why": "Ask it the first time, in front of everyone, and you save three sprints of quiet confusion. These are three different columns with three different owners, and in most conversations all three are called the limit."
+  },
+  {
+   "id": "04#l1",
+   "type": "line",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s07",
+   "title": "\"When the score changes, what actually changes for a user?\"",
+   "subtitle": "Lesson 04 · Line worth stealing",
+   "text": "If the honest answer is \"nothing until somebody opens the screen\", say so out loud — that is a fine design. If the answer is \"an order stops\", then a person's name has to be attached to that decision, because a machine is about to refuse revenue.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "why": "If the honest answer is \"nothing until somebody opens the screen\", say so out loud — that is a fine design. If the answer is \"an order stops\", then a person's name has to be attached to that decision, because a machine is about to refuse revenue."
+  },
+  {
+   "id": "04#l2",
+   "type": "line",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s07",
+   "title": "\"What should happen when we have no measurement for this criterion at all?\"",
+   "subtitle": "Lesson 04 · Line worth stealing",
+   "text": "Absent is not zero and it is not average. Defaulting a missing criterion invents a partner who does not exist — flattering a brand-new one, or punishing them for data the system never collected. Drop the criterion and renormalise the rest.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "why": "Absent is not zero and it is not average. Defaulting a missing criterion invents a partner who does not exist — flattering a brand-new one, or punishing them for data the system never collected. Drop the criterion and renormalise the rest."
+  },
+  {
+   "id": "04#l3",
+   "type": "line",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s07",
+   "title": "\"Is the action on this threshold warn or block — and who decided that?\"",
+   "subtitle": "Lesson 04 · Line worth stealing",
+   "text": "It has to come from the customer, in writing, per risk level. A developer choosing block because it feels safer will lock the sales team out of their own system on go-live day, and the ticket will read \"credit feature broken\".",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "why": "It has to come from the customer, in writing, per risk level. A developer choosing block because it feels safer will lock the sales team out of their own system on go-live day, and the ticket will read \"credit feature broken\"."
+  },
+  {
+   "id": "04#l4",
+   "type": "line",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html#s07",
+   "title": "\"What happens the day this contract expires — does it stop new business, or cancel what is already owed?\"",
+   "subtitle": "Lesson 04 · Line worth stealing",
+   "text": "It stops new business only. Debts that arose while the contract was alive survive it, interest and all. Anyone who assumes otherwise writes off money the company is still legally entitled to collect.",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ],
+   "why": "It stops new business only. Debts that arose while the contract was alive survive it, interest and all. Anyone who assumes otherwise writes off money the company is still legally entitled to collect."
+  },
+  {
+   "id": "04",
+   "type": "lesson",
+   "lesson": "04",
+   "href": "lessons/04-credit-is-not-a-score.html",
+   "title": "Credit is not a score",
+   "subtitle": "Lesson 04 · Core",
+   "text": "Credit here has nothing to do with a bank. It is the everyday trust between two companies — take the goods today, pay me in forty-five days. Three numbers describe it, everyone in the room calls all three \"the limit\", and the one that should be on the screen is usually the one nobody computed. You lent them the money and nobody used the word Ground floor Three numbers, and only one of them belongs on the screen The idea The number that changes while somebody is looking at it The danger One partner, and every number that moves with them See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "credit",
+    "limit",
+    "exposure",
+    "utilisation",
+    "scoring",
+    "credit grade",
+    "risk threshold",
+    "credit contract"
+   ]
+  },
+  {
+   "id": "05#s01",
+   "type": "section",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s01",
+   "title": "Ten billion owed tells you almost nothing",
+   "subtitle": "Lesson 05 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. Two companies open the dashboard. Both are owed ten billion đồng. The first one's ten billion is every invoice issued in the last fortnight and not one of them is late yet. The second one's ten billion includes three and a half billion that has been sitting there since before Tết. Same number on the screen. The first company is healthy. The second has already lost money and has not admitted it out loud yet. The total hides it because it adds together two things that are not the same substance: money that is merely waiting, and money that is not coming. Split the total by how far past its due date each piece is, and the difference is visible at a glance. That split has a name — the aging report . The default grouping here is five buckets: still in term, 1–30 days past due, 31–60, 61–90, and over 90. A bucket is not a statistic, it is a different conversation. Nothing in term needs doing. One to thirty days over is a phone call to accounts payable. Thirty-one to sixty means stop shipping on credit until it clears. Past ninety, you are not collecting a debt any more — you are negotiating a settlement, and part of that money is already gone. The boundaries are configurable, and not for the sake of flexibility. A construction supplier is routinely paid at 120 days and nothing is wrong. A food distributor whose customer is 45 days late is already in trouble. Different industries collapse at different speeds, so the boundaries belong to the company, which means the column headings are data rather than captions. Why DSO does not tell you this DSO is an average over the invoices that have settled. Forty customers paying at thirty days and one large customer two hundred days late produces a DSO of about thirty-four. It looks like a well-run receivables book, and it is one large customer away from a write-off. Worse, the debts that never settle at all never enter the average. DSO answers \"how long does our money usually take\". Aging answers a different question: \"how much of it is in trouble right now \". A good DSO sitting on top of a fat tail is the most common shape of a company about to lose money, and the total on its own shows neither. Now turn the report around Everything above was about what you are owed . Run the same report on what you owe and it stops being about your customers and starts being about you. Vietnamese has one word for both directions at once — công nợ — which is convenient here, because with some partners the two reports are about the same company. If half of what you owe your suppliers is already past due, nobody decided that. It happened. It means the business has been quietly funding itself on its suppliers' money — which is a real source of finance right up to the morning the supplier stops delivering, and it is accruing late-payment interest that nobody has booked. The payables aging is the cheapest early warning a finance director has, and it is the report nobody asks for. In the code GET /credit/reports/aging (CM-20) returns five figures — current , bucket1..3 , over — plus the bucketBoundaries they were built from. The boundaries come from credit_settings.aging_buckets , default [30,60,90] . That table is a dated series keyed on (company_id, effective_from) rather than one row per company, so re-running last quarter's report still groups it the way last quarter did. Only exposures in OUTSTANDING or OVERDUE are counted, and the column labels are built in the backend by AgingBucketLabels — one of the few places display text does not live in the frontend, because the number of columns is not known until you read the config. Tiếng Việt Một con số tổng công nợ gần như không nói lên điều gì; phải chia theo số ngày quá hạn thì mới thấy. Báo cáo tuổi nợ chia dư nợ thành các nhóm — trong hạn, 1–30, 31–60, 61–90, trên 90 ngày — và ranh giới nhóm là cấu hình của từng công ty, vì mỗi ngành sập với tốc độ khác nhau. Chạy báo cáo đó cho cả chiều phải trả nữa: nửa số tiền mình nợ nhà cung cấp đã quá hạn nghĩa là mình đang lấy vốn của họ mà xài.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ]
+  },
+  {
+   "id": "05#s02",
+   "type": "section",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s02",
+   "title": "The debt that cancels itself",
+   "subtitle": "Lesson 05 · The idea",
+   "text": "Công ty Thành Đạt buys packaging from us and sells us cartons. Two relationships, one company, and on the thirty-first of March the books say two things at once: they owe us 150 million on an invoice that fell due last December, and we owe them 130 million falling due in ten days. The obvious thing is two bank transfers in opposite directions. Two payment orders, two approvals, two sets of bank charges, and 280 million of money moving to settle 20 million of actual difference. The other thing you can do is write down that 130 million of what they owe us and 130 million of what we owe them are the same 130 million, and that both of them are now over. Nobody transfers anything. In Vietnamese this is bù trừ công nợ ; in English, offsetting. This is not the accountant being clever with the books. Điều 378 of the Bộ luật Dân sự 2015 lists offsetting among the ways an obligation is extinguished — the same list that payment is on. The debt does not get smaller or get postponed. It ends, with the same legal finality as money arriving. Nothing moved, and both debts are over. Offsetting is not a tidy-up — it is a payment made out of paper. The paper is a biên bản bù trừ công nợ , an offset minutes, and it is not a memo. It names each debt on each side, how much is being taken off each one, and the single total both parties are cancelling. Both companies sign it, and after that the amount is gone from both sets of books. Three conditions make it lawful rather than merely convenient. The debts must be with the same partner — what A owes you cannot cancel what you owe B, because B never agreed to anything. They must be in the same currency , since a claim in dollars and a claim in đồng are two different things until somebody fixes a rate and that is a separate decision with a separate date. And the two sides of the minutes must total exactly the same amount. That last one is where the next section lives, because it is the rule a developer is most likely to be asked to relax. In the code The minutes is credit_offsets with its lines in credit_offset_lines . OffsetStatus has exactly two values, CONFIRMED → CANCELED , with no DRAFT — a minutes only gets written once both sides have agreed, so it takes effect the moment it exists. The lines are append-only and have no setters: editing one means cancelling the minutes and writing a new one. Each line adds to credit_exposures.offset_amount , and when amount − offset_amount reaches zero the exposure becomes SETTLED with settled_date set to the date of the minutes, publishing the same credit.exposure-settled.v1 event a real payment would. Offsetting adds no status and no event type: it is the second road to settlement, not a new kind of thing (CM-21). Tiếng Việt Khi một đối tác vừa là khách hàng vừa là nhà cung cấp, hai khoản nợ ngược chiều có thể triệt tiêu nhau mà không bên nào chuyển tiền. Đó là bù trừ công nợ, căn cứ Điều 378 Bộ luật Dân sự 2015 — nghĩa vụ chấm dứt đúng như đã trả tiền. Điều kiện: cùng đối tác, cùng loại tiền, và tổng hai phía của biên bản phải bằng nhau tuyệt đối.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ]
+  },
+  {
+   "id": "05#s03",
+   "type": "section",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s03",
+   "title": "Exactly equal, and the word \"deleted\"",
+   "subtitle": "Lesson 05 · The danger",
+   "text": "Somebody will ask you for a tolerance. The two sides of a minutes come out 300 thousand apart because of an old rounding, the paperwork is signed already, and the request is to let a difference through. It looks like a form validation being stubborn. It is not a validation. The total is the thing both parties are signing: each side is agreeing that this exact amount of its own claim has ended. If the receivable side totals 150 million and the payable side 130, there is no such amount. You would be extinguishing 150 million of their obligation against 130 million of yours, and the extra 20 million has been given away by nobody, on the authority of nobody, recorded as no decision at all. Depending on which side of the table you sit, that is a gift or a theft. It is never a rounding. And there is nowhere for it to hide afterwards. A payment leaves a bank line. A write-off leaves an approval. An unbalanced offset leaves two ledgers that disagree by an amount neither company can explain, and it surfaces at the worst possible moment — the year-end confirmation letter, when the partner's accountant sends over their figure for the balance and it is not yours. The line you never cross Two sides that are not exactly equal are not an offset. Same partner, same currency, both sides identical to the đồng — and no line larger than what is actually left of that debt. A debt that is already settled or written off has no obligation left to cancel, and offsetting it a second time hands the same credit limit back twice out of thin air. None of these can be a database constraint: no CHECK can see more than one row at a time, so all of them live inside one service method. That method is the only thing standing between the ledger and a balance nobody agreed to. Part of a debt, and taking it back A line may be smaller than the debt it sits on. Offsetting 130 million against a 150 million invoice leaves 20 million alive: still owed, still aging from its original due date, still accruing late interest. Partial offsetting does not reset anything — the remainder keeps the age it already had, which is exactly why the aging report has to read the remaining balance rather than the invoice amount. A minutes can also be cancelled, and then every đồng goes back. What does not go back is the calendar. Whether each debt returns as in term or as overdue is worked out against the day of the cancellation, not the day of the minutes. A payable that was comfortably in term on the thirty-first of March comes back on the twentieth of April ten days overdue. Nobody changed it and no job made a mistake; time passed while the debt was in suspension, and the aging report is always a report as of a date. And the sentence that should alarm you Sooner or later a debt is not coming back at all. Marking it written off is a real decision: we have stopped expecting this money, take it out of the live book, and someone signs their name to the loss. The row stays. It stays because the loss is a fact that has to be visible somewhere, because the decision had an owner and a date, and because a partner who cost you money is a partner whose credit standing should carry it. Writing off removes the claim, not the history. So \"we finally deleted those old debts\" is a sentence that should stop the meeting. Deleting is not writing off. If the rows are gone, the aging report is clean, the loss appears nowhere, the partner's record is spotless, and nobody can now say who decided any of it. Ask which of the two actually happened — and if the answer is a DELETE , that is the bug, not the tidy aging report it produced. In the code CreditOffsetService.create enforces five invariants, all of them 422s rather than 400s — the request is well formed, the business simply does not allow it: every debt still open, all of them on the same credit profile, all the same currency, the two sides equal, and each line no larger than what is left of that debt at the time of writing . cancel restores offset_amount and then decides OUTSTANDING against OVERDUE using LocalDate.now(clock) — an injected Clock , never a bare now() . A debt settled by offsetting is recognised by being SETTLED with nothing remaining, not by matching dates, so a debt paid in real money is never resurrected. And WRITTEN_OFF keeps its row for the audit trail (SEC-04), while a transaction cancelled before disbursement deletes its exposure outright — because that debt never came into existence, and confusing the two makes every partner with a cancelled order look like a bad debtor. Tiếng Việt Tổng hai phía phải bằng nhau tuyệt đối, không có dung sai: chênh một đồng nghĩa là có người mất tiền mà không ai quyết định. Bù trừ một phần thì phần còn lại vẫn sống, vẫn tính tuổi từ ngày đến hạn cũ. Huỷ biên bản thì số dư quay lại nguyên vẹn nhưng ngày tháng thì không — khoản đang trong hạn lúc bù trừ có thể quay về đã quá hạn. Và xoá sổ nợ khác hoàn toàn với xoá bản ghi: mất tiền chứ không được mất dấu vết.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ]
+  },
+  {
+   "id": "05#s04",
+   "type": "section",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s04",
+   "title": "One partner, both directions, one piece of paper",
+   "subtitle": "Lesson 05 · See it",
+   "text": "Công ty Thành Đạt again, as of 31 March 2026. On the left, what they owe us; on the right, what we owe them. Read the two bars before you touch anything: the same 440 million looks very different once it is split by age, and a third of it is past ninety days. Drag an amount on each side to build a minutes. The confirm button stays disabled until the two sides are exactly equal, and tells you what is wrong until they are. One combination clears the whole over-90 tail — and needs a partial line to do it. Confirm, watch the buckets redraw, then cancel the minutes and watch the calendar do something to a debt that nobody touched. Confirm the minutes Cancel the minutes, three weeks later Reset Report as of — They owe us — We owe them — Picked · them / us — They owe us · receivable — We owe them · payable — Amounts move in steps of ten million because the sliders have to be able to land on exactly equal — in the real screen these are typed amounts on each line, which is harder, not easier. The written-off invoice is shown because that is the point: the row is still there, it is simply not in any bucket and cannot be offset. The maths lives in finance/sim-05.js and has its own check: node tools/test-05.mjs .",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ]
+  },
+  {
+   "id": "05#s05",
+   "type": "section",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 05 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ]
+  },
+  {
+   "id": "05#s06",
+   "type": "section",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 05 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ]
+  },
+  {
+   "id": "05#s07",
+   "type": "section",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 05 · Take away",
+   "text": "\"Can I see that total split by age — how much of it is past ninety days?\" Turns a number nobody can act on into a number with an owner. It is also the fastest way to find out whether the person quoting the total has ever looked at what is inside it. \"Are those bucket boundaries configuration, or did we write 1–30 into the template?\" The boundaries belong to the company and live in a dated settings row, so a hard-coded heading is wrong for every customer who changes them and wrong for every report re-run over an older period. It is a one-line question that saves a rewrite of the report layer. \"The two sides differ by three hundred thousand — who is signing for that difference?\" Reframes a validation error as what it actually is: an amount somebody loses without deciding to. Asked this way it stops being your form being difficult and starts being their problem to answer. \"Did we write those debts off, or did we delete them?\" Two operations that produce the same clean screen and opposite legal positions. One is a decision with an owner, a date and a row that survives it; the other is evidence disappearing, and it is usually said out loud by someone who thinks they did housekeeping. \"Overdue as of which date?\" An aging figure with no as-of date is a screenshot of nothing — the same debt is in term on Friday and thirty days over next month, without anybody touching it. This is also the question that catches a report quietly built on today instead of the date the user asked for. Tiếng Việt Không cần biết kế toán. Chỉ cần đủ để hỏi: tổng này chia theo tuổi nợ ra sao, ranh giới nhóm lấy từ đâu, và ai chịu trách nhiệm cho phần chênh lệch. Ba câu đó bắt gần hết lỗi nghiệp vụ của hai tính năng này.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ]
+  },
+  {
+   "id": "05#s08",
+   "type": "section",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 05 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ]
+  },
+  {
+   "id": "05#q0",
+   "type": "quiz",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s05",
+   "title": "A partner's DSO has barely moved in six months, but the over-90 bucket on their aging report has grown from 40 million to 300 million. Which fact is the more urgent one?",
+   "subtitle": "Lesson 05 · Test yourself",
+   "text": "The bucket — DSO is an average over what has settled, and the debts that never settle never enter it DSO answers how long money usually takes; aging answers how much of it is in trouble right now. A stable DSO with a growing tail is the standard shape of a receivables book about to lose money, because the worst debts drop out of the average entirely by never settling at all.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "answer": "The bucket — DSO is an average over what has settled, and the debts that never settle never enter it",
+   "why": "DSO answers how long money usually takes; aging answers how much of it is in trouble right now. A stable DSO with a growing tail is the standard shape of a receivables book about to lose money, because the worst debts drop out of the average entirely by never settling at all."
+  },
+  {
+   "id": "05#q1",
+   "type": "quiz",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s05",
+   "title": "The two sides of an offset minutes come out 300 thousand apart because of an old rounding. Sales asks for a tolerance so the signed paperwork does not have to be redone. What is actually being asked for?",
+   "subtitle": "Lesson 05 · Test yourself",
+   "text": "An amount of money to be given up by one side with nobody deciding to and nothing recording it The total is what both parties sign: each side is agreeing that exactly this much of its own claim has ended. If the totals differ, there is no such amount — one side has extinguished more than the other, and the difference has no payment, no approval and no owner. It resurfaces at the year-end confirmation letter as two ledgers that disagree.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "answer": "An amount of money to be given up by one side with nobody deciding to and nothing recording it",
+   "why": "The total is what both parties sign: each side is agreeing that exactly this much of its own claim has ended. If the totals differ, there is no such amount — one side has extinguished more than the other, and the difference has no payment, no approval and no owner. It resurfaces at the year-end confirmation letter as two ledgers that disagree."
+  },
+  {
+   "id": "05#q2",
+   "type": "quiz",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s05",
+   "title": "An offset minutes made on 31 March is cancelled on 20 April. One of its lines was a payable due 10 April, in term on the day of the minutes. What should it come back as?",
+   "subtitle": "Lesson 05 · Test yourself",
+   "text": "OVERDUE, by ten days — status is decided against the day of the cancellation Cancelling restores the balances, not the calendar. The service works out OUTSTANDING against OVERDUE by comparing due_date with LocalDate.now(clock) at the moment of cancellation, so a debt suspended across its own due date comes back late. Restoring the old status instead would hide a genuinely overdue debt from the aging report until the next nightly run.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "answer": "OVERDUE, by ten days — status is decided against the day of the cancellation",
+   "why": "Cancelling restores the balances, not the calendar. The service works out OUTSTANDING against OVERDUE by comparing due_date with LocalDate.now(clock) at the moment of cancellation, so a debt suspended across its own due date comes back late. Restoring the old status instead would hide a genuinely overdue debt from the aging report until the next nightly run."
+  },
+  {
+   "id": "05#q3",
+   "type": "quiz",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s05",
+   "title": "A transaction is cancelled before any money is disbursed. Its credit exposure should be:",
+   "subtitle": "Lesson 05 · Test yourself",
+   "text": "Deleted — the debt never came into existence, and WRITTEN_OFF says something different and much worse about the partner WRITTEN_OFF means a real debt was given up: it belongs in the audit trail and it should drag the partner's credit standing down. A cancelled transaction never produced an obligation at all. Use the first for the second and every partner who has ever had an order cancelled starts looking like a bad debtor.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "answer": "Deleted — the debt never came into existence, and WRITTEN_OFF says something different and much worse about the partner",
+   "why": "WRITTEN_OFF means a real debt was given up: it belongs in the audit trail and it should drag the partner's credit standing down. A cancelled transaction never produced an obligation at all. Use the first for the second and every partner who has ever had an order cancelled starts looking like a bad debtor."
+  },
+  {
+   "id": "05#q4",
+   "type": "quiz",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s05",
+   "title": "A 150 million receivable that is 111 days past due gets 130 million of it offset. What does the next aging report show for it?",
+   "subtitle": "Lesson 05 · Test yourself",
+   "text": "20 million, still in the over-90 bucket — the remainder keeps the age it already had Partial offsetting settles part of an obligation; it does not renegotiate the due date. The remainder is the same debt, the same age, still accruing late interest. This is why the report has to be built from amount minus offset_amount rather than from the invoice value.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "answer": "20 million, still in the over-90 bucket — the remainder keeps the age it already had",
+   "why": "Partial offsetting settles part of an obligation; it does not renegotiate the due date. The remainder is the same debt, the same age, still accruing late interest. This is why the report has to be built from amount minus offset_amount rather than from the invoice value."
+  },
+  {
+   "id": "05#p0",
+   "type": "scene",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s06",
+   "title": "\"Just put the column headings in the template: in term, 1–30, 31–60, 61–90, over 90. Nobody ever changes those.\"",
+   "subtitle": "Your BA — refining the aging report",
+   "text": "The boundaries are a company setting and they are versioned by date, so the number of columns is not known until we read the config — and a report re-run over last quarter has to come back labelled the way last quarter was grouped. Can we render the headings from bucketBoundaries in the response? You named the two consequences, one for the customer who changes the setting and one for anyone re-running an old report, and you finished with the smaller fix rather than an objection. That is why the labels are built by the service that knows the boundaries.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "answer": "The boundaries are a company setting and they are versioned by date, so the number of columns is not known until we read the config — and a report re-run over last quarter has to come back labelled the way last quarter was grouped. Can we render the headings from bucketBoundaries in the response?",
+   "why": "You named the two consequences, one for the customer who changes the setting and one for anyone re-running an old report, and you finished with the smaller fix rather than an objection. That is why the labels are built by the service that knows the boundaries."
+  },
+  {
+   "id": "05#p1",
+   "type": "scene",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s06",
+   "title": "\"The two sides of my offset minutes differ by 300 thousand. Both directors have signed already. Just let it save.\"",
+   "subtitle": "The customer's chief accountant — during UAT",
+   "text": "If we let that through, one side ends 300 thousand more of its claim than the other, and there is no payment or approval anywhere saying who gave it up — it comes back at the year-end confirmation. Take 300 thousand off the larger line instead: the offset balances, and the 300 thousand stays as a live debt you can settle or write off with its own approval. You explained the consequence in their language, avoided calling anybody wrong, and handed over a route that keeps the signatures valid. Partial offsetting is exactly the tool for this, and most people asking for a tolerance do not know it exists.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "answer": "If we let that through, one side ends 300 thousand more of its claim than the other, and there is no payment or approval anywhere saying who gave it up — it comes back at the year-end confirmation. Take 300 thousand off the larger line instead: the offset balances, and the 300 thousand stays as a live debt you can settle or write off with its own approval.",
+   "why": "You explained the consequence in their language, avoided calling anybody wrong, and handed over a route that keeps the signatures valid. Partial offsetting is exactly the tool for this, and most people asking for a tolerance do not know it exists."
+  },
+  {
+   "id": "05#p2",
+   "type": "scene",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s06",
+   "title": "\"The 2024 exposures are cluttering the aging report. Let us add a cleanup job that deletes anything older than eighteen months.\"",
+   "subtitle": "Tech lead — sprint planning",
+   "text": "Deleting them is not the same operation as writing them off. Written off means somebody decided the money is gone, and the row has to survive that decision — it is the evidence, and it is what should be dragging that partner's credit standing down. The report already excludes written-off exposures, so if the screen is cluttered it means nobody has written them off yet, and that is the actual gap. You separated the symptom from the cause, showed the clean report they wanted is already available lawfully, and turned a delete job into a missing business decision. That is a smaller ticket and a better product.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "answer": "Deleting them is not the same operation as writing them off. Written off means somebody decided the money is gone, and the row has to survive that decision — it is the evidence, and it is what should be dragging that partner's credit standing down. The report already excludes written-off exposures, so if the screen is cluttered it means nobody has written them off yet, and that is the actual gap.",
+   "why": "You separated the symptom from the cause, showed the clean report they wanted is already available lawfully, and turned a delete job into a missing business decision. That is a smaller ticket and a better product."
+  },
+  {
+   "id": "05#l0",
+   "type": "line",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s07",
+   "title": "\"Can I see that total split by age — how much of it is past ninety days?\"",
+   "subtitle": "Lesson 05 · Line worth stealing",
+   "text": "Turns a number nobody can act on into a number with an owner. It is also the fastest way to find out whether the person quoting the total has ever looked at what is inside it.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "why": "Turns a number nobody can act on into a number with an owner. It is also the fastest way to find out whether the person quoting the total has ever looked at what is inside it."
+  },
+  {
+   "id": "05#l1",
+   "type": "line",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s07",
+   "title": "\"Are those bucket boundaries configuration, or did we write 1–30 into the template?\"",
+   "subtitle": "Lesson 05 · Line worth stealing",
+   "text": "The boundaries belong to the company and live in a dated settings row, so a hard-coded heading is wrong for every customer who changes them and wrong for every report re-run over an older period. It is a one-line question that saves a rewrite of the report layer.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "why": "The boundaries belong to the company and live in a dated settings row, so a hard-coded heading is wrong for every customer who changes them and wrong for every report re-run over an older period. It is a one-line question that saves a rewrite of the report layer."
+  },
+  {
+   "id": "05#l2",
+   "type": "line",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s07",
+   "title": "\"The two sides differ by three hundred thousand — who is signing for that difference?\"",
+   "subtitle": "Lesson 05 · Line worth stealing",
+   "text": "Reframes a validation error as what it actually is: an amount somebody loses without deciding to. Asked this way it stops being your form being difficult and starts being their problem to answer.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "why": "Reframes a validation error as what it actually is: an amount somebody loses without deciding to. Asked this way it stops being your form being difficult and starts being their problem to answer."
+  },
+  {
+   "id": "05#l3",
+   "type": "line",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s07",
+   "title": "\"Did we write those debts off, or did we delete them?\"",
+   "subtitle": "Lesson 05 · Line worth stealing",
+   "text": "Two operations that produce the same clean screen and opposite legal positions. One is a decision with an owner, a date and a row that survives it; the other is evidence disappearing, and it is usually said out loud by someone who thinks they did housekeeping.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "why": "Two operations that produce the same clean screen and opposite legal positions. One is a decision with an owner, a date and a row that survives it; the other is evidence disappearing, and it is usually said out loud by someone who thinks they did housekeeping."
+  },
+  {
+   "id": "05#l4",
+   "type": "line",
+   "lesson": "05",
+   "href": "lessons/05-aging-and-offsetting.html#s07",
+   "title": "\"Overdue as of which date?\"",
+   "subtitle": "Lesson 05 · Line worth stealing",
+   "text": "An aging figure with no as-of date is a screenshot of nothing — the same debt is in term on Friday and thirty days over next month, without anybody touching it. This is also the question that catches a report quietly built on today instead of the date the user asked for.",
+   "tags": [
+    "aging",
+    "tuổi nợ",
+    "offsetting",
+    "bù trừ công nợ",
+    "Điều 378",
+    "write-off",
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
+   ],
+   "why": "An aging figure with no as-of date is a screenshot of nothing — the same debt is in term on Friday and thirty days over next month, without anybody touching it. This is also the question that catches a report quietly built on today instead of the date the user asked for."
   },
   {
    "id": "05",
-   "type": "planned",
+   "type": "lesson",
    "lesson": "05",
-   "href": "",
+   "href": "lessons/05-aging-and-offsetting.html",
    "title": "Aging, and the debt that cancels itself",
-   "subtitle": "Lesson 05 · not written yet",
-   "text": "One total tells you nothing; the same total split by age tells you everything. Then two-way offsetting under Điều 378, where a debt is settled without money moving.",
+   "subtitle": "Lesson 05 · Core",
+   "text": "Ten billion đồng owed to you is not a number, it is a shape. This lesson is about reading that shape — and then about two debts that settle each other without a single đồng leaving either bank account. Ten billion owed tells you almost nothing Ground floor The debt that cancels itself The idea Exactly equal, and the word \"deleted\" The danger One partner, both directions, one piece of paper See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
    "tags": [
     "aging",
+    "tuổi nợ",
     "offsetting",
+    "bù trừ công nợ",
     "Điều 378",
     "write-off",
-    "exposure"
+    "receivables",
+    "payables",
+    "CM-20",
+    "CM-21"
    ]
   },
   {
-   "id": "06",
-   "type": "planned",
+   "id": "06#s01",
+   "type": "section",
    "lesson": "06",
-   "href": "",
-   "title": "Late-payment interest, the easiest thing here to code wrongly",
-   "subtitle": "Lesson 06 · not written yet",
-   "text": "Why the 20% civil ceiling does not apply, why interest may never be charged on a penalty, and how one court precedent becomes two filters in code.",
+   "href": "lessons/06-late-payment-interest.html#s01",
+   "title": "Somebody is holding your money",
+   "subtitle": "Lesson 06 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. This lesson assumes you have never read a statute in your life. An invoice for 2.4 billion đồng falls due on 20 March. The money arrives on 16 September. For a hundred and eighty days the buyer was using cash that, under the contract, belonged to the seller. Nothing was stolen and nobody went to prison. But those hundred and eighty days had a price. The seller borrowed to cover the hole, or turned away an order it could not fund. Vietnamese law recognises that price and gives the seller a claim on it, and that claim is late-payment interest . It is not a fine and it is not a service fee. It is the rent on somebody else's money. Now the part that decides whether your code is right. A broken contract can produce three separate claims, and they arrive together, on the same partner, in the same conversation: Nợ gốc — the principal 2,400,000,000 ₫. The invoice itself: goods delivered, never paid for. Owed because a sale happened. a different reason to owe Phạt vi phạm — the contractual penalty 192,000,000 ₫. An agreed sum for breaching, owed whether or not the breach cost anybody a đồng. Only exists because the contract says so. a third reason to owe Bồi thường thiệt hại — damages 310,000,000 ₫. Loss the seller actually proved: the cost of buying the same steel elsewhere, in a hurry. Three claims, three different legal reasons, one partner. Your accountant will call the lot of it công nợ , and your first instinct as a developer will be to store the total, because a total is what the screen shows. Hold that thought. The rest of this lesson is about why the total is the bug. In the code credit_exposures holds exactly one of the three: amount , always positive, with the side of the ledger carried by ExposureDirection . Penalty and damages have no table anywhere in the system. Accrued interest sits in its own column, late_interest_accrued , and the nightly job never folds it back into amount . Tiếng Việt Một hợp đồng bị vi phạm sinh ra ba khoản khác nhau: nợ gốc (tiền hàng), phạt vi phạm (thoả thuận trước) và bồi thường thiệt hại (thiệt hại chứng minh được). Ba căn cứ pháp lý khác nhau, nhưng cùng một đối tác nên rất dễ bị gộp thành một con số tổng. Chính chỗ gộp đó là chỗ code sai.",
    "tags": [
     "late interest",
     "Án lệ 09/2016",
     "Điều 306",
+    "Điều 468",
+    "Điều 301",
     "penalty",
+    "damages",
+    "CM-19"
+   ]
+  },
+  {
+   "id": "06#s02",
+   "type": "section",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s02",
+   "title": "Six years, four steel contracts, two rules",
+   "subtitle": "Lesson 06 · The precedent",
+   "text": "In 2006 and 2007, Công ty CP Thép Việt Ý signed four contracts to buy steel billet from Công ty CP Kim khí Hưng Yên and paid tens of billions of đồng up front. Hưng Yên delivered late and delivered short — thousands of tonnes short. Việt Ý sued for the advance it had never received goods for, plus a penalty, plus damages. By the first-instance hearing in 2009 the claim was over 28 billion đồng. The case ran for six years through several levels of court, and the courts could not agree on two things. Both of them are questions a developer has to answer in code: at what rate , and on what amount . It ended at the Hội đồng Thẩm phán of the Toà án nhân dân tối cao, in Quyết định giám đốc thẩm số 07/2013/KDTM-GĐT. On 17 October 2016 that decision was published as Án lệ số 09/2016/AL , which means every court below now has to follow it — and so does any software that computes this number. Rule one — at what rate If the contract fixes a late-payment rate, that rate governs. Nobody argues about that one. If it does not, Án lệ 09 says the interest follows the average overdue lending rate of at least three banks in the locality, taken at the time of payment. Three banks. In the locality. At the time of payment — not at the time the contract was signed, and not at the time your migration ran. That single sentence is a system requirement. It means the rate is a nullable input a human fills in, with a source and a date behind it, and never a constant sitting in a config file. A constant cannot be defended in front of an arbitrator, because the question will not be \"is 12% reasonable\", it will be \"which three banks, and on what day\". In the code credit_contracts.late_interest_rate is nullable and has no CHECK . Null falls back to credit_settings.late_interest_rate — a versioned series keyed by effective_from , so recomputing yesterday uses yesterday's rate rather than today's. If both are null the nightly job still sets OVERDUE and accrues nothing at all, because inventing a rate would be writing a contract term on behalf of two companies. The accrual itself is amount × (rate / 100) / 365 × days newly overdue , counted since the last run, so a missed night catches up and a double run does not double-charge (CM-19). Rule two — on what amount The first-instance court added the penalty and the damages into the principal, and charged late-payment interest on the whole block. It is an entirely natural thing to do: it is all money the same party owes, on the same day, arising from the same breach. The giám đốc thẩm decision threw that out. Interest accrues on nợ gốc and on nothing else. No interest on phạt vi phạm , no interest on bồi thường thiệt hại , absent a very specific agreement saying otherwise. A penalty is a sanction; charging interest on a sanction is compounding one punishment into another that nobody agreed to. So the second rule is also a system requirement, and a structural one: every money row attached to a breach has to carry a tag saying which of the three it is, and the interest routine has to be given a base it is physically unable to widen. Tiếng Việt Án lệ 09/2016/AL sinh ra từ vụ Thép Việt Ý kiện Kim khí Hưng Yên, kéo dài 2007–2013. Hai quy tắc: không thoả thuận lãi suất thì lấy trung bình lãi suất nợ quá hạn của ít nhất ba ngân hàng tại địa phương ở thời điểm thanh toán; và tuyệt đối không tính lãi trên tiền phạt vi phạm và tiền bồi thường thiệt hại. Toà sơ thẩm đã cộng cả ba khoản rồi tính lãi trên tổng — đó chính là cách tính bị bác.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ]
+  },
+  {
+   "id": "06#s03",
+   "type": "section",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s03",
+   "title": "The two lines that move somebody else's money",
+   "subtitle": "Lesson 06 · The danger",
+   "text": "Mistake one: the ceiling that belongs to another statute A developer reads that Vietnamese law caps interest at 20% a year, and writes the guard: rate = Math.min(rate, 20) . It is a single line, it reads as prudence, and it passes review — capping a rate looks like the responsible thing to do with a rate. The ceiling is real. Điều 468 Bộ luật Dân sự 2015 does cap agreed interest at 20% a year. What it caps is a hợp đồng vay tài sản — a contract for lending money or property. It was written to stop tín dụng đen, the loan sharks, from destroying individuals who borrowed at 300% a year and could not read the paper they signed. An unpaid invoice between two companies is not that. Nobody applied for a loan; the buyer simply took the money by not sending it. That relationship is governed by Điều 306 Luật Thương mại 2005, which gives the injured party the right to interest on the withheld amount at the average market overdue rate — and names no ceiling whatsoever. Án lệ 09/2016/AL confirmed that this claim is not cut down to the civil ceiling. So the guard does not protect anybody. It hands the difference to the party that broke the contract. A ceiling borrowed from the wrong statute is not a safety check. It is the system quietly taking money from the seller and giving it to the company that broke the contract. And this bug has the worst possible failure mode: on most rows it produces the correct answer. Overdue bank rates run around 13% a year, comfortably under 20, so on ordinary data the guarded code and the correct code agree to the đồng. It only diverges where a contract negotiated a higher late-payment rate — which is to say, on exactly the accounts where the most money is at stake and somebody is already angry. There is a further trap in this same codebase, and it is how the wrong ceiling usually gets copied in. Real interest ceilings do exist here: a financing offer from a licensed institution is capped by Thông tư 20/2024/TT-NHNN, Điều 10 khoản 2. That is a different module, a different relationship, and a different statute. A ceiling that is genuinely law in one table is not law in the next one. Mistake two: the tidy total The second one does not even look like a decision. The screen needs the interest on what the partner owes, the service has three amounts, so you add them up and multiply once. base = principal + penalty + damages . It is shorter code than the alternative and it is easier to read. It is also, precisely and specifically, the calculation the Hội đồng Thẩm phán overturned in 2013. In the widget below it invents roughly 59 million đồng of interest that no court will uphold — and when a computation is thrown out, it is not the wrong line that gets corrected, it is the whole judgment that goes back through appeal. The line you never cross Interest accrues on nợ gốc. On nothing else, ever. Not on the penalty, not on the damages, not on interest already accrued. The way to make that true is not a comment above the function — it is to tag every money row as principal, penalty or compensation, and give the interest routine a base it has no way to widen. If the three claims share one column, the rule cannot be enforced and it cannot be audited, and the first person to ask \"prove this figure\" will be a lawyer. One more boundary, because it is the one people mix up with the first. The penalty does have a ceiling: 8% of the value of the breached obligation, under Điều 301 Luật Thương mại 2005. Two ceilings, two statutes, two entirely different things being capped — and neither one is the other's. The 8% belongs to phạt vi phạm; the interest under Điều 306 has no cap at all. In the code CM-19. CreditContract.lateInterestRate carries no CHECK and no validator, deliberately — an earlier spec had one and it was removed; docs/design/06-state-machines.md §7 says so and tells you not to \"fix\" it for consistency. The 8% penalty cap is cited in V3__seed_contract_templates.sql , and ContractTemplateSeedTest fails the build if a template ever cites Điều 468 or Điều 266 instead. Worth knowing while you grep: the internal annex Định Nghĩa Và Pháp Luật.md attributes the 8% cap to Điều 266, which is wrong — Điều 266 Luật Thương mại is about wrong goods-inspection results. Điều 301 is the one to cite. Tiếng Việt Hai lỗi, mỗi lỗi một dòng code. Áp trần 20%/năm của Điều 468 BLDS 2015 vào công nợ thương mại là lấy trần của hợp đồng vay tài sản áp cho quan hệ mua bán — cắt mất quyền lợi hợp pháp của bên bán. Cộng phạt vi phạm và bồi thường vào gốc rồi tính lãi trên tổng chính là cách tính mà Án lệ 09 đã bác. Trần 8% là trần của phạt vi phạm (Điều 301 Luật Thương mại 2005), không phải trần của lãi.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ]
+  },
+  {
+   "id": "06#s04",
+   "type": "section",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s04",
+   "title": "One overdue debt, four ways to compute it",
+   "subtitle": "Lesson 06 · See it",
+   "text": "The debt from section one: 2.4 billion đồng of steel delivered and never paid for, a penalty of 8% agreed in the contract, 310 million of proven damages, a hundred and eighty days late. The contract fixed a late-payment rate of 24% a year — perfectly lawful for a commercial dư nợ , and above the civil ceiling. Clear the rate field to see what Án lệ 09 does when nothing was agreed. Then flip the two switches — they are the two mistakes from section three, one line of code each — and watch the đồng move. Reset Principal 2,400,000,000 ₫ · damages 310,000,000 ₫ Days past the due date The buyer held the money this long 180 days Penalty agreed in the contract Phạt vi phạm, as a % of the breached obligation 8 % Late-payment rate in the contract %/year. Điều 306 sets no ceiling on this number No rate agreed in the contract — fall back to the three-bank average Cap the rate at 20%/year, citing Điều 468 Bộ luật Dân sự 2015 Charge interest on the penalty and the damages as well Rate the code applies — Interest the code charges — Interest Án lệ 09 allows — Wrong by — Accrual is the formula the nightly job uses: base × (rate / 100) / 365 × days overdue , rounded to the đồng. The maths lives in finance/sim-06.js and has its own check: node tools/test-06.mjs . Bank rates are frozen so the page is reproducible — in the real system they are typed in by a human, with a date and a source behind them.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ]
+  },
+  {
+   "id": "06#s05",
+   "type": "section",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 06 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in front of an arbitrator. 0 / 5 answered",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ]
+  },
+  {
+   "id": "06#s06",
+   "type": "section",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 06 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Every one of them is reasonable, and every one of them is expensive. Choose what you would really say.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ]
+  },
+  {
+   "id": "06#s07",
+   "type": "section",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s07",
+   "title": "Five sentences worth having ready",
+   "subtitle": "Lesson 06 · Take away",
+   "text": "The generalisation is worth more than the statute numbers. A precedent is a specification. Án lệ 09 has inputs (a principal, a number of days, a rate that may be null), a rule (interest on the principal, at the agreed rate or the average of three banks), and — the part specifications rarely give you — an explicitly rejected alternative, written down because a real court really tried it. Read one the way you read an RFC and it stops being law and starts being a test case. \"Which statute is this rule from — and is it about a loan, or about a sale?\" Almost every argument in this lesson collapses into that one distinction. Vay tài sản and mua bán hàng hoá are different relationships with different rules, and a number lifted from one into the other is wrong even when the number itself is real. \"Is that cap in the same statute as the thing it is capping?\" There is a 20% cap and an 8% cap in play here and they belong to two different claims under two different laws. A cap that is genuinely binding one table over is not binding here, and a validator is the most confident way to be wrong. \"What is this money row for — goods, penalty, or proven loss?\" The question that turns a legal rule into a schema. If the three cannot be told apart by a column, no amount of care in the interest function can keep it off the two it must not touch. \"When this rate is null, does the system pick a number or refuse to?\" Null here means no rate was agreed, not zero and not a default. Filling it in from a config value is the system writing a contract term for two companies that never signed one — and it will hold up until the day somebody has to prove where the figure came from. \"What alternative did this precedent reject, and would our code have produced it?\" The rejected calculation is the most useful paragraph in any judgment, because it is a failing test case somebody already paid six years of litigation to write. Run it against your own function before you ship. Tiếng Việt Không cần học luật. Chỉ cần nhận ra khi nào một yêu cầu đang viện dẫn một điều luật của quan hệ khác — vay tài sản so với mua bán hàng hoá — và hỏi lại trước khi viết dòng Math.min đó. Án lệ đọc như một bản đặc tả: có đầu vào, có quy tắc, và có cả cách tính đã bị bác — cách tính bị bác chính là test case tốt nhất bạn có.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ]
+  },
+  {
+   "id": "06#s08",
+   "type": "section",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 06 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ]
+  },
+  {
+   "id": "06#q0",
+   "type": "quiz",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s05",
+   "title": "A contract fixes late-payment interest at 24% a year. The buyer is 180 days late on 2.4 billion đồng. A reviewer asks you to cap the rate at 20%, citing Điều 468 Bộ luật Dân sự 2015. What happens if you do?",
+   "subtitle": "Lesson 06 · Test yourself",
+   "text": "The seller is short about 47 million đồng, because Điều 468 caps a contract for lending, not a commercial debt for goods Điều 468 protects a borrower under a hợp đồng vay tài sản — it was written against loan-sharking. An unpaid invoice between two companies is Điều 306 Luật Thương mại 2005, which names no ceiling, and Án lệ 09/2016/AL confirmed the civil ceiling does not cut it down. The cap is not caution: it takes money from the injured party and leaves it with the party in breach.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "answer": "The seller is short about 47 million đồng, because Điều 468 caps a contract for lending, not a commercial debt for goods",
+   "why": "Điều 468 protects a borrower under a hợp đồng vay tài sản — it was written against loan-sharking. An unpaid invoice between two companies is Điều 306 Luật Thương mại 2005, which names no ceiling, and Án lệ 09/2016/AL confirmed the civil ceiling does not cut it down. The cap is not caution: it takes money from the injured party and leaves it with the party in breach."
+  },
+  {
+   "id": "06#q1",
+   "type": "quiz",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s05",
+   "title": "One partner, one breach, three money rows: 2.4 billion of unpaid goods, a 192 million contractual penalty, 310 million of proven damages. Which of them may the interest routine include in its base?",
+   "subtitle": "Lesson 06 · Test yourself",
+   "text": "The principal only Nợ gốc only. Án lệ 09/2016/AL states the obligor does not pay interest on phạt vi phạm or on bồi thường thiệt hại. The first-instance court in the Thép Việt Ý case added all three together and charged interest on the block, and that is exactly the calculation the giám đốc thẩm decision rejected.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "answer": "The principal only",
+   "why": "Nợ gốc only. Án lệ 09/2016/AL states the obligor does not pay interest on phạt vi phạm or on bồi thường thiệt hại. The first-instance court in the Thép Việt Ý case added all three together and charged interest on the block, and that is exactly the calculation the giám đốc thẩm decision rejected."
+  },
+  {
+   "id": "06#q2",
+   "type": "quiz",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s05",
+   "title": "The nightly overdue job finds a debt past due. late_interest_rate is null on the contract, and null on credit_settings too. What should it do?",
+   "subtitle": "Lesson 06 · Test yourself",
+   "text": "Set OVERDUE and accrue no interest, because there is no basis for any rate With no agreement and no configured market rate, any number the system picks is a contract term it invented on behalf of two companies. The debt still goes OVERDUE and still shows in the aging report — it simply accrues nothing until a human supplies a rate they can source. Refusing to guess is a feature here, not a gap.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "answer": "Set OVERDUE and accrue no interest, because there is no basis for any rate",
+   "why": "With no agreement and no configured market rate, any number the system picks is a contract term it invented on behalf of two companies. The debt still goes OVERDUE and still shows in the aging report — it simply accrues nothing until a human supplies a rate they can source. Refusing to guess is a feature here, not a gap."
+  },
+  {
+   "id": "06#q3",
+   "type": "quiz",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s05",
+   "title": "No rate was agreed. Án lệ 09/2016/AL says the interest follows the average overdue lending rate of at least three banks in the locality, at the time of payment. Why is a constant in application.yml the wrong implementation?",
+   "subtitle": "Lesson 06 · Test yourself",
+   "text": "Because rates change, and the figure has to be sourced to named banks on a stated date if it is ever challenged The question in front of an arbitrator is never \"is 12% reasonable\". It is \"which three banks, on what day\". A constant has no answer to that, and it silently goes stale — every debt recomputed next year gets last year's market. Hence a nullable manual field, and a settings row versioned by effective_from so recomputing an old period uses the rate that applied then.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "answer": "Because rates change, and the figure has to be sourced to named banks on a stated date if it is ever challenged",
+   "why": "The question in front of an arbitrator is never \"is 12% reasonable\". It is \"which three banks, on what day\". A constant has no answer to that, and it silently goes stale — every debt recomputed next year gets last year's market. Hence a nullable manual field, and a settings row versioned by effective_from so recomputing an old period uses the rate that applied then."
+  },
+  {
+   "id": "06#q4",
+   "type": "quiz",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s05",
+   "title": "credit_exposures keeps late_interest_accrued in its own column and never adds it into amount. Why not just fold it in, so the exposure shows the true total owed?",
+   "subtitle": "Lesson 06 · Test yourself",
+   "text": "Because the next night's accrual would then run on interest as well as principal — compounding nobody agreed to, on a base the precedent fixes as the principal Fold it in and the base grows every night: lãi mẹ đẻ lãi con. Án lệ 09 fixes the base at the principal, so the accrued figure has to sit beside it as a tracking number and a negotiating position. Collecting it for real means raising a separate transaction — which is also why the amount on the screen and the amount in the exposure row are allowed to differ.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "answer": "Because the next night's accrual would then run on interest as well as principal — compounding nobody agreed to, on a base the precedent fixes as the principal",
+   "why": "Fold it in and the base grows every night: lãi mẹ đẻ lãi con. Án lệ 09 fixes the base at the principal, so the accrued figure has to sit beside it as a tracking number and a negotiating position. Collecting it for real means raising a separate transaction — which is also why the amount on the screen and the amount in the exposure row are allowed to differ."
+  },
+  {
+   "id": "06#p0",
+   "type": "scene",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s06",
+   "title": "\"Add a guard on this rate. Twenty percent is the legal maximum in Vietnam, we should not be able to store more than that.\"",
+   "subtitle": "Your tech lead — pull request review",
+   "text": "The 20% in Điều 468 caps a hợp đồng vay tài sản — it exists to stop loan-sharking. This is an unpaid invoice between two companies, which is Điều 306 Luật Thương mại 2005, and Án lệ 09/2016/AL says it has no ceiling. Capping it here takes money off the seller and gives it to the party in breach. Shall I put the citation in a comment so nobody adds the check back? You separated the two relationships, named the consequence in terms of who loses money, and finished by making the knowledge durable rather than winning the argument. That last offer is what stops the same bug arriving again in six months.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "answer": "The 20% in Điều 468 caps a hợp đồng vay tài sản — it exists to stop loan-sharking. This is an unpaid invoice between two companies, which is Điều 306 Luật Thương mại 2005, and Án lệ 09/2016/AL says it has no ceiling. Capping it here takes money off the seller and gives it to the party in breach. Shall I put the citation in a comment so nobody adds the check back?",
+   "why": "You separated the two relationships, named the consequence in terms of who loses money, and finished by making the knowledge durable rather than winning the argument. That last offer is what stops the same bug arriving again in six months."
+  },
+  {
+   "id": "06#p1",
+   "type": "scene",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s06",
+   "title": "\"For the overdue report, just charge the interest on the whole thing they owe us. The penalty and the compensation are their debt too.\"",
+   "subtitle": "The customer's chief accountant — UAT",
+   "text": "They are all owed, but only the principal earns interest. Án lệ 09/2016/AL says there is no interest on phạt vi phạm or bồi thường thiệt hại — a court threw that calculation out in exactly this situation. On this debt it would add about 59 million đồng that would not survive a challenge. Shall we show the three amounts as separate lines so the interest column is obviously only on the goods? You agreed with everything true in their statement first, then gave the rule, then the number, then a screen design that makes the rule visible to whoever reads the report. That last part is what turns a legal constraint into something the customer can defend without you in the room.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "answer": "They are all owed, but only the principal earns interest. Án lệ 09/2016/AL says there is no interest on phạt vi phạm or bồi thường thiệt hại — a court threw that calculation out in exactly this situation. On this debt it would add about 59 million đồng that would not survive a challenge. Shall we show the three amounts as separate lines so the interest column is obviously only on the goods?",
+   "why": "You agreed with everything true in their statement first, then gave the rule, then the number, then a screen design that makes the rule visible to whoever reads the report. That last part is what turns a legal constraint into something the customer can defend without you in the room."
+  },
+  {
+   "id": "06#p2",
+   "type": "scene",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s06",
+   "title": "\"Most contracts have no late-payment rate filled in, so the interest column is empty everywhere. Can we just default it to 12%?\"",
+   "subtitle": "Product owner — sprint planning",
+   "text": "Null there means no rate was agreed, which is different from zero. Án lệ 09/2016/AL says that when nothing is agreed we use the average overdue rate of at least three banks in the locality at the time of payment — so the fix is a settings field somebody fills in from real published rates, with the date and the source recorded. Same empty cells today, but a number we can defend the day it is challenged. You turned \"no\" into a smaller piece of work with a clear owner, and you gave the reason in the form of a question the PO will eventually be asked by a customer. Naming the difference between null-as-unknown and null-as-zero is also the sentence that gets you into the next design conversation.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "answer": "Null there means no rate was agreed, which is different from zero. Án lệ 09/2016/AL says that when nothing is agreed we use the average overdue rate of at least three banks in the locality at the time of payment — so the fix is a settings field somebody fills in from real published rates, with the date and the source recorded. Same empty cells today, but a number we can defend the day it is challenged.",
+   "why": "You turned \"no\" into a smaller piece of work with a clear owner, and you gave the reason in the form of a question the PO will eventually be asked by a customer. Naming the difference between null-as-unknown and null-as-zero is also the sentence that gets you into the next design conversation."
+  },
+  {
+   "id": "06#l0",
+   "type": "line",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s07",
+   "title": "\"Which statute is this rule from — and is it about a loan, or about a sale?\"",
+   "subtitle": "Lesson 06 · Line worth stealing",
+   "text": "Almost every argument in this lesson collapses into that one distinction. Vay tài sản and mua bán hàng hoá are different relationships with different rules, and a number lifted from one into the other is wrong even when the number itself is real.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "why": "Almost every argument in this lesson collapses into that one distinction. Vay tài sản and mua bán hàng hoá are different relationships with different rules, and a number lifted from one into the other is wrong even when the number itself is real."
+  },
+  {
+   "id": "06#l1",
+   "type": "line",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s07",
+   "title": "\"Is that cap in the same statute as the thing it is capping?\"",
+   "subtitle": "Lesson 06 · Line worth stealing",
+   "text": "There is a 20% cap and an 8% cap in play here and they belong to two different claims under two different laws. A cap that is genuinely binding one table over is not binding here, and a validator is the most confident way to be wrong.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "why": "There is a 20% cap and an 8% cap in play here and they belong to two different claims under two different laws. A cap that is genuinely binding one table over is not binding here, and a validator is the most confident way to be wrong."
+  },
+  {
+   "id": "06#l2",
+   "type": "line",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s07",
+   "title": "\"What is this money row for — goods, penalty, or proven loss?\"",
+   "subtitle": "Lesson 06 · Line worth stealing",
+   "text": "The question that turns a legal rule into a schema. If the three cannot be told apart by a column, no amount of care in the interest function can keep it off the two it must not touch.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "why": "The question that turns a legal rule into a schema. If the three cannot be told apart by a column, no amount of care in the interest function can keep it off the two it must not touch."
+  },
+  {
+   "id": "06#l3",
+   "type": "line",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s07",
+   "title": "\"When this rate is null, does the system pick a number or refuse to?\"",
+   "subtitle": "Lesson 06 · Line worth stealing",
+   "text": "Null here means no rate was agreed, not zero and not a default. Filling it in from a config value is the system writing a contract term for two companies that never signed one — and it will hold up until the day somebody has to prove where the figure came from.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "why": "Null here means no rate was agreed, not zero and not a default. Filling it in from a config value is the system writing a contract term for two companies that never signed one — and it will hold up until the day somebody has to prove where the figure came from."
+  },
+  {
+   "id": "06#l4",
+   "type": "line",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html#s07",
+   "title": "\"What alternative did this precedent reject, and would our code have produced it?\"",
+   "subtitle": "Lesson 06 · Line worth stealing",
+   "text": "The rejected calculation is the most useful paragraph in any judgment, because it is a failing test case somebody already paid six years of litigation to write. Run it against your own function before you ship.",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
+    "CM-19"
+   ],
+   "why": "The rejected calculation is the most useful paragraph in any judgment, because it is a failing test case somebody already paid six years of litigation to write. Run it against your own function before you ship."
+  },
+  {
+   "id": "06",
+   "type": "lesson",
+   "lesson": "06",
+   "href": "lessons/06-late-payment-interest.html",
+   "title": "Late-payment interest, the easiest thing here to code wrongly",
+   "subtitle": "Lesson 06 · Core",
+   "text": "A buyer pays six months late and the seller is owed interest. The two most natural lines of code you could write to compute it each move tens of millions of đồng to the wrong party — and both look like careful, defensive engineering. One Vietnamese court decision from 2016 settles exactly which. Somebody is holding your money Ground floor Six years, four steel contracts, two rules The precedent The two lines that move somebody else's money The danger One overdue debt, four ways to compute it See it Five questions Test it Three moments in the project Use it Five sentences worth having ready Take away Every word, in plain English Reference",
+   "tags": [
+    "late interest",
+    "Án lệ 09/2016",
+    "Điều 306",
+    "Điều 468",
+    "Điều 301",
+    "penalty",
+    "damages",
     "CM-19"
    ]
   },

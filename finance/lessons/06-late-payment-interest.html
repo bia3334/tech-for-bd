@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Late-payment interest</title>
+<meta name="description" content="Lesson 06 — why the 20% civil ceiling does not apply to a commercial debt, why interest may never touch a penalty, and how one Vietnamese court precedent becomes two filters in code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="06">
+<meta name="tfbd:tags" content="late interest, Án lệ 09/2016, Điều 306, Điều 468, Điều 301, penalty, damages, CM-19">
+<meta name="tfbd:level" content="Core">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+/* ---- lesson 06: the rate field and the three tagged money rows ---- */
+.knob input[type=number]{font:inherit; font-family:var(--ff-mono); font-size:14.5px; width:100%; text-align:right; padding:6px 8px; border:1px solid var(--line); border-radius:2px; background:var(--paper); color:var(--ink); font-variant-numeric:tabular-nums}
+.knob input[type=number]:disabled{opacity:.4}
+.banks{padding:13px 18px; border-bottom:1px solid var(--line); background:var(--sunk); font-family:var(--ff-mono); font-size:12px; color:var(--muted); line-height:1.7}
+.evs .ev{grid-template-columns:104px minmax(0,1fr) auto}
+.ev.mute{opacity:.45}
+.ev .tg{font-family:var(--ff-mono); font-size:10px; letter-spacing:.12em; color:var(--muted)}
+.ev.on .tg{color:var(--fast)}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 06</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Debt between companies · Lesson 06</div>
+  <h1>Late-payment interest, the easiest thing here to code wrongly</h1>
+  <p class="lede">A buyer pays six months late and the seller is owed interest. The two most natural lines of code you could write to compute it each move tens of millions of đồng to the wrong party — and both look like careful, defensive engineering. One Vietnamese court decision from 2016 settles exactly which.</p>
+  <div class="facts"><span>20 min</span><span>No legal training assumed</span><span>Ends with a calculator you can be wrong on</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>Somebody is holding your money</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. This lesson assumes you have never read a statute in your life.</span></div>
+
+  <div class="stack">
+    <p>An invoice for 2.4 billion đồng falls due on 20 March. The money arrives on 16 September. For a hundred and eighty days the buyer was using cash that, under the contract, belonged to the seller.</p>
+    <p>Nothing was stolen and nobody went to prison. But those hundred and eighty days had a price. The seller borrowed to cover the hole, or turned away an order it could not fund. Vietnamese law recognises that price and gives the seller a claim on it, and that claim is <button class="t" data-t="laichamtra">late-payment interest</button>. It is not a fine and it is not a service fee. It is the rent on somebody else's money.</p>
+    <p>Now the part that decides whether your code is right. A broken contract can produce three separate claims, and they arrive together, on the same partner, in the same conversation:</p>
+  </div>
+
+  <div class="flow">
+    <div class="node core"><div class="nm">Nợ gốc — the principal</div><div class="ds">2,400,000,000 ₫. The invoice itself: goods delivered, never paid for. Owed because a sale happened.</div></div>
+    <div class="arrow">a different reason to owe</div>
+    <div class="node"><div class="nm">Phạt vi phạm — the contractual penalty</div><div class="ds">192,000,000 ₫. An agreed sum for breaching, owed whether or not the breach cost anybody a đồng. Only exists because the contract says so.</div></div>
+    <div class="arrow">a third reason to owe</div>
+    <div class="node"><div class="nm">Bồi thường thiệt hại — damages</div><div class="ds">310,000,000 ₫. Loss the seller actually proved: the cost of buying the same steel elsewhere, in a hurry.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>Three claims, three different legal reasons, one partner. Your accountant will call the lot of it <button class="t" data-t="congno">công nợ</button>, and your first instinct as a developer will be to store the total, because a total is what the screen shows. Hold that thought. The rest of this lesson is about why the total is the bug.</p>
+    <p class="vi"><b>In the code</b><code>credit_exposures</code> holds exactly one of the three: <code>amount</code>, always positive, with the side of the ledger carried by <code>ExposureDirection</code>. Penalty and damages have no table anywhere in the system. Accrued interest sits in its own column, <code>late_interest_accrued</code>, and the nightly job never folds it back into <code>amount</code>.</p>
+    <p class="vi"><b>Tiếng Việt</b>Một hợp đồng bị vi phạm sinh ra ba khoản khác nhau: nợ gốc (tiền hàng), phạt vi phạm (thoả thuận trước) và bồi thường thiệt hại (thiệt hại chứng minh được). Ba căn cứ pháp lý khác nhau, nhưng cùng một đối tác nên rất dễ bị gộp thành một con số tổng. Chính chỗ gộp đó là chỗ code sai.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The precedent</span></div>
+  <h2>Six years, four steel contracts, two rules</h2>
+
+  <div class="stack">
+    <p>In 2006 and 2007, Công ty CP Thép Việt Ý signed four contracts to buy steel billet from Công ty CP Kim khí Hưng Yên and paid tens of billions of đồng up front. Hưng Yên delivered late and delivered short — thousands of tonnes short. Việt Ý sued for the advance it had never received goods for, plus a penalty, plus damages. By the first-instance hearing in 2009 the claim was over 28 billion đồng.</p>
+    <p>The case ran for six years through several levels of court, and the courts could not agree on two things. Both of them are questions a developer has to answer in code: <em>at what rate</em>, and <em>on what amount</em>.</p>
+    <p>It ended at the Hội đồng Thẩm phán of the Toà án nhân dân tối cao, in Quyết định giám đốc thẩm số 07/2013/KDTM-GĐT. On 17 October 2016 that decision was published as <button class="t" data-t="anle">Án lệ số 09/2016/AL</button>, which means every court below now has to follow it — and so does any software that computes this number.</p>
+  </div>
+
+  <h3>Rule one — at what rate</h3>
+  <div class="stack">
+    <p>If the contract fixes a late-payment rate, that rate governs. Nobody argues about that one.</p>
+    <p>If it does not, Án lệ 09 says the interest follows the average <button class="t" data-t="laisuatquahan">overdue lending rate</button> of at least three banks in the locality, taken at the time of payment. Three banks. In the locality. At the time of payment — not at the time the contract was signed, and not at the time your migration ran.</p>
+    <p>That single sentence is a system requirement. It means the rate is a nullable input a human fills in, with a source and a date behind it, and never a constant sitting in a config file. A constant cannot be defended in front of an arbitrator, because the question will not be "is 12% reasonable", it will be "which three banks, and on what day".</p>
+    <p class="vi"><b>In the code</b><code>credit_contracts.late_interest_rate</code> is nullable and has no <code>CHECK</code>. Null falls back to <code>credit_settings.late_interest_rate</code> — a versioned series keyed by <code>effective_from</code>, so recomputing yesterday uses yesterday's rate rather than today's. If both are null the nightly job still sets <code>OVERDUE</code> and accrues nothing at all, because inventing a rate would be writing a contract term on behalf of two companies. The accrual itself is <code>amount × (rate / 100) / 365 × days newly overdue</code>, counted since the last run, so a missed night catches up and a double run does not double-charge (CM-19).</p>
+  </div>
+
+  <h3>Rule two — on what amount</h3>
+  <div class="stack">
+    <p>The first-instance court added the penalty and the damages into the principal, and charged late-payment interest on the whole block. It is an entirely natural thing to do: it is all money the same party owes, on the same day, arising from the same breach.</p>
+    <p>The giám đốc thẩm decision threw that out. Interest accrues on <button class="t" data-t="noigoc">nợ gốc</button> and on nothing else. No interest on <button class="t" data-t="phatvipham">phạt vi phạm</button>, no interest on <button class="t" data-t="boithuong">bồi thường thiệt hại</button>, absent a very specific agreement saying otherwise. A penalty is a sanction; charging interest on a sanction is compounding one punishment into another that nobody agreed to.</p>
+    <p>So the second rule is also a system requirement, and a structural one: every money row attached to a breach has to carry a tag saying which of the three it is, and the interest routine has to be given a base it is physically unable to widen.</p>
+    <p class="vi"><b>Tiếng Việt</b>Án lệ 09/2016/AL sinh ra từ vụ Thép Việt Ý kiện Kim khí Hưng Yên, kéo dài 2007–2013. Hai quy tắc: không thoả thuận lãi suất thì lấy trung bình lãi suất nợ quá hạn của ít nhất ba ngân hàng tại địa phương ở thời điểm thanh toán; và tuyệt đối không tính lãi trên tiền phạt vi phạm và tiền bồi thường thiệt hại. Toà sơ thẩm đã cộng cả ba khoản rồi tính lãi trên tổng — đó chính là cách tính bị bác.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>The two lines that move somebody else's money</h2>
+
+  <h3>Mistake one: the ceiling that belongs to another statute</h3>
+  <div class="stack">
+    <p>A developer reads that Vietnamese law caps interest at 20% a year, and writes the guard: <code>rate = Math.min(rate, 20)</code>. It is a single line, it reads as prudence, and it passes review — capping a rate looks like the responsible thing to do with a rate.</p>
+    <p>The ceiling is real. Điều 468 Bộ luật Dân sự 2015 does cap agreed interest at 20% a year. What it caps is a <em>hợp đồng vay tài sản</em> — a contract for lending money or property. It was written to stop tín dụng đen, the loan sharks, from destroying individuals who borrowed at 300% a year and could not read the paper they signed.</p>
+    <p>An unpaid invoice between two companies is not that. Nobody applied for a loan; the buyer simply took the money by not sending it. That relationship is governed by Điều 306 Luật Thương mại 2005, which gives the injured party the right to interest on the withheld amount at the average market overdue rate — and names no ceiling whatsoever. Án lệ 09/2016/AL confirmed that this claim is not cut down to the civil ceiling.</p>
+    <p>So the guard does not protect anybody. It hands the difference to the party that broke the contract.</p>
+  </div>
+
+  <div class="pull"><q>A ceiling borrowed from the wrong statute is not a safety check. It is the system quietly taking money from the seller and giving it to the company that broke the contract.</q></div>
+
+  <div class="stack">
+    <p>And this bug has the worst possible failure mode: on most rows it produces the correct answer. Overdue bank rates run around 13% a year, comfortably under 20, so on ordinary data the guarded code and the correct code agree to the đồng. It only diverges where a contract negotiated a higher late-payment rate — which is to say, on exactly the accounts where the most money is at stake and somebody is already angry.</p>
+    <p>There is a further trap in this same codebase, and it is how the wrong ceiling usually gets copied in. Real interest ceilings <em>do</em> exist here: a financing offer from a licensed institution is capped by Thông tư 20/2024/TT-NHNN, Điều 10 khoản 2. That is a different module, a different relationship, and a different statute. A ceiling that is genuinely law in one table is not law in the next one.</p>
+  </div>
+
+  <h3>Mistake two: the tidy total</h3>
+  <div class="stack">
+    <p>The second one does not even look like a decision. The screen needs the interest on what the partner owes, the service has three amounts, so you add them up and multiply once. <code>base = principal + penalty + damages</code>. It is shorter code than the alternative and it is easier to read.</p>
+    <p>It is also, precisely and specifically, the calculation the Hội đồng Thẩm phán overturned in 2013. In the widget below it invents roughly 59 million đồng of interest that no court will uphold — and when a computation is thrown out, it is not the wrong line that gets corrected, it is the whole judgment that goes back through appeal.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Interest accrues on nợ gốc. On nothing else, ever.</p>
+    <p class="sub">Not on the penalty, not on the damages, not on interest already accrued. The way to make that true is not a comment above the function — it is to tag every money row as principal, penalty or compensation, and give the interest routine a base it has no way to widen. If the three claims share one column, the rule cannot be enforced and it cannot be audited, and the first person to ask "prove this figure" will be a lawyer.</p>
+  </div>
+
+  <div class="stack">
+    <p>One more boundary, because it is the one people mix up with the first. The penalty <em>does</em> have a ceiling: 8% of the value of the breached obligation, under Điều 301 Luật Thương mại 2005. Two ceilings, two statutes, two entirely different things being capped — and neither one is the other's. The 8% belongs to phạt vi phạm; the interest under Điều 306 has no cap at all.</p>
+    <p class="vi"><b>In the code</b>CM-19. <code>CreditContract.lateInterestRate</code> carries no <code>CHECK</code> and no validator, deliberately — an earlier spec had one and it was removed; <code>docs/design/06-state-machines.md §7</code> says so and tells you not to "fix" it for consistency. The 8% penalty cap is cited in <code>V3__seed_contract_templates.sql</code>, and <code>ContractTemplateSeedTest</code> fails the build if a template ever cites Điều 468 or Điều 266 instead. Worth knowing while you grep: the internal annex <em>Định Nghĩa Và Pháp Luật.md</em> attributes the 8% cap to Điều 266, which is wrong — Điều 266 Luật Thương mại is about wrong goods-inspection results. Điều 301 is the one to cite.</p>
+    <p class="vi"><b>Tiếng Việt</b>Hai lỗi, mỗi lỗi một dòng code. Áp trần 20%/năm của Điều 468 BLDS 2015 vào công nợ thương mại là lấy trần của hợp đồng vay tài sản áp cho quan hệ mua bán — cắt mất quyền lợi hợp pháp của bên bán. Cộng phạt vi phạm và bồi thường vào gốc rồi tính lãi trên tổng chính là cách tính mà Án lệ 09 đã bác. Trần 8% là trần của phạt vi phạm (Điều 301 Luật Thương mại 2005), không phải trần của lãi.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>One overdue debt, four ways to compute it</h2>
+  <p class="prose" style="margin-bottom:14px">The debt from section one: 2.4 billion đồng of steel delivered and never paid for, a penalty of 8% agreed in the contract, 310 million of proven damages, a hundred and eighty days late. The contract fixed a late-payment rate of 24% a year — perfectly lawful for a commercial <button class="t" data-t="duno">dư nợ</button>, and above the civil ceiling.</p>
+  <p class="prose" style="margin-bottom:26px">Clear the rate field to see what Án lệ 09 does when nothing was agreed. Then flip the two switches — they are the two mistakes from section three, one line of code each — and watch the đồng move.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="ghost" id="reset">Reset</button>
+      <span class="sim-note" style="border:0; padding:0">Principal 2,400,000,000 ₫ · damages 310,000,000 ₫</span>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Days past the due date<small>The buyer held the money this long</small></span><span class="kv" id="vDays">180 days</span><input type="range" id="days" min="30" max="540" step="30" value="180"></div>
+      <div class="knob"><span class="kl">Penalty agreed in the contract<small>Phạt vi phạm, as a % of the breached obligation</small></span><span class="kv" id="vPen">8 %</span><input type="range" id="pen" min="0" max="12" step="1" value="8"></div>
+      <div class="knob"><span class="kl">Late-payment rate in the contract<small>%/year. Điều 306 sets no ceiling on this number</small></span><input type="number" id="rate" min="0" max="60" step="0.5" value="24"></div>
+      <label class="sw"><input type="checkbox" id="noRate"> No rate agreed in the contract — fall back to the three-bank average</label>
+      <label class="sw"><input type="checkbox" id="ceil"> Cap the rate at 20%/year, citing Điều 468 Bộ luật Dân sự 2015</label>
+      <label class="sw"><input type="checkbox" id="onPen"> Charge interest on the penalty and the damages as well</label>
+    </div>
+    <div class="banks" id="banks"></div>
+    <div class="stats">
+      <div class="stat"><span class="k">Rate the code applies</span><span class="v" id="stRate">—</span></div>
+      <div class="stat"><span class="k">Interest the code charges</span><span class="v" id="stCharged">—</span></div>
+      <div class="stat"><span class="k">Interest Án lệ 09 allows</span><span class="v" id="stLawful">—</span></div>
+      <div class="stat"><span class="k">Wrong by</span><span class="v" id="stGap">—</span></div>
+    </div>
+    <ul class="evs" id="rows"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Accrual is the formula the nightly job uses: <code>base × (rate / 100) / 365 × days overdue</code>, rounded to the đồng. The maths lives in <code>finance/sim-06.js</code> and has its own check: <code>node tools/test-06.mjs</code>. Bank rates are frozen so the page is reproducible — in the real system they are typed in by a human, with a date and a source behind them.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in front of an arbitrator.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Every one of them is reasonable, and every one of them is expensive. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five sentences worth having ready</h2>
+  <p class="prose" style="margin-bottom:26px">The generalisation is worth more than the statute numbers. A precedent is a specification. Án lệ 09 has inputs (a principal, a number of days, a rate that may be null), a rule (interest on the principal, at the agreed rate or the average of three banks), and — the part specifications rarely give you — an explicitly rejected alternative, written down because a real court really tried it. Read one the way you read an RFC and it stops being law and starts being a test case.</p>
+  <ol class="lines">
+    <li><div><div class="say">"Which statute is this rule from — and is it about a loan, or about a sale?"</div><div class="use">Almost every argument in this lesson collapses into that one distinction. Vay tài sản and mua bán hàng hoá are different relationships with different rules, and a number lifted from one into the other is wrong even when the number itself is real.</div></div></li>
+    <li><div><div class="say">"Is that cap in the same statute as the thing it is capping?"</div><div class="use">There is a 20% cap and an 8% cap in play here and they belong to two different claims under two different laws. A cap that is genuinely binding one table over is not binding here, and a validator is the most confident way to be wrong.</div></div></li>
+    <li><div><div class="say">"What is this money row for — goods, penalty, or proven loss?"</div><div class="use">The question that turns a legal rule into a schema. If the three cannot be told apart by a column, no amount of care in the interest function can keep it off the two it must not touch.</div></div></li>
+    <li><div><div class="say">"When this rate is null, does the system pick a number or refuse to?"</div><div class="use">Null here means no rate was agreed, not zero and not a default. Filling it in from a config value is the system writing a contract term for two companies that never signed one — and it will hold up until the day somebody has to prove where the figure came from.</div></div></li>
+    <li><div><div class="say">"What alternative did this precedent reject, and would our code have produced it?"</div><div class="use">The rejected calculation is the most useful paragraph in any judgment, because it is a failing test case somebody already paid six years of litigation to write. Run it against your own function before you ship.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Không cần học luật. Chỉ cần nhận ra khi nào một yêu cầu đang viện dẫn một điều luật của quan hệ khác — vay tài sản so với mua bán hàng hoá — và hỏi lại trước khi viết dòng <code>Math.min</code> đó. Án lệ đọc như một bản đặc tả: có đầu vào, có quy tắc, và có cả cách tính đã bị bác — cách tính bị bác chính là test case tốt nhất bạn có.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 06 of 15 · Chapter 2, Debt between companies · Next: three ways to turn an invoice into cash.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-06.js"></script>
+<script>
+(function(){
+"use strict";
+function d(n){
+  var s = Math.abs(Math.round(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return (n<0?"−":"") + s + " ₫";
+}
+function m(n){ return (n<0?"−":"") + (Math.abs(n)/1e6).toFixed(1) + "m ₫"; }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l6")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l6",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- the interest calculator ---------- */
+var LATE=window.LATE, BASE=LATE.BASE;
+var days=document.getElementById("days"), pen=document.getElementById("pen"), rate=document.getElementById("rate");
+var noRate=document.getElementById("noRate"), ceil=document.getElementById("ceil"), onPen=document.getElementById("onPen");
+var rowsBox=document.getElementById("rows"), flag=document.getElementById("flag");
+
+document.getElementById("banks").textContent =
+  "Điều 306 fallback · " + LATE.BANKS.map(function(b){ return b.name + " " + b.rate.toFixed(2) + "%"; }).join("  ·  ") +
+  "  →  average " + LATE.averageRate().toFixed(2) + "%/year";
+
+function render(){
+  rate.disabled = noRate.checked;
+  var r=LATE.compute({
+    principal: BASE.principal, damages: BASE.damages,
+    days: +days.value, penaltyPct: +pen.value,
+    rate: noRate.checked ? null : +rate.value,
+    civilCeiling: ceil.checked, onPenalty: onPen.checked
+  });
+
+  document.getElementById("vDays").textContent = days.value + " days";
+  document.getElementById("vPen").textContent = pen.value + " %";
+  document.getElementById("stRate").textContent = r.appliedRate.toFixed(2) + "%";
+  document.getElementById("stCharged").textContent = m(r.charged);
+  document.getElementById("stLawful").textContent = m(r.lawful);
+  var g=document.getElementById("stGap");
+  g.textContent = r.gap===0 ? "0 ₫" : m(r.gap);
+  g.className = "v" + (r.gap===0 ? " cool" : " hot");
+
+  rowsBox.innerHTML="";
+  r.rows.forEach(function(row){
+    var li=document.createElement("li");
+    li.className="ev " + (row.charged ? "on" : "mute");
+    li.innerHTML='<span class="tg"></span><span class="n"></span><span class="a"></span>';
+    li.querySelector(".tg").textContent=row.tag;
+    li.querySelector(".n").textContent=row.label + (row.charged ? " — interest charged" : " — no interest");
+    var a=li.querySelector(".a");
+    a.className="a " + (row.charged ? "out" : "");
+    a.textContent=d(row.amount);
+    rowsBox.appendChild(li);
+  });
+
+  var html="";
+  if(r.penaltyOverCap){
+    html+='<div class="stale">PENALTY OVER THE CAP — '+d(r.penalty)+' is more than the 8% ceiling of Điều 301 Luật Thương mại 2005, which for this obligation is '+
+      d(r.penaltyCapAmount)+'. A clause above 8% is not enforced as written; the excess is simply cut. Nothing to do with the interest — a different claim, a different statute.</div>';
+  }
+  if(ceil.checked && r.ceilingBites){
+    html+='<div class="stale">CEILING APPLIED — the rate agreed in the contract was '+r.rate.toFixed(2)+'%, the code charged '+r.appliedRate.toFixed(2)+
+      '%, and the seller is '+d(r.ceilingCost)+' short. Điều 468 Bộ luật Dân sự 2015 caps a hợp đồng vay tài sản. This is a sale of goods under Điều 306 Luật Thương mại 2005, and Án lệ 09/2016/AL says it has no ceiling.</div>';
+  } else if(ceil.checked){
+    html+='<div class="stale">THE CEILING CHANGED NOTHING — at '+r.rate.toFixed(2)+
+      '% the guard never fires, so the wrong code and the right code return the same number. This is why it ships: it is invisible on ordinary data and only wakes up on the contracts with the most money in them. Raise the rate above 20% to see it.</div>';
+  }
+  if(onPen.checked){
+    html+='<div class="stale">INTEREST ON THE SANCTIONS — '+d(r.overcharge)+' charged on the penalty and the damages. This is the calculation the first-instance court made in the Thép Việt Ý case, and the one Án lệ 09/2016/AL threw out. It is not corrected on appeal; the judgment goes back.</div>';
+  }
+  if(!html){
+    html='<div class="match">MATCHES THE PRECEDENT — '+d(r.lawful)+' of interest, at '+r.appliedRate.toFixed(2)+'% ('+r.rateSource+
+      '), on the principal alone. The penalty and the damages are still owed in full — they are simply not a base for interest.</div>';
+  } else if(ceil.checked && onPen.checked && Math.abs(r.gap) < r.ceilingCost){
+    html+='<div class="stale">AND THE TOTAL LOOKS ALMOST RIGHT — the two mistakes point in opposite directions, so the bottom line is out by only '+d(r.gap)+
+      ' while '+d(r.ceilingCost + r.overcharge)+' has moved between the two parties. A reconciliation that checks totals would pass this.</div>';
+  }
+  flag.innerHTML=html;
+  mark("sim");
+}
+
+[days,pen].forEach(function(el){ el.addEventListener("input", render); });
+rate.addEventListener("input", render);
+[noRate,ceil,onPen].forEach(function(el){ el.addEventListener("change", render); });
+document.getElementById("reset").addEventListener("click", function(){
+  days.value=BASE.days; pen.value=BASE.penaltyPct; rate.value=BASE.rate;
+  noRate.checked=false; ceil.checked=false; onPen.checked=false;
+  render();
+});
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A contract fixes late-payment interest at 24% a year. The buyer is 180 days late on 2.4 billion đồng. A reviewer asks you to cap the rate at 20%, citing Điều 468 Bộ luật Dân sự 2015. What happens if you do?",
+  o:["Nothing — 20% is the legal maximum for interest in Vietnam",
+     "The seller is short about 47 million đồng, because Điều 468 caps a contract for lending, not a commercial debt for goods",
+     "The calculation becomes safer, since a lower figure can never be challenged",
+     "The interest becomes unenforceable and the seller gets none of it"],
+  a:1,
+  why:"Điều 468 protects a borrower under a hợp đồng vay tài sản — it was written against loan-sharking. An unpaid invoice between two companies is Điều 306 Luật Thương mại 2005, which names no ceiling, and Án lệ 09/2016/AL confirmed the civil ceiling does not cut it down. The cap is not caution: it takes money from the injured party and leaves it with the party in breach."},
+ {q:"One partner, one breach, three money rows: 2.4 billion of unpaid goods, a 192 million contractual penalty, 310 million of proven damages. Which of them may the interest routine include in its base?",
+  o:["All three — it is all money the same partner owes on the same day",
+     "The principal and the damages, but not the penalty",
+     "The principal only",
+     "Whichever the contract lists first"],
+  a:2,
+  why:"Nợ gốc only. Án lệ 09/2016/AL states the obligor does not pay interest on phạt vi phạm or on bồi thường thiệt hại. The first-instance court in the Thép Việt Ý case added all three together and charged interest on the block, and that is exactly the calculation the giám đốc thẩm decision rejected."},
+ {q:"The nightly overdue job finds a debt past due. late_interest_rate is null on the contract, and null on credit_settings too. What should it do?",
+  o:["Fall back to 20%, the highest rate the law allows anywhere",
+     "Set OVERDUE and accrue no interest, because there is no basis for any rate",
+     "Use the rate from the partner's previous contract",
+     "Accrue at 0% and log a warning"],
+  a:1,
+  why:"With no agreement and no configured market rate, any number the system picks is a contract term it invented on behalf of two companies. The debt still goes OVERDUE and still shows in the aging report — it simply accrues nothing until a human supplies a rate they can source. Refusing to guess is a feature here, not a gap."},
+ {q:"No rate was agreed. Án lệ 09/2016/AL says the interest follows the average overdue lending rate of at least three banks in the locality, at the time of payment. Why is a constant in application.yml the wrong implementation?",
+  o:["Because a constant is harder to change later",
+     "Because rates change, and the figure has to be sourced to named banks on a stated date if it is ever challenged",
+     "Because the value should live in the database instead",
+     "Because the precedent requires exactly three banks, no more"],
+  a:1,
+  why:"The question in front of an arbitrator is never \"is 12% reasonable\". It is \"which three banks, on what day\". A constant has no answer to that, and it silently goes stale — every debt recomputed next year gets last year's market. Hence a nullable manual field, and a settings row versioned by effective_from so recomputing an old period uses the rate that applied then."},
+ {q:"credit_exposures keeps late_interest_accrued in its own column and never adds it into amount. Why not just fold it in, so the exposure shows the true total owed?",
+  o:["To keep the column count low",
+     "Because the next night's accrual would then run on interest as well as principal — compounding nobody agreed to, on a base the precedent fixes as the principal",
+     "Because interest is not real money until it is invoiced",
+     "Because the frontend already sums the two columns"],
+  a:1,
+  why:"Fold it in and the base grows every night: lãi mẹ đẻ lãi con. Án lệ 09 fixes the base at the principal, so the accrued figure has to sit beside it as a tracking number and a negotiating position. Collecting it for real means raising a separate transaction — which is also why the amount on the screen and the amount in the exposure row are allowed to differ."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your tech lead — pull request review",
+  line:'"Add a guard on this rate. Twenty percent is the legal maximum in Vietnam, we should not be able to store more than that."',
+  o:[{t:"Good catch, adding the check now.", v:"weak",
+      f:"You have just shipped the single most expensive line in this module. It will pass every test, because the seed data uses a rate under 20% and the guard never fires — it wakes up on the first contract that negotiated a real rate, which is the contract someone is already in a dispute about."},
+     {t:"There is no cap on this field, it was removed on purpose.", v:"weak",
+      f:"True, and it sounds like folklore. \"Somebody removed it once\" is not a reason a reviewer can act on, so the check goes back in at the next refactor by somebody who has not heard the story."},
+     {t:"The 20% in Điều 468 caps a hợp đồng vay tài sản — it exists to stop loan-sharking. This is an unpaid invoice between two companies, which is Điều 306 Luật Thương mại 2005, and Án lệ 09/2016/AL says it has no ceiling. Capping it here takes money off the seller and gives it to the party in breach. Shall I put the citation in a comment so nobody adds the check back?", v:"strong",
+      f:"You separated the two relationships, named the consequence in terms of who loses money, and finished by making the knowledge durable rather than winning the argument. That last offer is what stops the same bug arriving again in six months."}]},
+ {role:"The customer's chief accountant — UAT",
+  line:'"For the overdue report, just charge the interest on the whole thing they owe us. The penalty and the compensation are their debt too."',
+  o:[{t:"Understood, I will use the total.", v:"weak",
+      f:"The report will look right and the numbers will be indefensible. This is the exact calculation the first-instance court used in the Thép Việt Ý case, and the exact one the Hội đồng Thẩm phán threw out — and when a computation is rejected, the whole judgment goes back through appeal."},
+     {t:"We cannot, the precedent forbids it.", v:"weak",
+      f:"You are right and you have made the customer feel corrected by a developer. They still do not know which precedent, or what it would cost them, so they will ask somebody else and get the answer they wanted."},
+     {t:"They are all owed, but only the principal earns interest. Án lệ 09/2016/AL says there is no interest on phạt vi phạm or bồi thường thiệt hại — a court threw that calculation out in exactly this situation. On this debt it would add about 59 million đồng that would not survive a challenge. Shall we show the three amounts as separate lines so the interest column is obviously only on the goods?", v:"strong",
+      f:"You agreed with everything true in their statement first, then gave the rule, then the number, then a screen design that makes the rule visible to whoever reads the report. That last part is what turns a legal constraint into something the customer can defend without you in the room."}]},
+ {role:"Product owner — sprint planning",
+  line:'"Most contracts have no late-payment rate filled in, so the interest column is empty everywhere. Can we just default it to 12%?"',
+  o:[{t:"Sure, 12% is conservative anyway.", v:"weak",
+      f:"You have written a contract term for two companies who never agreed one. The first time a partner disputes the figure the question will be where 12% came from, and the honest answer is \"a developer picked it in a sprint planning session\"."},
+     {t:"Defaults on financial fields are dangerous.", v:"weak",
+      f:"A principle with no consequence attached. The PO hears a preference and weighs it against a screen full of empty cells, which is a fight the principle loses."},
+     {t:"Null there means no rate was agreed, which is different from zero. Án lệ 09/2016/AL says that when nothing is agreed we use the average overdue rate of at least three banks in the locality at the time of payment — so the fix is a settings field somebody fills in from real published rates, with the date and the source recorded. Same empty cells today, but a number we can defend the day it is challenged.", v:"strong",
+      f:"You turned \"no\" into a smaller piece of work with a clear owner, and you gave the reason in the form of a question the PO will eventually be asked by a customer. Naming the difference between null-as-unknown and null-as-zero is also the sentence that gets you into the next design conversation."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

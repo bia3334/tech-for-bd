@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Credit is not a score</title>
+<meta name="description" content="Lesson 04 — limit, exposure and headroom are three different numbers everyone calls the same thing. What a credit score is for, and why blocking is usually the wrong action to attach to it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="04">
+<meta name="tfbd:tags" content="credit, limit, exposure, utilisation, scoring, credit grade, risk threshold, credit contract">
+<meta name="tfbd:level" content="Core">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+
+/* ---- utilisation gauge ---- */
+.gauge{position:relative; height:13px; margin:18px 18px 0; background:var(--sunk); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gauge i{position:absolute; left:0; top:0; bottom:0; width:0; background:var(--fast); transition:width .35s ease}
+.gauge i.hot{background:var(--no)}
+.gauge b{position:absolute; top:0; bottom:0; width:0; border-left:1.5px dashed var(--ink); transition:left .35s ease}
+.gauge-l{display:flex; justify-content:space-between; gap:16px; padding:7px 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+.gauge-l span:last-child{text-align:right}
+.ev .a.off{color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 04</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Debt between companies · Lesson 04</div>
+  <h1>Credit is not a score</h1>
+  <p class="lede">Credit here has nothing to do with a bank. It is the everyday trust between two companies — take the goods today, pay me in forty-five days. Three numbers describe it, everyone in the room calls all three "the limit", and the one that should be on the screen is usually the one nobody computed.</p>
+  <div class="facts"><span>18 min</span><span>No accounting assumed</span><span>Ends with five lines worth stealing</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>You lent them the money and nobody used the word</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline opens a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have met it before.</span></div>
+
+  <div class="stack">
+    <p>A sales rep agrees an order on the phone. The warehouse packs it, a driver delivers it, and an invoice goes out with <em>Net 45</em> printed at the bottom. Every part of that feels like selling. None of it feels like lending.</p>
+    <p>But look at what actually happened. For the next forty-five days the partner has your goods and you have a piece of paper. You paid for those goods weeks ago. If the partner never pays, that money is simply gone — you have no security, you charge no interest, and the whole thing was approved by somebody who has never heard of a credit committee.</p>
+    <p>That is a loan. An unsecured, interest-free, informally granted loan. The accountant's name for it is <button class="t" data-t="phaithu">accounts receivable</button>; the amount still open with one partner at this moment is their <button class="t" data-t="duno">dư nợ</button>; and the Vietnamese word covering what they owe you and what you owe them at once is <button class="t" data-t="congno">công nợ</button>.</p>
+    <p>Because it is a loan, a company that has been burned once decides the size of it <em>in advance</em>, before any particular order exists. That decision is the <button class="t" data-t="hanmuc">credit limit</button>, and it lives on a row of its own: the partner's <button class="t" data-t="hosotindung">credit profile</button>.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Before any order — the limit is agreed</div><div class="ds">"We are willing to have up to 500 million out with Minh Phát at any one time." Signed, in a contract, by somebody senior enough to lose their job over it.</div></div>
+    <div class="arrow">an order arrives</div>
+    <div class="node"><div class="nm">The check — is there room?</div><div class="ds">One synchronous call, under three seconds, on the path of a user pressing save. Not a report, not a nightly job: a gate.</div></div>
+    <div class="arrow">goods go out, invoice issued</div>
+    <div class="node core"><div class="nm">Forty-five days of exposure</div><div class="ds">Their debt is on your balance sheet. Every new order on top of it takes another bite out of the same ceiling.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>So when a requirement says "check the credit limit before creating the transaction", it is not asking for a validation rule. It is asking you to enforce a decision somebody already made about how much of the company's own cash may sit in a stranger's warehouse.</p>
+    <p class="vi"><b>In the code</b>One row per partner: <code>CreditProfile</code>, table <code>credit_profiles</code> (CM-06). It is the only entity in <code>credit-service</code> carrying <code>@Version</code>, because two approvals for the same partner really do run at the same time, and optimistic locking is the only thing that stops both of them spending the last of the headroom.</p>
+    <p class="vi"><b>Tiếng Việt</b>Bán chịu chính là cho vay — không thế chấp, không lãi, và do một nhân viên kinh doanh duyệt. Vì vậy doanh nghiệp phải chốt trước mức tối đa được phép nợ với từng đối tác, đó là hạn mức. Yêu cầu "kiểm hạn mức trước khi tạo giao dịch" không phải là một luật validate, nó là chỗ thi hành một quyết định đã có từ trước.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Three numbers, and only one of them belongs on the screen</h2>
+
+  <div class="stack">
+    <p>Sit in one meeting about this feature and you will hear the word "limit" used for three different quantities inside ten minutes. They are worth separating once and for all.</p>
+    <p>The <b>limit</b> is the ceiling that was agreed — 500 million. It changes only when a human changes it. The <b>exposure</b> is what is actually owed right now — 240 million across four open invoices. It changes every time an order ships or a payment lands. The <b>headroom</b> is what is left, 260 million, and it is the only one of the three that answers "can this order go through".</p>
+    <p>Now the fourth number, the one that is worth more than the other three put together. Divide exposure by limit and you get <button class="t" data-t="tyleusudung">utilisation</button> — 48%. Its whole value is that it means the same thing for a corner shop and for a factory. "Minh Phát owes 240 million" tells a manager nothing until they remember the ceiling. "Minh Phát is at 48%" tells them immediately, and "Minh Phát is at 96%" gets a phone call. Every alert, every sort order, every red row on a dashboard should be reading utilisation, not the raw amount.</p>
+  </div>
+
+  <div class="pull"><q>A credit limit is not a technical constraint. It is a company deciding, in advance, how much of its own cash it is willing to lend a stranger.</q></div>
+
+  <div class="stack">
+    <p>Which raises the obvious question: where did 500 million come from? Not from the code, and not from a settings screen. It comes from a signed <button class="t" data-t="hopdongtindung">credit contract</button> — a document with a ceiling, <button class="t" data-t="hanthanhtoan">payment terms</button> in days, a late-payment rate if the two sides agreed one, a start date and usually an end date.</p>
+    <p>The Vietnamese name matters here and it is a genuine trap. In Vietnamese law <em>hợp đồng tín dụng</em> means a bank lending money under the Law on Credit Institutions. What we have is two ordinary companies agreeing terms of trade — <em>hợp đồng nguyên tắc</em>, or a <em>hạn mức công nợ</em>. Print the wrong phrase on the interface and you have described your customer as a bank.</p>
+    <p>Contracts are generated from templates so that the standard clauses are not retyped by a salesperson at eleven at night, and every contract keeps a pointer back to the template it came from. Which is why a template is never deleted when it falls out of use — it is switched off, and the contracts that were built from it still resolve.</p>
+    <p class="vi"><b>In the code</b><code>credit_profiles</code> holds all three numbers, and <code>available_credit</code> is a <em>generated column</em> in PostgreSQL — <code>GENERATED ALWAYS AS (credit_limit - used_credit) STORED</code>. Hibernate reads it back and there is no setter. Do not compute the same subtraction anywhere else: two formulas for one number is how they eventually disagree. The contract itself is <code>CreditContract</code> plus <code>ContractTemplate</code> with <code>{{placeholder}}</code> bodies (CM-15, CM-18).</p>
+    <p class="vi"><b>Tiếng Việt</b>Ba con số hay bị gọi lẫn: hạn mức (trần đã cấp), dư nợ (đang nợ thật), và phần còn lại. Con số nên hiển thị là tỷ lệ sử dụng — dư nợ chia hạn mức — vì chỉ nó mới so sánh được giữa đối tác lớn và nhỏ. Hạn mức đến từ hợp đồng hạn mức công nợ, và đừng gọi nó là "hợp đồng tín dụng" trên giao diện.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>The number that changes while somebody is looking at it</h2>
+
+  <div class="stack">
+    <p>A limit is a decision made once a year. <button class="t" data-t="chamdiemtindung">Credit scoring</button> is the attempt to keep an opinion about a partner up to date every single day, and the requirement names exactly five things it may look at: how reliably they have paid, how long you have worked together, how much business they bring, how often, and how well they honour what they signed.</p>
+    <p>Each of those gets a weight — payment history carries 35 of the 100, transaction value 20, the other three 15 each — and each gets a table converting a measured value into points. Ninety-eight percent of invoices paid on time scores 100 on that criterion; below sixty percent scores 10. Multiply, add, and out comes a number from 0 to 100. Show that number to a human and they will squint, so it is also displayed as a letter: a <button class="t" data-t="xephangtindung">grade</button>, AAA down to D.</p>
+    <p>Here is the part that surprises developers. There is a nightly job, but it is not what keeps the number current: the score is recomputed the moment a transaction settles, so it moves under your feet: a partner sitting at 73 and grade A pays one invoice thirty days late and lands at 48, grade B, in a different risk band, while an order for them is halfway packed in the warehouse. Somebody now has to decide whether an opinion that changed four minutes ago should stop a lorry that is already loaded.</p>
+    <p>It should not — not on its own. The score is evidence assembled for a person, not a verdict. And the codebase agrees with that in a way worth noticing: the letter grade controls absolutely nothing. No rule anywhere reads it. Its boundaries are hard-coded precisely because they were never meant to drive behaviour.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Over the limit is not the same as refused.</p>
+    <p class="sub">The gate refuses an order only when <em>both</em> readings agree: the amount is bigger than the headroom, <em>and</em> this partner's risk level is configured to block. Anything else is a warning that still lets the order through with a message attached. Never make blocking the default for a company that has not configured its <button class="t" data-t="nguongruiro">risk thresholds</button> yet — that freezes every transaction in the business on the day you deploy, and no log line explains why. In a system the sales team depends on, silence with a locked door is far more expensive than an order that needed a phone call afterwards.</p>
+  </div>
+
+  <h3>Two ceilings, because there are two questions</h3>
+  <p class="prose" style="margin-bottom:20px">The limit and the risk threshold look like duplicates of each other and they are not. The limit answers <em>how much are we willing to have out with this particular partner</em> — negotiated, per partner, written in a contract. The threshold answers <em>given what we now think of partners in this state, how much is prudent at all</em> — a policy, set once per risk level, applying to everybody who lands in that band. A partner can be comfortably inside a generous limit agreed last January and well past the ceiling their current risk level allows. Both numbers are right; they were answering different questions.</p>
+  <p class="prose" style="margin-bottom:20px">Each threshold row carries one action, and there are only two of them: warn, or block. There is no "require another approval" here, and adding one is a trap that has already been walked into once — budget control has a three-way version of this enum, and copying it across means the database's own CHECK constraint rejects the write. Not in review, not in a test. In production, the first time somebody selects it.</p>
+
+  <h3>And underneath it, a contract quietly expires</h3>
+  <p class="prose" style="margin-bottom:20px">The failure nobody plans for is not a partner going bad. It is the day the contract behind the limit runs out. Nothing happens loudly: a nightly job moves it from active to expired, the limit it granted stops applying, and the first anyone hears is a sales rep on the phone saying the system refused an order. That is what the notice period is for — a warning sent while there are still thirty days to renew. Note what "about to expire" is <em>not</em>: it is not a status. It is derived, end date minus today, and the contract stays fully active the whole time. Make it a status and every check for "is this contract valid" has to remember two values instead of one, which is a bug with a very long tail. And expiry does not cancel anything already owed — an expired contract stops new business, it does not forgive the <button class="t" data-t="congno">công nợ</button> that arose while it was alive.</p>
+
+  <h3>Who is actually asking</h3>
+  <p class="prose" style="margin-bottom:20px">None of this lives on a credit screen for its own sake. Four other parts of the system stop and ask before they will do their job.</p>
+  <ul class="uses">
+    <li><span class="u">Saving a transaction</span><span class="d">A synchronous call to the credit check, on the user's save button, budgeted under three seconds · TM-18.</span></li>
+    <li><span class="u">Registering an invoice for financing</span><span class="d">The financier wants the same answer before advancing money against the receivable · SCF-09.</span></li>
+    <li><span class="u">"Payment history" in the score</span><span class="d">The same behaviour <button class="t" data-t="dso">DSO</button> measures in days, counted here as the percentage of invoices settled on or before their due date · CM-07.</span></li>
+    <li><span class="u">The overdue job, every night</span><span class="d">Moves exposures past due, counts the days, and accrues late interest as a tracking figure — never added to the principal · CM-02, CM-19.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>In the code</b>Weights and conversion bands live in <code>credit_scoring_rules</code>, not in Java — the active rows must total exactly 100, and the engine throws rather than quietly scoring everybody 20% low. Each run appends a row to <code>credit_score_histories</code> with its <code>trigger_reason</code>, so you can tell later whether a drop came from the partner's behaviour or from somebody pressing recalculate. Thresholds are <code>RiskThreshold</code> with <code>ThresholdAction</code> = <code>NOTIFY | BLOCK</code> (CM-11, CM-12).</p>
+  <p class="vi"><b>Tiếng Việt</b>Điểm tín dụng chạy lại ngay sau mỗi khoản tất toán, nên một lần trả trễ có thể kéo đối tác tụt hai hạng trong lúc đơn hàng đang đóng gói. Điểm là căn cứ để người quyết định, không phải bản thân quyết định — hạng bằng chữ trong hệ thống này không điều khiển gì cả. Chỉ chặn khi vừa vượt hạn mức vừa có ngưỡng đặt BLOCK; mặc định chặn là khoá cứng cả doanh nghiệp.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>One partner, and every number that moves with them</h2>
+  <p class="prose" style="margin-bottom:14px">Minh Phát is a customer of two and a half years with a 500 million limit. Two of their invoices are paid and closed, two are still open at 120 million each. That is 240 million of exposure, 48% of the ceiling used, a score of 73, grade A, risk level low.</p>
+  <p class="prose" style="margin-bottom:26px">Push them. Take more orders and watch the headroom close; settle an invoice on time or thirty days late and watch the score move with it; or let one sit forty days past its due date and notice what that does <em>not</em> do. The dashed line on the bar is the exposure ceiling for whichever risk level they are currently in — it moves when they are re-graded, which is the whole point.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="order">Take another order · 120m</button>
+      <button class="ghost" id="ontime">Oldest invoice paid on time</button>
+      <button class="ghost" id="late">Oldest paid 30 days late</button>
+      <button class="ghost" id="age">Let the oldest run 40 days overdue</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Exposure — owed right now</span><span class="v" id="stExp">—</span></div>
+      <div class="stat"><span class="k">Limit used</span><span class="v" id="stUtil">—</span></div>
+      <div class="stat"><span class="k">Score, out of 100</span><span class="v" id="stScore">—</span></div>
+      <div class="stat"><span class="k">Grade · risk level</span><span class="v" id="stGrade">—</span></div>
+    </div>
+    <div class="gauge"><i id="gBar"></i><b id="gMark"></b></div>
+    <div class="gauge-l"><span id="gL">—</span><span id="gR">—</span></div>
+    <ul class="evs" id="book"></ul>
+    <ul class="evs" id="factors"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">The weights and the point bands are the ones the project seeds into the database, and the decision at the bottom is the real gate, rule for rule. Notice two things the weights make true: taking on more debt <em>raises</em> the score, because value and frequency are 35 of the 100 between them; and contract compliance is never scored at all, because nothing in the system measures whether a delivery arrived on spec — its weight is shared out among the rest rather than handed over as free points. The maths lives in <code>finance/sim-04.js</code> and has its own check: <code>node tools/test-04.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"When you say the limit — do you mean the ceiling, the amount owed, or what is left?"</div><div class="use">Ask it the first time, in front of everyone, and you save three sprints of quiet confusion. These are three different columns with three different owners, and in most conversations all three are called the limit.</div></div></li>
+    <li><div><div class="say">"When the score changes, what actually changes for a user?"</div><div class="use">If the honest answer is "nothing until somebody opens the screen", say so out loud — that is a fine design. If the answer is "an order stops", then a person's name has to be attached to that decision, because a machine is about to refuse revenue.</div></div></li>
+    <li><div><div class="say">"What should happen when we have no measurement for this criterion at all?"</div><div class="use">Absent is not zero and it is not average. Defaulting a missing criterion invents a partner who does not exist — flattering a brand-new one, or punishing them for data the system never collected. Drop the criterion and renormalise the rest.</div></div></li>
+    <li><div><div class="say">"Is the action on this threshold warn or block — and who decided that?"</div><div class="use">It has to come from the customer, in writing, per risk level. A developer choosing block because it feels safer will lock the sales team out of their own system on go-live day, and the ticket will read "credit feature broken".</div></div></li>
+    <li><div><div class="say">"What happens the day this contract expires — does it stop new business, or cancel what is already owed?"</div><div class="use">It stops new business only. Debts that arose while the contract was alive survive it, interest and all. Anyone who assumes otherwise writes off money the company is still legally entitled to collect.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần thành chuyên viên tín dụng. Chỉ cần phân biệt được ba con số hay bị gọi chung là "hạn mức", và nhận ra lúc nào một con số chỉ để người đọc tham khảo, lúc nào nó thật sự chặn một đơn hàng — rồi hỏi lại trước khi code.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 04 of 15 · Next: ageing, and the debt that cancels itself.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../terms/04.js"></script>
+<script src="../sim-04.js"></script>
+<script>
+(function(){
+"use strict";
+function m(n){ return (n/1e6).toFixed(1) + "m"; }
+function pct(x){ return Math.round(x*100) + "%"; }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l4")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l4",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var CR=window.CREDIT, st=CR.clone(CR.BASE);
+var LABEL={PAYMENT_HISTORY:"Payment history", TRANSACTION_VALUE:"Value of business",
+           RELATIONSHIP_LENGTH:"Length of relationship", TRANSACTION_FREQUENCY:"How often they buy",
+           CONTRACT_COMPLIANCE:"Contract compliance"};
+
+function measuredText(c,v){
+  if(v===undefined) return c==="CONTRACT_COMPLIANCE"
+    ? "nothing in the system measures this, so it is dropped from every run"
+    : "no measurement yet, so it is dropped from this run";
+  if(c==="PAYMENT_HISTORY") return Math.round(v)+"% of settled invoices paid on time";
+  if(c==="TRANSACTION_VALUE") return Math.round(v)+"m of business over 12 months";
+  if(c==="RELATIONSHIP_LENGTH") return v+" months of working together";
+  return v+" deals over 12 months";
+}
+
+function evRow(d,n,a,cls){
+  var li=document.createElement("li"); li.className="ev";
+  var s1=document.createElement("span"); s1.className="d"; s1.textContent=d;
+  var s2=document.createElement("span"); s2.className="n"; s2.textContent=n;
+  var s3=document.createElement("span"); s3.className="a"+(cls?" "+cls:""); s3.textContent=a;
+  li.appendChild(s1); li.appendChild(s2); li.appendChild(s3);
+  return li;
+}
+
+function render(){
+  var v=CR.view(st), d=CR.check(st, st.order), t=v.threshold;
+
+  document.getElementById("stExp").textContent=m(v.exposure);
+  var u=document.getElementById("stUtil");
+  u.textContent=pct(v.utilisation); u.className="v"+(v.utilisation>0.9?" hot":" cool");
+  var sc=document.getElementById("stScore");
+  sc.textContent=v.score; sc.className="v"+(v.score<50?" hot":" cool");
+  var gr=document.getElementById("stGrade");
+  gr.textContent=v.grade+" · "+v.risk; gr.className="v"+(t.action==="BLOCK"?" hot":" cool");
+
+  var bar=document.getElementById("gBar");
+  bar.style.width=Math.min(v.utilisation,1)*100+"%";
+  bar.className=v.utilisation>0.9?"hot":"";
+  document.getElementById("gMark").style.left=Math.min(t.maxExposure/v.limit,1)*100+"%";
+  document.getElementById("gL").textContent="EXPOSURE "+m(v.exposure)+" OF A "+m(v.limit)+" LIMIT";
+  document.getElementById("gR").textContent="DASHED — CEILING FOR "+v.risk+", "+m(t.maxExposure);
+
+  var book=document.getElementById("book"); book.innerHTML="";
+  st.items.forEach(function(it){
+    var state, cls;
+    if(it.settled && it.late===0){ state="Paid on time — closed"; cls="in"; }
+    else if(it.settled){ state="Paid "+it.late+" days late — closed"; cls="out"; }
+    else if(it.late>0){ state=it.late+" days past due — still open"; cls="out"; }
+    else { state="Open, still in term"; cls=""; }
+    book.appendChild(evRow("Invoice "+it.n, state, m(it.amount), cls));
+  });
+
+  var fx=document.getElementById("factors"); fx.innerHTML="";
+  CR.RULES.forEach(function(r){
+    var scored=(r.c in v.factors);
+    fx.appendChild(evRow(r.w+" pts",
+      LABEL[r.c]+" — "+measuredText(r.c, v.measured[r.c]),
+      scored ? v.factors[r.c]+"/100" : "not scored",
+      scored ? "" : "off"));
+  });
+  fx.appendChild(evRow("TOTAL",
+    "Weighted over the "+v.scoredWeight+" points of weight that could actually be measured",
+    v.score+" → "+v.grade, ""));
+
+  var out="";
+  if(v.overOverdue) out+='<div class="stale">'+v.overdueDays+' DAYS PAST DUE — more than the '+t.maxOverdueDays+
+    ' a '+v.risk+' partner is allowed. Notice what it has not done: the score has not moved a point, because payment history only counts invoices that have actually settled. Nothing here happens by itself. Somebody has to pick up the phone.</div>';
+  if(v.overCeiling) out+='<div class="stale">PAST THE RISK CEILING — '+m(v.exposure)+' outstanding against a ceiling of '+
+    m(t.maxExposure)+' for '+v.risk+' partners, and still inside the '+m(v.limit)+
+    ' limit their contract grants. Two controls, two different answers, and both of them are right.</div>';
+  if(!d.allowed) out+='<div class="stale">THE NEXT ORDER IS BLOCKED — '+m(d.requested)+' against '+m(d.available)+
+    ' of headroom, and '+v.risk+' is configured to BLOCK. Both had to be true at once. At a calmer risk level this same order would go through carrying a warning.</div>';
+  else if(d.exceeded) out+='<div class="match">OVER THE LIMIT AND STILL ALLOWED — '+m(d.requested)+' wanted against '+
+    m(d.available)+' left, but '+v.risk+' is configured to NOTIFY. The order is written and the reason travels with it. That is deliberate: refusing by default would freeze the whole sales floor.</div>';
+  else out+='<div class="match">ROOM FOR ANOTHER ORDER — '+m(d.available)+' of headroom left, '+pct(v.utilisation)+
+    ' of the limit used, risk level '+v.risk+', action on that level: '+t.action+'.</div>';
+  document.getElementById("flag").innerHTML=out;
+
+  var open=v.openCount>0;
+  document.getElementById("ontime").disabled=!open;
+  document.getElementById("late").disabled=!open;
+  document.getElementById("age").disabled=!open;
+  document.getElementById("order").disabled=!d.allowed;
+  mark("sim");
+}
+
+document.getElementById("order").addEventListener("click",function(){ st=CR.addOrder(st, st.order); render(); });
+document.getElementById("ontime").addEventListener("click",function(){ st=CR.settleOldest(st,0); render(); });
+document.getElementById("late").addEventListener("click",function(){ st=CR.settleOldest(st,30); render(); });
+document.getElementById("age").addEventListener("click",function(){ st=CR.ageOldest(st,40); render(); });
+document.getElementById("reset").addEventListener("click",function(){ st=CR.clone(CR.BASE); render(); });
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A dashboard has to highlight the partners who are close to their ceiling. Which number should the query sort on?",
+  o:["Outstanding exposure, largest first",
+     "Utilisation — exposure divided by the limit",
+     "The credit limit itself",
+     "The count of open invoices"],
+  a:1,
+  why:"An exposure of 240 million is alarming for one partner and trivial for another; only the ratio means the same thing for both. Note that no column stores it — exposure and the limit are stored, utilisation is derived at read time. A fourth stored number that has to agree with the other three is exactly how they eventually stop agreeing."},
+ {q:"A partner was onboarded last week. Nothing they have bought has settled yet, so payment history — 35 of the 100 points — has nothing to measure. What should the scoring engine do with it?",
+  o:["Score it 0, since there is no evidence of good behaviour yet",
+     "Score it 50 as a neutral starting point",
+     "Drop the criterion from this run and renormalise the weights of the rest back to 100",
+     "Refuse to score the partner at all until an invoice settles"],
+  a:2,
+  why:"Zero punishes a partner for data the system has not collected, and caps their score below 100 forever. A neutral default is worse: it writes a made-up number into an append-only history where no later reader can tell it was invented. The engine drops what it cannot measure and divides by the weight it actually scored. Contract compliance is dropped on every single run for exactly this reason — nothing in the system records whether a delivery arrived on spec."},
+ {q:"A partner sits at grade A, risk level low. An order arrives that is 80 million bigger than their remaining headroom. The action configured on their risk level is NOTIFY. What does the credit check return?",
+  o:["Refused — a limit is a limit",
+     "Allowed, with a reason attached explaining the overrun",
+     "Refused, with a suggestion to raise the limit",
+     "An error, because the state is invalid"],
+  a:1,
+  why:"Being over the limit is one of two conditions, not the decision. The gate refuses only when the amount exceeds the headroom AND that partner's risk level is configured to block. A company that has not configured thresholds at all also gets the permissive answer — because defaulting to block would freeze every transaction in the business on the day the feature ships, and no log line would explain why."},
+ {q:"You want a third option on risk thresholds — warn, block, and require another approval — the way budget control already does it. What actually happens when you add REQUIRE_APPROVAL to the enum?",
+  o:["It works; JPA maps enums to strings",
+     "The database CHECK constraint rejects the write, in production, the first time a user picks it",
+     "The build fails",
+     "Nothing, because the column is nullable"],
+  a:1,
+  why:"The column carries CHECK (action IN ('NOTIFY','BLOCK')). Java is happy, the unit tests are happy, and the failure waits for a real user on a real database. Budget control's three-way version has a multi-level approval workflow standing behind it; credit risk has no such requirement and no such workflow. If the third action is genuinely wanted, it starts with a requirement and a migration — never with an enum constant."},
+ {q:"The system must warn thirty days before a credit contract expires. Why is there no EXPIRING status?",
+  o:["Because the warning is not a requirement",
+     "Because about-to-expire is derived from the end date, and a contract in that window is still fully in force",
+     "Because the status column has no room left",
+     "Because a different service sends the warning"],
+  a:1,
+  why:"A contract thirty days from expiry grants its limit exactly as before and debts still arise under it. Turn the warning window into a status and every check for a valid contract has to remember two values instead of one — and the day somebody forgets, perfectly valid contracts start refusing orders. The nightly job sends the notice and leaves the status alone. Expiry itself is caused by the clock rather than by anyone pressing a button, which makes it the transition most often missing from the tests."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — refining the credit story",
+  line:'"Simple enough: if the partner is over their limit, block the order."',
+  o:[{t:"Sure — over the limit, return a 403.", v:"weak",
+      f:"It ships, and on the first Monday the sales floor discovers that every partner whose paperwork has drifted is now unsellable. The ticket will say the credit feature is broken, and it will be doing precisely what it was asked to do."},
+     {t:"Over the limit is one of two conditions in the spec — the other is the action configured on that partner's risk level. If that action is warn, the order still goes through carrying a message. Could we default new customers to warn, so nobody is locked out on day one?", v:"strong",
+      f:"You quoted the rule accurately, named the consequence of the simpler version in the customer's own terms, and proposed the safe default rather than merely objecting. That is the entire job in three sentences."},
+     {t:"That's not what the FRS says.", v:"weak",
+      f:"Correct and useless. The BA now has to go and read it themselves to find out what you meant, and you have spent credibility to communicate nothing. Say what it does say."}]},
+ {role:"The customer's sales director — mid-demo",
+  line:'"Your system just dropped my best customer two grades over one late payment. That customer is twelve percent of our revenue."',
+  o:[{t:"The algorithm is working as designed.", v:"weak",
+      f:"True, and it lands as a shrug. You have told someone whose bonus depends on that customer that the machine is right and they are wrong, explained nothing about how it works, and given them a reason to want the feature switched off."},
+     {t:"Payment history carries thirty-five of the hundred points, so one late settlement moves a lot at once. But the grade itself blocks nothing — it changed a label. The thing that can actually stop an order is the risk threshold, and those numbers are yours. Shall we look at what your low and medium rows say, and at whether thirty-five is the weight you want?", v:"strong",
+      f:"One sentence of mechanism, then the distinction that matters: the alarming thing and the harmful thing are not the same thing. You finished by handing the controls back to the person who should be holding them. This is the answer that keeps the feature turned on."},
+     {t:"I can hard-code an exception for that customer.", v:"weak",
+      f:"Now the rule applies to everybody except the one partner most worth watching, the exception lives where no auditor will ever find it, and there will be a second request next week. Configuration exists so that this answer is never necessary."}]},
+ {role:"Your tech lead — reviewing the pull request",
+  line:'"Contract compliance comes out unscored on every profile. Just default it to 100 so the scores stop looking lopsided."',
+  o:[{t:"Good idea, that's one line.", v:"weak",
+      f:"Every partner in the system now collects fifteen free points for something nobody measured, and no later reader of the score history can tell which of the five criteria were real. That is not a display fix. It is invented evidence written into an append-only audit record."},
+     {t:"We can't, it would break the tests.", v:"weak",
+      f:"The tests are not the reason and everyone in the room knows it. Defend a business rule with a failing test and you have invited somebody to change the test."},
+     {t:"There is genuinely nothing to score — nothing in the system records whether a delivery arrived on spec. The engine already handles that: unmeasurable criteria are dropped and the remaining weights renormalise, so nobody is being penalised, the score is simply out of the four we can see. If we want the fifth, it starts with capturing delivery acceptance.", v:"strong",
+      f:"You explained why the gap exists, showed that the design already answers it, and priced what a real fix would cost. A missing measurement and a measurement of zero are different facts, and a history meant to be read years later has to be able to tell them apart."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

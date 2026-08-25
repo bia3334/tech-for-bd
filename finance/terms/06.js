@@ -1,0 +1,27 @@
+/* New glossary terms introduced by lesson 06. Merged into finance/glossary.js later. */
+Object.assign(window.TERMS, {
+ laichamtra:{w:"Late-payment interest (lãi chậm trả)",
+   p:"What a buyer owes on top of the invoice for having held the seller's money past the due date. It is not a fine and not a fee — it is the price of the days. Between two companies it runs under Điều 306 Luật Thương mại 2005, which sets no ceiling, and it accrues on the principal alone.",
+   v:"Lãi chậm trả — tiền lãi trên số tiền bên mua giữ quá hạn. Theo Điều 306 Luật Thương mại 2005, không có trần, và chỉ tính trên nợ gốc.",
+   r:"credit-service · credit_exposures.late_interest_accrued (CM-19). The nightly overdue job adds to it and never adds it into amount — interest on interest is nobody's agreement."},
+ noigoc:{w:"Principal (nợ gốc)",
+   p:"The original debt itself: the value of goods delivered or money advanced, before any penalty and before any damages. It is the one figure in a dispute that late-payment interest is allowed to accrue on. Every other money row attached to the same breach has to be kept where the interest routine cannot reach it.",
+   v:"Nợ gốc — tiền hàng hoặc tiền ứng trước, chưa gồm phạt và bồi thường. Đây là số duy nhất được tính lãi chậm trả.",
+   r:"credit-service · CreditExposure.amount, always > 0 (ck_credit_exposures_amount) with the sign carried by ExposureDirection. Nothing else in the exposure row is a base for interest."},
+ phatvipham:{w:"Contractual penalty (phạt vi phạm)",
+   p:"A sum the two sides agree in advance that the breaching party will pay, owed whether or not the breach cost anything. It exists only if the contract says so, and Điều 301 Luật Thương mại 2005 caps it at 8% of the value of the breached obligation. Late-payment interest may never be charged on it.",
+   v:"Phạt vi phạm — khoản hai bên thoả thuận trước, chỉ có nếu hợp đồng ghi, trần 8% giá trị phần nghĩa vụ bị vi phạm (Điều 301 Luật Thương mại 2005). Không được tính lãi trên khoản này.",
+   r:"No entity models it yet — the clause lives in the seeded contract templates, V3__seed_contract_templates.sql, whose test asserts they cite Điều 301 and never Điều 468 or Điều 266."},
+ boithuong:{w:"Damages (bồi thường thiệt hại)",
+   p:"Compensation for loss the injured party can actually prove — the extra cost of buying elsewhere, the contract lost downstream. Unlike a penalty it needs no clause, and unlike a penalty it has no percentage cap, because it is measured rather than agreed. Interest may not be charged on it either.",
+   v:"Bồi thường thiệt hại — bù đắp thiệt hại thực tế chứng minh được, không cần điều khoản, không có trần %. Cũng không được tính lãi trên khoản này.",
+   r:"Not modelled in sme-finance-scm either. Both this and phạt vi phạm sit outside CM-19 by design — the scope of the interest job is credit_exposures.amount and nothing else."},
+ laisuatquahan:{w:"Overdue lending rate (lãi suất nợ quá hạn)",
+   p:"The rate a bank charges on a loan that has gone past due, published and higher than its in-term rate. When a contract fixes no late-payment rate, Án lệ 09/2016/AL says to use the average of at least three banks in the locality, read at the time of payment — a number you look up and can show the source of, not a constant.",
+   v:"Lãi suất nợ quá hạn — lãi ngân hàng áp cho khoản vay quá hạn. Không thoả thuận thì lấy trung bình của ít nhất ba ngân hàng tại địa phương ở thời điểm thanh toán.",
+   r:"credit_contracts.late_interest_rate (nullable, no CHECK — deliberately) falls back to credit_settings.late_interest_rate, a versioned series keyed by effective_from so recomputing yesterday uses yesterday's rate."},
+ anle:{w:"Precedent (án lệ)",
+   p:"A published court decision that lower courts must follow. Vietnam has had them only since 2016 and there are few of them, so each one settles a question that used to be argued case by case. Read one the way you read an RFC: it names the inputs, states the rule, and — most usefully — records the alternative it rejected.",
+   v:"Án lệ — bản án đã công bố mà toà cấp dưới bắt buộc theo. Đọc như đọc một RFC: có đầu vào, có quy tắc, và có cả cách tính đã bị bác.",
+   r:"Án lệ số 09/2016/AL is cited in V3__seed_contract_templates.sql and in docs/design/06-state-machines.md §7; ContractTemplateSeedTest fails the build if a template stops citing it."}
+});

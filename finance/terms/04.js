@@ -1,0 +1,27 @@
+/* New glossary terms introduced by lesson 04. Merged into finance/glossary.js later. */
+Object.assign(window.TERMS, {
+ hosotindung:{w:"Credit profile (hồ sơ tín dụng)",
+   p:"One row per partner holding everything the company has decided about lending to them: the ceiling granted, how much of it is taken up right now, what is left, the score, the grade, the risk level. There is exactly one per partner, and it is the row every other service asks before it lets an order through. Nothing in it is a fact about the partner — it is a record of decisions your own company made about the partner.",
+   v:"Hồ sơ tín dụng — mỗi đối tác một dòng, giữ hạn mức đã cấp, phần đang chiếm dụng, phần còn lại, điểm và mức rủi ro. Đây là dòng mà mọi service khác phải hỏi trước khi cho một đơn hàng đi tiếp.",
+   r:"credit-service · CreditProfile, table credit_profiles (CM-06). available_credit is a generated column, credit_limit − used_credit, computed by PostgreSQL — never recompute it by hand somewhere else. The only entity in this service carrying @Version, because two approvals for the same partner really do run at once."},
+ tyleusudung:{w:"Credit utilisation (tỷ lệ sử dụng hạn mức)",
+   p:"Outstanding exposure divided by the limit, as a percentage. It is the only one of the three limit numbers that means the same thing for a 50 million partner and a 5 billion one, which is why it is the number that belongs on the screen and in the alert. Ninety percent used is a warning whatever the size of the company.",
+   v:"Tỷ lệ sử dụng hạn mức = dư nợ chia hạn mức. Đây là con số duy nhất so sánh được giữa đối tác nhỏ và đối tác lớn, nên nó mới là thứ nên hiện trên màn hình và trong cảnh báo.",
+   r:"No column stores it — it is used_credit / credit_limit on CreditProfile, derived at read time. Storing a fourth number that has to agree with the other three is how they eventually stop agreeing."},
+ chamdiemtindung:{w:"Credit scoring (chấm điểm tín dụng)",
+   p:"Turning a partner's behaviour into a number from 0 to 100 by mixing five measured criteria, each with a weight and a conversion table. It runs again on every settled transaction, so the number moves under you while a user is looking at it. A score is evidence for a decision, never the decision itself.",
+   v:"Chấm điểm tín dụng — quy hành vi của đối tác thành con số 0..100 từ năm tiêu chí, mỗi tiêu chí một trọng số và một thang quy đổi. Điểm chạy lại sau mỗi khoản tất toán, nên nó đổi ngay trong lúc người dùng đang nhìn.",
+   r:"credit-service · CreditScoringRule (weights and bands live in the DB, total must be 100), ScoringCriterion, CreditScoreHistory (append-only), TriggerReason · CM-07, CM-08. A criterion with no measurement is dropped and the remaining weights normalised — CONTRACT_COMPLIANCE has no data source, so it is never scored."},
+ xephangtindung:{w:"Credit grade (xếp hạng tín dụng)",
+   p:"The letter the score is displayed as — AAA down to D. It exists so a human can read a partner in one glance instead of arguing about whether 71 is meaningfully better than 68. It drives nothing: the boundaries are hard-coded because no table holds them, and no rule in the system reads a letter.",
+   v:"Xếp hạng tín dụng — chữ cái AAA đến D suy ra từ điểm, chỉ để người đọc nhìn một cái là hiểu. Nó không điều khiển gì cả; thứ điều khiển hành vi hệ thống là ngưỡng rủi ro.",
+   r:"credit-service · CreditGrade enum, declared best to worst so compareTo works · CreditScoringEngine.calculateGrade (90/80/70/60/50/40/20). Deliberately not configurable — the ERD has no table for these boundaries."},
+ nguongruiro:{w:"Risk threshold (ngưỡng rủi ro)",
+   p:"One row per risk level saying what that level costs you: the highest exposure allowed, the lowest score that still counts as this level, how many days overdue is tolerated, and one action — warn, or block. Every company sets its own. It is the only place in the system that decides whether crossing a line stops an order or merely mentions it.",
+   v:"Ngưỡng rủi ro — mỗi mức rủi ro một dòng: trần dư nợ, điểm tối thiểu, số ngày quá hạn chấp nhận được, và một hành động (cảnh báo hay chặn). Mỗi công ty tự đặt.",
+   r:"credit-service · RiskThreshold, table risk_thresholds, UNIQUE (company_id, risk_level) · RiskLevel LOW/MEDIUM/HIGH/CRITICAL · ThresholdAction NOTIFY | BLOCK, only two values — CM-11, CM-12. No REQUIRE_APPROVAL here, unlike budget-service: the DDL CHECK would reject it in production."},
+ hopdongtindung:{w:"Credit contract (hợp đồng hạn mức công nợ)",
+   p:"The signed agreement the limit and the payment terms come from: the ceiling, the terms in days, the late-payment rate if one was agreed, a start date and an end date. Note the Vietnamese: this is a trading agreement between two companies, not a bank loan, so calling it hợp đồng tín dụng in the interface is a legal mistake. Its most dangerous day is the day it expires, because expiry is done by a nightly job rather than by anyone deciding.",
+   v:"Hợp đồng hạn mức công nợ — nguồn của hạn mức và điều khoản thanh toán. Đừng gọi là \"hợp đồng tín dụng\" trên giao diện: đó là hợp đồng vay ngân hàng theo Luật Các TCTD, còn đây là tín dụng thương mại giữa hai doanh nghiệp.",
+   r:"credit-service · CreditContract, ContractType (SUPPLIER_CREDIT, CUSTOMER_CREDIT, BANK_FACILITY), ContractTemplate with {{placeholder}} bodies, ContractStatus DRAFT → ACTIVE → EXPIRED | TERMINATED · CM-15..CM-18. There is no EXPIRING status: \"about to expire\" is derived, end_date − today ≤ notice_days, and the contract stays fully ACTIVE throughout."}
+});
