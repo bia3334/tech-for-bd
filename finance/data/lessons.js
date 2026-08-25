@@ -1006,51 +1006,259 @@ window.LIB = {
   },
   {
    "n": "13",
-   "ch": 5,
+   "href": "lessons/13-reconciliation.html",
    "title": "When the bank statement and the books disagree",
-   "dek": "Reconciliation: what a statement line actually contains, why matching it to your own records is harder than it sounds, and what an unmatched line means by the end of the month.",
-   "tags": [
-    "reconciliation",
-    "bank statement",
-    "MT940",
-    "matching"
+   "dek": "Every lesson so far trusted the company's own records. This one is about an outside party that keeps its own version, in its own format, with none of your identifiers in it — and about the handful of lines at the end of the month that refuse to pair off with anything, which turn out to be the only lines worth reading.",
+   "minutes": "16 min",
+   "facts": [
+    "16 min",
+    "No accounting assumed",
+    "Ends on one unmatched line and the question it raises"
    ],
    "level": "Applied",
-   "minutes": "16 min",
-   "status": "planned",
-   "sections": []
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "terms": [
+    "saoke",
+    "ngayhieuluc",
+    "dongtien",
+    "hoadon",
+    "chungtu",
+    "doichieu",
+    "phanbothanhtoan",
+    "chenhlechdoichieu",
+    "khoplenh",
+    "phaithu",
+    "quahan",
+    "duno",
+    "vetkiemtoan",
+    "thucchi"
+   ],
+   "ch": 5,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "What is actually on a statement line"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "A join with no key"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "A wrong match costs more than no match"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "Nine lines from the bank, nine from the books"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "14",
-   "ch": 5,
+   "href": "lessons/14-reading-financial-statements.html",
    "title": "Reading a set of financial statements in ten minutes",
-   "dek": "Three sheets answering three different questions — what the company owns, what it earned, and where the cash went. Including the new name Thông tư 99/2025 gave the first of them.",
+   "dek": "Three sheets of paper answering three different questions. Read them in the wrong order and you learn nothing; read them in the right order and you can see, in ten minutes, whether a company is earning its money or borrowing it — and why lesson 01 was true.",
+   "minutes": "20 min",
+   "facts": [
+    "20 min",
+    "No accounting assumed",
+    "Fire one event, watch three sheets"
+   ],
+   "level": "Applied",
    "tags": [
     "financial statements",
     "Thông tư 99/2025",
     "balance sheet",
-    "cash flow statement"
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
    ],
-   "level": "Applied",
-   "minutes": "20 min",
-   "status": "planned",
-   "sections": []
+   "terms": [
+    "baocaotaichinh",
+    "baocaotinhhinhtaichinh",
+    "phaithu",
+    "tonkho",
+    "phaitra",
+    "ketquakinhdoanh",
+    "doanhthu",
+    "loinhuan",
+    "hoadon",
+    "luuchuyentiente",
+    "vonluudong",
+    "ccc",
+    "thanhkhoan",
+    "dongtien",
+    "burnrate",
+    "runway",
+    "hethongtaikhoan",
+    "giaingan"
+   ],
+   "ch": 5,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "What is actually in the PDF someone forwards you"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "Three sheets, one at a time"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "Why a lender opens the third sheet first"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "One company, three sheets, one event at a time"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Ten minutes with a real PDF"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   },
   {
    "n": "15",
-   "ch": 5,
+   "href": "lessons/15-which-books-must-be-kept.html",
    "title": "Which books this company is required to keep",
-   "dek": "Thông tư 99/2025 for everyone else, Thông tư 58/2026 for micro-enterprises, and the four tax methods that decide which screens a customer should never be shown.",
-   "tags": [
-    "Thông tư 58/2026",
-    "micro-enterprise",
-    "tax method",
-    "chart of accounts"
+   "dek": "Two statutes replaced the whole of Vietnamese corporate accounting across 2026, six months apart, pulling in opposite directions. One hands the customer the pen. The other hands them one book and tells them to file nothing. Which one your customer falls under decides what your interface is allowed to show them.",
+   "minutes": "18 min",
+   "facts": [
+    "18 min",
+    "No accounting assumed",
+    "The last lesson in the library"
    ],
    "level": "Applied",
-   "minutes": "18 min",
-   "status": "planned",
-   "sections": []
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "terms": [
+    "sotheodoi",
+    "chungtu",
+    "hoadon",
+    "baocaotaichinh",
+    "chedoketoan",
+    "hethongtaikhoan",
+    "baocaotinhhinhtaichinh",
+    "hokinhdoanh",
+    "khautru",
+    "tinhtructiep",
+    "vat",
+    "khoaso",
+    "doanhthu"
+   ],
+   "ch": 5,
+   "status": "published",
+   "sections": [
+    {
+     "id": "s01",
+     "label": "Ground floor",
+     "h2": "A book is a form with a code on it"
+    },
+    {
+     "id": "s02",
+     "label": "The idea",
+     "h2": "Thông tư 99 hands the customer the pen"
+    },
+    {
+     "id": "s03",
+     "label": "The danger",
+     "h2": "Offering an obligation that is not theirs"
+    },
+    {
+     "id": "s04",
+     "label": "See it",
+     "h2": "Configure a customer, watch the screens switch off"
+    },
+    {
+     "id": "s05",
+     "label": "Test it",
+     "h2": "Five questions"
+    },
+    {
+     "id": "s06",
+     "label": "Use it",
+     "h2": "Three moments in the project"
+    },
+    {
+     "id": "s07",
+     "label": "Take away",
+     "h2": "Five questions worth asking"
+    },
+    {
+     "id": "s08",
+     "label": "Reference",
+     "h2": "Every word, in plain English"
+    }
+   ]
   }
  ],
  "docs": [
@@ -6411,48 +6619,1408 @@ window.LIB = {
    ]
   },
   {
-   "id": "13",
-   "type": "planned",
+   "id": "13#s01",
+   "type": "section",
    "lesson": "13",
-   "href": "",
-   "title": "When the bank statement and the books disagree",
-   "subtitle": "Lesson 13 · not written yet",
-   "text": "Reconciliation: what a statement line actually contains, why matching it to your own records is harder than it sounds, and what an unmatched line means by the end of the month.",
+   "href": "lessons/13-reconciliation.html#s01",
+   "title": "What is actually on a statement line",
+   "subtitle": "Lesson 13 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. Here is a line from a bank statement . It is not a tidied-up example — it is a row from dev-seed/sao-ke-mau-techcombank.csv , the sample statement that ships in this project, semicolons and all. Ngay sao ke;Ngay gia tri;So tien;Dien giai;Doi tac;So tham chieu;Tien te 23/07/2026;23/07/2026;-84.150.000;CK di AN PHU phi luu kho quy II;KHO VAN AN PHU;FT26-91457;VND Seven fields. A date the bank booked the entry. A second date. An amount, negative because the money left. Some free text. A counterparty name in shouting capitals with the diacritics stripped out. A reference. A currency code. Now the more important list — what is not in that row. There is no invoice number. No customer id. No order number. No id of yours of any kind. Nothing in the line was written by your system, nothing in it was designed to point at your system, and the bank has never heard of your schema. That is the whole lesson in one observation. You are being handed a list of facts about money by somebody who does not know what any of it was for. Two dates, and they are not the same date Ngày sao kê is the day the bank booked the entry. Ngày giá trị is the value date — the day the money is genuinely usable in the account. A transfer sent late on a Friday is commonly booked on Friday and valued on Monday. So a rule that matches on the exact date fails on entirely ordinary transfers, and the whole matching routine needs a tolerance in days rather than an equality. Which date you compare is a decision, not a detail: the books hold the day the accountant says it happened, and the statement holds two candidates for the same thing. One sign, and it is the only one in the system On a statement, money out is a negative number. Everywhere else in this project the amount is positive and the direction lives in a separate column, because a receipt and a payment are different pieces of business rather than the same number with opposite signs. Which means every comparison between the two sides has to take the absolute value first, and getting that wrong is not a display bug — it pairs an incoming transfer with an outgoing payment and books both as agreed. And a field somebody typed on a phone Diễn giải is free text. It was typed by whoever ordered the transfer, in a banking app, at whatever length the app allowed, in unaccented Vietnamese. Nobody validated it. Here is the rest of the same sample file: 2026-07-24;;18000000;CK den thanh toan don hang thang 07;CTY CP CANG TAN CANG;FT26-92008;VND ;25/07/2026;-2.400.000;Phi quan ly tai khoan va phi CK;TECHCOMBANK;PHI-TCB-0725; 26/07/2026;26/07/2026;-15750000;UNC tam ung cong tac phi;;;vnd 28/07/2026;28/07/2026;6.500.000,50;CK den hoan tien cuoc van chuyen;NHA XE DUC PHAT;FT26-92310;VND Four rows, and every one of them is broken in a way the parser has to survive. An ISO date sitting in a dd/mm/yyyy file, with the value date left blank. A row with no statement date at all and no currency, whose counterparty is the bank itself charging its own fee. A row with no counterparty and no reference, and the currency in lowercase. And an amount with a decimal comma in it, in a file where the thousands separator is a full stop. None of that is carelessness in the sample data. That is what statement files look like, and the reason the import path is a parser with an error list rather than a split(\";\") . In the code Each row becomes one BankStatementLine in bank_statement_lines : statement_date , value_date , a signed amount , currency , counterparty_name , reference_no , raw_description , and nothing else. Its javadoc says outright that this is the only table in the system where the amount is negative. value_date is nullable in the DDL and never null in practice — the service copies statement_date in, because the duplicate key (account, value_date, amount, reference_no) compares on that column and a blank one lets the same file be imported twice unnoticed. Tiếng Việt Một dòng sao kê chỉ có: ngày ghi sổ, ngày giá trị, số tiền có dấu, diễn giải tự do, đôi khi tên đối tác và số tham chiếu. Không có số hoá đơn, không có mã khách hàng, không có mã nào của hệ thống mình. Ngân hàng không biết dữ liệu của mình tồn tại — và đó chính là toàn bộ bài toán.",
    "tags": [
     "reconciliation",
+    "đối chiếu",
     "bank statement",
+    "sao kê",
     "MT940",
-    "matching"
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
    ]
   },
   {
-   "id": "14",
-   "type": "planned",
+   "id": "13#s02",
+   "type": "section",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s02",
+   "title": "A join with no key",
+   "subtitle": "Lesson 13 · The idea",
+   "text": "Put the two sides next to each other and the shape of the problem is obvious. On one side, the company's own cash flow records: a payment to a named supplier, on a date, against an invoice , with a chứng từ attached. On the other, the bank's list. Same money, twice, written by two parties who never agreed on a format. Reconciliation is the act of proving those two lists say the same thing. In database terms it is a join, and there is no column to join on. What is left is a set of near-identities: about the same amount, about the same day, possibly the same reference, possibly a name that looks like a name you know. Before the rules, the honest list of ways the two sides legitimately fail to line up — every one of these is normal business, not an error: One transfer paying three invoices The customer nets them and sends one round sum. Nothing in your books is that amount, so nothing matches. This is payment allocation , and it has to happen before reconciliation can succeed · TM-21. Three transfers paying one invoice The mirror case — a buyer short of cash paying in instalments. Three statement lines, one book entry, and no pairing between them is one-to-one. A bank fee deducted on the same booking You ordered 84.150.000 and the account moved 84.300.000. The amount no longer matches, and the 150.000 becomes a reconciliation difference — exactly the kind of number that gets buried instead of asked about. A foreign currency converted at a rate you did not choose The invoice is in USD, the account is in VND, and the bank applied its own rate on its own timestamp. The đồng figure in the books was never going to equal the đồng figure on the statement. The value date differs from the booking date The day is off by one and every exact-date rule quietly stops matching on Fridays. The reference is the customer's number, not yours They typed their internal purchase-order number into the reference field, because from where they sit that is the number that identifies the payment. It matches nothing in your database and it is not wrong. Given all that, auto-matching is worth building — a person doing four hundred lines by hand will make more mistakes than the machine will. But it has to be built with an honest sense of which signals are evidence and which are guesses. Exact amount plus exact reference is safe: two independent facts agreeing is what evidence looks like. Exact amount alone is a guess, and a reasonable one — it happens to be right most of the time, which is precisely what makes the occasional wrong one hard to find. Matching on words in the description is a guess of a different order, because it produces a confidence score, and a score on a screen reads as a measurement. Exact amount and exact reference is a fact. Exact amount alone is a guess. Matching on words in the description is a guess wearing the clothes of a fact. So the rules that actually shipped are narrow on purpose. A pair auto-matches only when all six hold: same account, same currency, same direction, the amount equal to the last đồng, the value date inside a configured tolerance, and neither side already reconciled. A matching reference chooses between candidates that already qualify — it never excuses a wrong amount, because a reference is typed by the payer and a typo must not be allowed to override both the amount and the date. And there is a seventh rule which is the interesting one: the machine only closes a pair when there is exactly one candidate. Two candidates means no match, and the line goes to a person with both of them listed. That rule is what the next section is about. What the bank actually hands over A CSV is the friendly case, usually because somebody exported it from the bank's web portal by hand every month. The format a bank hands over as a matter of course is SWIFT MT940, and the project ships a sample of that too: :20: STMT260820 :25: 19033445566 :28C: 1/1 :60F: C260801VND500000000, :61: 2608120812C260000000,NTRFSEED-FT26-90233//NONREF :86: Khach Tan Cang thanh toan cong no ky 06 - CTY CP CANG TAN CANG :61: 2608140814D84300000,NTRFSEED-FT26-91457//NONREF :86: Phi luu kho quy II - KHO VAN AN PHU :61: 2608180818C5000000,NTRFSEED-FT26-99001//NONREF :86: CK den khong ro noi dung - NGUOI CHUYEN AN DANH :62F: C260820VND680700000, Read one :61: tag from the left. 260812 is the value date as yymmdd . 0812 is the booking date as mmdd , and it is optional. C is credit and D is debit — and there are also RC and RD , reversals, which flip the sign again. 260000000, is the amount, and that trailing comma is the decimal separator. NTRF is a transaction-type code. Everything after it up to the // is the reference the payer typed. :86: is the description, and it continues onto any following line that does not begin with a colon. What that costs you against a clean CSV: a parser with optional capture groups instead of a split, a comma that means a decimal point, a two-digit year, a direction expressed as a letter with reversal variants, and — the one that hurts — no counterparty field at all. In MT940 the name of the other party is inside the free text or nowhere. Every name-based heuristic you were planning to write has just lost its input on the format the bank actually sends. What it gives you in exchange is real: :60F: and :62F: are the opening and closing balances of the period. That is a checksum on your own import. Add up the entries, apply them to the opening balance, and if you do not land on the closing balance then you have dropped or double-counted a line and you know it before anybody reconciles anything. A CSV export offers nothing of the kind. In the code StatementFormat = CSV | XLSX | MT940 , plus a fourth path that is not a format at all — POST /bank-statements/sync against the bank's API (INT-03). That path dedupes on bank_transaction_id , the bank's own identifier, rather than on the guessed key the file path uses; a null in that column is therefore also how the screen knows a line came from a file rather than from the API. Mt940StatementParser 's own javadoc calls itself a minimum viable subset of SWIFT rather than an implementation of it, and its counterpartyName is always left blank. Tiếng Việt Đối chiếu là một phép join không có khoá. Cùng một khoản tiền được hai bên ghi bằng hai định dạng không ai thoả thuận với ai, nên chỉ còn cách so gần đúng: gần đúng số tiền, gần đúng ngày, may thì trùng số tham chiếu. Đúng số tiền và đúng số tham chiếu là bằng chứng; chỉ đúng số tiền là phỏng đoán; khớp theo chữ trong diễn giải là phỏng đoán đội lốt sự thật.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ]
+  },
+  {
+   "id": "13#s03",
+   "type": "section",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s03",
+   "title": "A wrong match costs more than no match",
+   "subtitle": "Lesson 13 · The danger",
+   "text": "Four hundred lines, half an hour before the meeting, and the auto-matcher closed a hundred and ten of them. The obvious improvement is to loosen the rules until it closes three hundred. Every step of that loosening is defensible on its own and the destination is a disaster. Follow one wrong match through the system. A statement line is paired with an invoice it did not pay. The invoice is now settled. It leaves the receivables list, so nobody chases it. It never turns overdue , so no alert fires. It drops out of the aging report and out of the partner's outstanding exposure , which quietly frees up credit limit that was never repaid. And the reconciliation screen reports a successful run. Now follow a missed match. A line sits in a list, somebody looks at it for twenty seconds, and pairs it by hand. Those two costs are not on the same scale, and they point in opposite directions from the same decision. That asymmetry is the reason the matching rules are narrow, and it is the argument to make when somebody asks for them to be widened. The line you never cross Ambiguity is an answer. Return it. When two candidates fit equally well, no match is the correct output — not the best-scoring one. With two perfect candidates the tie-break falls to whichever row the database returned first, which is not a business rule and is not stable between runs. And it fails silently in pairs: pick the wrong one of two and you have not made one mistake, you have made two. Never ship a confidence threshold that a user can lower, either — a slider from 0.9 to 0.7 is a switch that turns the unsafe path back on, and the person who moves it will be doing it at half past five on the last day of the month. Ambiguity runs in both directions The obvious form is one statement line with two candidate entries in the books. The form people forget is the mirror: two statement lines both fitting one entry. Two payments of forty-five million to two different suppliers in the same week is ordinary, and if the descriptions are vague the machine has two lines that each want the same record. Checking only the first direction leaves the second one closing pairs at random, so the refusal has to be symmetric: a line is matched only if it has exactly one candidate and that candidate is not also the sole candidate of some other line. There is a temptation to be clever here — if line B's only rival was taken by line A, then B is now unambiguous, so match it too. Do not. That makes the result depend on the order the rows came back in, which is the exact defect the refusal was there to prevent. One pass, then hand the rest to a person, and let them run it again if they want. The question that makes this feature exist At the end of the month, some lines are still unmatched. Every one of them means one of exactly two things, and the difference between them is the whole reason anybody built this. Either your books are missing something — a bank fee nobody recorded, a customer's transfer that arrived early, a payment the accountant has not entered yet. Tedious, and fixable in an afternoon. Or money moved and nobody recorded it. That is the fraud case, and it is worth being blunt about what it looks like: an unauthorised transfer out of the company account appears on the statement as an ordinary debit that pairs with nothing. It has no invoice, no chứng từ , no approval behind it — and the audit trail is perfectly consistent, because whoever moved that money never touched your system at all. There is no other control here that can see it, because every other control reads records the company itself wrote. Reconciliation is the only one that compares against a record kept by somebody who does not work here. It runs in the other direction too, and that one is worse when it happens. A payment sitting in the books as actual spend , marked executed with a payment slip attached, that the bank has no line for. Either the money never left, or it left through a document that does not describe reality. So when reconciliation gets pushed out of a release as an import screen, what is actually being deferred is the company's only detective control over its own bank account. And it does not wait politely: a month you did not reconcile is a month in which that control did not run, and you cannot run it retroactively over a period for which nobody kept the statements. In the code AutoMatcher is pure logic with no database and no HTTP in it, so each of the six conditions has a unit test. Its comments record why the rule changed: an earlier version scored candidates and picked the best, breaking ties on the smaller difference — and with two exact candidates both differences are zero, so the winner was whichever row PostgreSQL returned first. AutoMatchRequest no longer has a minConfidence field at all, and the reason given is exactly the one above: keeping it meant keeping a lever that reopens the path the new rule closed. The three confidence constants that remain only order the suggestion list on screen. Tiếng Việt Một cặp khớp sai đắt hơn một cặp không khớp rất nhiều: hoá đơn bị đánh dấu đã thu, rơi khỏi danh sách công nợ, không bao giờ quá hạn, không ai đi đòi — mà màn hình vẫn báo chạy thành công. Vì thế luật khớp phải hẹp, và nhập nhằng thì trả về nhập nhằng chứ không chọn ứng viên điểm cao nhất. Dòng còn lại cuối tháng mới là thứ đáng đọc: hoặc sổ thiếu bút toán, hoặc tiền đã đi mà không ai ghi — trường hợp thứ hai là gian lận, và đối chiếu là chốt kiểm soát duy nhất nhìn thấy nó.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ]
+  },
+  {
+   "id": "13#s04",
+   "type": "section",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s04",
+   "title": "Nine lines from the bank, nine from the books",
+   "subtitle": "Lesson 13 · See it",
+   "text": "The statement on the left is the sample file from the project's dev-seed folder, mess intact: a blank statement date, an ISO date in a dd/mm/yyyy file, a lowercase currency, a decimal comma, and two lines whose whole description is four unaccented words. The company's own records are on the right. Press auto-match and watch how few it is willing to close. Then work the leftovers: tap one line on each side to pair them by hand, and read what the pairing actually does. Two of them are traps, and you are meant to fall into at least one. Auto-match Undo last Reset Closed by the machine — Closed by hand — Statement lines left — Book entries left — Sao kê · Techcombank 19033445566 · 07/2026 Sổ của công ty · giao dịch tháng 07 The matching rules are the ones in transaction-service · AutoMatcher : six conditions, a reference used only to choose between candidates that already qualify, and no automatic match where two candidates fit. Money is compared to the last đồng — the real service does that with BigDecimal.compareTo , never equals and never a double (ADR 0004). The logic lives in finance/sim-13.js and has its own check: node tools/test-13.mjs .",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ]
+  },
+  {
+   "id": "13#s05",
+   "type": "section",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 13 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong on a screen that closes invoices. 0 / 5 answered",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ]
+  },
+  {
+   "id": "13#s06",
+   "type": "section",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 13 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ]
+  },
+  {
+   "id": "13#s07",
+   "type": "section",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 13 · Take away",
+   "text": "\"What in this row can I actually join on?\" Ask it before you agree to any integration with an outside party, not only a bank. The answer is often \"nothing\", and that changes the feature from a mapping into a matching problem with a human in it — different effort, different UI, different definition of done. \"What does this do when two candidates fit equally well?\" The question that separates a matcher you can trust from one you cannot. \"It picks the best score\" means it picks whichever row came back first, and when it picks wrong it is wrong twice. Refusing to answer is a feature, and it needs somewhere in the UI to put the refusal. \"Which date is this — the day the bank booked it, or the day the money was usable?\" Two dates, a day or two apart, and any rule built on the wrong one fails on ordinary Friday transfers. It generalises: whenever an outside record carries two timestamps, one of them is about their process and one is about your money. \"Who signs for a match that has a difference on it?\" A difference is somebody accepting that the two numbers will never agree. That is a decision with a name on it, not a rounding — so it needs an actor, a reason and a status of its own, and a machine must never be the one making it. \"At the end of the month, who actually reads the unmatched list?\" If the answer is nobody, the control does not exist however well the matching works. The unmatched list is the output of this feature, not its leftovers — and a request to hide old unmatched lines to tidy the screen is a request to switch it off. Tiếng Việt Bạn không cần biết kế toán. Chỉ cần đủ để hỏi: dòng này nối vào dữ liệu của mình bằng cái gì, và nếu có hai ứng viên cùng vừa thì hệ thống làm gì? Rồi hỏi tiếp cuối tháng ai là người đọc danh sách chưa khớp.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ]
+  },
+  {
+   "id": "13#s08",
+   "type": "section",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 13 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ]
+  },
+  {
+   "id": "13#q0",
+   "type": "quiz",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s05",
+   "title": "A statement line shows 84.300.000 leaving the account, reference FT26-91457. The books hold a payment of 84.150.000 with exactly that reference — the difference is the bank's transfer fee, taken on the same booking. Should auto-match close the pair?",
+   "subtitle": "Lesson 13 · Test yourself",
+   "text": "No — a reference chooses between candidates that already match on amount; on its own it cannot excuse a wrong amount, so this becomes a suggestion naming the difference The reference field is typed by whoever ordered the transfer. Letting a matching reference override both the amount and the date means one mistyped code closes the wrong invoice. So it is a tie-breaker between candidates that already qualify, never a substitute for one — and the difference has to be accepted by a person, because accepting it is a decision somebody signs for.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "answer": "No — a reference chooses between candidates that already match on amount; on its own it cannot excuse a wrong amount, so this becomes a suggestion naming the difference",
+   "why": "The reference field is typed by whoever ordered the transfer. Letting a matching reference override both the amount and the date means one mistyped code closes the wrong invoice. So it is a tie-breaker between candidates that already qualify, never a substitute for one — and the difference has to be accepted by a person, because accepting it is a decision somebody signs for."
+  },
+  {
+   "id": "13#q1",
+   "type": "quiz",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s05",
+   "title": "Two payments of 45.000.000 go out on the same day to two different suppliers. The statement has two lines of −45.000.000 with a description that fits either. What should auto-match do?",
+   "subtitle": "Lesson 13 · Test yourself",
+   "text": "Close neither, and hand both lines to a person with every candidate listed and the reason spelled out With two exact candidates every tie-break is arbitrary — the differences are both zero, so the winner is whichever row the query returned first. And the mistake comes in pairs: pick wrong once and both suppliers' balances are wrong at the same time. Option three is the tempting one and it is the same bug in a hat: it makes the result depend on processing order, which is exactly what the rule was there to prevent.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "answer": "Close neither, and hand both lines to a person with every candidate listed and the reason spelled out",
+   "why": "With two exact candidates every tie-break is arbitrary — the differences are both zero, so the winner is whichever row the query returned first. And the mistake comes in pairs: pick wrong once and both suppliers' balances are wrong at the same time. Option three is the tempting one and it is the same bug in a hat: it makes the result depend on processing order, which is exactly what the rule was there to prevent."
+  },
+  {
+   "id": "13#q2",
+   "type": "quiz",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s05",
+   "title": "A customer nets three invoices and sends one transfer of 18.000.000. Nothing in the books is that amount. What is the right fix?",
+   "subtitle": "Lesson 13 · Test yourself",
+   "text": "Allocate the one receipt across the three invoices first, then reconcile the receipt against the statement line Payment allocation and reconciliation are two different problems and they run in that order (TM-21, then TM-10). Matching to the largest invoice closes one and leaves the other two open with no money left to pay them — so somebody chases a customer who has already paid. And splitting the statement line is worse than wrong: it edits the outside party's record to make your own join work, and the whole value of that record is that you did not write it.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "answer": "Allocate the one receipt across the three invoices first, then reconcile the receipt against the statement line",
+   "why": "Payment allocation and reconciliation are two different problems and they run in that order (TM-21, then TM-10). Matching to the largest invoice closes one and leaves the other two open with no money left to pay them — so somebody chases a customer who has already paid. And splitting the statement line is worse than wrong: it edits the outside party's record to make your own join work, and the whole value of that record is that you did not write it."
+  },
+  {
+   "id": "13#q3",
+   "type": "quiz",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s05",
+   "title": "At month end, six statement lines are still unmatched. The product owner asks to hide unmatched lines older than sixty days so the screen looks clean. What is the problem?",
+   "subtitle": "Lesson 13 · Test yourself",
+   "text": "The unmatched list is the output of the control, not its leftovers — an old unmatched line is the one most likely to be money that moved with nothing behind it Everything else in the system reads records the company wrote itself. Reconciliation is the only control comparing against a record kept by an outsider, so an unexplained debit that pairs with nothing is the one place an unauthorised transfer shows up. Hiding the old ones hides exactly the ones nobody has managed to explain, which is the opposite of a tidy-up.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "answer": "The unmatched list is the output of the control, not its leftovers — an old unmatched line is the one most likely to be money that moved with nothing behind it",
+   "why": "Everything else in the system reads records the company wrote itself. Reconciliation is the only control comparing against a record kept by an outsider, so an unexplained debit that pairs with nothing is the one place an unauthorised transfer shows up. Hiding the old ones hides exactly the ones nobody has managed to explain, which is the opposite of a tidy-up."
+  },
+  {
+   "id": "13#q4",
+   "type": "quiz",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s05",
+   "title": "reconciliations.difference_amount is only ever non-zero on a manual match. Why not let auto-match accept small differences within a configured tolerance?",
+   "subtitle": "Lesson 13 · Test yourself",
+   "text": "Because a difference is somebody accepting that two numbers will never agree — that needs a name, a reason and a DISPUTED status, and a tolerance is a standing instruction to accept them unread The tolerance parameter does exist — and it only widens what gets suggested, never what gets closed. The default dispute threshold is zero, so one đồng of difference forces a written note and moves the entry to DISPUTED. Bank fees and rate differences are small, frequent, and precisely the kind of thing that stops being anybody's problem once it is buried inside a pair marked as agreeing.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "answer": "Because a difference is somebody accepting that two numbers will never agree — that needs a name, a reason and a DISPUTED status, and a tolerance is a standing instruction to accept them unread",
+   "why": "The tolerance parameter does exist — and it only widens what gets suggested, never what gets closed. The default dispute threshold is zero, so one đồng of difference forces a written note and moves the entry to DISPUTED. Bank fees and rate differences are small, frequent, and precisely the kind of thing that stops being anybody's problem once it is buried inside a pair marked as agreeing."
+  },
+  {
+   "id": "13#p0",
+   "type": "scene",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s06",
+   "title": "\"Just match on the amount. If the number is the same it is the same payment.\"",
+   "subtitle": "Your BA — refining the reconciliation story",
+   "text": "It works until two payments share an amount, which happens most weeks. Then the machine closes one invoice that was never paid — it leaves receivables, nobody chases it, no overdue alert fires. Could we match on amount and reference, and send everything ambiguous to a person with the candidates listed? You named the frequency, followed the wrong match to the money, and finished with a design that is smaller than what was asked for rather than larger. That last part is what gets it accepted in the same meeting.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "answer": "It works until two payments share an amount, which happens most weeks. Then the machine closes one invoice that was never paid — it leaves receivables, nobody chases it, no overdue alert fires. Could we match on amount and reference, and send everything ambiguous to a person with the candidates listed?",
+   "why": "You named the frequency, followed the wrong match to the money, and finished with a design that is smaller than what was asked for rather than larger. That last part is what gets it accepted in the same meeting."
+  },
+  {
+   "id": "13#p1",
+   "type": "scene",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s06",
+   "title": "\"Your screen says six lines could not be matched. Our old spreadsheet reconciled everything.\"",
+   "subtitle": "The customer's chief accountant — during the demo",
+   "text": "Those six are the point of the screen. Four are ordinary — a bank fee nobody booked and a customer who paired two invoices in one transfer. Two are not: money that arrived from a name nobody recognises, and a payment your books say was made that the bank has no line for. A spreadsheet that reconciles everything is one where somebody has been closing the leftovers by hand. You reframed the number from a failure into the output, separated the boring leftovers from the two that need an answer today, and explained the old spreadsheet without insulting whoever kept it. The next sentence writes itself: shall we look at the 33 million together?",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "answer": "Those six are the point of the screen. Four are ordinary — a bank fee nobody booked and a customer who paired two invoices in one transfer. Two are not: money that arrived from a name nobody recognises, and a payment your books say was made that the bank has no line for. A spreadsheet that reconciles everything is one where somebody has been closing the leftovers by hand.",
+   "why": "You reframed the number from a failure into the output, separated the boring leftovers from the two that need an answer today, and explained the old spreadsheet without insulting whoever kept it. The next sentence writes itself: shall we look at the 33 million together?"
+  },
+  {
+   "id": "13#p2",
+   "type": "scene",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s06",
+   "title": "\"Drop reconciliation. It is an import screen and a table — we can do it next quarter.\"",
+   "subtitle": "Product owner — cutting scope for the release",
+   "text": "It is an import screen and a table, and it is also the only control we have that compares our records against a record we did not write. Everything else in the system checks our data against our own data. Drop it and an unauthorised transfer out of the account looks exactly like nothing. And it does not wait — a month we did not reconcile is a month that control did not run. Could we cut the export formats and the multi-account view instead? You accepted the description, then named what is underneath it, then made the cost concrete and time-bound rather than vague. Offering a smaller cut of your own turns a refusal into a negotiation you are part of.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "answer": "It is an import screen and a table, and it is also the only control we have that compares our records against a record we did not write. Everything else in the system checks our data against our own data. Drop it and an unauthorised transfer out of the account looks exactly like nothing. And it does not wait — a month we did not reconcile is a month that control did not run. Could we cut the export formats and the multi-account view instead?",
+   "why": "You accepted the description, then named what is underneath it, then made the cost concrete and time-bound rather than vague. Offering a smaller cut of your own turns a refusal into a negotiation you are part of."
+  },
+  {
+   "id": "13#l0",
+   "type": "line",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s07",
+   "title": "\"What in this row can I actually join on?\"",
+   "subtitle": "Lesson 13 · Line worth stealing",
+   "text": "Ask it before you agree to any integration with an outside party, not only a bank. The answer is often \"nothing\", and that changes the feature from a mapping into a matching problem with a human in it — different effort, different UI, different definition of done.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "why": "Ask it before you agree to any integration with an outside party, not only a bank. The answer is often \"nothing\", and that changes the feature from a mapping into a matching problem with a human in it — different effort, different UI, different definition of done."
+  },
+  {
+   "id": "13#l1",
+   "type": "line",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s07",
+   "title": "\"What does this do when two candidates fit equally well?\"",
+   "subtitle": "Lesson 13 · Line worth stealing",
+   "text": "The question that separates a matcher you can trust from one you cannot. \"It picks the best score\" means it picks whichever row came back first, and when it picks wrong it is wrong twice. Refusing to answer is a feature, and it needs somewhere in the UI to put the refusal.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "why": "The question that separates a matcher you can trust from one you cannot. \"It picks the best score\" means it picks whichever row came back first, and when it picks wrong it is wrong twice. Refusing to answer is a feature, and it needs somewhere in the UI to put the refusal."
+  },
+  {
+   "id": "13#l2",
+   "type": "line",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s07",
+   "title": "\"Which date is this — the day the bank booked it, or the day the money was usable?\"",
+   "subtitle": "Lesson 13 · Line worth stealing",
+   "text": "Two dates, a day or two apart, and any rule built on the wrong one fails on ordinary Friday transfers. It generalises: whenever an outside record carries two timestamps, one of them is about their process and one is about your money.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "why": "Two dates, a day or two apart, and any rule built on the wrong one fails on ordinary Friday transfers. It generalises: whenever an outside record carries two timestamps, one of them is about their process and one is about your money."
+  },
+  {
+   "id": "13#l3",
+   "type": "line",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s07",
+   "title": "\"Who signs for a match that has a difference on it?\"",
+   "subtitle": "Lesson 13 · Line worth stealing",
+   "text": "A difference is somebody accepting that the two numbers will never agree. That is a decision with a name on it, not a rounding — so it needs an actor, a reason and a status of its own, and a machine must never be the one making it.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "why": "A difference is somebody accepting that the two numbers will never agree. That is a decision with a name on it, not a rounding — so it needs an actor, a reason and a status of its own, and a machine must never be the one making it."
+  },
+  {
+   "id": "13#l4",
+   "type": "line",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html#s07",
+   "title": "\"At the end of the month, who actually reads the unmatched list?\"",
+   "subtitle": "Lesson 13 · Line worth stealing",
+   "text": "If the answer is nobody, the control does not exist however well the matching works. The unmatched list is the output of this feature, not its leftovers — and a request to hide old unmatched lines to tidy the screen is a request to switch it off.",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ],
+   "why": "If the answer is nobody, the control does not exist however well the matching works. The unmatched list is the output of this feature, not its leftovers — and a request to hide old unmatched lines to tidy the screen is a request to switch it off."
+  },
+  {
+   "id": "13",
+   "type": "lesson",
+   "lesson": "13",
+   "href": "lessons/13-reconciliation.html",
+   "title": "When the bank statement and the books disagree",
+   "subtitle": "Lesson 13 · Applied",
+   "text": "Every lesson so far trusted the company's own records. This one is about an outside party that keeps its own version, in its own format, with none of your identifiers in it — and about the handful of lines at the end of the month that refuse to pair off with anything, which turn out to be the only lines worth reading. What is actually on a statement line Ground floor A join with no key The idea A wrong match costs more than no match The danger Nine lines from the bank, nine from the books See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "reconciliation",
+    "đối chiếu",
+    "bank statement",
+    "sao kê",
+    "MT940",
+    "auto-matching",
+    "value date",
+    "payment allocation",
+    "TM-10",
+    "CF-04"
+   ]
+  },
+  {
+   "id": "14#s01",
+   "type": "section",
    "lesson": "14",
-   "href": "",
-   "title": "Reading a set of financial statements in ten minutes",
-   "subtitle": "Lesson 14 · not written yet",
-   "text": "Three sheets answering three different questions — what the company owns, what it earned, and where the cash went. Including the new name Thông tư 99/2025 gave the first of them.",
+   "href": "lessons/14-reading-financial-statements.html#s01",
+   "title": "What is actually in the PDF someone forwards you",
+   "subtitle": "Lesson 14 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. A customer's credit file arrives as an attachment named something like BCTC_2026.pdf . Forty pages, mostly tables, all in Vietnamese. It is a set of financial statements , and every company that is required to keep books has to file one within ninety days of the year ending. It goes to the tax authority, to the bank, and to anybody being asked to lend. It is not a management report somebody made for themselves — it is a legal filing, and that is exactly why it is worth reading. Nobody signs a number here casually. Strip away the notes and the cover page and there are three sheets. Each one answers a different question, and the whole skill is knowing which sheet answers which. Sheet one · Báo cáo tình hình tài chính What does the company own, and what does it owe? A photograph, taken at one instant — the last day of the year — of everything on both sides. a photograph, not a film Sheet two · Báo cáo kết quả hoạt động kinh doanh What did it earn over the year? Revenue at the top, costs below, profit at the bottom. A film of twelve months, not a photograph. and now the one people skip Sheet three · Báo cáo lưu chuyển tiền tệ Where did the cash actually go? Also a film of twelve months, and it counts only money that genuinely moved. Two of those three are films of the same twelve months. They disagree, always, and the disagreement is not an error — it is the most informative thing in the document. Sheet two counts a sale on the day the goods went out; sheet three counts it on the day the money landed. You have met that gap before: it is the whole of lesson 01, and here it is sitting in a document filed with the state. In the code Of the four statutory forms, this project produces exactly one. report-service seeds seven report definitions, and six of them — thu chi, dòng tiền, ngân sách, công nợ đối tác, thuế, hiệu quả tài trợ — are management reports. The seventh, RPT_CASH_FLOW_STATEMENT_B03 , is the real thing: sheet three, form B03-DN (REP-02). Tiếng Việt Bộ báo cáo tài chính có ba tờ trả lời ba câu hỏi khác nhau: doanh nghiệp có gì và nợ ai, kiếm được bao nhiêu trong kỳ, và tiền thật đã đi đâu. Hai tờ sau cùng nói về một khoảng thời gian giống nhau nhưng luôn lệch nhau — chính chỗ lệch đó mới đáng đọc.",
    "tags": [
     "financial statements",
     "Thông tư 99/2025",
     "balance sheet",
-    "cash flow statement"
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
    ]
   },
   {
-   "id": "15",
-   "type": "planned",
-   "lesson": "15",
-   "href": "",
-   "title": "Which books this company is required to keep",
-   "subtitle": "Lesson 15 · not written yet",
-   "text": "Thông tư 99/2025 for everyone else, Thông tư 58/2026 for micro-enterprises, and the four tax methods that decide which screens a customer should never be shown.",
+   "id": "14#s02",
+   "type": "section",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s02",
+   "title": "Three sheets, one at a time",
+   "subtitle": "Lesson 14 · The idea",
+   "text": "Sheet one — a photograph, and a name that changed The statement of financial position lists what the company owns on one side and who has a claim on it on the other. Owns: cash, receivables , inventory , buildings, vehicles. Owes: payables , bank loans, and last of all the owners' own stake, which is simply whatever is left over. The two sides are equal. Not by luck and not as a check somebody performs — by construction, because the second side is defined as a breakdown of who has a claim on the first. That equality is what the word \"balance\" ever meant. Which brings up the name. For a decade this sheet was Bảng cân đối kế toán . Thông tư 99/2025/TT-BTC, in force from 1 January 2026, retired that wording and replaced it with Báo cáo tình hình tài chính — a straight move toward the IFRS term, statement of financial position. Same sheet, new name, and every document filed before 2026 still legitimately carries the old one. You will meet both in the same codebase, and a search that only matches one of them will silently miss half the customer's history. Sheet two — the film, and everything lesson 01 warned about The income statement is a stretch of time, not an instant. Revenue at the top, the cost of the goods that revenue came from, then salaries and overheads, then profit at the bottom. And this is the sheet where a company can be magnificently profitable while the bank account is empty. Revenue lands here on the day the goods are delivered and the invoice is issued — not the day the customer pays, which is typically forty-five days later. Stock bought and not yet sold appears nowhere on this sheet at all, even though the money for it is long gone. Read sheet two alone and you are reading a description of a business written in a currency nobody can spend. Sheet three — where the money actually went, split three ways The cash flow statement counts only days money genuinely moved. That alone would make it useful. What makes it the most valuable page in the bundle is that it splits every movement into three blocks: Operating — hoạt động kinh doanh Money the business earned by doing the thing it does. Customers paying, suppliers being paid, salaries, rent, tax. B03-DN mã 20 . Investing — hoạt động đầu tư Money spent on, or raised from, things the company keeps and uses: a van, a warehouse, a stake in another business. B03-DN mã 30 . Financing — hoạt động tài chính Money borrowed, repaid, put in by owners, or paid out to them as dividends. Cash that arrived because somebody handed it over, not because the business earned it. B03-DN mã 40 . Now take two companies. Both ended the year with two billion more in the bank than they started with. The first earned 2.4 billion from operations and used 0.4 of it to pay down a loan. The second lost 1.6 billion from operations and covered the hole with 3.6 billion of new borrowing. On the bottom line of sheet three they are identical. In every way that matters they are opposites, and one of them will not exist in three years. The split is the sheet. Two companies, the same cash at the end of the year. One earned it, the other borrowed it. Only the split on sheet three tells you which. The gap between sheet two and sheet three Here is the arithmetic that makes the whole chapter land. Take the profit at the bottom of sheet two, subtract the operating figure at the top of sheet three, and what remains is — near enough — the working capital the company put into its own cycle over the year. Money that was earned but is currently sitting in a customer's pocket or on a warehouse shelf instead of in the bank. That number has a name you already know: it is the cash conversion cycle from lesson 01, measured in đồng instead of days, printed in a document the company had to file by law. \"Near enough\" because a real sheet also carries depreciation, provisions and a few other non-cash items that sit in the difference too. The direction and the size are what you are reading for, not the last three digits. In the code The three blocks are an enum: cashflow-service · CashFlowActivity = OPERATING | INVESTING | FINANCING , which its javadoc maps to B03-DN mã 20 · 30 · 40 . The value is copied onto each cash_flow_entry from masterdata.categories.cash_flow_activity at write time by CashEntryRecorder , because smefin_cashflow and smefin_masterdata are separate databases and there is no JOIN to reach for later. Tiếng Việt Tờ một là ảnh chụp, hai bên luôn bằng nhau. Tờ hai là cả một kỳ, và là nơi doanh nghiệp có lãi mà vẫn hết tiền. Tờ ba chia dòng tiền làm ba: kinh doanh, đầu tư, tài chính — hai doanh nghiệp có cùng số dư cuối kỳ nhưng một bên tự kiếm ra, một bên đi vay, chỉ tờ ba nói cho bạn biết. Lợi nhuận trên tờ hai trừ đi dòng tiền kinh doanh trên tờ ba chính là vốn lưu động, tức chu kỳ chuyển đổi tiền mặt của bài 01.",
    "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ]
+  },
+  {
+   "id": "14#s03",
+   "type": "section",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s03",
+   "title": "Why a lender opens the third sheet first",
+   "subtitle": "Lesson 14 · The danger",
+   "text": "The three sheets are not equally honest, and everybody in finance knows it. Sheet two is full of judgement. When exactly is a long contract earned? Is that repair a cost this year or an asset to be spread over five? Is that unpaid invoice still collectable, or should it be written down? Every one of those is a legitimate accounting choice with a legitimate range, and a company under pressure sits at the flattering end of every range at once. Sheet one is a photograph, and a photograph can be taken on a good day. Chase customers hard in the last week of December, delay paying suppliers until January, and the year-end picture improves without the business changing at all. Sheet three is the awkward one. Cash either moved or it did not. The bank holds its own copy of every line, and the closing figure has to agree with the previous year's closing figure plus everything in between. There is far less room to be creative, and what room there is shows up as a classification argument rather than an invented number. So a credit analyst opens sheet three first, reads the operating block, and only then goes back to look at the profit somebody wanted them to see. The line you never cross Never answer one sheet's question with another sheet's number. Profit is not cash and total assets are not liquidity . Putting a profit figure from sheet two on the same dashboard as a daily cash line from your own system guarantees a support call asking why the two disagree — and the honest answer is that they were never measuring the same thing. If a screen must carry one number lifted from a filed set, make it the operating line of sheet three, because that is the one that lines up with what a cash flow system already tracks. Where the remaining judgement hides, and what the code does about it The soft spot on sheet three is the split itself. Push an ordinary operating payment into the investing block and the operating line looks stronger without a single đồng changing hands. That is why the classification of an entry is worth as much care as its amount. This project takes a deliberate position on it. An entry that arrives without a classification is counted as OPERATING , not dropped and not left blank — which matches the structure of B03-DN, where mã 20 is the remainder. And burn rate is computed from operating cash alone, which was a bug fix rather than a style choice: the earlier version summed every entry regardless of activity, so in the month a company took a loan, the incoming cash made net flow positive, burn rate went null, and the screen announced \"not burning, not running out\" at the single most dangerous moment in that company's year. Runway carries the same discipline in its denominator. It counts only cash and cash equivalents — B01-DN mã 110 — which is why account_balances.account_type had to start excluding CREDIT_LINE . An unused overdraft is a capacity to borrow, not money; count it and every company with a facility sees a longer runway than it has. Two traps in the vocabulary \"Tài khoản\" is not what you think. A chart of accounts is the numbered scheme every accounting entry gets filed under — 131 for customer receivables, 331 for supplier payables, 156 for goods in stock — and the three sheets are built by rolling those numbers up. Thông tư 99 loosened it considerably: a company may now design its own level-2 and level-3 accounts without writing to the Ministry first, provided the totals on the filed statements still come out right. It also deleted accounts that obstructed real-time processing, TK 611 and TK 1562 among them, and added TK 215 for biological assets — trees and livestock — which is what makes agricultural supply chains addressable by software like this at all. None of which is in this system. masterdata-service · Account is a flat list of bank accounts, cash tills and credit lines, with no parent_id , no path and no level . Its javadoc says so out loud, precisely because the word invites the confusion. \"Thu chi\" is not \"kết quả kinh doanh\". The seeded report RPT_INCOME_EXPENSE is named Báo cáo thu chi and its English-looking code makes it read like an income statement. It is not. It reads /internal/v1/transactions/summary , so it counts money received and money paid — receipts and payments, which is a cash report. Hand it to a bank as a profit and loss statement and you have handed them the wrong sheet with a confident label on it. In the code Seven definitions in report_definitions , one statutory. RPT_CASH_FLOW_STATEMENT_B03 hits the same endpoint as RPT_CASH_FLOW and differs by one parameter, groupBy=ACTIVITY — and that value is rejected on the public endpoint and accepted only on the internal one, a fence built in code rather than in documentation. Its method parameter accepts DIRECT alone and returns 422 for INDIRECT , because the indirect method starts from profit before tax and no service here holds that figure. Refusing is the honest answer; printing an empty report is not. One citation is worth checking as you read: CashFlowActivity and migration V3__cash_flow_activity_and_burn_rate both name Thông tư 200/2014/TT-BTC as their basis, and that is the circular Thông tư 99/2025 replaced from January 2026. The three-way split itself is not at risk — it is how every cash flow statement in the world is built — but a legal citation in a comment is a claim about today, and this one has aged. Tiếng Việt Ba tờ không \"thật\" như nhau. Tờ hai đầy ước lượng, tờ một là ảnh chụp có thể chọn ngày đẹp mà chụp, còn tờ ba thì tiền hoặc đã chuyển hoặc chưa — ngân hàng giữ bản đối chiếu. Vì vậy người thẩm định tín dụng mở tờ ba trước. Chỗ còn co giãn được của tờ ba là việc phân loại ba nhóm hoạt động, nên trong hệ thống này bút toán chưa phân loại mặc định vào OPERATING và burn rate chỉ đếm dòng tiền kinh doanh.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ]
+  },
+  {
+   "id": "14#s04",
+   "type": "section",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s04",
+   "title": "One company, three sheets, one event at a time",
+   "subtitle": "Lesson 14 · See it",
+   "text": "A small trading company on the first day of a period. It holds 400m in cash, 300m owed by customers, 250m of stock and a 200m warehouse; it owes 200m to suppliers and nothing to a bank. Profit for the period is zero so far, and so is cash from operations. The two start equal. Fire a business event and watch which sheets move — a sheet that does not react at all is dimmed. Start with the first button. Selling 200m of goods on forty-five-day terms puts 60m of profit on sheet two and moves sheet three by nothing whatsoever, and the two headline numbers below come apart in front of you. That distance is the working capital going into the cycle. Undo the last event Start over Profit so far — sheet two — Cash from operations — sheet three — The gap between them — Cash in the bank — No dates and no depreciation, so the same clicks always give the same answer and the gap is exactly the working capital rather than approximately it. Both invariants hold after every event: the sheet balances, and closing cash equals opening cash plus the three blocks of sheet three. The maths lives in finance/sim-14.js and has its own check: node tools/test-14.mjs .",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ]
+  },
+  {
+   "id": "14#s05",
+   "type": "section",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 14 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting. 0 / 5 answered",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ]
+  },
+  {
+   "id": "14#s06",
+   "type": "section",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 14 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ]
+  },
+  {
+   "id": "14#s07",
+   "type": "section",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s07",
+   "title": "Ten minutes with a real PDF",
+   "subtitle": "Lesson 14 · Take away",
+   "text": "The next time a customer's filing lands in your inbox, you are not going to read forty pages. Find three numbers, in this order, and you will know more about that company than most of the people in the meeting. 1 · Cash from operations — sheet three, top block Is the trading itself producing money? Positive and steady is the single healthiest signal in the whole bundle. Negative two years running, with the company still alive, means somebody else is funding it — and the next number tells you who. 2 · The financing block — sheet three, bottom Where the cash came from if it did not come from trading. A large positive here sitting beside a negative operating line is a company living on borrowed money, and every disbursement you are about to approve joins that queue. 3 · Profit on sheet two, minus cash from operations on sheet three The working capital the business is pouring into its own cycle. Large and growing year on year is a widening cash conversion cycle: selling more, collecting later. It is also, very often, exactly the customer who most needs the product you are building. Five sentences worth having ready \"Which of the three sheets is this feature actually answering?\" What the company owns, what it earned, or where the cash went. Nearly every muddled reporting requirement is two of those three questions wearing one screen, and the muddle is far cheaper to unpick in refinement than in production. \"Is that the old name or the new one, and does anything of ours depend on which?\" Bảng cân đối kế toán and Báo cáo tình hình tài chính are the same sheet either side of 1 January 2026. Filings before that date carry the old name legitimately, so a parser, a search index or a document type that recognises only one of them quietly loses half the customer's history. \"Is the cash on this line earned or borrowed?\" The question that separates a healthy partner from a doomed one, and it is answerable in five seconds from the three blocks of sheet three. The bottom line of that sheet cannot answer it at all, which is exactly why the bottom line is the part people quote. \"Do we produce this report, or do we read one somebody else produced?\" Producing a statutory form means holding a chart of accounts and a double-entry ledger. This system holds neither, which is why it files sheet three and nothing else. Reading a customer's filing is a completely different piece of work from generating one, and the two get confused in the same sentence constantly. \"Which period does this figure belong to, and is that period closed?\" A filed statement is frozen: it has been reported to the tax authority and to a bank, and it must not move underneath them afterwards. If a screen recomputes last year's figure from today's data, it will one day disagree with a document somebody has already signed. Tiếng Việt Không cần đọc hết bốn mươi trang. Tìm ba con số theo đúng thứ tự: dòng tiền từ hoạt động kinh doanh, khối hoạt động tài chính, và khoảng cách giữa lợi nhuận với dòng tiền kinh doanh. Ba con số đó cho biết doanh nghiệp đang tự kiếm ra tiền hay đang sống bằng tiền vay, và đang chôn bao nhiêu vốn vào vòng quay của chính mình.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ]
+  },
+  {
+   "id": "14#s08",
+   "type": "section",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 14 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ]
+  },
+  {
+   "id": "14#q0",
+   "type": "quiz",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s05",
+   "title": "A customer's set of financial statements arrives and your BA asks which sheet tells you whether they can pay you next month. Which one, and why?",
+   "subtitle": "Lesson 14 · Test yourself",
+   "text": "Báo cáo lưu chuyển tiền tệ, and specifically whether the operating block is positive Profit says nothing about being able to pay, which is the entire lesson 01. Total assets say nothing either: a company can own a warehouse and still miss payroll. The cash flow statement counts only money that genuinely moved, and its operating block answers the one question that matters — is the trading itself producing cash.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "answer": "Báo cáo lưu chuyển tiền tệ, and specifically whether the operating block is positive",
+   "why": "Profit says nothing about being able to pay, which is the entire lesson 01. Total assets say nothing either: a company can own a warehouse and still miss payroll. The cash flow statement counts only money that genuinely moved, and its operating block answers the one question that matters — is the trading itself producing cash."
+  },
+  {
+   "id": "14#q1",
+   "type": "quiz",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s05",
+   "title": "A colleague's spec says Bảng cân đối kế toán. The customer's 2026 filing says Báo cáo tình hình tài chính. What is the situation?",
+   "subtitle": "Lesson 14 · Test yourself",
+   "text": "Same sheet, two names: Thông tư 99/2025/TT-BTC retired the old wording from 1 January 2026, moving toward the IFRS term One sheet, one name change. It matters technically rather than cosmetically: filings dated before 2026 legitimately carry the old name, so anything that recognises only one of the two — a parser, a document type, a search index — quietly loses half the customer's history. Recognise both, display the one that belongs to the period.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "answer": "Same sheet, two names: Thông tư 99/2025/TT-BTC retired the old wording from 1 January 2026, moving toward the IFRS term",
+   "why": "One sheet, one name change. It matters technically rather than cosmetically: filings dated before 2026 legitimately carry the old name, so anything that recognises only one of the two — a parser, a document type, a search index — quietly loses half the customer's history. Recognise both, display the one that belongs to the period."
+  },
+  {
+   "id": "14#q2",
+   "type": "quiz",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s05",
+   "title": "Two companies each ended the year with 2 billion more in the bank. Company A: operating +2.4bn, financing −0.4bn. Company B: operating −1.6bn, financing +3.6bn. Which is the safer partner?",
+   "subtitle": "Lesson 14 · Test yourself",
+   "text": "Company A, because its cash came from trading; B's came from borrowing, and B has to do it again next year This is why the split exists. The bottom line of the sheet is the same for both, and it is the least informative number on the page. A is funding itself. B lost money doing business and covered the hole with debt — which is a thing you can do once, or twice, and then not again. The profit figure would not settle it either; profit is the sheet that can be dressed up.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "answer": "Company A, because its cash came from trading; B's came from borrowing, and B has to do it again next year",
+   "why": "This is why the split exists. The bottom line of the sheet is the same for both, and it is the least informative number on the page. A is funding itself. B lost money doing business and covered the hole with debt — which is a thing you can do once, or twice, and then not again. The profit figure would not settle it either; profit is the sheet that can be dressed up."
+  },
+  {
+   "id": "14#q3",
+   "type": "quiz",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s05",
+   "title": "report-service seeds a definition called RPT_INCOME_EXPENSE, named \"Báo cáo thu chi\". A PM asks you to attach it to a credit file as the customer's income statement. What is wrong?",
+   "subtitle": "Lesson 14 · Test yourself",
+   "text": "It reads /internal/v1/transactions/summary, so it counts money received and paid. That is a cash report with a profit report's name on it Receipts and payments are not revenue and costs. Buying stock is a payment and not yet a cost; selling on credit is revenue and not yet a receipt. The English-looking code makes the confusion easy, which is exactly why it is worth checking what a report's query actually reads before you put a label on it in front of a bank.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "answer": "It reads /internal/v1/transactions/summary, so it counts money received and paid. That is a cash report with a profit report's name on it",
+   "why": "Receipts and payments are not revenue and costs. Buying stock is a payment and not yet a cost; selling on credit is revenue and not yet a receipt. The English-looking code makes the confusion easy, which is exactly why it is worth checking what a report's query actually reads before you put a label on it in front of a bank."
+  },
+  {
+   "id": "14#q4",
+   "type": "quiz",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s05",
+   "title": "A filed set shows 4 billion of profit and 1 billion of cash from operations. The auditor signed it and nothing is wrong. What is the 3 billion?",
+   "subtitle": "Lesson 14 · Test yourself",
+   "text": "Working capital — profit currently sitting in receivables and stock instead of in the bank, which is the cash conversion cycle measured in đồng Profit minus cash from operations is, near enough, the working capital that went into the cycle over the year. The company sold more, so it is owed more and is holding more stock, and every đồng of that is profit it cannot spend. Growing fast makes this number bigger, not smaller — which is the lesson 01 warning, arriving in a legal document.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "answer": "Working capital — profit currently sitting in receivables and stock instead of in the bank, which is the cash conversion cycle measured in đồng",
+   "why": "Profit minus cash from operations is, near enough, the working capital that went into the cycle over the year. The company sold more, so it is owed more and is holding more stock, and every đồng of that is profit it cannot spend. Growing fast makes this number bigger, not smaller — which is the lesson 01 warning, arriving in a legal document."
+  },
+  {
+   "id": "14#p0",
+   "type": "scene",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s06",
+   "title": "\"Just add a balance sheet report to report-service. It is one more Jasper template next to the B03 one.\"",
+   "subtitle": "Your BA — backlog refinement",
+   "text": "The B03 report works because cashflow-service already tags every entry OPERATING, INVESTING or FINANCING — the data is genuinely there. A statement of financial position is rolled up from a chart of accounts and a double-entry ledger, and we have neither: masterdata.Account is a flat list of bank accounts, not TK 131 and TK 331. If the customer needs one, we should be reading the one their accounting software already files. You explained why one report was cheap and the other is not, in terms of data rather than effort, and you finished with a different way to get the customer what they want. That is the difference between refusing a ticket and redirecting one.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "answer": "The B03 report works because cashflow-service already tags every entry OPERATING, INVESTING or FINANCING — the data is genuinely there. A statement of financial position is rolled up from a chart of accounts and a double-entry ledger, and we have neither: masterdata.Account is a flat list of bank accounts, not TK 131 and TK 331. If the customer needs one, we should be reading the one their accounting software already files.",
+   "why": "You explained why one report was cheap and the other is not, in terms of data rather than effort, and you finished with a different way to get the customer what they want. That is the difference between refusing a ticket and redirecting one."
+  },
+  {
+   "id": "14#p1",
+   "type": "scene",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s06",
+   "title": "\"Your screen is labelled Bảng cân đối kế toán. We do not file that any more.\"",
+   "subtitle": "The customer's chief accountant — during the demo",
+   "text": "You're right — Thông tư 99/2025 replaced that name with Báo cáo tình hình tài chính from January 2026. Documents from before then legitimately carry the old name, so rather than renaming everything I'll have the screen show the name that belongs to the period, and keep both terms searchable. You conceded immediately, cited the instrument, and then said something the accountant had not thought of — that their own archive needs the old name to keep working. You now look like someone who has read the regulation, which is worth a great deal in that room.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "answer": "You're right — Thông tư 99/2025 replaced that name with Báo cáo tình hình tài chính from January 2026. Documents from before then legitimately carry the old name, so rather than renaming everything I'll have the screen show the name that belongs to the period, and keep both terms searchable.",
+   "why": "You conceded immediately, cited the instrument, and then said something the accountant had not thought of — that their own archive needs the old name to keep working. You now look like someone who has read the regulation, which is worth a great deal in that room."
+  },
+  {
+   "id": "14#p2",
+   "type": "scene",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s06",
+   "title": "\"The customer sent us their BCTC as a PDF. Can we pull the profit figure out and show it on our dashboard?\"",
+   "subtitle": "Product owner — sprint planning",
+   "text": "We can read it, but let's be careful which number we lift. Profit off sheet two next to our own daily cash line puts two different measurements side by side and the first support call will be why they disagree. If we surface one figure, make it cash from operations off sheet three — that is the one that lines up with what we already track, and it is the number a lender would look at anyway. You said yes to the request and then improved it, with a reason the product owner can repeat to the customer. Naming the support call before it happens is what makes the argument land.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "answer": "We can read it, but let's be careful which number we lift. Profit off sheet two next to our own daily cash line puts two different measurements side by side and the first support call will be why they disagree. If we surface one figure, make it cash from operations off sheet three — that is the one that lines up with what we already track, and it is the number a lender would look at anyway.",
+   "why": "You said yes to the request and then improved it, with a reason the product owner can repeat to the customer. Naming the support call before it happens is what makes the argument land."
+  },
+  {
+   "id": "14#l0",
+   "type": "line",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s07",
+   "title": "\"Which of the three sheets is this feature actually answering?\"",
+   "subtitle": "Lesson 14 · Line worth stealing",
+   "text": "What the company owns, what it earned, or where the cash went. Nearly every muddled reporting requirement is two of those three questions wearing one screen, and the muddle is far cheaper to unpick in refinement than in production.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "why": "What the company owns, what it earned, or where the cash went. Nearly every muddled reporting requirement is two of those three questions wearing one screen, and the muddle is far cheaper to unpick in refinement than in production."
+  },
+  {
+   "id": "14#l1",
+   "type": "line",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s07",
+   "title": "\"Is that the old name or the new one, and does anything of ours depend on which?\"",
+   "subtitle": "Lesson 14 · Line worth stealing",
+   "text": "Bảng cân đối kế toán and Báo cáo tình hình tài chính are the same sheet either side of 1 January 2026. Filings before that date carry the old name legitimately, so a parser, a search index or a document type that recognises only one of them quietly loses half the customer's history.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "why": "Bảng cân đối kế toán and Báo cáo tình hình tài chính are the same sheet either side of 1 January 2026. Filings before that date carry the old name legitimately, so a parser, a search index or a document type that recognises only one of them quietly loses half the customer's history."
+  },
+  {
+   "id": "14#l2",
+   "type": "line",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s07",
+   "title": "\"Is the cash on this line earned or borrowed?\"",
+   "subtitle": "Lesson 14 · Line worth stealing",
+   "text": "The question that separates a healthy partner from a doomed one, and it is answerable in five seconds from the three blocks of sheet three. The bottom line of that sheet cannot answer it at all, which is exactly why the bottom line is the part people quote.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "why": "The question that separates a healthy partner from a doomed one, and it is answerable in five seconds from the three blocks of sheet three. The bottom line of that sheet cannot answer it at all, which is exactly why the bottom line is the part people quote."
+  },
+  {
+   "id": "14#l3",
+   "type": "line",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s07",
+   "title": "\"Do we produce this report, or do we read one somebody else produced?\"",
+   "subtitle": "Lesson 14 · Line worth stealing",
+   "text": "Producing a statutory form means holding a chart of accounts and a double-entry ledger. This system holds neither, which is why it files sheet three and nothing else. Reading a customer's filing is a completely different piece of work from generating one, and the two get confused in the same sentence constantly.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "why": "Producing a statutory form means holding a chart of accounts and a double-entry ledger. This system holds neither, which is why it files sheet three and nothing else. Reading a customer's filing is a completely different piece of work from generating one, and the two get confused in the same sentence constantly."
+  },
+  {
+   "id": "14#l4",
+   "type": "line",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html#s07",
+   "title": "\"Which period does this figure belong to, and is that period closed?\"",
+   "subtitle": "Lesson 14 · Line worth stealing",
+   "text": "A filed statement is frozen: it has been reported to the tax authority and to a bank, and it must not move underneath them afterwards. If a screen recomputes last year's figure from today's data, it will one day disagree with a document somebody has already signed.",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ],
+   "why": "A filed statement is frozen: it has been reported to the tax authority and to a bank, and it must not move underneath them afterwards. If a screen recomputes last year's figure from today's data, it will one day disagree with a document somebody has already signed."
+  },
+  {
+   "id": "14",
+   "type": "lesson",
+   "lesson": "14",
+   "href": "lessons/14-reading-financial-statements.html",
+   "title": "Reading a set of financial statements in ten minutes",
+   "subtitle": "Lesson 14 · Applied",
+   "text": "Three sheets of paper answering three different questions. Read them in the wrong order and you learn nothing; read them in the right order and you can see, in ten minutes, whether a company is earning its money or borrowing it — and why lesson 01 was true. What is actually in the PDF someone forwards you Ground floor Three sheets, one at a time The idea Why a lender opens the third sheet first The danger One company, three sheets, one event at a time See it Five questions Test it Three moments in the project Use it Ten minutes with a real PDF Take away Every word, in plain English Reference",
+   "tags": [
+    "financial statements",
+    "Thông tư 99/2025",
+    "balance sheet",
+    "income statement",
+    "cash flow statement",
+    "B03-DN",
+    "working capital"
+   ]
+  },
+  {
+   "id": "15#s01",
+   "type": "section",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s01",
+   "title": "A book is a form with a code on it",
+   "subtitle": "Lesson 15 · Ground floor",
+   "text": "TAP Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before. An inspector from the tax office walks into a shop in Cầu Giấy and asks to see last year's revenue book. Not \"your sales figures\" — a particular book, with a form code printed at the top of it: S1-DNSN . That is the first thing to unlearn. In Vietnamese accounting a sổ kế toán is not a report the software generates on demand. It is a named form. The state publishes the layout and the code; the company fills it in and keeps it. When somebody says \"the books\", they mean a specific list of specific forms, and the list is not the same for every company. Three things sit at three different levels, and mixing them up is where most of the confusion in this area comes from. Chứng từ — the evidence One document proving one thing happened: an invoice , a payment order the bank stamped, a delivery note. Bottom of the stack. lines accumulate into Sổ kế toán — the running record The book the inspector reads. S1-DNSN for revenue, S3b-DNSN for VAT obligations. Kept continuously, not produced at year end. summarised once a year into Báo cáo tài chính — the filing The financial statements filed with the state. A different audience, a different deadline, and — this is the part worth remembering — a different question of whether you owe it at all. A company can owe the first two and not the third. It happens constantly, it is entirely deliberate on the legislator's part, and it is invisible from inside a codebase that treats \"financial statements\" as a menu item every customer gets. Which set of forms a particular company must keep is decided by its chế độ kế toán — its accounting regime. That word matters more than it looks. A regime is not something a company chooses because it prefers less paperwork. It is an assignment, made by law, from facts about the company: how big it is, what kind of legal thing it is, and how it pays tax. In the code None of this layer exists in sme-finance-scm today. report-service holds seven report_definitions rows — RPT_INCOME_EXPENSE , RPT_CASH_FLOW , RPT_TAX_DECLARATION and four others — and the table has no company_id column at all (REP-01 to REP-06). There is no book, no form code, and no per-customer set. The only statutory statement built is RPT_CASH_FLOW_STATEMENT_B03 , and the JasperReports template itself prints a note saying mã 60 and mã 70 are still to be added. Tiếng Việt Sổ kế toán không phải báo cáo phần mềm tự sinh ra, mà là biểu mẫu có mã số do nhà nước ban hành — ví dụ S1-DNSN là sổ doanh thu. Chứng từ là bằng chứng của một giao dịch, sổ là nơi các dòng đó cộng dồn, báo cáo tài chính là bản tổng hợp nộp hằng năm. Ba nghĩa vụ khác nhau, và có doanh nghiệp chỉ phải làm hai trong ba.",
+   "tags": [
+    "Thông tư 99/2025",
     "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
     "micro-enterprise",
-    "tax method",
-    "chart of accounts"
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ]
+  },
+  {
+   "id": "15#s02",
+   "type": "section",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s02",
+   "title": "Thông tư 99 hands the customer the pen",
+   "subtitle": "Lesson 15 · The idea",
+   "text": "Across 2026 Vietnam replaced the entire corporate accounting regime. Two statutes, six months apart, and they are not two halves of one reform — they point in opposite directions, on purpose, at two populations that have nothing in common except a tax code. Thông tư 99/2025/TT-BTC , in force from 01/01/2026, retires Thông tư 200/2014/TT-BTC after more than a decade. It covers small, medium and large enterprises: everybody except the very smallest. What it gives them is autonomy, and the size of it is easy to under-read. Under the old regime, changing the name or the structure of a detail account meant writing to the Bộ Tài chính and waiting for an answer. Under Thông tư 99 that requirement is gone. A company may design its own document forms, and may rename, renumber and restructure its own level-2 and level-3 sub-accounts to suit how it actually wants to manage itself. Nobody's permission is needed. Two conditions, and only two. The consolidated figures on the financial statements must not be distorted by the change. And the company must issue its own internal accounting rules recording what it changed and why. Now draw the product consequence, because it is not subtle and it is frequently missed. The chart of accounts is now customer data. Hard-coding an account list is writing code against a regime that ended on 31 December 2025. Concretely: a seed migration ships the account codes, a service branches on the literal \"5111\" , and a report groups by a prefix. Then a customer — legally, with no notice to anybody including you — restructures its detail accounts so that its three product lines each have their own. The branch is now wrong for that one customer, the report silently drops rows, and you find out during a quarter-end close, from an accountant who is certain the software is broken and is right. What Thông tư 99 requires of the architecture is that the chart of accounts is metadata: rows in a table keyed by company, with codes, names, parents and levels, editable at runtime, versioned, with the internal accounting rules attached to the change. Not an enum. Not a constant. Not a seed file that is the same for every tenant. Thông tư 99 also renamed the most important statement in the set and pruned a few accounts — \"Bảng cân đối kế toán\" became \"Báo cáo tình hình tài chính\", TK 611 and TK 1562 went, TK 215 for tài sản sinh học arrived for agricultural supply chains. Lesson 14 reads those statements line by line; here the only thing that matters is that the names moved, which is one more reason not to freeze them in code. In the code There is no chart of accounts in sme-finance-scm — not a hard-coded one, not any one. The accounts table in masterdata-service is a flat list of cash and bank accounts, AccountType being BANK , CASH , CREDIT_LINE , and the entity's own javadoc says so: \"hệ thống tài khoản ở đây là danh sách phẳng, không phải hệ thống tài khoản kế toán phân cấp\" . There is no parent_id , no level , no path . The nearest thing to an accounting-standard mapping anywhere in the system is categories.cash_flow_activity — OPERATING , INVESTING , FINANCING , matching mã 20, 30 and 40 of B03-DN. So this is not a refactor waiting to happen. It is a thing that has not been built, which is the cheapest moment to decide it will be built as data. Tiếng Việt Thông tư 99/2025/TT-BTC hiệu lực từ 01/01/2026 thay thế Thông tư 200/2014, áp cho doanh nghiệp nhỏ, vừa và lớn. Doanh nghiệp được tự thiết kế biểu mẫu chứng từ và tự đổi tên, số hiệu, kết cấu tài khoản cấp 2, cấp 3 mà không phải xin phép Bộ Tài chính, với hai điều kiện: không làm sai lệch chỉ tiêu tổng hợp trên báo cáo tài chính, và phải ban hành quy chế hạch toán nội bộ. Vì vậy hệ thống tài khoản phải là dữ liệu cấu hình được, không phải hằng số trong mã nguồn.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ]
+  },
+  {
+   "id": "15#s03",
+   "type": "section",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s03",
+   "title": "Offering an obligation that is not theirs",
+   "subtitle": "Lesson 15 · The danger",
+   "text": "Thông tư 58/2026/TT-BTC , in force from 01/07/2026, replaces Thông tư 132/2018/TT-BTC . It covers micro-enterprises, and for the first time it reaches hộ kinh doanh as well — the household businesses that make up most of the businesses in the country. It goes the other way from Thông tư 99, and just as deliberately. Where Thông tư 99 says \"design your own\", Thông tư 58 ties the accounting regime directly to the way the business pays tax, and then keeps the list of books as short as that tax method allows. Two questions decide it, and nothing else does: How does the business pay VAT — by khấu trừ , netting input tax against output tax, or trực tiếp , a flat percentage of revenue with no input side? And what is corporate income tax computed on — a percentage of revenue, or actual taxable income? Two questions, two answers each. Four groups. Group 1 · GTGT trực tiếp + TNDN theo tỷ lệ % trên doanh thu One book: S1-DNSN , sổ chi tiết doanh thu bán hàng hoá, dịch vụ. Both taxes come off revenue, so revenue is the only figure anyone needs. Not required to prepare or file financial statements with the state at all. Group 2 · GTGT trực tiếp + TNDN trên thu nhập tính thuế Taxable income means deductible costs must be proved, so four detail books appear — doanh thu và chi phí; vật liệu, sản phẩm, hàng hoá; tài sản cố định; tiền. A financial statement is compulsory every year, filed within 90 days of the year end. Group 3 · GTGT khấu trừ + TNDN theo tỷ lệ % trên doanh thu Two books: S3a-DNSN for revenue and S3b-DNSN , the sổ theo dõi nghĩa vụ thuế GTGT, netting input against output VAT . Also exempt from filing financial statements. Group 4 · GTGT khấu trừ + TNDN trên thu nhập tính thuế The most closely watched corner of the micro band: the full detail set, S2a-DNSN through S2d-DNSN , and a compulsory financial statement. Read down that list once more and notice the shape of it. The VAT method decides whether a VAT-obligation book exists. The income tax basis decides whether costs have to be proved — and therefore whether a financial statement follows at all. The two axes are independent, which is why there are four answers and not two. And two of those four owe the state no financial statement . Not a simplified one. None. The instinct that gets this wrong The reflex in product work is that more is safer. Show every customer every screen; the ones who do not need a report simply will not click it. Nobody is harmed by a button. Here, somebody is. Put a Xuất báo cáo tài chính button on the dashboard of a shop owner in group 1 and you have not given them an extra feature. You have told a person who has no accountant, and who is already nervous about the tax office, that there is an annual filing with their name on it. They will either do work nobody asked them for, or they will file something wrong and be answering for it a year later. The software said so, and software is not usually wrong about paperwork. The word in the statute for what group 1 gets is cởi trói — untying. Rendering the full reporting suite for them quietly ties the knot back. The line you never cross Never render a screen for an obligation the customer does not have. The interface is derived from the legal profile — entity type, size, VAT method, income tax basis — exactly as the approval chain was in lesson 12, and for the same reason. Store the facts and compute the screen list. Not an administrator's checkbox: a fact can be checked against a tax code and has somebody answerable for it, and a checkbox is what gets ticked by whoever was blocked that afternoon. The strict fallback applies here too — an undeclared profile gets the shortest list, because guessing at an obligation on a customer's behalf is the failure this rule exists to prevent. In the code None of the deciding facts are stored. There is no AccountingRegime enum, no accounting_regime column, no VatMethod and no corporate income tax basis anywhere in the system. tax_rates in masterdata-service holds a rate and a TaxType — VAT , PIT , CIT , WHT , OTHER — which is a rate, not a method (TM-08); transaction_taxes.declare_status tracks NOT_DECLARED → DECLARED → PAID per transaction. EnterpriseScale exists with MICRO , SMALL , MEDIUM (V9, SEC-09), so half of one axis is already there. LegalForm has no value for a hộ kinh doanh at all — one would land in OTHER , which decides nothing. In the code And the visibility side is the gap this lesson names. ReportAccessPolicy in report-service gates reports by role and only by role — a single map, RESTRICTED = Map.of(ReportCategory.SCF, Set.of(CASHIER, MANAGER, DIRECTOR, AUDITOR)) — mirrored client-side in report-access.ts . Nothing in report-service reads enterpriseScale or any company attribute. Every customer sees the same seven reports. There is no feature-flag or entitlement layer either, and that is the right starting point: the thing to add is not a flag table, it is the two tax-method columns and a derivation. Tiếng Việt Thông tư 58/2026/TT-BTC hiệu lực 01/07/2026 thay thế Thông tư 132/2018, áp cho doanh nghiệp siêu nhỏ và lần đầu cho cả hộ kinh doanh. Chế độ kế toán gắn chặt vào phương pháp nộp thuế, chia thành bốn nhóm: nhóm 1 chỉ giữ sổ S1-DNSN, nhóm 3 giữ S3a-DNSN và S3b-DNSN, và cả hai nhóm này không bắt buộc lập và nộp báo cáo tài chính. Giao diện phải ẩn đúng những gì khách hàng không có nghĩa vụ làm — hiện ra là bắt người ta gánh nghĩa vụ luật không đặt lên họ.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ]
+  },
+  {
+   "id": "15#s04",
+   "type": "section",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s04",
+   "title": "Configure a customer, watch the screens switch off",
+   "subtitle": "Lesson 15 · See it",
+   "text": "Four facts about a company go in on the left. Which statute applies, which of the four Thông tư 58 groups it lands in, exactly which books it must keep by form code, and whether it owes the state a financial statement all come out — and below that, the screens and export buttons the application should actually render for that customer, each with the reason it is on or off. Start with TNHH Bảo An , and watch what happens to the reporting section. That company is a real customer, entirely legal, and nine of the ten screens should not exist for it. Then try CP Xây dựng Đông Á for the other extreme, and HKD Tạp hoá Cô Ba for the place where the project's own source material runs out. Loại chủ thể Doanh nghiệp or hộ kinh doanh — Thông tư 58 reaches a household business for the first time Quy mô doanh nghiệp Nghị định 80/2021 Điều 5, computed in lesson 12. Only siêu nhỏ changes which statute applies. Phương pháp tính thuế GTGT The first axis — it decides whether a VAT-obligation book exists Căn cứ tính thuế TNDN The second axis — it decides whether a financial statement is owed at all Chế độ kế toán — Nhóm theo Thông tư 58 — Số sổ phải giữ — Nộp báo cáo tài chính — Notice what the widget never offers: a switch that turns a screen back on. Every line in the lower list is derived from the four facts above it, and the only way to change one is to change a fact about the company. The book codes are frozen from the project's research annex so two readers see the same thing — including the one group the annex leaves without codes. The logic lives in finance/sim-15.js and has its own check: node tools/test-15.mjs .",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ]
+  },
+  {
+   "id": "15#s05",
+   "type": "section",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s05",
+   "title": "Five questions",
+   "subtitle": "Lesson 15 · Test it",
+   "text": "Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong on a customer's dashboard. 0 / 5 answered",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ]
+  },
+  {
+   "id": "15#s06",
+   "type": "section",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s06",
+   "title": "Three moments in the project",
+   "subtitle": "Lesson 15 · Use it",
+   "text": "Three sentences you will actually hear, from three different people. Choose what you would really say.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ]
+  },
+  {
+   "id": "15#s07",
+   "type": "section",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s07",
+   "title": "Five questions worth asking",
+   "subtitle": "Lesson 15 · Take away",
+   "text": "\"Which statute puts this obligation on this customer — and does this customer have it at all?\" Two questions in one, and the second is the one that gets skipped. An obligation that exists in law is not an obligation every customer carries: two of the four Thông tư 58 groups file no financial statement whatsoever. Ask it before a screen is designed, not after it ships. \"Is this list of account codes data, or is it in the code?\" Under Thông tư 99 a customer restructures its own level-2 and level-3 sub-accounts without telling anyone, including you. Anything that branches on a literal account code is a bug with a delivery date on it. The answer has to be a table keyed by company, and the cheapest time to say so is before the seed migration is written. \"What is this screen asking the customer to produce, and who is asking — us or the state?\" An export button is a claim about the world. Rendering one for somebody with no such obligation invents work at best and invites a wrong filing at worst — and the customer has no way to tell which kind of button they are looking at. If nobody in the room can name the statute behind a report, that is the finding. \"What do we capture at onboarding that the interface is derived from?\" Every rule in this lesson needs exactly four facts, and all four are things a customer knows about itself on day one. Ask for them in the sign-up form and the whole reporting section computes itself; leave them out and somebody will eventually add a checkbox instead, which is the same behaviour with none of the accountability. \"Where does this rule come from?\" The last question in the library and the one all the others were made of. A statute, a precedent, or a plain fact about when money moves — a rule always has an origin, and which origin it has decides whether you may negotiate with it. If the answer is \"that's just how we've always done it\", you have found the thing worth investigating this week. One thread, fifteen lessons This is the last lesson, so it is worth naming what has been running underneath all of them. Almost every rule in this library arrived looking arbitrary. An issued invoice cannot be deleted. Interest may not be charged on a penalty. A period, once closed , is not reopened. A workflow step waits for a job title that a lawful company does not have. A customer sees one book and no financial statement. Every one of those reads, from inside a ticket, like somebody's fussiness — the kind of requirement a developer tidies up on the way past, in good faith, to make the code cleaner. And every one of them turned out to come from somewhere. Sometimes a statute: Nghị định 70/2025 removing cancellation of e-invoices, Thông tư 58/2026 deciding which books a micro-enterprise keeps. Sometimes a precedent: Án lệ 09/2016/AL, which is a single steel dispute that now decides how every late-payment calculation in the country is allowed to compound. Sometimes nothing legal at all — just a business fact about when money genuinely moves, which is where this library started and why revenue on the invoice date and cash on the payment date are two different events in two different tables. The job is not to memorise which is which. Fifteen lessons will not make you an accountant and were never meant to. The job is to find out which kind of rule you are looking at before deciding how to code it — because the three kinds behave completely differently once a customer pushes back. A rule from law cannot be relaxed for a customer who asks, however reasonable the ask. A rule from a precedent has an argument behind it that you can read and check against the case in front of you. And a rule that is only the company's own convention must be relaxable, because sooner or later a lawful customer will need it relaxed, and the cost of confusing that one for law is telling a paying business that its legal structure is illegal while sounding completely certain. Every lesson here ended with five questions rather than five answers. That was the point. The questions travel to features this library never covered; the answers expire the next time the Bộ Tài chính publishes a circular — as two of them did in 2026, halfway through the writing of this material. Ask where the rule comes from. Then build it. Tiếng Việt Gần như mọi quy tắc trong mười lăm bài này lúc đầu đều trông tuỳ tiện, và hoá ra đều đến từ đâu đó — một điều luật, một án lệ, hoặc một sự thật kinh doanh về thời điểm tiền thật sự chuyển. Việc của người lập trình là tìm ra nó thuộc loại nào trước khi quyết định code thế nào: luật thì không nới được, quy chế nội bộ thì bắt buộc phải nới được. Bạn không cần thành kế toán — chỉ cần luôn hỏi: quy tắc này từ đâu ra?",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ]
+  },
+  {
+   "id": "15#s08",
+   "type": "section",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s08",
+   "title": "Every word, in plain English",
+   "subtitle": "Lesson 15 · Reference",
+   "text": "Nothing new here — the same explanations, collected in one place to read again before a meeting.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ]
+  },
+  {
+   "id": "15#q0",
+   "type": "quiz",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s05",
+   "title": "A customer is a micro-enterprise paying VAT by the direct method and corporate income tax as a flat percentage of revenue. Your BA asks you to add a “Xuất báo cáo tài chính” button to their dashboard. What is the right answer?",
+   "subtitle": "Lesson 15 · Test yourself",
+   "text": "That company is group 1 under Thông tư 58 and files no financial statement with the state at all, so the button should not be on the screen Group 1 keeps one book, S1-DNSN, and is not required to prepare or file financial statements. The button is not a spare feature — to a shop owner with no accountant it reads as a filing they owe. They will either do work nobody asked for or file something wrong. Hiding what the customer has no obligation to produce is the feature.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "answer": "That company is group 1 under Thông tư 58 and files no financial statement with the state at all, so the button should not be on the screen",
+   "why": "Group 1 keeps one book, S1-DNSN, and is not required to prepare or file financial statements. The button is not a spare feature — to a shop owner with no accountant it reads as a filing they owe. They will either do work nobody asked for or file something wrong. Hiding what the customer has no obligation to produce is the feature."
+  },
+  {
+   "id": "15#q1",
+   "type": "quiz",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s05",
+   "title": "Under Thông tư 99/2025, a customer wants to rename sub-account 5111 to match its own product lines. What has to happen?",
+   "subtitle": "Lesson 15 · Test yourself",
+   "text": "They may do it themselves, provided the consolidated figures on the financial statements are not distorted and they issue internal accounting rules recording the change The written request to the Ministry was the Thông tư 200 world and it ended on 31 December 2025. Thông tư 99 lets a company design its own document forms and rename, renumber and restructure its own level-2 and level-3 sub-accounts, on exactly those two conditions. Which means the chart of accounts is per-customer data, and an account list compiled into a service is already wrong.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "answer": "They may do it themselves, provided the consolidated figures on the financial statements are not distorted and they issue internal accounting rules recording the change",
+   "why": "The written request to the Ministry was the Thông tư 200 world and it ended on 31 December 2025. Thông tư 99 lets a company design its own document forms and rename, renumber and restructure its own level-2 and level-3 sub-accounts, on exactly those two conditions. Which means the chart of accounts is per-customer data, and an account list compiled into a service is already wrong."
+  },
+  {
+   "id": "15#q2",
+   "type": "quiz",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s05",
+   "title": "Two micro-enterprises both pay VAT by the deduction method. One pays corporate income tax as a percentage of revenue, the other on taxable income. What differs?",
+   "subtitle": "Lesson 15 · Test yourself",
+   "text": "Group 3 keeps S3a-DNSN and S3b-DNSN and files no financial statement; group 4 keeps the S2a to S2d set and must file one The two axes are independent, which is why there are four groups and not two. The VAT method decides whether a VAT-obligation book exists; the income tax basis decides whether costs have to be proved, and therefore whether a financial statement follows. Same VAT method, different filing obligation — collapse the two axes into one and half your customers get the wrong screens.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "answer": "Group 3 keeps S3a-DNSN and S3b-DNSN and files no financial statement; group 4 keeps the S2a to S2d set and must file one",
+   "why": "The two axes are independent, which is why there are four groups and not two. The VAT method decides whether a VAT-obligation book exists; the income tax basis decides whether costs have to be proved, and therefore whether a financial statement follows. Same VAT method, different filing obligation — collapse the two axes into one and half your customers get the wrong screens."
+  },
+  {
+   "id": "15#q3",
+   "type": "quiz",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s05",
+   "title": "Where should “which books this customer keeps” live in the system?",
+   "subtitle": "Lesson 15 · Test yourself",
+   "text": "Derived at runtime from the company's declared entity type, size, VAT method and income tax basis It is the same shape as the approval chain in lesson 12: store the facts, compute the behaviour. A flag can be wrong for months with nobody noticing, because nothing in it points at the thing it is supposed to describe. A declared tax method can be checked against the company's own filings and has somebody answerable for it. The last option is wrong twice over — the obligation belongs to the company, not to whoever is logged in.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "answer": "Derived at runtime from the company's declared entity type, size, VAT method and income tax basis",
+   "why": "It is the same shape as the approval chain in lesson 12: store the facts, compute the behaviour. A flag can be wrong for months with nobody noticing, because nothing in it points at the thing it is supposed to describe. A declared tax method can be checked against the company's own filings and has somebody answerable for it. The last option is wrong twice over — the obligation belongs to the company, not to whoever is logged in."
+  },
+  {
+   "id": "15#q4",
+   "type": "quiz",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s05",
+   "title": "A service branches on the literal account code “5111”. Thông tư 99 lets a company restructure its own level-2 and level-3 sub-accounts without asking anyone. When does the branch break?",
+   "subtitle": "Lesson 15 · Test yourself",
+   "text": "The first time a customer restructures its own detail accounts to suit its management, which it may now do legally and without telling you Level 1 accounts are stable; the detail levels are exactly what Thông tư 99 handed to the customer. The failure is quiet — a report drops rows rather than throwing — and it surfaces during a quarter-end close, reported by an accountant who is certain the software is broken and is right. The fix is a table keyed by company, decided before the seed migration is written rather than after there is customer data in it.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "answer": "The first time a customer restructures its own detail accounts to suit its management, which it may now do legally and without telling you",
+   "why": "Level 1 accounts are stable; the detail levels are exactly what Thông tư 99 handed to the customer. The failure is quiet — a report drops rows rather than throwing — and it surfaces during a quarter-end close, reported by an accountant who is certain the software is broken and is right. The fix is a table keyed by company, decided before the seed migration is written rather than after there is customer data in it."
+  },
+  {
+   "id": "15#p0",
+   "type": "scene",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s06",
+   "title": "\"Just show every report to every company. If they don’t need one, they won’t click it.\"",
+   "subtitle": "Your BA — scoping the reporting module",
+   "text": "Two of the four Thông tư 58 groups file no financial statement with the state at all. For those customers that button is us inventing an obligation, not offering a feature. Could we capture the VAT method and the income tax basis at onboarding and derive the report list from them? You named the population, named the harm in the customer's terms rather than in legal ones, and finished with a concrete ask that costs two columns and a form field. That is a conversation a BA can take to a product owner intact.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "answer": "Two of the four Thông tư 58 groups file no financial statement with the state at all. For those customers that button is us inventing an obligation, not offering a feature. Could we capture the VAT method and the income tax basis at onboarding and derive the report list from them?",
+   "why": "You named the population, named the harm in the customer's terms rather than in legal ones, and finished with a concrete ask that costs two columns and a form field. That is a conversation a BA can take to a product owner intact."
+  },
+  {
+   "id": "15#p1",
+   "type": "scene",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s06",
+   "title": "\"Why is your software asking me for a báo cáo lưu chuyển tiền tệ? My accountant never mentioned one.\"",
+   "subtitle": "The customer, mid-onboarding",
+   "text": "Because we haven't asked you how you pay tax yet. If you're on direct VAT and income tax as a percentage of revenue, Thông tư 58 puts you in the group that keeps one book and files nothing — and that screen should never have appeared for you. Can I take your tax method now and turn it off? You took responsibility for the screen instead of explaining it away, gave the customer a fact they can check with their own accountant, and turned a complaint into the onboarding question you needed answered anyway.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "answer": "Because we haven't asked you how you pay tax yet. If you're on direct VAT and income tax as a percentage of revenue, Thông tư 58 puts you in the group that keeps one book and files nothing — and that screen should never have appeared for you. Can I take your tax method now and turn it off?",
+   "why": "You took responsibility for the screen instead of explaining it away, gave the customer a fact they can check with their own accountant, and turned a complaint into the onboarding question you needed answered anyway."
+  },
+  {
+   "id": "15#p2",
+   "type": "scene",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s06",
+   "title": "\"I put the chart of accounts in an enum. It comes from a Thông tư, it isn’t going to change.\"",
+   "subtitle": "A backend developer — in code review",
+   "text": "The account list came from a Thông tư that was retired on 1 January. Under Thông tư 99 the customer renames and restructures its own level-2 and level-3 sub-accounts without asking anybody, us included. If it's a table keyed by company, a rename is a row edit instead of a release. You dated the assumption, named who is allowed to break it, and priced both options in the only unit that matters in review — how much work the next change costs. Nobody had to be told they were wrong.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "answer": "The account list came from a Thông tư that was retired on 1 January. Under Thông tư 99 the customer renames and restructures its own level-2 and level-3 sub-accounts without asking anybody, us included. If it's a table keyed by company, a rename is a row edit instead of a release.",
+   "why": "You dated the assumption, named who is allowed to break it, and priced both options in the only unit that matters in review — how much work the next change costs. Nobody had to be told they were wrong."
+  },
+  {
+   "id": "15#l0",
+   "type": "line",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s07",
+   "title": "\"Which statute puts this obligation on this customer — and does this customer have it at all?\"",
+   "subtitle": "Lesson 15 · Line worth stealing",
+   "text": "Two questions in one, and the second is the one that gets skipped. An obligation that exists in law is not an obligation every customer carries: two of the four Thông tư 58 groups file no financial statement whatsoever. Ask it before a screen is designed, not after it ships.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "why": "Two questions in one, and the second is the one that gets skipped. An obligation that exists in law is not an obligation every customer carries: two of the four Thông tư 58 groups file no financial statement whatsoever. Ask it before a screen is designed, not after it ships."
+  },
+  {
+   "id": "15#l1",
+   "type": "line",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s07",
+   "title": "\"Is this list of account codes data, or is it in the code?\"",
+   "subtitle": "Lesson 15 · Line worth stealing",
+   "text": "Under Thông tư 99 a customer restructures its own level-2 and level-3 sub-accounts without telling anyone, including you. Anything that branches on a literal account code is a bug with a delivery date on it. The answer has to be a table keyed by company, and the cheapest time to say so is before the seed migration is written.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "why": "Under Thông tư 99 a customer restructures its own level-2 and level-3 sub-accounts without telling anyone, including you. Anything that branches on a literal account code is a bug with a delivery date on it. The answer has to be a table keyed by company, and the cheapest time to say so is before the seed migration is written."
+  },
+  {
+   "id": "15#l2",
+   "type": "line",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s07",
+   "title": "\"What is this screen asking the customer to produce, and who is asking — us or the state?\"",
+   "subtitle": "Lesson 15 · Line worth stealing",
+   "text": "An export button is a claim about the world. Rendering one for somebody with no such obligation invents work at best and invites a wrong filing at worst — and the customer has no way to tell which kind of button they are looking at. If nobody in the room can name the statute behind a report, that is the finding.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "why": "An export button is a claim about the world. Rendering one for somebody with no such obligation invents work at best and invites a wrong filing at worst — and the customer has no way to tell which kind of button they are looking at. If nobody in the room can name the statute behind a report, that is the finding."
+  },
+  {
+   "id": "15#l3",
+   "type": "line",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s07",
+   "title": "\"What do we capture at onboarding that the interface is derived from?\"",
+   "subtitle": "Lesson 15 · Line worth stealing",
+   "text": "Every rule in this lesson needs exactly four facts, and all four are things a customer knows about itself on day one. Ask for them in the sign-up form and the whole reporting section computes itself; leave them out and somebody will eventually add a checkbox instead, which is the same behaviour with none of the accountability.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "why": "Every rule in this lesson needs exactly four facts, and all four are things a customer knows about itself on day one. Ask for them in the sign-up form and the whole reporting section computes itself; leave them out and somebody will eventually add a checkbox instead, which is the same behaviour with none of the accountability."
+  },
+  {
+   "id": "15#l4",
+   "type": "line",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html#s07",
+   "title": "\"Where does this rule come from?\"",
+   "subtitle": "Lesson 15 · Line worth stealing",
+   "text": "The last question in the library and the one all the others were made of. A statute, a precedent, or a plain fact about when money moves — a rule always has an origin, and which origin it has decides whether you may negotiate with it. If the answer is \"that's just how we've always done it\", you have found the thing worth investigating this week.",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
+   ],
+   "why": "The last question in the library and the one all the others were made of. A statute, a precedent, or a plain fact about when money moves — a rule always has an origin, and which origin it has decides whether you may negotiate with it. If the answer is \"that's just how we've always done it\", you have found the thing worth investigating this week."
+  },
+  {
+   "id": "15",
+   "type": "lesson",
+   "lesson": "15",
+   "href": "lessons/15-which-books-must-be-kept.html",
+   "title": "Which books this company is required to keep",
+   "subtitle": "Lesson 15 · Applied",
+   "text": "Two statutes replaced the whole of Vietnamese corporate accounting across 2026, six months apart, pulling in opposite directions. One hands the customer the pen. The other hands them one book and tells them to file nothing. Which one your customer falls under decides what your interface is allowed to show them. A book is a form with a code on it Ground floor Thông tư 99 hands the customer the pen The idea Offering an obligation that is not theirs The danger Configure a customer, watch the screens switch off See it Five questions Test it Three moments in the project Use it Five questions worth asking Take away Every word, in plain English Reference",
+   "tags": [
+    "Thông tư 99/2025",
+    "Thông tư 58/2026",
+    "chế độ kế toán",
+    "accounting regime",
+    "micro-enterprise",
+    "hộ kinh doanh",
+    "VAT method",
+    "khấu trừ",
+    "chart of accounts",
+    "S1-DNSN",
+    "financial statements"
    ]
   }
  ]

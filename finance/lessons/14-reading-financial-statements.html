@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three Sheets of Paper</title>
+<meta name="description" content="Lesson 14 — the statement of financial position, the income statement and the cash flow statement, what each one answers, and why the gap between the last two is the cash conversion cycle in a legally filed document.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="14">
+<meta name="tfbd:tags" content="financial statements, Thông tư 99/2025, balance sheet, income statement, cash flow statement, B03-DN, working capital">
+<meta name="tfbd:level" content="Applied">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+
+/* ---- three statements side by side ---- */
+.sheets{display:grid; gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:720px){.sheets{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sheet{background:var(--surface); padding:16px 18px; transition:opacity .3s}
+.sheet.dim{opacity:.4}
+.sheet .hd{font-family:var(--ff-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--fast); line-height:1.5}
+.sheet .qn{font-size:12.5px; color:var(--muted); margin:5px 0 13px; line-height:1.45}
+.row{display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:5px 7px; margin:0 -7px; font-size:14px; color:var(--ink-2); border-radius:2px; transition:background .3s}
+.row .n{font-family:var(--ff-mono); font-size:13px; font-variant-numeric:tabular-nums; white-space:nowrap; color:var(--ink)}
+.row.tot{border-top:1px solid var(--line); margin-top:8px; padding-top:9px; color:var(--ink)}
+.row.sub{color:var(--muted)} .row.sub .n{color:var(--muted)}
+.row.hit{background:var(--fast-soft)} .row.hit .n{color:var(--fast)}
+.row .n.dn{color:var(--no)}
+.ev .nt{display:block; color:var(--muted); font-size:12.5px; margin-top:4px; line-height:1.5}
+.evbar{display:flex; flex-wrap:wrap; gap:8px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+.evbar .ghost{padding:8px 12px; font-size:13px; text-align:left}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 14</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Where the system meets the outside · Lesson 14</div>
+  <h1>Reading a set of financial statements in ten minutes</h1>
+  <p class="lede">Three sheets of paper answering three different questions. Read them in the wrong order and you learn nothing; read them in the right order and you can see, in ten minutes, whether a company is earning its money or borrowing it — and why lesson 01 was true.</p>
+  <div class="facts"><span>20 min</span><span>No accounting assumed</span><span>Fire one event, watch three sheets</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>What is actually in the PDF someone forwards you</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>A customer's credit file arrives as an attachment named something like <code>BCTC_2026.pdf</code>. Forty pages, mostly tables, all in Vietnamese. It is a <button class="t" data-t="baocaotaichinh">set of financial statements</button>, and every company that is required to keep books has to file one within ninety days of the year ending.</p>
+    <p>It goes to the tax authority, to the bank, and to anybody being asked to lend. It is not a management report somebody made for themselves — it is a legal filing, and that is exactly why it is worth reading. Nobody signs a number here casually.</p>
+    <p>Strip away the notes and the cover page and there are three sheets. Each one answers a different question, and the whole skill is knowing which sheet answers which.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Sheet one · Báo cáo tình hình tài chính</div><div class="ds"><em>What does the company own, and what does it owe?</em> A photograph, taken at one instant — the last day of the year — of everything on both sides.</div></div>
+    <div class="arrow">a photograph, not a film</div>
+    <div class="node"><div class="nm">Sheet two · Báo cáo kết quả hoạt động kinh doanh</div><div class="ds"><em>What did it earn over the year?</em> Revenue at the top, costs below, profit at the bottom. A film of twelve months, not a photograph.</div></div>
+    <div class="arrow">and now the one people skip</div>
+    <div class="node core"><div class="nm">Sheet three · Báo cáo lưu chuyển tiền tệ</div><div class="ds"><em>Where did the cash actually go?</em> Also a film of twelve months, and it counts only money that genuinely moved.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>Two of those three are films of the same twelve months. They disagree, always, and the disagreement is not an error — it is the most informative thing in the document. Sheet two counts a sale on the day the goods went out; sheet three counts it on the day the money landed. You have met that gap before: it is the whole of lesson 01, and here it is sitting in a document filed with the state.</p>
+    <p class="vi"><b>In the code</b>Of the four statutory forms, this project produces exactly one. <code>report-service</code> seeds seven report definitions, and six of them — thu chi, dòng tiền, ngân sách, công nợ đối tác, thuế, hiệu quả tài trợ — are management reports. The seventh, <code>RPT_CASH_FLOW_STATEMENT_B03</code>, is the real thing: sheet three, form B03-DN (REP-02).</p>
+    <p class="vi"><b>Tiếng Việt</b>Bộ báo cáo tài chính có ba tờ trả lời ba câu hỏi khác nhau: doanh nghiệp có gì và nợ ai, kiếm được bao nhiêu trong kỳ, và tiền thật đã đi đâu. Hai tờ sau cùng nói về một khoảng thời gian giống nhau nhưng luôn lệch nhau — chính chỗ lệch đó mới đáng đọc.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Three sheets, one at a time</h2>
+
+  <h3>Sheet one — a photograph, and a name that changed</h3>
+  <div class="stack">
+    <p>The <button class="t" data-t="baocaotinhhinhtaichinh">statement of financial position</button> lists what the company owns on one side and who has a claim on it on the other. Owns: cash, <button class="t" data-t="phaithu">receivables</button>, <button class="t" data-t="tonkho">inventory</button>, buildings, vehicles. Owes: <button class="t" data-t="phaitra">payables</button>, bank loans, and last of all the owners' own stake, which is simply whatever is left over.</p>
+    <p>The two sides are equal. Not by luck and not as a check somebody performs — by construction, because the second side is defined as a breakdown of who has a claim on the first. That equality is what the word "balance" ever meant.</p>
+    <p>Which brings up the name. For a decade this sheet was <em>Bảng cân đối kế toán</em>. Thông tư 99/2025/TT-BTC, in force from 1 January 2026, retired that wording and replaced it with <em>Báo cáo tình hình tài chính</em> — a straight move toward the IFRS term, statement of financial position. Same sheet, new name, and every document filed before 2026 still legitimately carries the old one. You will meet both in the same codebase, and a search that only matches one of them will silently miss half the customer's history.</p>
+  </div>
+
+  <h3>Sheet two — the film, and everything lesson 01 warned about</h3>
+  <div class="stack">
+    <p>The <button class="t" data-t="ketquakinhdoanh">income statement</button> is a stretch of time, not an instant. <button class="t" data-t="doanhthu">Revenue</button> at the top, the cost of the goods that revenue came from, then salaries and overheads, then <button class="t" data-t="loinhuan">profit</button> at the bottom.</p>
+    <p>And this is the sheet where a company can be magnificently profitable while the bank account is empty. Revenue lands here on the day the goods are delivered and the <button class="t" data-t="hoadon">invoice</button> is issued — not the day the customer pays, which is typically forty-five days later. Stock bought and not yet sold appears nowhere on this sheet at all, even though the money for it is long gone.</p>
+    <p>Read sheet two alone and you are reading a description of a business written in a currency nobody can spend.</p>
+  </div>
+
+  <h3>Sheet three — where the money actually went, split three ways</h3>
+  <div class="stack">
+    <p>The <button class="t" data-t="luuchuyentiente">cash flow statement</button> counts only days money genuinely moved. That alone would make it useful. What makes it the most valuable page in the bundle is that it splits every movement into three blocks:</p>
+  </div>
+
+  <ul class="uses">
+    <li><span class="u">Operating — hoạt động kinh doanh</span><span class="d">Money the business earned by doing the thing it does. Customers paying, suppliers being paid, salaries, rent, tax. B03-DN <code>mã 20</code>.</span></li>
+    <li><span class="u">Investing — hoạt động đầu tư</span><span class="d">Money spent on, or raised from, things the company keeps and uses: a van, a warehouse, a stake in another business. B03-DN <code>mã 30</code>.</span></li>
+    <li><span class="u">Financing — hoạt động tài chính</span><span class="d">Money borrowed, repaid, put in by owners, or paid out to them as dividends. Cash that arrived because somebody handed it over, not because the business earned it. B03-DN <code>mã 40</code>.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:24px">
+    <p>Now take two companies. Both ended the year with two billion more in the bank than they started with. The first earned 2.4 billion from operations and used 0.4 of it to pay down a loan. The second lost 1.6 billion from operations and covered the hole with 3.6 billion of new borrowing.</p>
+    <p>On the bottom line of sheet three they are identical. In every way that matters they are opposites, and one of them will not exist in three years. The split is the sheet.</p>
+  </div>
+
+  <div class="pull"><q>Two companies, the same cash at the end of the year. One earned it, the other borrowed it. Only the split on sheet three tells you which.</q></div>
+
+  <h3>The gap between sheet two and sheet three</h3>
+  <div class="stack">
+    <p>Here is the arithmetic that makes the whole chapter land. Take the profit at the bottom of sheet two, subtract the operating figure at the top of sheet three, and what remains is — near enough — the <button class="t" data-t="vonluudong">working capital</button> the company put into its own cycle over the year.</p>
+    <p>Money that was earned but is currently sitting in a customer's pocket or on a warehouse shelf instead of in the bank. That number has a name you already know: it is the <button class="t" data-t="ccc">cash conversion cycle</button> from lesson 01, measured in đồng instead of days, printed in a document the company had to file by law.</p>
+    <p>"Near enough" because a real sheet also carries depreciation, provisions and a few other non-cash items that sit in the difference too. The direction and the size are what you are reading for, not the last three digits.</p>
+    <p class="vi"><b>In the code</b>The three blocks are an enum: <code>cashflow-service · CashFlowActivity = OPERATING | INVESTING | FINANCING</code>, which its javadoc maps to B03-DN <code>mã 20 · 30 · 40</code>. The value is <em>copied onto</em> each <code>cash_flow_entry</code> from <code>masterdata.categories.cash_flow_activity</code> at write time by <code>CashEntryRecorder</code>, because <code>smefin_cashflow</code> and <code>smefin_masterdata</code> are separate databases and there is no JOIN to reach for later.</p>
+    <p class="vi"><b>Tiếng Việt</b>Tờ một là ảnh chụp, hai bên luôn bằng nhau. Tờ hai là cả một kỳ, và là nơi doanh nghiệp có lãi mà vẫn hết tiền. Tờ ba chia dòng tiền làm ba: kinh doanh, đầu tư, tài chính — hai doanh nghiệp có cùng số dư cuối kỳ nhưng một bên tự kiếm ra, một bên đi vay, chỉ tờ ba nói cho bạn biết. Lợi nhuận trên tờ hai trừ đi dòng tiền kinh doanh trên tờ ba chính là vốn lưu động, tức chu kỳ chuyển đổi tiền mặt của bài 01.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Why a lender opens the third sheet first</h2>
+
+  <div class="stack">
+    <p>The three sheets are not equally honest, and everybody in finance knows it.</p>
+    <p>Sheet two is full of judgement. When exactly is a long contract earned? Is that repair a cost this year or an asset to be spread over five? Is that unpaid invoice still collectable, or should it be written down? Every one of those is a legitimate accounting choice with a legitimate range, and a company under pressure sits at the flattering end of every range at once.</p>
+    <p>Sheet one is a photograph, and a photograph can be taken on a good day. Chase customers hard in the last week of December, delay paying suppliers until January, and the year-end picture improves without the business changing at all.</p>
+    <p>Sheet three is the awkward one. Cash either moved or it did not. The bank holds its own copy of every line, and the closing figure has to agree with the previous year's closing figure plus everything in between. There is far less room to be creative, and what room there is shows up as a classification argument rather than an invented number.</p>
+    <p>So a credit analyst opens sheet three first, reads the operating block, and only then goes back to look at the profit somebody wanted them to see.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never answer one sheet's question with another sheet's number.</p>
+    <p class="sub">Profit is not cash and total assets are not <button class="t" data-t="thanhkhoan">liquidity</button>. Putting a profit figure from sheet two on the same dashboard as a daily cash line from your own system guarantees a support call asking why the two disagree — and the honest answer is that they were never measuring the same thing. If a screen must carry one number lifted from a filed set, make it the operating line of sheet three, because that is the one that lines up with what a <button class="t" data-t="dongtien">cash flow</button> system already tracks.</p>
+  </div>
+
+  <h3>Where the remaining judgement hides, and what the code does about it</h3>
+  <div class="stack">
+    <p>The soft spot on sheet three is the split itself. Push an ordinary operating payment into the investing block and the operating line looks stronger without a single đồng changing hands. That is why the classification of an entry is worth as much care as its amount.</p>
+    <p>This project takes a deliberate position on it. An entry that arrives without a classification is counted as <code>OPERATING</code>, not dropped and not left blank — which matches the structure of B03-DN, where <code>mã 20</code> is the remainder. And <button class="t" data-t="burnrate">burn rate</button> is computed from operating cash alone, which was a bug fix rather than a style choice: the earlier version summed every entry regardless of activity, so in the month a company took a loan, the incoming cash made net flow positive, burn rate went null, and the screen announced "not burning, not running out" at the single most dangerous moment in that company's year.</p>
+    <p><button class="t" data-t="runway">Runway</button> carries the same discipline in its denominator. It counts only cash and cash equivalents — B01-DN <code>mã 110</code> — which is why <code>account_balances.account_type</code> had to start excluding <code>CREDIT_LINE</code>. An unused overdraft is a capacity to borrow, not money; count it and every company with a facility sees a longer runway than it has.</p>
+  </div>
+
+  <h3>Two traps in the vocabulary</h3>
+  <div class="stack">
+    <p><b>"Tài khoản" is not what you think.</b> A <button class="t" data-t="hethongtaikhoan">chart of accounts</button> is the numbered scheme every accounting entry gets filed under — 131 for customer receivables, 331 for supplier payables, 156 for goods in stock — and the three sheets are built by rolling those numbers up. Thông tư 99 loosened it considerably: a company may now design its own level-2 and level-3 accounts without writing to the Ministry first, provided the totals on the filed statements still come out right. It also deleted accounts that obstructed real-time processing, TK 611 and TK 1562 among them, and added TK 215 for biological assets — trees and livestock — which is what makes agricultural supply chains addressable by software like this at all.</p>
+    <p>None of which is in this system. <code>masterdata-service · Account</code> is a flat list of bank accounts, cash tills and credit lines, with no <code>parent_id</code>, no <code>path</code> and no <code>level</code>. Its javadoc says so out loud, precisely because the word invites the confusion.</p>
+    <p><b>"Thu chi" is not "kết quả kinh doanh".</b> The seeded report <code>RPT_INCOME_EXPENSE</code> is named <em>Báo cáo thu chi</em> and its English-looking code makes it read like an income statement. It is not. It reads <code>/internal/v1/transactions/summary</code>, so it counts money received and money paid — receipts and payments, which is a cash report. Hand it to a bank as a profit and loss statement and you have handed them the wrong sheet with a confident label on it.</p>
+    <p class="vi"><b>In the code</b>Seven definitions in <code>report_definitions</code>, one statutory. <code>RPT_CASH_FLOW_STATEMENT_B03</code> hits the same endpoint as <code>RPT_CASH_FLOW</code> and differs by one parameter, <code>groupBy=ACTIVITY</code> — and that value is rejected on the public endpoint and accepted only on the internal one, a fence built in code rather than in documentation. Its <code>method</code> parameter accepts <code>DIRECT</code> alone and returns <code>422</code> for <code>INDIRECT</code>, because the indirect method starts from profit before tax and no service here holds that figure. Refusing is the honest answer; printing an empty report is not. One citation is worth checking as you read: <code>CashFlowActivity</code> and migration <code>V3__cash_flow_activity_and_burn_rate</code> both name Thông tư 200/2014/TT-BTC as their basis, and that is the circular Thông tư 99/2025 replaced from January 2026. The three-way split itself is not at risk — it is how every cash flow statement in the world is built — but a legal citation in a comment is a claim about today, and this one has aged.</p>
+    <p class="vi"><b>Tiếng Việt</b>Ba tờ không "thật" như nhau. Tờ hai đầy ước lượng, tờ một là ảnh chụp có thể chọn ngày đẹp mà chụp, còn tờ ba thì tiền hoặc đã chuyển hoặc chưa — ngân hàng giữ bản đối chiếu. Vì vậy người thẩm định tín dụng mở tờ ba trước. Chỗ còn co giãn được của tờ ba là việc phân loại ba nhóm hoạt động, nên trong hệ thống này bút toán chưa phân loại mặc định vào OPERATING và burn rate chỉ đếm dòng tiền kinh doanh.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>One company, three sheets, one event at a time</h2>
+  <p class="prose" style="margin-bottom:14px">A small trading company on the first day of a period. It holds 400m in cash, 300m owed by customers, 250m of stock and a 200m warehouse; it owes 200m to suppliers and nothing to a bank. Profit for the period is zero so far, and so is cash from operations. The two start equal.</p>
+  <p class="prose" style="margin-bottom:26px">Fire a business event and watch which sheets move — a sheet that does not react at all is dimmed. Start with the first button. Selling 200m of goods on forty-five-day terms puts 60m of profit on sheet two and moves sheet three by nothing whatsoever, and the two headline numbers below come apart in front of you. That distance is the working capital going into the cycle.</p>
+
+  <div class="sim">
+    <div class="evbar" id="evBar"></div>
+    <div class="sim-bar">
+      <button class="ghost" id="undo">Undo the last event</button>
+      <button class="ghost" id="reset">Start over</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Profit so far — sheet two</span><span class="v" id="stProfit">—</span></div>
+      <div class="stat"><span class="k">Cash from operations — sheet three</span><span class="v" id="stCfo">—</span></div>
+      <div class="stat"><span class="k">The gap between them</span><span class="v" id="stGap">—</span></div>
+      <div class="stat"><span class="k">Cash in the bank</span><span class="v" id="stCash">—</span></div>
+    </div>
+    <div class="sheets" id="sheets"></div>
+    <div class="flag" id="flag"></div>
+    <ul class="evs" id="log"></ul>
+    <p class="sim-note">No dates and no depreciation, so the same clicks always give the same answer and the gap is exactly the working capital rather than approximately it. Both invariants hold after every event: the sheet balances, and closing cash equals opening cash plus the three blocks of sheet three. The maths lives in <code>finance/sim-14.js</code> and has its own check: <code>node tools/test-14.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong at a sign-off meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Ten minutes with a real PDF</h2>
+  <p class="prose" style="margin-bottom:20px">The next time a customer's filing lands in your inbox, you are not going to read forty pages. Find three numbers, in this order, and you will know more about that company than most of the people in the meeting.</p>
+  <ul class="uses">
+    <li><span class="u">1 · Cash from operations — sheet three, top block</span><span class="d">Is the trading itself producing money? Positive and steady is the single healthiest signal in the whole bundle. Negative two years running, with the company still alive, means somebody else is funding it — and the next number tells you who.</span></li>
+    <li><span class="u">2 · The financing block — sheet three, bottom</span><span class="d">Where the cash came from if it did not come from trading. A large positive here sitting beside a negative operating line is a company living on borrowed money, and every <button class="t" data-t="giaingan">disbursement</button> you are about to approve joins that queue.</span></li>
+    <li><span class="u">3 · Profit on sheet two, minus cash from operations on sheet three</span><span class="d">The working capital the business is pouring into its own cycle. Large and growing year on year is a widening cash conversion cycle: selling more, collecting later. It is also, very often, exactly the customer who most needs the product you are building.</span></li>
+  </ul>
+
+  <h3 style="margin-top:36px">Five sentences worth having ready</h3>
+  <ol class="lines">
+    <li><div><div class="say">"Which of the three sheets is this feature actually answering?"</div><div class="use">What the company owns, what it earned, or where the cash went. Nearly every muddled reporting requirement is two of those three questions wearing one screen, and the muddle is far cheaper to unpick in refinement than in production.</div></div></li>
+    <li><div><div class="say">"Is that the old name or the new one, and does anything of ours depend on which?"</div><div class="use">Bảng cân đối kế toán and Báo cáo tình hình tài chính are the same sheet either side of 1 January 2026. Filings before that date carry the old name legitimately, so a parser, a search index or a document type that recognises only one of them quietly loses half the customer's history.</div></div></li>
+    <li><div><div class="say">"Is the cash on this line earned or borrowed?"</div><div class="use">The question that separates a healthy partner from a doomed one, and it is answerable in five seconds from the three blocks of sheet three. The bottom line of that sheet cannot answer it at all, which is exactly why the bottom line is the part people quote.</div></div></li>
+    <li><div><div class="say">"Do we produce this report, or do we read one somebody else produced?"</div><div class="use">Producing a statutory form means holding a chart of accounts and a double-entry ledger. This system holds neither, which is why it files sheet three and nothing else. Reading a customer's filing is a completely different piece of work from generating one, and the two get confused in the same sentence constantly.</div></div></li>
+    <li><div><div class="say">"Which period does this figure belong to, and is that period closed?"</div><div class="use">A filed statement is frozen: it has been reported to the tax authority and to a bank, and it must not move underneath them afterwards. If a screen recomputes last year's figure from today's data, it will one day disagree with a document somebody has already signed.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Không cần đọc hết bốn mươi trang. Tìm ba con số theo đúng thứ tự: dòng tiền từ hoạt động kinh doanh, khối hoạt động tài chính, và khoảng cách giữa lợi nhuận với dòng tiền kinh doanh. Ba con số đó cho biết doanh nghiệp đang tự kiếm ra tiền hay đang sống bằng tiền vay, và đang chôn bao nhiêu vốn vào vòng quay của chính mình.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 14 of 15 · Next: which books this company is required to keep — Thông tư 99/2025 for everyone else, Thông tư 58/2026 for micro-enterprises, and the four tax methods that decide which screens a customer should never be shown.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-14.js"></script>
+<script>
+(function(){
+"use strict";
+function tr(n){ return (n/1e6).toFixed(1) + "m"; }
+function sign(n){ return (n>0?"+":n<0?"−":"") + tr(Math.abs(n)); }
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l14")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l14",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- three statements ---------- */
+var FS=window.FS;
+var SHEETS=[
+ {k:"bs", hd:"Sheet one · Báo cáo tình hình tài chính", qn:"What the company owns, and who has a claim on it — at this instant.",
+  rows:[["cash","Cash"],["ar","Receivables"],["inv","Inventory"],["fa","Fixed assets"],["assets","Total assets","tot"],
+        ["ap","Payables"],["debt","Borrowings"],["equity","Owners' equity"],["claims","Total claims","tot"]]},
+ {k:"is", hd:"Sheet two · Báo cáo kết quả hoạt động kinh doanh", qn:"What the company earned across the period.",
+  rows:[["revenue","Revenue"],["cogs","Cost of goods sold"],["gross","Gross profit","sub"],
+        ["opex","Salaries and overheads"],["profit","Profit for the period","tot"]]},
+ {k:"cf", hd:"Sheet three · Báo cáo lưu chuyển tiền tệ", qn:"Where the cash actually went, split three ways.",
+  rows:[["op","Operating — mã 20"],["inv","Investing — mã 30"],["fin","Financing — mã 40"],
+        ["net","Net change in cash","sub"],["closing","Cash at the end","tot"]]}
+];
+
+var hist=[], cells={}, panels={};
+var evBar=document.getElementById("evBar"), sheetBox=document.getElementById("sheets"), log=document.getElementById("log");
+
+FS.EVENTS.forEach(function(ev){
+  var b=document.createElement("button"); b.type="button"; b.className="ghost";
+  b.textContent=ev.label; b.title=ev.sub;
+  b.addEventListener("click", function(){ hist.push(ev.id); render(); });
+  evBar.appendChild(b);
+});
+
+SHEETS.forEach(function(sh){
+  var p=document.createElement("div"); p.className="sheet";
+  var h=document.createElement("div"); h.className="hd"; h.textContent=sh.hd; p.appendChild(h);
+  var q=document.createElement("div"); q.className="qn"; q.textContent=sh.qn; p.appendChild(q);
+  sh.rows.forEach(function(r){
+    var d=document.createElement("div"); d.className="row"+(r[2]?" "+r[2]:"");
+    var l=document.createElement("span"); l.textContent=r[1];
+    var n=document.createElement("span"); n.className="n";
+    d.appendChild(l); d.appendChild(n); p.appendChild(d);
+    cells[sh.k+"."+r[0]]={row:d, n:n, base:d.className};
+  });
+  panels[sh.k]=p; sheetBox.appendChild(p);
+});
+
+function render(){
+  var cur=FS.view(FS.run(hist)), was=FS.view(FS.run(hist.slice(0,-1)));
+  var last=hist.length ? FS.byId(hist[hist.length-1]) : null;
+  var moved=last ? FS.moves(last) : null;
+
+  SHEETS.forEach(function(sh){
+    panels[sh.k].classList.toggle("dim", !!moved && !moved[sh.k]);
+    sh.rows.forEach(function(r){
+      var c=cells[sh.k+"."+r[0]], v=cur[sh.k][r[0]];
+      c.n.textContent=tr(v);
+      c.n.className="n"+(v<0?" dn":"");
+      c.row.className=c.base+(last && v!==was[sh.k][r[0]] ? " hit" : "");
+    });
+  });
+
+  document.getElementById("stProfit").textContent=tr(cur.profit);
+  document.getElementById("stCfo").textContent=tr(cur.cfo);
+  document.getElementById("stCash").textContent=tr(cur.bs.cash);
+  var g=document.getElementById("stGap");
+  g.textContent=sign(cur.gap); g.className="v"+(cur.gap>0?" hot":cur.gap<0?" cool":"");
+
+  document.getElementById("undo").disabled=!hist.length;
+
+  log.innerHTML="";
+  hist.forEach(function(id,i){
+    var ev=FS.byId(id), m=FS.moves(ev);
+    var hit=[m.bs?"sheet 1":null, m.is?"sheet 2":null, m.cf?"sheet 3":null].filter(Boolean);
+    var before=FS.view(FS.run(hist.slice(0,i))), after=FS.view(FS.run(hist.slice(0,i+1)));
+    var li=document.createElement("li"); li.className="ev";
+    li.innerHTML='<span class="d"></span><span class="n"><span class="nt"></span></span><span class="a"></span>';
+    li.querySelector(".d").textContent="Step "+(i+1);
+    li.querySelector(".n").insertBefore(document.createTextNode(ev.label), li.querySelector(".nt"));
+    li.querySelector(".nt").textContent="Moved "+hit.join(" · ")+(hit.length<3?"  ·  the rest did not react at all":"");
+    var d=after.gap-before.gap, a=li.querySelector(".a");
+    a.className="a "+(d>0?"out":d<0?"in":"");
+    a.textContent = d===0 ? "gap unchanged" : "gap "+sign(d);
+    log.appendChild(li);
+  });
+
+  var flag=document.getElementById("flag");
+  if(!hist.length){
+    flag.innerHTML='<div class="match">NOTHING HAS HAPPENED YET — profit for the period is zero and so is cash from operations. '+
+      'The two numbers are equal, which is the last moment in this lesson at which they will be. Press the first button.</div>';
+  } else if(cur.gap>0){
+    flag.innerHTML='<div class="stale">PROFIT IS AHEAD OF CASH — the books show '+tr(cur.profit)+' of profit and '+tr(cur.cfo)+
+      ' of cash from operations. The '+tr(cur.gap)+' between them is working capital: money earned and currently sitting in receivables and stock '+
+      'rather than in the bank. That gap is the cash conversion cycle of lesson 01, showing up in a document filed with the state.</div>';
+  } else if(cur.gap<0){
+    flag.innerHTML='<div class="match">CASH IS AHEAD OF PROFIT — '+tr(cur.cfo)+' of operating cash against '+tr(cur.profit)+
+      ' of profit. Working capital came back out of the cycle: old invoices collected, stock sold down, nothing new tied up. '+
+      'Pleasant for a quarter, and it cannot go on for ever — a business that keeps releasing working capital is a business that is shrinking.</div>';
+  } else {
+    flag.innerHTML='<div class="match">PROFIT AND CASH AGREE — '+tr(cur.profit)+' either way. Nothing done so far has tied money up in '+
+      'receivables or stock, so the two sheets tell the same story. Sell something on credit and they stop.</div>';
+  }
+  if(hist.length) mark("sim");
+}
+
+document.getElementById("undo").addEventListener("click", function(){ hist.pop(); render(); });
+document.getElementById("reset").addEventListener("click", function(){ hist=[]; render(); });
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A customer's set of financial statements arrives and your BA asks which sheet tells you whether they can pay you next month. Which one, and why?",
+  o:["Báo cáo kết quả hoạt động kinh doanh, because it shows whether they are profitable",
+     "Báo cáo lưu chuyển tiền tệ, and specifically whether the operating block is positive",
+     "Báo cáo tình hình tài chính, because it shows total assets",
+     "Any of them — the three are three views of the same figure"],
+  a:1,
+  why:"Profit says nothing about being able to pay, which is the entire lesson 01. Total assets say nothing either: a company can own a warehouse and still miss payroll. The cash flow statement counts only money that genuinely moved, and its operating block answers the one question that matters — is the trading itself producing cash."},
+ {q:"A colleague's spec says Bảng cân đối kế toán. The customer's 2026 filing says Báo cáo tình hình tài chính. What is the situation?",
+  o:["They are two different reports and you should ask which one is meant",
+     "Same sheet, two names: Thông tư 99/2025/TT-BTC retired the old wording from 1 January 2026, moving toward the IFRS term",
+     "The new one is an IFRS report and the old one is the Vietnamese one",
+     "The old name is simply wrong and should be deleted from the codebase"],
+  a:1,
+  why:"One sheet, one name change. It matters technically rather than cosmetically: filings dated before 2026 legitimately carry the old name, so anything that recognises only one of the two — a parser, a document type, a search index — quietly loses half the customer's history. Recognise both, display the one that belongs to the period."},
+ {q:"Two companies each ended the year with 2 billion more in the bank. Company A: operating +2.4bn, financing −0.4bn. Company B: operating −1.6bn, financing +3.6bn. Which is the safer partner?",
+  o:["They are identical — the same cash arrived either way",
+     "Company B, because it has demonstrated it can raise finance",
+     "Company A, because its cash came from trading; B's came from borrowing, and B has to do it again next year",
+     "Impossible to say without the profit figure"],
+  a:2,
+  why:"This is why the split exists. The bottom line of the sheet is the same for both, and it is the least informative number on the page. A is funding itself. B lost money doing business and covered the hole with debt — which is a thing you can do once, or twice, and then not again. The profit figure would not settle it either; profit is the sheet that can be dressed up."},
+ {q:"report-service seeds a definition called RPT_INCOME_EXPENSE, named \"Báo cáo thu chi\". A PM asks you to attach it to a credit file as the customer's income statement. What is wrong?",
+  o:["Nothing — thu chi is the Vietnamese for income statement",
+     "It reads /internal/v1/transactions/summary, so it counts money received and paid. That is a cash report with a profit report's name on it",
+     "It only exports to PDF and the bank wants Excel",
+     "It is not seeded as active"],
+  a:1,
+  why:"Receipts and payments are not revenue and costs. Buying stock is a payment and not yet a cost; selling on credit is revenue and not yet a receipt. The English-looking code makes the confusion easy, which is exactly why it is worth checking what a report's query actually reads before you put a label on it in front of a bank."},
+ {q:"A filed set shows 4 billion of profit and 1 billion of cash from operations. The auditor signed it and nothing is wrong. What is the 3 billion?",
+  o:["An accounting error that survived the audit",
+     "Tax that has not been paid yet",
+     "Working capital — profit currently sitting in receivables and stock instead of in the bank, which is the cash conversion cycle measured in đồng",
+     "Money the directors have taken out"],
+  a:2,
+  why:"Profit minus cash from operations is, near enough, the working capital that went into the cycle over the year. The company sold more, so it is owed more and is holding more stock, and every đồng of that is profit it cannot spend. Growing fast makes this number bigger, not smaller — which is the lesson 01 warning, arriving in a legal document."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — backlog refinement",
+  line:'"Just add a balance sheet report to report-service. It is one more Jasper template next to the B03 one."',
+  o:[{t:"Sure, I'll copy the B03 template and point it at a new query.", v:"weak",
+      f:"There is nothing to point it at. You will spend a sprint discovering that, and the discovery will happen in the demo rather than in refinement."},
+     {t:"That's a much bigger job than it looks.", v:"weak",
+      f:"True and unusable. It talks about your effort instead of the missing data, so the BA hears reluctance and the ticket stays in the sprint."},
+     {t:"The B03 report works because cashflow-service already tags every entry OPERATING, INVESTING or FINANCING — the data is genuinely there. A statement of financial position is rolled up from a chart of accounts and a double-entry ledger, and we have neither: masterdata.Account is a flat list of bank accounts, not TK 131 and TK 331. If the customer needs one, we should be reading the one their accounting software already files.", v:"strong",
+      f:"You explained why one report was cheap and the other is not, in terms of data rather than effort, and you finished with a different way to get the customer what they want. That is the difference between refusing a ticket and redirecting one."}]},
+ {role:"The customer's chief accountant — during the demo",
+  line:'"Your screen is labelled Bảng cân đối kế toán. We do not file that any more."',
+  o:[{t:"It is only a label, I will change the text this afternoon.", v:"weak",
+      f:"Half right and it will come back. Change it globally and every document the customer filed before 2026 is now labelled with a name it does not carry, which is the same bug pointing the other way."},
+     {t:"The old name is still valid, the new one is just the IFRS version.", v:"weak",
+      f:"Not so, and the chief accountant knows it. Thông tư 99/2025 replaced the term outright from January 2026. Being confidently wrong in front of the one person in the room who files these is expensive."},
+     {t:"You're right — Thông tư 99/2025 replaced that name with Báo cáo tình hình tài chính from January 2026. Documents from before then legitimately carry the old name, so rather than renaming everything I'll have the screen show the name that belongs to the period, and keep both terms searchable.", v:"strong",
+      f:"You conceded immediately, cited the instrument, and then said something the accountant had not thought of — that their own archive needs the old name to keep working. You now look like someone who has read the regulation, which is worth a great deal in that room."}]},
+ {role:"Product owner — sprint planning",
+  line:'"The customer sent us their BCTC as a PDF. Can we pull the profit figure out and show it on our dashboard?"',
+  o:[{t:"Sure, we can parse the PDF and put profit at the top.", v:"weak",
+      f:"You have just scheduled a support call. Profit from a filed statement next to our own daily cash line is two numbers measuring different things, sitting side by side, inviting the user to notice they disagree."},
+     {t:"PDFs are unreliable to parse, we should not attempt it.", v:"weak",
+      f:"A technical objection to a business request, and it is not even the real problem. The parsing is the easy part; deciding which number belongs on that screen is the hard part, and you have not addressed it."},
+     {t:"We can read it, but let's be careful which number we lift. Profit off sheet two next to our own daily cash line puts two different measurements side by side and the first support call will be why they disagree. If we surface one figure, make it cash from operations off sheet three — that is the one that lines up with what we already track, and it is the number a lender would look at anyway.", v:"strong",
+      f:"You said yes to the request and then improved it, with a reason the product owner can repeat to the customer. Naming the support call before it happens is what makes the argument land."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>

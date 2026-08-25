@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When the Statement Disagrees</title>
+<meta name="description" content="Lesson 13 — what a bank statement line actually contains, why matching it to your own records is a join with no key, and what an unmatched line means at the end of the month. For developers building financial systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="13">
+<meta name="tfbd:tags" content="reconciliation, đối chiếu, bank statement, sao kê, MT940, auto-matching, value date, payment allocation, TM-10, CF-04">
+<meta name="tfbd:level" content="Applied">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- lesson 13: the raw file, and the statement beside the books ---- */
+.raw{margin:26px 0; padding:15px 17px; background:var(--sunk); border:1px solid var(--line); border-radius:2px; overflow-x:auto; font-family:var(--ff-mono); font-size:12.5px; line-height:1.9; color:var(--ink-2); white-space:pre; max-width:64ch}
+.raw b{color:var(--ink); font-weight:500}
+.raw i{font-style:normal; color:var(--no)}
+.raw u{text-decoration:none; color:var(--fast)}
+.recon{display:grid; grid-template-columns:minmax(0,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:700px){.recon{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.side{background:var(--surface); min-width:0}
+.side .hd{padding:11px 16px; background:var(--sunk); border-bottom:1px solid var(--line); font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted)}
+.row{display:block; width:100%; text-align:left; background:transparent; border:0; border-bottom:1px solid var(--line); padding:11px 16px; color:var(--ink)}
+.row:hover:not(:disabled){background:var(--fast-soft)}
+.row .l1{display:flex; gap:12px; align-items:baseline; justify-content:space-between}
+.row .id{font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.07em; flex:none}
+.row .am{font-family:var(--ff-mono); font-size:14px; font-variant-numeric:tabular-nums; white-space:nowrap}
+.row .am.in{color:var(--ok)} .row .am.out{color:var(--no)}
+.row .nar{font-size:13.5px; color:var(--ink-2); margin-top:4px; line-height:1.45; word-break:break-word}
+.row .meta{font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); margin-top:6px; letter-spacing:.04em; line-height:1.6; word-break:break-word}
+.row .meta em{font-style:normal; color:var(--no)}
+.row.pick{background:var(--fast-soft); box-shadow:inset 3px 0 0 var(--fast)}
+.row.done{opacity:.5}
+.row.sug{box-shadow:inset 3px 0 0 var(--slow); background:var(--slow-soft)}
+.row .tag{font-family:var(--ff-mono); font-size:10px; letter-spacing:.11em; text-transform:uppercase; margin-top:7px; display:block; line-height:1.55}
+.row .tag.auto{color:var(--ok)} .row .tag.hand{color:var(--fast)}
+.row .tag.warn{color:var(--slow)} .row .tag.bad{color:var(--no)}
+.rv{padding:16px 18px; border-top:1px solid var(--line); font-size:14.5px; line-height:1.6; display:none}
+.rv.show{display:block}
+.rv b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; display:block; margin-bottom:5px}
+.rv.ok{background:var(--ok-soft); color:var(--ink-2)} .rv.ok b{color:var(--ok)}
+.rv.bad{background:var(--no-soft); color:var(--ink-2)} .rv.bad b{color:var(--no)}
+.pickhint{padding:12px 18px; border-top:1px solid var(--line); background:var(--sunk); font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.7}
+.pickhint b{color:var(--ink); font-weight:500}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 13</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Where the system meets the outside · Lesson 13</div>
+  <h1>When the bank statement and the books disagree</h1>
+  <p class="lede">Every lesson so far trusted the company's own records. This one is about an outside party that keeps its own version, in its own format, with none of your identifiers in it — and about the handful of lines at the end of the month that refuse to pair off with anything, which turn out to be the only lines worth reading.</p>
+  <div class="facts"><span>16 min</span><span>No accounting assumed</span><span>Ends on one unmatched line and the question it raises</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>What is actually on a statement line</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>Here is a line from a <button class="t" data-t="saoke">bank statement</button>. It is not a tidied-up example — it is a row from <code>dev-seed/sao-ke-mau-techcombank.csv</code>, the sample statement that ships in this project, semicolons and all.</p>
+  </div>
+
+  <div class="raw">Ngay sao ke;Ngay gia tri;So tien;Dien giai;Doi tac;So tham chieu;Tien te
+<b>23/07/2026;23/07/2026;-84.150.000;CK di AN PHU phi luu kho quy II;KHO VAN AN PHU;FT26-91457;VND</b></div>
+
+  <div class="stack">
+    <p>Seven fields. A date the bank booked the entry. A second date. An amount, negative because the money left. Some free text. A counterparty name in shouting capitals with the diacritics stripped out. A reference. A currency code.</p>
+    <p>Now the more important list — what is <em>not</em> in that row. There is no invoice number. No customer id. No order number. No id of yours of any kind. Nothing in the line was written by your system, nothing in it was designed to point at your system, and the bank has never heard of your schema.</p>
+    <p>That is the whole lesson in one observation. You are being handed a list of facts about money by somebody who does not know what any of it was for.</p>
+  </div>
+
+  <h3>Two dates, and they are not the same date</h3>
+  <div class="stack">
+    <p><em>Ngày sao kê</em> is the day the bank booked the entry. <em>Ngày giá trị</em> is the <button class="t" data-t="ngayhieuluc">value date</button> — the day the money is genuinely usable in the account. A transfer sent late on a Friday is commonly booked on Friday and valued on Monday.</p>
+    <p>So a rule that matches on the exact date fails on entirely ordinary transfers, and the whole matching routine needs a tolerance in days rather than an equality. Which date you compare is a decision, not a detail: the books hold the day the accountant says it happened, and the statement holds two candidates for the same thing.</p>
+  </div>
+
+  <h3>One sign, and it is the only one in the system</h3>
+  <div class="stack">
+    <p>On a statement, money out is a negative number. Everywhere else in this project the amount is positive and the direction lives in a separate column, because a receipt and a payment are different pieces of business rather than the same number with opposite signs.</p>
+    <p>Which means every comparison between the two sides has to take the absolute value first, and getting that wrong is not a display bug — it pairs an incoming transfer with an outgoing payment and books both as agreed.</p>
+  </div>
+
+  <h3>And a field somebody typed on a phone</h3>
+  <div class="stack">
+    <p><em>Diễn giải</em> is free text. It was typed by whoever ordered the transfer, in a banking app, at whatever length the app allowed, in unaccented Vietnamese. Nobody validated it. Here is the rest of the same sample file:</p>
+  </div>
+
+  <div class="raw">2026-07-24;;18000000;CK den thanh toan don hang thang 07;CTY CP CANG TAN CANG;FT26-92008;VND
+;25/07/2026;-2.400.000;Phi quan ly tai khoan va phi CK;TECHCOMBANK;PHI-TCB-0725;
+26/07/2026;26/07/2026;-15750000;UNC tam ung cong tac phi;;;vnd
+28/07/2026;28/07/2026;6.500.000,50;CK den hoan tien cuoc van chuyen;NHA XE DUC PHAT;FT26-92310;VND</div>
+
+  <div class="stack">
+    <p>Four rows, and every one of them is broken in a way the parser has to survive. An ISO date sitting in a <code>dd/mm/yyyy</code> file, with the value date left blank. A row with no statement date at all and no currency, whose counterparty is the bank itself charging its own fee. A row with no counterparty and no reference, and the currency in lowercase. And an amount with a decimal comma in it, in a file where the thousands separator is a full stop.</p>
+    <p>None of that is carelessness in the sample data. That is what statement files look like, and the reason the import path is a parser with an error list rather than a <code>split(";")</code>.</p>
+    <p class="vi"><b>In the code</b>Each row becomes one <code>BankStatementLine</code> in <code>bank_statement_lines</code>: <code>statement_date</code>, <code>value_date</code>, a signed <code>amount</code>, <code>currency</code>, <code>counterparty_name</code>, <code>reference_no</code>, <code>raw_description</code>, and nothing else. Its javadoc says outright that this is the only table in the system where the amount is negative. <code>value_date</code> is nullable in the DDL and never null in practice — the service copies <code>statement_date</code> in, because the duplicate key <code>(account, value_date, amount, reference_no)</code> compares on that column and a blank one lets the same file be imported twice unnoticed.</p>
+    <p class="vi"><b>Tiếng Việt</b>Một dòng sao kê chỉ có: ngày ghi sổ, ngày giá trị, số tiền có dấu, diễn giải tự do, đôi khi tên đối tác và số tham chiếu. Không có số hoá đơn, không có mã khách hàng, không có mã nào của hệ thống mình. Ngân hàng không biết dữ liệu của mình tồn tại — và đó chính là toàn bộ bài toán.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>A join with no key</h2>
+
+  <div class="stack">
+    <p>Put the two sides next to each other and the shape of the problem is obvious. On one side, the company's own <button class="t" data-t="dongtien">cash flow</button> records: a payment to a named supplier, on a date, against an <button class="t" data-t="hoadon">invoice</button>, with a <button class="t" data-t="chungtu">chứng từ</button> attached. On the other, the bank's list. Same money, twice, written by two parties who never agreed on a format.</p>
+    <p><button class="t" data-t="doichieu">Reconciliation</button> is the act of proving those two lists say the same thing. In database terms it is a join, and there is no column to join on. What is left is a set of near-identities: about the same amount, about the same day, possibly the same reference, possibly a name that looks like a name you know.</p>
+    <p>Before the rules, the honest list of ways the two sides legitimately fail to line up — every one of these is normal business, not an error:</p>
+  </div>
+
+  <ul class="uses">
+    <li><span class="u">One transfer paying three invoices</span><span class="d">The customer nets them and sends one round sum. Nothing in your books is that amount, so nothing matches. This is <button class="t" data-t="phanbothanhtoan">payment allocation</button>, and it has to happen before reconciliation can succeed · TM-21.</span></li>
+    <li><span class="u">Three transfers paying one invoice</span><span class="d">The mirror case — a buyer short of cash paying in instalments. Three statement lines, one book entry, and no pairing between them is one-to-one.</span></li>
+    <li><span class="u">A bank fee deducted on the same booking</span><span class="d">You ordered 84.150.000 and the account moved 84.300.000. The amount no longer matches, and the 150.000 becomes a <button class="t" data-t="chenhlechdoichieu">reconciliation difference</button> — exactly the kind of number that gets buried instead of asked about.</span></li>
+    <li><span class="u">A foreign currency converted at a rate you did not choose</span><span class="d">The invoice is in USD, the account is in VND, and the bank applied its own rate on its own timestamp. The đồng figure in the books was never going to equal the đồng figure on the statement.</span></li>
+    <li><span class="u">The value date differs from the booking date</span><span class="d">The day is off by one and every exact-date rule quietly stops matching on Fridays.</span></li>
+    <li><span class="u">The reference is the customer's number, not yours</span><span class="d">They typed <em>their</em> internal purchase-order number into the reference field, because from where they sit that is the number that identifies the payment. It matches nothing in your database and it is not wrong.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:26px">
+    <p>Given all that, <button class="t" data-t="khoplenh">auto-matching</button> is worth building — a person doing four hundred lines by hand will make more mistakes than the machine will. But it has to be built with an honest sense of which signals are evidence and which are guesses.</p>
+    <p>Exact amount plus exact reference is safe: two independent facts agreeing is what evidence looks like. Exact amount alone is a guess, and a reasonable one — it happens to be right most of the time, which is precisely what makes the occasional wrong one hard to find. Matching on words in the description is a guess of a different order, because it produces a confidence score, and a score on a screen reads as a measurement.</p>
+  </div>
+
+  <div class="pull"><q>Exact amount and exact reference is a fact. Exact amount alone is a guess. Matching on words in the description is a guess wearing the clothes of a fact.</q></div>
+
+  <div class="stack">
+    <p>So the rules that actually shipped are narrow on purpose. A pair auto-matches only when all six hold: same account, same currency, same direction, the amount equal to the last đồng, the value date inside a configured tolerance, and neither side already reconciled. A matching reference chooses <em>between</em> candidates that already qualify — it never excuses a wrong amount, because a reference is typed by the payer and a typo must not be allowed to override both the amount and the date.</p>
+    <p>And there is a seventh rule which is the interesting one: <em>the machine only closes a pair when there is exactly one candidate.</em> Two candidates means no match, and the line goes to a person with both of them listed. That rule is what the next section is about.</p>
+  </div>
+
+  <h3>What the bank actually hands over</h3>
+  <div class="stack">
+    <p>A CSV is the friendly case, usually because somebody exported it from the bank's web portal by hand every month. The format a bank hands over as a matter of course is SWIFT MT940, and the project ships a sample of that too:</p>
+  </div>
+
+  <div class="raw"><u>:20:</u>STMT260820
+<u>:25:</u>19033445566
+<u>:28C:</u>1/1
+<u>:60F:</u>C260801VND500000000,
+<u>:61:</u>2608120812C260000000,NTRFSEED-FT26-90233//NONREF
+<u>:86:</u>Khach Tan Cang thanh toan cong no ky 06 - CTY CP CANG TAN CANG
+<u>:61:</u>2608140814D84300000,NTRFSEED-FT26-91457//NONREF
+<u>:86:</u>Phi luu kho quy II - KHO VAN AN PHU
+<u>:61:</u>2608180818C5000000,NTRFSEED-FT26-99001//NONREF
+<u>:86:</u><i>CK den khong ro noi dung - NGUOI CHUYEN AN DANH</i>
+<u>:62F:</u>C260820VND680700000,</div>
+
+  <div class="stack">
+    <p>Read one <code>:61:</code> tag from the left. <code>260812</code> is the value date as <code>yymmdd</code>. <code>0812</code> is the booking date as <code>mmdd</code>, and it is optional. <code>C</code> is credit and <code>D</code> is debit — and there are also <code>RC</code> and <code>RD</code>, reversals, which flip the sign again. <code>260000000,</code> is the amount, and that trailing comma is the decimal separator. <code>NTRF</code> is a transaction-type code. Everything after it up to the <code>//</code> is the reference the payer typed. <code>:86:</code> is the description, and it continues onto any following line that does not begin with a colon.</p>
+    <p>What that costs you against a clean CSV: a parser with optional capture groups instead of a split, a comma that means a decimal point, a two-digit year, a direction expressed as a letter with reversal variants, and — the one that hurts — <em>no counterparty field at all.</em> In MT940 the name of the other party is inside the free text or nowhere. Every name-based heuristic you were planning to write has just lost its input on the format the bank actually sends.</p>
+    <p>What it gives you in exchange is real: <code>:60F:</code> and <code>:62F:</code> are the opening and closing balances of the period. That is a checksum on your own import. Add up the entries, apply them to the opening balance, and if you do not land on the closing balance then you have dropped or double-counted a line and you know it before anybody reconciles anything. A CSV export offers nothing of the kind.</p>
+    <p class="vi"><b>In the code</b><code>StatementFormat = CSV | XLSX | MT940</code>, plus a fourth path that is not a format at all — <code>POST /bank-statements/sync</code> against the bank's API (INT-03). That path dedupes on <code>bank_transaction_id</code>, the bank's own identifier, rather than on the guessed key the file path uses; a null in that column is therefore also how the screen knows a line came from a file rather than from the API. <code>Mt940StatementParser</code>'s own javadoc calls itself a minimum viable subset of SWIFT rather than an implementation of it, and its <code>counterpartyName</code> is always left blank.</p>
+    <p class="vi"><b>Tiếng Việt</b>Đối chiếu là một phép join không có khoá. Cùng một khoản tiền được hai bên ghi bằng hai định dạng không ai thoả thuận với ai, nên chỉ còn cách so gần đúng: gần đúng số tiền, gần đúng ngày, may thì trùng số tham chiếu. Đúng số tiền và đúng số tham chiếu là bằng chứng; chỉ đúng số tiền là phỏng đoán; khớp theo chữ trong diễn giải là phỏng đoán đội lốt sự thật.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>A wrong match costs more than no match</h2>
+
+  <div class="stack">
+    <p>Four hundred lines, half an hour before the meeting, and the auto-matcher closed a hundred and ten of them. The obvious improvement is to loosen the rules until it closes three hundred. Every step of that loosening is defensible on its own and the destination is a disaster.</p>
+    <p>Follow one wrong match through the system. A statement line is paired with an invoice it did not pay. The invoice is now settled. It leaves the <button class="t" data-t="phaithu">receivables</button> list, so nobody chases it. It never turns <button class="t" data-t="quahan">overdue</button>, so no alert fires. It drops out of the aging report and out of the partner's <button class="t" data-t="duno">outstanding exposure</button>, which quietly frees up credit limit that was never repaid. And the reconciliation screen reports a successful run.</p>
+    <p>Now follow a missed match. A line sits in a list, somebody looks at it for twenty seconds, and pairs it by hand.</p>
+    <p>Those two costs are not on the same scale, and they point in opposite directions from the same decision. That asymmetry is the reason the matching rules are narrow, and it is the argument to make when somebody asks for them to be widened.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Ambiguity is an answer. Return it.</p>
+    <p class="sub">When two candidates fit equally well, <em>no match</em> is the correct output — not the best-scoring one. With two perfect candidates the tie-break falls to whichever row the database returned first, which is not a business rule and is not stable between runs. And it fails silently in pairs: pick the wrong one of two and you have not made one mistake, you have made two. Never ship a confidence threshold that a user can lower, either — a slider from 0.9 to 0.7 is a switch that turns the unsafe path back on, and the person who moves it will be doing it at half past five on the last day of the month.</p>
+  </div>
+
+  <h3>Ambiguity runs in both directions</h3>
+  <div class="stack">
+    <p>The obvious form is one statement line with two candidate entries in the books. The form people forget is the mirror: two statement lines both fitting one entry. Two payments of forty-five million to two different suppliers in the same week is ordinary, and if the descriptions are vague the machine has two lines that each want the same record.</p>
+    <p>Checking only the first direction leaves the second one closing pairs at random, so the refusal has to be symmetric: a line is matched only if it has exactly one candidate <em>and</em> that candidate is not also the sole candidate of some other line.</p>
+    <p>There is a temptation to be clever here — if line B's only rival was taken by line A, then B is now unambiguous, so match it too. Do not. That makes the result depend on the order the rows came back in, which is the exact defect the refusal was there to prevent. One pass, then hand the rest to a person, and let them run it again if they want.</p>
+  </div>
+
+  <h3>The question that makes this feature exist</h3>
+  <div class="stack">
+    <p>At the end of the month, some lines are still unmatched. Every one of them means one of exactly two things, and the difference between them is the whole reason anybody built this.</p>
+    <p>Either your books are missing something — a bank fee nobody recorded, a customer's transfer that arrived early, a payment the accountant has not entered yet. Tedious, and fixable in an afternoon.</p>
+    <p>Or money moved and nobody recorded it. That is the fraud case, and it is worth being blunt about what it looks like: an unauthorised transfer out of the company account appears on the statement as an ordinary debit that pairs with nothing. It has no invoice, no <button class="t" data-t="chungtu">chứng từ</button>, no approval behind it — and the <button class="t" data-t="vetkiemtoan">audit trail</button> is perfectly consistent, because whoever moved that money never touched your system at all. There is no other control here that can see it, because every other control reads records the company itself wrote. Reconciliation is the only one that compares against a record kept by somebody who does not work here.</p>
+    <p>It runs in the other direction too, and that one is worse when it happens. A payment sitting in the books as <button class="t" data-t="thucchi">actual spend</button>, marked executed with a payment slip attached, that the bank has no line for. Either the money never left, or it left through a document that does not describe reality.</p>
+    <p>So when reconciliation gets pushed out of a release as an import screen, what is actually being deferred is the company's only detective control over its own bank account. And it does not wait politely: a month you did not reconcile is a month in which that control did not run, and you cannot run it retroactively over a period for which nobody kept the statements.</p>
+  </div>
+
+  <div class="stack">
+    <p class="vi"><b>In the code</b><code>AutoMatcher</code> is pure logic with no database and no HTTP in it, so each of the six conditions has a unit test. Its comments record why the rule changed: an earlier version scored candidates and picked the best, breaking ties on the smaller difference — and with two exact candidates both differences are zero, so the winner was whichever row PostgreSQL returned first. <code>AutoMatchRequest</code> no longer has a <code>minConfidence</code> field at all, and the reason given is exactly the one above: keeping it meant keeping a lever that reopens the path the new rule closed. The three confidence constants that remain only order the suggestion list on screen.</p>
+    <p class="vi"><b>Tiếng Việt</b>Một cặp khớp sai đắt hơn một cặp không khớp rất nhiều: hoá đơn bị đánh dấu đã thu, rơi khỏi danh sách công nợ, không bao giờ quá hạn, không ai đi đòi — mà màn hình vẫn báo chạy thành công. Vì thế luật khớp phải hẹp, và nhập nhằng thì trả về nhập nhằng chứ không chọn ứng viên điểm cao nhất. Dòng còn lại cuối tháng mới là thứ đáng đọc: hoặc sổ thiếu bút toán, hoặc tiền đã đi mà không ai ghi — trường hợp thứ hai là gian lận, và đối chiếu là chốt kiểm soát duy nhất nhìn thấy nó.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Nine lines from the bank, nine from the books</h2>
+  <p class="prose" style="margin-bottom:14px">The statement on the left is the sample file from the project's <code>dev-seed</code> folder, mess intact: a blank statement date, an ISO date in a <code>dd/mm/yyyy</code> file, a lowercase currency, a decimal comma, and two lines whose whole description is four unaccented words. The company's own records are on the right.</p>
+  <p class="prose" style="margin-bottom:26px">Press <em>auto-match</em> and watch how few it is willing to close. Then work the leftovers: tap one line on each side to pair them by hand, and read what the pairing actually does. Two of them are traps, and you are meant to fall into at least one.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="auto">Auto-match</button>
+      <button class="ghost" id="undo">Undo last</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Closed by the machine</span><span class="v" id="stAuto">—</span></div>
+      <div class="stat"><span class="k">Closed by hand</span><span class="v" id="stHand">—</span></div>
+      <div class="stat"><span class="k">Statement lines left</span><span class="v" id="stLines">—</span></div>
+      <div class="stat"><span class="k">Book entries left</span><span class="v" id="stBooks">—</span></div>
+    </div>
+    <div class="pickhint" id="pickhint"></div>
+    <div class="recon">
+      <div class="side"><div class="hd">Sao kê · Techcombank 19033445566 · 07/2026</div><div id="lineCol"></div></div>
+      <div class="side"><div class="hd">Sổ của công ty · giao dịch tháng 07</div><div id="bookCol"></div></div>
+    </div>
+    <div class="rv" id="rv"></div>
+    <div class="flag" id="rflag"></div>
+    <p class="sim-note">The matching rules are the ones in <code>transaction-service · AutoMatcher</code>: six conditions, a reference used only to choose between candidates that already qualify, and no automatic match where two candidates fit. Money is compared to the last đồng — the real service does that with <code>BigDecimal.compareTo</code>, never <code>equals</code> and never a double (ADR 0004). The logic lives in <code>finance/sim-13.js</code> and has its own check: <code>node tools/test-13.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong on a screen that closes invoices.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"What in this row can I actually join on?"</div><div class="use">Ask it before you agree to any integration with an outside party, not only a bank. The answer is often "nothing", and that changes the feature from a mapping into a matching problem with a human in it — different effort, different UI, different definition of done.</div></div></li>
+    <li><div><div class="say">"What does this do when two candidates fit equally well?"</div><div class="use">The question that separates a matcher you can trust from one you cannot. "It picks the best score" means it picks whichever row came back first, and when it picks wrong it is wrong twice. Refusing to answer is a feature, and it needs somewhere in the UI to put the refusal.</div></div></li>
+    <li><div><div class="say">"Which date is this — the day the bank booked it, or the day the money was usable?"</div><div class="use">Two dates, a day or two apart, and any rule built on the wrong one fails on ordinary Friday transfers. It generalises: whenever an outside record carries two timestamps, one of them is about their process and one is about your money.</div></div></li>
+    <li><div><div class="say">"Who signs for a match that has a difference on it?"</div><div class="use">A difference is somebody accepting that the two numbers will never agree. That is a decision with a name on it, not a rounding — so it needs an actor, a reason and a status of its own, and a machine must never be the one making it.</div></div></li>
+    <li><div><div class="say">"At the end of the month, who actually reads the unmatched list?"</div><div class="use">If the answer is nobody, the control does not exist however well the matching works. The unmatched list is the output of this feature, not its leftovers — and a request to hide old unmatched lines to tidy the screen is a request to switch it off.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần biết kế toán. Chỉ cần đủ để hỏi: dòng này nối vào dữ liệu của mình bằng cái gì, và nếu có hai ứng viên cùng vừa thì hệ thống làm gì? Rồi hỏi tiếp cuối tháng ai là người đọc danh sách chưa khớp.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 13 of 15 · Chapter 5, Where the system meets the outside · Next: reading a set of financial statements in ten minutes.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-13.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l13")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l13",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- the reconciliation table ---------- */
+var R=window.RECON, fmt=R.fmt;
+var el=function(id){ return document.getElementById(id); };
+var lineCol=el("lineCol"), bookCol=el("bookCol"), rv=el("rv"), rflag=el("rflag");
+
+/* pairs: {lineId, bookId, by:"auto"|"hand", verdict} — the only state the widget holds */
+var pairs=[], sugg=[], ranAuto=false, pickLine=null, pickBook=null;
+
+function takenLines(){ return pairs.map(function(p){ return p.lineId; }); }
+function takenBooks(){ return pairs.map(function(p){ return p.bookId; }); }
+function pairOfLine(id){ var hit=null; pairs.forEach(function(p){ if(p.lineId===id) hit=p; }); return hit; }
+function pairOfBook(id){ var hit=null; pairs.forEach(function(p){ if(p.bookId===id) hit=p; }); return hit; }
+function money(n,sign){ return (sign<0?"−":"+")+fmt(Math.abs(n)); }
+
+function row(parts){
+  var b=document.createElement("button"); b.type="button"; b.className="row";
+  b.innerHTML='<span class="l1"><span class="id"></span><span class="am"></span></span>'+
+              '<span class="nar"></span><span class="meta"></span>';
+  b.querySelector(".id").textContent=parts.id;
+  var am=b.querySelector(".am"); am.className="am "+parts.dir; am.textContent=parts.amount;
+  b.querySelector(".nar").textContent=parts.nar;
+  b.querySelector(".meta").textContent=parts.meta;
+  return b;
+}
+
+function tag(host, cls, text){
+  var t=document.createElement("span"); t.className="tag "+cls; t.textContent=text;
+  host.appendChild(t);
+}
+
+function render(){
+  lineCol.innerHTML=""; bookCol.innerHTML="";
+
+  R.LINES.forEach(function(l){
+    var paired=pairOfLine(l.id);
+    var bits=["value date "+R.valueDate(l)];
+    if(!l.vd) bits.push("statement date only — value date blank in the file");
+    if(!l.sd) bits.push("no statement date in the file");
+    bits.push(l.ref ? "ref "+l.ref : "no reference");
+    bits.push(l.cp ? l.cp : "no counterparty");
+    bits.push(l.src);
+    var b=row({id:l.id, amount:money(l.amount,l.amount), dir:l.amount<0?"out":"in",
+               nar:l.nar, meta:bits.join(" · ")});
+    if(paired){
+      b.classList.add("done");
+      tag(b, paired.by==="auto"?"auto":(paired.verdict&&paired.verdict.status==="DISPUTED"?"bad":"hand"),
+          (paired.by==="auto"?"AUTO":"BY HAND")+" → "+paired.bookId+
+          (paired.verdict&&paired.verdict.status==="DISPUTED"?" · DISPUTED, difference "+fmt(paired.verdict.difference):""));
+    } else {
+      var mine=sugg.filter(function(s){ return s.lineId===l.id; });
+      if(mine.length){
+        b.classList.add("sug");
+        mine.forEach(function(s){ tag(b,"warn","SUGGESTION "+s.bookId+" · "+s.reason); });
+      } else if(ranAuto){
+        tag(b,"bad","NOTHING IN THE BOOKS RESEMBLES THIS LINE");
+      }
+      if(pickLine===l.id) b.classList.add("pick");
+      b.addEventListener("click", function(){ choose("line", l.id); });
+    }
+    if(paired) b.disabled=true;
+    lineCol.appendChild(b);
+  });
+
+  R.BOOKS.forEach(function(k){
+    var paired=pairOfBook(k.id);
+    var bits=[k.type, k.date, k.ref?"ref "+k.ref:"no reference", k.partner||"no partner on the entry"];
+    var b=row({id:k.id, amount:money(k.amount, k.type==="PAYMENT"?-1:1),
+               dir:k.type==="PAYMENT"?"out":"in", nar:k.what, meta:bits.join(" · ")});
+    if(paired){
+      b.classList.add("done"); b.disabled=true;
+      tag(b, paired.by==="auto"?"auto":"hand", (paired.by==="auto"?"AUTO":"BY HAND")+" → "+paired.lineId);
+    } else {
+      if(pickBook===k.id) b.classList.add("pick");
+      b.addEventListener("click", function(){ choose("book", k.id); });
+    }
+    bookCol.appendChild(b);
+  });
+
+  var auto=pairs.filter(function(p){ return p.by==="auto"; }).length;
+  el("stAuto").textContent=auto;
+  el("stHand").textContent=pairs.length-auto;
+  var left=R.leftovers(takenLines(), takenBooks());
+  var sl=el("stLines"); sl.textContent=left.lines.length;
+  sl.className="v"+(left.lines.length?" hot":" cool");
+  var sb=el("stBooks"); sb.textContent=left.books.length;
+  sb.className="v"+(left.books.length?" hot":" cool");
+
+  el("pickhint").textContent = pickLine
+    ? "Statement line "+pickLine+" selected — now pick the entry in the books it belongs to."
+    : pickBook
+      ? "Book entry "+pickBook+" selected — now pick the statement line it belongs to."
+      : "Tap one statement line and one book entry to match them by hand.";
+
+  flag(left);
+}
+
+function choose(side, id){
+  if(side==="line") pickLine = pickLine===id ? null : id;
+  else pickBook = pickBook===id ? null : id;
+  if(pickLine && pickBook){
+    var v=R.manualMatch(pickLine, pickBook, {takenBooks:takenBooks()});
+    if(v.status!=="REFUSED"){
+      var takenLine=pickLine, takenBook=pickBook;
+      pairs.push({lineId:takenLine, bookId:takenBook, by:"hand", verdict:v});
+      /* a suggestion pointing at either end of the pair just went stale */
+      sugg=sugg.filter(function(s){ return s.lineId!==takenLine && s.bookId!==takenBook; });
+      mark("sim");
+    }
+    verdict(v);
+    pickLine=null; pickBook=null;
+  } else {
+    rv.className="rv";
+  }
+  render();
+}
+
+function verdict(v){
+  rv.className="rv show "+(v.kind==="exact"?"ok":"bad");
+  rv.innerHTML="<b></b>";
+  rv.querySelector("b").textContent=v.status==="REFUSED" ? "Refused" : v.headline;
+  rv.appendChild(document.createTextNode(v.detail));
+}
+
+function flag(left){
+  if(!ranAuto && !pairs.length){
+    rflag.innerHTML='<div class="stale">Nine statement lines, nine entries in the books, and no key between them. Press auto-match and count how many the machine is willing to close on its own.</div>';
+    return;
+  }
+  var mystery=left.lines.filter(function(l){ return l.id==="L9"; }).length;
+  var ghost=left.books.filter(function(b){ return b.id==="P-0238"; }).length;
+  if(left.lines.length===0 && left.books.length===0){
+    rflag.innerHTML='<div class="match">Everything is paired — which, on a real month, is the result that should make you suspicious rather than satisfied. Look back at how many of those pairs carry a difference nobody can explain.</div>';
+    return;
+  }
+  var parts=[];
+  var plural=function(n,one,many){ return n+" "+(n===1?one:many); };
+  parts.push(plural(left.lines.length,"statement line","statement lines")+" and "+
+             plural(left.books.length,"book entry","book entries")+" still standing.");
+  if(mystery) parts.push("L9 is 5.000.000 that arrived on 29/07 with the description “CK den khong ro noi dung — NGUOI CHUYEN AN DANH” and nothing in the books resembling it. Either somebody forgot to record a receipt, or money entered this account and nobody here knows whose it is.");
+  if(ghost) parts.push("P-0238 is the mirror: 33.000.000 the books say was paid on 30/07, with a reference, that the bank has no line for at all.");
+  parts.push("Neither of those is cleared by matching harder. They are cleared by somebody asking a question — and that question is the entire output of this feature.");
+  rflag.innerHTML='<div class="'+(mystery||ghost?"stale":"match")+'"></div>';
+  rflag.firstChild.textContent=parts.join(" ");
+}
+
+el("auto").addEventListener("click", function(){
+  var run=R.autoMatch({takenLines:takenLines(), takenBooks:takenBooks()});
+  run.matches.forEach(function(m){
+    pairs.push({lineId:m.lineId, bookId:m.bookId, by:"auto",
+                verdict:{status:"MATCHED", difference:0, headline:m.reason, detail:m.reason, kind:"exact"}});
+  });
+  sugg=run.suggestions;
+  ranAuto=true; pickLine=null; pickBook=null;
+  rv.className="rv show ok";
+  rv.innerHTML="<b></b>";
+  rv.querySelector("b").textContent="Auto-match finished";
+  rv.appendChild(document.createTextNode(
+    "Scanned "+run.scanned+" lines. Closed "+run.matched+
+    " — two on an exact amount plus an exact reference, one on an exact amount that simply had no competition. "+
+    run.suggestedLines+" came back as suggestions with the failing condition named, and "+run.unmatched+
+    " resemble nothing in the books at all. Everything it refused to close, it refused for a reason you can read."));
+  mark("sim");
+  render();
+});
+
+el("undo").addEventListener("click", function(){
+  pairs.pop(); rv.className="rv"; pickLine=null; pickBook=null; render();
+});
+
+el("reset").addEventListener("click", function(){
+  pairs=[]; sugg=[]; ranAuto=false; pickLine=null; pickBook=null;
+  rv.className="rv"; render();
+});
+
+render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A statement line shows 84.300.000 leaving the account, reference FT26-91457. The books hold a payment of 84.150.000 with exactly that reference — the difference is the bank's transfer fee, taken on the same booking. Should auto-match close the pair?",
+  o:["Yes — the reference is unique, so it identifies the payment beyond doubt",
+     "Yes, and write the 150.000 into difference_amount automatically",
+     "No — a reference chooses between candidates that already match on amount; on its own it cannot excuse a wrong amount, so this becomes a suggestion naming the difference",
+     "No, and the line should be marked ignored so it stops appearing"],
+  a:2,
+  why:"The reference field is typed by whoever ordered the transfer. Letting a matching reference override both the amount and the date means one mistyped code closes the wrong invoice. So it is a tie-breaker between candidates that already qualify, never a substitute for one — and the difference has to be accepted by a person, because accepting it is a decision somebody signs for."},
+ {q:"Two payments of 45.000.000 go out on the same day to two different suppliers. The statement has two lines of −45.000.000 with a description that fits either. What should auto-match do?",
+  o:["Pair them in the order they came back from the database",
+     "Score both candidates and take the higher one",
+     "Pair the first line and leave the second, since after the first pairing the second is unambiguous",
+     "Close neither, and hand both lines to a person with every candidate listed and the reason spelled out"],
+  a:3,
+  why:"With two exact candidates every tie-break is arbitrary — the differences are both zero, so the winner is whichever row the query returned first. And the mistake comes in pairs: pick wrong once and both suppliers' balances are wrong at the same time. Option three is the tempting one and it is the same bug in a hat: it makes the result depend on processing order, which is exactly what the rule was there to prevent."},
+ {q:"A customer nets three invoices and sends one transfer of 18.000.000. Nothing in the books is that amount. What is the right fix?",
+  o:["Match the transfer to the largest of the three invoices and note the difference",
+     "Allocate the one receipt across the three invoices first, then reconcile the receipt against the statement line",
+     "Split the statement line into three rows so each one matches",
+     "Ask the customer to send three separate transfers in future"],
+  a:1,
+  why:"Payment allocation and reconciliation are two different problems and they run in that order (TM-21, then TM-10). Matching to the largest invoice closes one and leaves the other two open with no money left to pay them — so somebody chases a customer who has already paid. And splitting the statement line is worse than wrong: it edits the outside party's record to make your own join work, and the whole value of that record is that you did not write it."},
+ {q:"At month end, six statement lines are still unmatched. The product owner asks to hide unmatched lines older than sixty days so the screen looks clean. What is the problem?",
+  o:["Performance — the query would need a new index",
+     "Nothing, as long as they are still in the database and exportable",
+     "The unmatched list is the output of the control, not its leftovers — an old unmatched line is the one most likely to be money that moved with nothing behind it",
+     "It breaks the scanned = matched + suggested + unmatched invariant on the summary panel"],
+  a:2,
+  why:"Everything else in the system reads records the company wrote itself. Reconciliation is the only control comparing against a record kept by an outsider, so an unexplained debit that pairs with nothing is the one place an unauthorised transfer shows up. Hiding the old ones hides exactly the ones nobody has managed to explain, which is the opposite of a tidy-up."},
+ {q:"reconciliations.difference_amount is only ever non-zero on a manual match. Why not let auto-match accept small differences within a configured tolerance?",
+  o:["Because BigDecimal cannot compare with a tolerance",
+     "Because a difference is somebody accepting that two numbers will never agree — that needs a name, a reason and a DISPUTED status, and a tolerance is a standing instruction to accept them unread",
+     "Because the tolerance would have to be per-currency",
+     "Because the database CHECK constraint forbids it"],
+  a:1,
+  why:"The tolerance parameter does exist — and it only widens what gets suggested, never what gets closed. The default dispute threshold is zero, so one đồng of difference forces a written note and moves the entry to DISPUTED. Bank fees and rate differences are small, frequent, and precisely the kind of thing that stops being anybody's problem once it is buried inside a pair marked as agreeing."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — refining the reconciliation story",
+  line:'"Just match on the amount. If the number is the same it is the same payment."',
+  o:[{t:"Sure — amount plus a date window, that covers most of them.", v:"weak",
+      f:"It does cover most of them, and most is the problem. Two payments of the same round figure in the same week is ordinary, and when the machine guesses wrong it closes one invoice that was never paid and leaves another paid one open. Both wrong, from one guess, and the screen reports success."},
+     {t:"Amount-only matching is unsafe.", v:"weak",
+      f:"True and unusable. The BA hears a developer being cautious, has no picture of what goes wrong, and the story ships as written. A verdict with no consequence attached to it never changes a requirement."},
+     {t:"It works until two payments share an amount, which happens most weeks. Then the machine closes one invoice that was never paid — it leaves receivables, nobody chases it, no overdue alert fires. Could we match on amount and reference, and send everything ambiguous to a person with the candidates listed?", v:"strong",
+      f:"You named the frequency, followed the wrong match to the money, and finished with a design that is smaller than what was asked for rather than larger. That last part is what gets it accepted in the same meeting."}]},
+ {role:"The customer's chief accountant — during the demo",
+  line:'"Your screen says six lines could not be matched. Our old spreadsheet reconciled everything."',
+  o:[{t:"We can widen the matching rules so those six pair up too.", v:"weak",
+      f:"You have just offered to make the product report a clean month by guessing. The six lines are the deliverable — they are the only part of the run that tells anybody something they did not already know."},
+     {t:"Those six are the point of the screen. Four are ordinary — a bank fee nobody booked and a customer who paired two invoices in one transfer. Two are not: money that arrived from a name nobody recognises, and a payment your books say was made that the bank has no line for. A spreadsheet that reconciles everything is one where somebody has been closing the leftovers by hand.", v:"strong",
+      f:"You reframed the number from a failure into the output, separated the boring leftovers from the two that need an answer today, and explained the old spreadsheet without insulting whoever kept it. The next sentence writes itself: shall we look at the 33 million together?"},
+     {t:"The old spreadsheet was probably not doing a real reconciliation.", v:"weak",
+      f:"Possibly right, definitely the wrong thing to say to the person who kept it. You have made it about their competence rather than about two entries that need explaining, and they will spend the rest of the demo defending the spreadsheet."}]},
+ {role:"Product owner — cutting scope for the release",
+  line:'"Drop reconciliation. It is an import screen and a table — we can do it next quarter."',
+  o:[{t:"Fine, it is the least finished module anyway.", v:"weak",
+      f:"You have removed the only feature in the product that checks the company's own records against somebody else's, and said nothing about it. The rest of the system will go on agreeing with itself perfectly."},
+     {t:"We can't drop it, it is a compliance requirement.", v:"weak",
+      f:"Reaching for the word compliance when you have not read a statute is a habit that costs you the next argument as well. TM-10 asks for reconciliation; it is not the legal hammer this sentence implies, and the product owner will find that out."},
+     {t:"It is an import screen and a table, and it is also the only control we have that compares our records against a record we did not write. Everything else in the system checks our data against our own data. Drop it and an unauthorised transfer out of the account looks exactly like nothing. And it does not wait — a month we did not reconcile is a month that control did not run. Could we cut the export formats and the multi-account view instead?", v:"strong",
+      f:"You accepted the description, then named what is underneath it, then made the cost concrete and time-bound rather than vague. Offering a smaller cut of your own turns a refusal into a negotiation you are part of."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

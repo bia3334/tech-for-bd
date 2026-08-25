@@ -41,18 +41,21 @@ const CASES = {
   },
   finance: {
     find: [
-      ["dso", "t-dso"],                       // exact term
-      ["days sales outstanding", "t-dso"],    // the spelled-out name
+      ["dso", "t-dso"],                        // exact term
+      ["days sales outstanding", "t-dso"],     // the spelled-out name
       ["receivable", "t-phaithu"],
-      ["chiết khấu hoá đơn", "t-chietkhau"],  // Vietnamese-only body text
-      ["chiet khau hoa don", "t-chietkhau"],  // …and without diacritics
-      ["cash_flow_metrics", "t-ccc"],         // only in the "in the code" note
-      ["payroll", "01"],                      // the lesson itself
-      ["runway_days", "01#q3"],               // a quiz question
-      ["chief accountant", "01#p1"],          // roleplay scene
-      ["null", "01#l2"],                      // the question worth asking
-      ["Án lệ", "05"],                        // a planned lesson
-      ["an le", "05"]
+      ["chiết khấu hoá đơn", "t-chietkhau"],   // Vietnamese-only body text
+      ["chiet khau hoa don", "t-chietkhau"],   // …and without diacritics
+      ["cash_flow_metrics", "t-ccc"],          // only in the "in the code" note
+      ["bù trừ công nợ", "t-butrucongno"],
+      ["payroll", "01"],                       // a lesson by its lede
+      ["Án lệ", "06"],                         // a lesson by its tags
+      ["an le", "06"],
+      ["MT940", "13"],
+      ["Thông tư 58", "15"],
+      ["runway_days", "01#q3"],                // a quiz question
+      ["chief accountant", "01#p1"],           // a roleplay scene
+      ["null", "01#l2"]                        // a question worth asking
     ],
     top: [["CCC cash conversion cycle", "t-ccc"]]
   }

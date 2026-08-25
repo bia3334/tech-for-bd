@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which Books Must Be Kept</title>
+<meta name="description" content="Lesson 15 — Thông tư 99/2025 and Thông tư 58/2026, the four tax-method groups, and why the interface must hide what the customer has no legal obligation to produce. For developers building financial systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="15">
+<meta name="tfbd:tags" content="Thông tư 99/2025, Thông tư 58/2026, chế độ kế toán, accounting regime, micro-enterprise, hộ kinh doanh, VAT method, khấu trừ, chart of accounts, S1-DNSN, financial statements">
+<meta name="tfbd:level" content="Applied">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- one order's life ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+.uses code{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast)}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.chart{position:relative; height:170px; margin:20px 18px 6px; border-bottom:1px solid var(--line)}
+.bar{position:absolute; background:var(--fast); border-radius:1px 1px 0 0; transition:height .35s ease, bottom .35s ease}
+.bar.neg{background:var(--no); border-radius:0 0 1px 1px}
+.zero{position:absolute; left:0; right:0; height:0; border-top:1px dashed var(--muted); pointer-events:none}
+.zero span{position:absolute; right:0; top:-16px; font-family:var(--ff-mono); font-size:10px; color:var(--muted); background:var(--surface); padding:0 4px}
+.axis{display:flex; justify-content:space-between; padding:0 18px 14px; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .stale{background:var(--no-soft); color:var(--no)}
+.flag .match{background:var(--ok-soft); color:var(--ok)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* ---- lesson 15: the regime resolver and the screens it derives ---- */
+.knob select{font:inherit; font-family:var(--ff-mono); font-size:13.5px; width:100%; padding:8px 9px; border:1px solid var(--line); border-radius:2px; background:var(--paper); color:var(--ink)}
+.knob select:disabled{opacity:.45}
+.knob.wide{grid-template-columns:minmax(0,1fr)}
+.picks{display:flex; flex-wrap:wrap; gap:8px}
+.pick{background:transparent; color:var(--ink-2); border:1px solid var(--line); padding:7px 12px; font-size:13px; font-family:var(--ff-mono)}
+.pick:hover{border-color:var(--muted)}
+.pick[aria-pressed="true"]{background:var(--fast-soft); border-color:var(--fast); color:var(--fast)}
+.sized{padding:14px 18px; border-bottom:1px solid var(--line); background:var(--sunk); font-size:13.5px; color:var(--ink-2); line-height:1.7}
+.sized b{font-family:var(--ff-mono); font-size:12px; color:var(--ink); font-weight:500; letter-spacing:.02em}
+.sized .cav{display:block; margin-top:9px; padding-top:9px; border-top:1px solid var(--line); color:var(--slow); font-size:13px; line-height:1.6}
+.sim .uses{border:0; border-radius:0}
+.sim .uses li{padding:13px 18px}
+.bnote{padding:13px 18px; font-size:13px; color:var(--muted); line-height:1.6; border-top:1px solid var(--line)}
+.screens{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.screens li{background:var(--surface); padding:13px 18px}
+.screens .hd{display:flex; gap:11px; align-items:baseline; font-size:14.5px; color:var(--ink); line-height:1.5}
+.screens .st{font-family:var(--ff-mono); font-size:10px; letter-spacing:.12em; flex:none}
+.screens .st.on{color:var(--ok)} .screens .st.off{color:var(--no)}
+.screens .art{font-size:13px; color:var(--muted); margin-top:6px; line-height:1.55}
+.screens li.gone{opacity:.45}
+.screens li.gone .hd .tx{text-decoration:line-through}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← Finance for Tech · <b>Lesson 15</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">Supply chain finance · Lesson 15</div>
+  <h1>Which books this company is required to keep</h1>
+  <p class="lede">Two statutes replaced the whole of Vietnamese corporate accounting across 2026, six months apart, pulling in opposite directions. One hands the customer the pen. The other hands them one book and tells them to file nothing. Which one your customer falls under decides what your interface is allowed to show them.</p>
+  <div class="facts"><span>18 min</span><span>No accounting assumed</span><span>The last lesson in the library</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>A book is a form with a code on it</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline can be tapped for a plain explanation in English and Vietnamese, plus the table or entity it maps to in the project's code. Nothing here assumes you have seen it before.</span></div>
+
+  <div class="stack">
+    <p>An inspector from the tax office walks into a shop in Cầu Giấy and asks to see last year's revenue book. Not "your sales figures" — a particular book, with a form code printed at the top of it: <b>S1-DNSN</b>.</p>
+    <p>That is the first thing to unlearn. In Vietnamese accounting a <button class="t" data-t="sotheodoi">sổ kế toán</button> is not a report the software generates on demand. It is a named form. The state publishes the layout and the code; the company fills it in and keeps it. When somebody says "the books", they mean a specific list of specific forms, and the list is not the same for every company.</p>
+    <p>Three things sit at three different levels, and mixing them up is where most of the confusion in this area comes from.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Chứng từ — the evidence</div><div class="ds">One <button class="t" data-t="chungtu">document</button> proving one thing happened: an <button class="t" data-t="hoadon">invoice</button>, a payment order the bank stamped, a delivery note. Bottom of the stack.</div></div>
+    <div class="arrow">lines accumulate into</div>
+    <div class="node"><div class="nm">Sổ kế toán — the running record</div><div class="ds">The book the inspector reads. S1-DNSN for revenue, S3b-DNSN for VAT obligations. Kept continuously, not produced at year end.</div></div>
+    <div class="arrow">summarised once a year into</div>
+    <div class="node core"><div class="nm">Báo cáo tài chính — the filing</div><div class="ds">The <button class="t" data-t="baocaotaichinh">financial statements</button> filed with the state. A different audience, a different deadline, and — this is the part worth remembering — a different question of whether you owe it at all.</div></div>
+  </div>
+
+  <div class="stack">
+    <p>A company can owe the first two and not the third. It happens constantly, it is entirely deliberate on the legislator's part, and it is invisible from inside a codebase that treats "financial statements" as a menu item every customer gets.</p>
+    <p>Which set of forms a particular company must keep is decided by its <button class="t" data-t="chedoketoan">chế độ kế toán</button> — its accounting regime. That word matters more than it looks. A regime is not something a company chooses because it prefers less paperwork. It is an assignment, made by law, from facts about the company: how big it is, what kind of legal thing it is, and how it pays tax.</p>
+    <p class="vi"><b>In the code</b>None of this layer exists in sme-finance-scm today. <code>report-service</code> holds seven <code>report_definitions</code> rows — <code>RPT_INCOME_EXPENSE</code>, <code>RPT_CASH_FLOW</code>, <code>RPT_TAX_DECLARATION</code> and four others — and the table has no <code>company_id</code> column at all (REP-01 to REP-06). There is no book, no form code, and no per-customer set. The only statutory statement built is <code>RPT_CASH_FLOW_STATEMENT_B03</code>, and the JasperReports template itself prints a note saying mã 60 and mã 70 are still to be added.</p>
+    <p class="vi"><b>Tiếng Việt</b>Sổ kế toán không phải báo cáo phần mềm tự sinh ra, mà là biểu mẫu có mã số do nhà nước ban hành — ví dụ S1-DNSN là sổ doanh thu. Chứng từ là bằng chứng của một giao dịch, sổ là nơi các dòng đó cộng dồn, báo cáo tài chính là bản tổng hợp nộp hằng năm. Ba nghĩa vụ khác nhau, và có doanh nghiệp chỉ phải làm hai trong ba.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Thông tư 99 hands the customer the pen</h2>
+
+  <div class="stack">
+    <p>Across 2026 Vietnam replaced the entire corporate accounting regime. Two statutes, six months apart, and they are not two halves of one reform — they point in opposite directions, on purpose, at two populations that have nothing in common except a tax code.</p>
+    <p><b>Thông tư 99/2025/TT-BTC</b>, in force from 01/01/2026, retires <b>Thông tư 200/2014/TT-BTC</b> after more than a decade. It covers small, medium and large enterprises: everybody except the very smallest.</p>
+    <p>What it gives them is autonomy, and the size of it is easy to under-read. Under the old regime, changing the name or the structure of a detail account meant writing to the Bộ Tài chính and waiting for an answer. Under Thông tư 99 that requirement is gone. A company may design its own document forms, and may rename, renumber and restructure its own <button class="t" data-t="hethongtaikhoan">level-2 and level-3 sub-accounts</button> to suit how it actually wants to manage itself. Nobody's permission is needed.</p>
+    <p>Two conditions, and only two. The consolidated figures on the <button class="t" data-t="baocaotinhhinhtaichinh">financial statements</button> must not be distorted by the change. And the company must issue its own internal accounting rules recording what it changed and why.</p>
+    <p>Now draw the product consequence, because it is not subtle and it is frequently missed.</p>
+  </div>
+
+  <div class="pull"><q>The chart of accounts is now customer data. Hard-coding an account list is writing code against a regime that ended on 31 December 2025.</q></div>
+
+  <div class="stack">
+    <p>Concretely: a seed migration ships the account codes, a service branches on the literal <code>"5111"</code>, and a report groups by a prefix. Then a customer — legally, with no notice to anybody including you — restructures its detail accounts so that its three product lines each have their own. The branch is now wrong for that one customer, the report silently drops rows, and you find out during a quarter-end close, from an accountant who is certain the software is broken and is right.</p>
+    <p>What Thông tư 99 requires of the architecture is that the chart of accounts is metadata: rows in a table keyed by company, with codes, names, parents and levels, editable at runtime, versioned, with the internal accounting rules attached to the change. Not an enum. Not a constant. Not a seed file that is the same for every tenant.</p>
+    <p>Thông tư 99 also renamed the most important statement in the set and pruned a few accounts — "Bảng cân đối kế toán" became "Báo cáo tình hình tài chính", TK 611 and TK 1562 went, TK 215 for <em>tài sản sinh học</em> arrived for agricultural supply chains. Lesson 14 reads those statements line by line; here the only thing that matters is that the names moved, which is one more reason not to freeze them in code.</p>
+    <p class="vi"><b>In the code</b>There is no chart of accounts in sme-finance-scm — not a hard-coded one, not any one. The <code>accounts</code> table in <code>masterdata-service</code> is a flat list of cash and bank accounts, <code>AccountType</code> being <code>BANK</code>, <code>CASH</code>, <code>CREDIT_LINE</code>, and the entity's own javadoc says so: <em>"hệ thống tài khoản ở đây là danh sách phẳng, không phải hệ thống tài khoản kế toán phân cấp"</em>. There is no <code>parent_id</code>, no <code>level</code>, no <code>path</code>. The nearest thing to an accounting-standard mapping anywhere in the system is <code>categories.cash_flow_activity</code> — <code>OPERATING</code>, <code>INVESTING</code>, <code>FINANCING</code>, matching mã 20, 30 and 40 of B03-DN. So this is not a refactor waiting to happen. It is a thing that has not been built, which is the cheapest moment to decide it will be built as data.</p>
+    <p class="vi"><b>Tiếng Việt</b>Thông tư 99/2025/TT-BTC hiệu lực từ 01/01/2026 thay thế Thông tư 200/2014, áp cho doanh nghiệp nhỏ, vừa và lớn. Doanh nghiệp được tự thiết kế biểu mẫu chứng từ và tự đổi tên, số hiệu, kết cấu tài khoản cấp 2, cấp 3 mà không phải xin phép Bộ Tài chính, với hai điều kiện: không làm sai lệch chỉ tiêu tổng hợp trên báo cáo tài chính, và phải ban hành quy chế hạch toán nội bộ. Vì vậy hệ thống tài khoản phải là dữ liệu cấu hình được, không phải hằng số trong mã nguồn.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Offering an obligation that is not theirs</h2>
+
+  <div class="stack">
+    <p><b>Thông tư 58/2026/TT-BTC</b>, in force from 01/07/2026, replaces <b>Thông tư 132/2018/TT-BTC</b>. It covers micro-enterprises, and for the first time it reaches <button class="t" data-t="hokinhdoanh">hộ kinh doanh</button> as well — the household businesses that make up most of the businesses in the country.</p>
+    <p>It goes the other way from Thông tư 99, and just as deliberately. Where Thông tư 99 says "design your own", Thông tư 58 ties the accounting regime directly to the way the business pays tax, and then keeps the list of books as short as that tax method allows. Two questions decide it, and nothing else does:</p>
+    <p>How does the business pay VAT — by <button class="t" data-t="khautru">khấu trừ</button>, netting input tax against output tax, or <button class="t" data-t="tinhtructiep">trực tiếp</button>, a flat percentage of revenue with no input side? And what is corporate income tax computed on — a percentage of revenue, or actual taxable income?</p>
+    <p>Two questions, two answers each. Four groups.</p>
+  </div>
+
+  <ul class="uses">
+    <li><span class="u">Group 1 · GTGT trực tiếp + TNDN theo tỷ lệ % trên doanh thu</span><span class="d">One book: <code>S1-DNSN</code>, sổ chi tiết doanh thu bán hàng hoá, dịch vụ. Both taxes come off revenue, so revenue is the only figure anyone needs. <b>Not required to prepare or file financial statements with the state at all.</b></span></li>
+    <li><span class="u">Group 2 · GTGT trực tiếp + TNDN trên thu nhập tính thuế</span><span class="d">Taxable income means deductible costs must be proved, so four detail books appear — doanh thu và chi phí; vật liệu, sản phẩm, hàng hoá; tài sản cố định; tiền. A financial statement is compulsory every year, filed within 90 days of the year end.</span></li>
+    <li><span class="u">Group 3 · GTGT khấu trừ + TNDN theo tỷ lệ % trên doanh thu</span><span class="d">Two books: <code>S3a-DNSN</code> for revenue and <code>S3b-DNSN</code>, the sổ theo dõi nghĩa vụ thuế GTGT, netting input against output <button class="t" data-t="vat">VAT</button>. <b>Also exempt from filing financial statements.</b></span></li>
+    <li><span class="u">Group 4 · GTGT khấu trừ + TNDN trên thu nhập tính thuế</span><span class="d">The most closely watched corner of the micro band: the full detail set, <code>S2a-DNSN</code> through <code>S2d-DNSN</code>, and a compulsory financial statement.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:26px">
+    <p>Read down that list once more and notice the shape of it. The VAT method decides whether a VAT-obligation book exists. The income tax basis decides whether costs have to be proved — and therefore whether a financial statement follows at all. The two axes are independent, which is why there are four answers and not two.</p>
+    <p>And two of those four owe the state <em>no financial statement</em>. Not a simplified one. None.</p>
+  </div>
+
+  <h3>The instinct that gets this wrong</h3>
+  <div class="stack">
+    <p>The reflex in product work is that more is safer. Show every customer every screen; the ones who do not need a report simply will not click it. Nobody is harmed by a button.</p>
+    <p>Here, somebody is. Put a <em>Xuất báo cáo tài chính</em> button on the dashboard of a shop owner in group 1 and you have not given them an extra feature. You have told a person who has no accountant, and who is already nervous about the tax office, that there is an annual filing with their name on it. They will either do work nobody asked them for, or they will file something wrong and be answering for it a year later. The software said so, and software is not usually wrong about paperwork.</p>
+    <p>The word in the statute for what group 1 gets is <em>cởi trói</em> — untying. Rendering the full reporting suite for them quietly ties the knot back.</p>
+  </div>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never render a screen for an obligation the customer does not have.</p>
+    <p class="sub">The interface is derived from the legal profile — entity type, size, VAT method, income tax basis — exactly as the approval chain was in lesson 12, and for the same reason. Store the facts and compute the screen list. Not an administrator's checkbox: a fact can be checked against a tax code and has somebody answerable for it, and a checkbox is what gets ticked by whoever was blocked that afternoon. The strict fallback applies here too — an undeclared profile gets the <em>shortest</em> list, because guessing at an obligation on a customer's behalf is the failure this rule exists to prevent.</p>
+  </div>
+
+  <div class="stack">
+    <p class="vi"><b>In the code</b>None of the deciding facts are stored. There is no <code>AccountingRegime</code> enum, no <code>accounting_regime</code> column, no <code>VatMethod</code> and no corporate income tax basis anywhere in the system. <code>tax_rates</code> in <code>masterdata-service</code> holds a rate and a <code>TaxType</code> — <code>VAT</code>, <code>PIT</code>, <code>CIT</code>, <code>WHT</code>, <code>OTHER</code> — which is a rate, not a method (TM-08); <code>transaction_taxes.declare_status</code> tracks <code>NOT_DECLARED</code> → <code>DECLARED</code> → <code>PAID</code> per transaction. <code>EnterpriseScale</code> exists with <code>MICRO</code>, <code>SMALL</code>, <code>MEDIUM</code> (V9, SEC-09), so half of one axis is already there. <code>LegalForm</code> has no value for a hộ kinh doanh at all — one would land in <code>OTHER</code>, which decides nothing.</p>
+    <p class="vi"><b>In the code</b>And the visibility side is the gap this lesson names. <code>ReportAccessPolicy</code> in <code>report-service</code> gates reports by <em>role</em> and only by role — a single map, <code>RESTRICTED = Map.of(ReportCategory.SCF, Set.of(CASHIER, MANAGER, DIRECTOR, AUDITOR))</code> — mirrored client-side in <code>report-access.ts</code>. Nothing in <code>report-service</code> reads <code>enterpriseScale</code> or any company attribute. Every customer sees the same seven reports. There is no feature-flag or entitlement layer either, and that is the right starting point: the thing to add is not a flag table, it is the two tax-method columns and a derivation.</p>
+    <p class="vi"><b>Tiếng Việt</b>Thông tư 58/2026/TT-BTC hiệu lực 01/07/2026 thay thế Thông tư 132/2018, áp cho doanh nghiệp siêu nhỏ và lần đầu cho cả hộ kinh doanh. Chế độ kế toán gắn chặt vào phương pháp nộp thuế, chia thành bốn nhóm: nhóm 1 chỉ giữ sổ S1-DNSN, nhóm 3 giữ S3a-DNSN và S3b-DNSN, và cả hai nhóm này <em>không bắt buộc</em> lập và nộp báo cáo tài chính. Giao diện phải ẩn đúng những gì khách hàng không có nghĩa vụ làm — hiện ra là bắt người ta gánh nghĩa vụ luật không đặt lên họ.</p>
+  </div>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Configure a customer, watch the screens switch off</h2>
+  <p class="prose" style="margin-bottom:14px">Four facts about a company go in on the left. Which statute applies, which of the four Thông tư 58 groups it lands in, exactly which books it must keep by form code, and whether it owes the state a financial statement all come out — and below that, the screens and export buttons the application should actually render for that customer, each with the reason it is on or off.</p>
+  <p class="prose" style="margin-bottom:26px">Start with <em>TNHH Bảo An</em>, and watch what happens to the reporting section. That company is a real customer, entirely legal, and nine of the ten screens should not exist for it. Then try <em>CP Xây dựng Đông Á</em> for the other extreme, and <em>HKD Tạp hoá Cô Ba</em> for the place where the project's own source material runs out.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <div class="picks" id="picks"></div>
+    </div>
+    <div class="knobs">
+      <div class="knob wide"><span class="kl">Loại chủ thể<small>Doanh nghiệp or hộ kinh doanh — Thông tư 58 reaches a household business for the first time</small></span><select id="entity"></select></div>
+      <div class="knob wide"><span class="kl">Quy mô doanh nghiệp<small>Nghị định 80/2021 Điều 5, computed in lesson 12. Only siêu nhỏ changes which statute applies.</small></span><select id="scale"></select></div>
+      <div class="knob wide"><span class="kl">Phương pháp tính thuế GTGT<small>The first axis — it decides whether a VAT-obligation book exists</small></span><select id="vat"></select></div>
+      <div class="knob wide"><span class="kl">Căn cứ tính thuế TNDN<small>The second axis — it decides whether a financial statement is owed at all</small></span><select id="cit"></select></div>
+    </div>
+    <div class="sized" id="sized"></div>
+    <div class="stats">
+      <div class="stat"><span class="k">Chế độ kế toán</span><span class="v" id="stRegime">—</span></div>
+      <div class="stat"><span class="k">Nhóm theo Thông tư 58</span><span class="v" id="stGroup">—</span></div>
+      <div class="stat"><span class="k">Số sổ phải giữ</span><span class="v" id="stBooks">—</span></div>
+      <div class="stat"><span class="k">Nộp báo cáo tài chính</span><span class="v" id="stFs">—</span></div>
+    </div>
+    <ul class="uses" id="books"></ul>
+    <div class="bnote" id="bnote"></div>
+    <ul class="screens" id="screens"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Notice what the widget never offers: a switch that turns a screen back on. Every line in the lower list is derived from the four facts above it, and the only way to change one is to change a fact about the company. The book codes are frozen from the project's research annex so two readers see the same thing — including the one group the annex leaves without codes. The logic lives in <code>finance/sim-15.js</code> and has its own check: <code>node tools/test-15.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong on a customer's dashboard.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments in the project</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Which statute puts this obligation on this customer — and does this customer have it at all?"</div><div class="use">Two questions in one, and the second is the one that gets skipped. An obligation that exists in law is not an obligation every customer carries: two of the four Thông tư 58 groups file no financial statement whatsoever. Ask it before a screen is designed, not after it ships.</div></div></li>
+    <li><div><div class="say">"Is this list of account codes data, or is it in the code?"</div><div class="use">Under Thông tư 99 a customer restructures its own level-2 and level-3 sub-accounts without telling anyone, including you. Anything that branches on a literal account code is a bug with a delivery date on it. The answer has to be a table keyed by company, and the cheapest time to say so is before the seed migration is written.</div></div></li>
+    <li><div><div class="say">"What is this screen asking the customer to produce, and who is asking — us or the state?"</div><div class="use">An export button is a claim about the world. Rendering one for somebody with no such obligation invents work at best and invites a wrong filing at worst — and the customer has no way to tell which kind of button they are looking at. If nobody in the room can name the statute behind a report, that is the finding.</div></div></li>
+    <li><div><div class="say">"What do we capture at onboarding that the interface is derived from?"</div><div class="use">Every rule in this lesson needs exactly four facts, and all four are things a customer knows about itself on day one. Ask for them in the sign-up form and the whole reporting section computes itself; leave them out and somebody will eventually add a checkbox instead, which is the same behaviour with none of the accountability.</div></div></li>
+    <li><div><div class="say">"Where does this rule come from?"</div><div class="use">The last question in the library and the one all the others were made of. A statute, a precedent, or a plain fact about when money moves — a rule always has an origin, and which origin it has decides whether you may negotiate with it. If the answer is "that's just how we've always done it", you have found the thing worth investigating this week.</div></div></li>
+  </ol>
+
+  <h3>One thread, fifteen lessons</h3>
+  <div class="stack">
+    <p>This is the last lesson, so it is worth naming what has been running underneath all of them.</p>
+    <p>Almost every rule in this library arrived looking arbitrary. An issued <button class="t" data-t="hoadon">invoice</button> cannot be deleted. Interest may not be charged on a penalty. A period, once <button class="t" data-t="khoaso">closed</button>, is not reopened. A workflow step waits for a job title that a lawful company does not have. A customer sees one book and no financial statement. Every one of those reads, from inside a ticket, like somebody's fussiness — the kind of requirement a developer tidies up on the way past, in good faith, to make the code cleaner.</p>
+    <p>And every one of them turned out to come from somewhere. Sometimes a statute: Nghị định 70/2025 removing cancellation of e-invoices, Thông tư 58/2026 deciding which books a micro-enterprise keeps. Sometimes a precedent: Án lệ 09/2016/AL, which is a single steel dispute that now decides how every late-payment calculation in the country is allowed to compound. Sometimes nothing legal at all — just a business fact about when money genuinely moves, which is where this library started and why <button class="t" data-t="doanhthu">revenue</button> on the invoice date and cash on the payment date are two different events in two different tables.</p>
+    <p>The job is not to memorise which is which. Fifteen lessons will not make you an accountant and were never meant to. The job is to find out <em>which kind of rule you are looking at</em> before deciding how to code it — because the three kinds behave completely differently once a customer pushes back. A rule from law cannot be relaxed for a customer who asks, however reasonable the ask. A rule from a precedent has an argument behind it that you can read and check against the case in front of you. And a rule that is only the company's own convention must be relaxable, because sooner or later a lawful customer will need it relaxed, and the cost of confusing that one for law is telling a paying business that its legal structure is illegal while sounding completely certain.</p>
+    <p>Every lesson here ended with five questions rather than five answers. That was the point. The questions travel to features this library never covered; the answers expire the next time the Bộ Tài chính publishes a circular — as two of them did in 2026, halfway through the writing of this material. Ask where the rule comes from. Then build it.</p>
+    <p class="vi"><b>Tiếng Việt</b>Gần như mọi quy tắc trong mười lăm bài này lúc đầu đều trông tuỳ tiện, và hoá ra đều đến từ đâu đó — một điều luật, một án lệ, hoặc một sự thật kinh doanh về thời điểm tiền thật sự chuyển. Việc của người lập trình là tìm ra nó thuộc loại nào <em>trước khi</em> quyết định code thế nào: luật thì không nới được, quy chế nội bộ thì bắt buộc phải nới được. Bạn không cần thành kế toán — chỉ cần luôn hỏi: quy tắc này từ đâu ra?</p>
+  </div>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>Finance for Tech — Lesson 15 of 15 · Chapter 5, Where the system meets the outside · The library ends here. Every rule came from somewhere; the work is finding out where, before deciding how to code it.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-15.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In the code"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("f4t-l15")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("f4t-l15",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- the regime resolver ---------- */
+var B=window.BOOKS;
+var el=function(id){ return document.getElementById(id); };
+var entity=el("entity"), scale=el("scale"), vat=el("vat"), cit=el("cit");
+
+function fill(sel, map){
+  Object.keys(map).forEach(function(k){
+    var o=document.createElement("option"); o.value=k; o.textContent=map[k]; sel.appendChild(o);
+  });
+}
+fill(entity, B.ENTITIES); fill(scale, B.SCALES); fill(vat, B.VAT); fill(cit, B.CIT);
+
+function profile(){
+  return { entity:entity.value, scale:scale.value, vat:vat.value, cit:cit.value };
+}
+function load(p){
+  entity.value=p.entity; scale.value=p.scale; vat.value=p.vat; cit.value=p.cit;
+}
+
+var picks=el("picks"), buttons=[];
+B.PRESETS.forEach(function(pre,i){
+  var b=document.createElement("button"); b.type="button"; b.className="pick";
+  b.textContent=pre.name; b.title=pre.note; b.setAttribute("aria-pressed","false");
+  b.addEventListener("click", function(){ load(pre.p); render(i); });
+  picks.appendChild(b); buttons.push(b);
+});
+
+function render(activeIdx){
+  var r=B.resolve(profile());
+  var n=r.screens.length;
+
+  scale.disabled = (entity.value==="HOUSEHOLD");
+  buttons.forEach(function(b,i){ b.setAttribute("aria-pressed", i===activeIdx ? "true" : "false"); });
+
+  var sized=el("sized");
+  sized.innerHTML="";
+  var head=document.createElement("div");
+  function bold(txt){ var b=document.createElement("b"); b.textContent=txt; return b; }
+  head.appendChild(bold(r.regimeLabel));
+  head.appendChild(document.createTextNode(" · hiệu lực "));
+  head.appendChild(bold(r.effective));
+  head.appendChild(document.createTextNode(" · thay thế "));
+  head.appendChild(bold(r.replaces));
+  sized.appendChild(head);
+  var g=document.createElement("div"); g.textContent=r.groupLabel; sized.appendChild(g);
+  var w=document.createElement("div"); w.textContent=r.groupWhy; sized.appendChild(w);
+  if(r.caveat){ var c=document.createElement("span"); c.className="cav"; c.textContent=r.caveat; sized.appendChild(c); }
+
+  var s1=el("stRegime"); s1.textContent = r.regime==="TT99" ? "TT 99" : "TT 58"; s1.className="v";
+  var s2=el("stGroup"); s2.textContent = r.group ? "Nhóm "+r.group : "—"; s2.className="v";
+  var s3=el("stBooks"); s3.textContent = r.regime==="TT99" ? "tự đặt" : r.books.length; s3.className="v";
+  var s4=el("stFs"); s4.textContent = r.fsRequired ? "bắt buộc" : "không";
+  s4.className="v"+(r.fsRequired?" hot":" cool");
+
+  var books=el("books"); books.innerHTML="";
+  r.books.forEach(function(bk){
+    var li=document.createElement("li");
+    li.innerHTML='<span class="u"><code></code> <span class="nm2"></span></span>';
+    li.querySelector("code").textContent=bk.code;
+    li.querySelector(".nm2").textContent=bk.name;
+    if(bk.note){ var d=document.createElement("span"); d.className="d"; d.textContent=bk.note; li.appendChild(d); }
+    books.appendChild(li);
+  });
+  var bn=el("bnote");
+  bn.textContent = r.booksNote || "";
+  bn.style.display = r.booksNote ? "" : "none";
+
+  var box=el("screens"); box.innerHTML="";
+  r.screens.forEach(function(s){
+    var li=document.createElement("li"); li.className=s.on?"":"gone";
+    li.innerHTML='<div class="hd"><span class="st"></span><span class="tx"></span></div><div class="art"></div>';
+    var st=li.querySelector(".st");
+    st.className="st "+(s.on?"on":"off");
+    st.textContent=s.on?"HIỆN":"ẨN";
+    li.querySelector(".tx").textContent=s.label;
+    li.querySelector(".art").textContent=s.why;
+    box.appendChild(li);
+  });
+
+  var flag=el("flag");
+  if(r.caveat){
+    flag.innerHTML='<div class="stale">READ THE STATUTE FIRST — a hộ kinh doanh resolves here through the same four groups as a micro-enterprise, because that is the furthest the project research goes. '+
+      r.shown+' of '+n+' screens render on an assumption. An assumption you have written down is workable; one you have forgotten you made is how a customer ends up filing something nobody asked for.</div>';
+  } else if(r.regime==="TT99"){
+    flag.innerHTML='<div class="match">THÔNG TƯ 99 — this company designs its own document forms and its own level-2 and level-3 sub-accounts, so '+
+      r.shown+' of '+n+' screens render and the chart of accounts is one of them. Nothing in that list can be a constant in the code: the account structure belongs to the customer now.</div>';
+  } else if(!r.fsRequired){
+    flag.innerHTML='<div class="match">NO FILING — group '+r.group+' keeps '+r.books.length+
+      (r.books.length===1?' book':' books')+' and owes the state no financial statement at all. '+r.hidden+' of '+n+
+      ' screens switch off, legally. Every one of them would be the software inventing an obligation for somebody who has no accountant to correct it.</div>';
+  } else {
+    flag.innerHTML='<div class="match">FULL SET — group '+r.group+' keeps '+r.books.length+
+      ' detail books and must file a financial statement '+r.fsDeadline+'. '+r.shown+' of '+n+
+      ' screens render. More obligation, more interface — which is the right direction for the arrow to point.</div>';
+  }
+  mark("sim");
+}
+
+[entity,scale,vat,cit].forEach(function(s){ s.addEventListener("change", function(){ render(-1); }); });
+load(B.PRESETS[0].p);
+render(0);
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A customer is a micro-enterprise paying VAT by the direct method and corporate income tax as a flat percentage of revenue. Your BA asks you to add a “Xuất báo cáo tài chính” button to their dashboard. What is the right answer?",
+  o:["Add it — an extra export button never harmed anyone",
+     "Add it, but disable it until they upgrade to a paid tier",
+     "That company is group 1 under Thông tư 58 and files no financial statement with the state at all, so the button should not be on the screen",
+     "Add it and log a warning when they click it"],
+  a:2,
+  why:"Group 1 keeps one book, S1-DNSN, and is not required to prepare or file financial statements. The button is not a spare feature — to a shop owner with no accountant it reads as a filing they owe. They will either do work nobody asked for or file something wrong. Hiding what the customer has no obligation to produce is the feature."},
+ {q:"Under Thông tư 99/2025, a customer wants to rename sub-account 5111 to match its own product lines. What has to happen?",
+  o:["They file a request with the Bộ Tài chính and wait for approval",
+     "Nothing may be renamed — the chart of accounts is fixed by statute",
+     "They may do it themselves, provided the consolidated figures on the financial statements are not distorted and they issue internal accounting rules recording the change",
+     "Only a licensed auditor may make the change on their behalf"],
+  a:2,
+  why:"The written request to the Ministry was the Thông tư 200 world and it ended on 31 December 2025. Thông tư 99 lets a company design its own document forms and rename, renumber and restructure its own level-2 and level-3 sub-accounts, on exactly those two conditions. Which means the chart of accounts is per-customer data, and an account list compiled into a service is already wrong."},
+ {q:"Two micro-enterprises both pay VAT by the deduction method. One pays corporate income tax as a percentage of revenue, the other on taxable income. What differs?",
+  o:["Nothing — the VAT method alone decides the regime",
+     "Group 3 keeps S3a-DNSN and S3b-DNSN and files no financial statement; group 4 keeps the S2a to S2d set and must file one",
+     "Only the tax rate applied",
+     "The second one falls under Thông tư 99 instead"],
+  a:1,
+  why:"The two axes are independent, which is why there are four groups and not two. The VAT method decides whether a VAT-obligation book exists; the income tax basis decides whether costs have to be proved, and therefore whether a financial statement follows. Same VAT method, different filing obligation — collapse the two axes into one and half your customers get the wrong screens."},
+ {q:"Where should “which books this customer keeps” live in the system?",
+  o:["A per-tenant feature-flag table an administrator maintains",
+     "Hard-coded per deployment, since each deployment serves one kind of customer",
+     "Derived at runtime from the company's declared entity type, size, VAT method and income tax basis",
+     "A column on the user, so each user sees only the screens they need"],
+  a:2,
+  why:"It is the same shape as the approval chain in lesson 12: store the facts, compute the behaviour. A flag can be wrong for months with nobody noticing, because nothing in it points at the thing it is supposed to describe. A declared tax method can be checked against the company's own filings and has somebody answerable for it. The last option is wrong twice over — the obligation belongs to the company, not to whoever is logged in."},
+ {q:"A service branches on the literal account code “5111”. Thông tư 99 lets a company restructure its own level-2 and level-3 sub-accounts without asking anyone. When does the branch break?",
+  o:["Never — 5111 is fixed by statute",
+     "The first time a customer restructures its own detail accounts to suit its management, which it may now do legally and without telling you",
+     "Only if the Bộ Tài chính publishes another circular",
+     "At year end, when the books are closed"],
+  a:1,
+  why:"Level 1 accounts are stable; the detail levels are exactly what Thông tư 99 handed to the customer. The failure is quiet — a report drops rows rather than throwing — and it surfaces during a quarter-end close, reported by an accountant who is certain the software is broken and is right. The fix is a table keyed by company, decided before the seed migration is written rather than after there is customer data in it."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your BA — scoping the reporting module",
+  line:'"Just show every report to every company. If they don’t need one, they won’t click it."',
+  o:[{t:"Fine, that's simpler to build anyway.", v:"weak",
+      f:"It is simpler, and it hands a shop owner with no accountant a button that says the state wants an annual filing from them. They cannot tell the difference between a feature we offered and an obligation the law imposed, because the software is the only authority in the room."},
+     {t:"That's not compliant.", v:"weak",
+      f:"Nothing here is non-compliant — a report nobody has to file is not illegal to render. Overstating it as a compliance failure gets you argued with and loses the actual point, which is about what the customer will believe when they see the button."},
+     {t:"Two of the four Thông tư 58 groups file no financial statement with the state at all. For those customers that button is us inventing an obligation, not offering a feature. Could we capture the VAT method and the income tax basis at onboarding and derive the report list from them?", v:"strong",
+      f:"You named the population, named the harm in the customer's terms rather than in legal ones, and finished with a concrete ask that costs two columns and a form field. That is a conversation a BA can take to a product owner intact."}]},
+ {role:"The customer, mid-onboarding",
+  line:'"Why is your software asking me for a báo cáo lưu chuyển tiền tệ? My accountant never mentioned one."',
+  o:[{t:"You can just ignore that one.", v:"weak",
+      f:"You have told somebody who is already nervous about the tax office to ignore something the software is demanding. They will not ignore it. They will worry about it, and then ask an accountant they are paying by the hour."},
+     {t:"It's a standard feature, every customer gets it.", v:"weak",
+      f:"True, useless, and it leaves them believing they owe a filing. \"Everyone gets it\" is precisely the answer that makes a customer conclude everyone must need it."},
+     {t:"Because we haven't asked you how you pay tax yet. If you're on direct VAT and income tax as a percentage of revenue, Thông tư 58 puts you in the group that keeps one book and files nothing — and that screen should never have appeared for you. Can I take your tax method now and turn it off?", v:"strong",
+      f:"You took responsibility for the screen instead of explaining it away, gave the customer a fact they can check with their own accountant, and turned a complaint into the onboarding question you needed answered anyway."}]},
+ {role:"A backend developer — in code review",
+  line:'"I put the chart of accounts in an enum. It comes from a Thông tư, it isn’t going to change."',
+  o:[{t:"Enums are faster and type-safe, leave it.", v:"weak",
+      f:"You have traded a microsecond for a release. Type safety over a value the customer is legally entitled to change is not safety, it is a compile-time guarantee about the wrong thing."},
+     {t:"Fine, but let's move it to a table later.", v:"weak",
+      f:"Later is after the first tenant's data is in it, which turns a five-minute schema decision into a migration with customer downtime attached. This is the cheapest hour this change will ever cost."},
+     {t:"The account list came from a Thông tư that was retired on 1 January. Under Thông tư 99 the customer renames and restructures its own level-2 and level-3 sub-accounts without asking anybody, us included. If it's a table keyed by company, a rename is a row edit instead of a release.", v:"strong",
+      f:"You dated the assumption, named who is allowed to break it, and priced both options in the only unit that matters in review — how much work the next change costs. Nobody had to be told they were wrong."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+(op.v==="strong"?"strong":"weak");
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>
