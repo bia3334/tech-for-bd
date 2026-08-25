@@ -93,6 +93,13 @@ body.searching .searchwrap{padding-top:26px}
 .tag{cursor:pointer; font-family:var(--ff-mono); font-size:10.5px; color:var(--muted); border:1px solid var(--line); border-radius:2px; padding:2px 7px}
 .tag:hover{border-color:var(--fast); color:var(--fast)}
 
+/* ---- chapters ---- */
+.chap{margin-bottom:36px}
+.chap-h{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+.chap-n{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); flex:none}
+.chap-h h3{font-size:18px; letter-spacing:-.01em}
+.chap-d{font-size:14.5px; color:var(--muted); line-height:1.55; max-width:70ch; margin:8px 0 16px}
+
 /* ---- glossary strip ---- */
 .gwrap{display:flex; flex-wrap:wrap; gap:7px}
 .gchip{border:1px solid var(--line); background:var(--surface); border-radius:2px; padding:7px 13px; font-size:14px; color:var(--ink-2)}
@@ -151,7 +158,7 @@ footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; f
   <div id="browse">
     <section class="sec">
       <div class="sec-h"><h2>Lessons</h2><span id="lcount"></span></div>
-      <div class="grid" id="lessons"></div>
+      <div id="lessons"></div>
     </section>
 
     <section class="sec">

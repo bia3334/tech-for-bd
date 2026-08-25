@@ -13,6 +13,12 @@ for (const name of sites) {
   const dir = name === "." ? root : root + name + "/";
   globalThis.window = {};
   new Function(readFileSync(dir + "glossary.js", "utf8")).call(globalThis);
+  /* terms/ holds new definitions from lessons still being written, before they are merged in */
+  if (existsSync(dir + "terms")) {
+    for (const f of readdirSync(dir + "terms").filter(f => f.endsWith(".js"))) {
+      new Function("window", readFileSync(dir + "terms/" + f, "utf8"))(globalThis.window);
+    }
+  }
   const terms = globalThis.window.TERMS;
 
   for (const file of [...readdirSync(dir + "lessons").filter(f => f.endsWith(".html")), "index.html"]) {

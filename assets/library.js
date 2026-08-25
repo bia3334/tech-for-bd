@@ -25,24 +25,31 @@ function tagHtml(tags) {
   }).join("");
 }
 (function renderLessons() {
-  var box = document.getElementById("lessons"), out = "";
-  LIB.lessons.forEach(function (l) {
+  var box = document.getElementById("lessons");
+  function card(l) {
     var live = l.status === "published";
     var done = live ? progress(l.n) : 0;
     var dots = live ? '<span class="dots">' + [0, 1, 2].map(function (i) {
       return '<i class="dot' + (i < done ? " on" : "") + '"></i>';
     }).join("") + "</span>" : '<span class="dots mono">soon</span>';
-    out += (live ? '<a class="card" href="' + esc(l.href) + '">' : '<div class="card planned">') +
+    return (live ? '<a class="card" href="' + esc(l.href) + '">' : '<div class="card planned">') +
       '<div class="card-n"><span>' + esc(l.n) + "</span>" +
         (l.level ? '<span class="lv">' + esc(l.level) + "</span>" : "") + "</div>" +
       "<h3>" + esc(l.title) + "</h3><p>" + esc(l.dek || "") + "</p>" +
       '<div class="card-f"><span>' + esc(l.minutes || "") + "</span>" + dots + "</div>" +
       '<div class="tags">' + tagHtml(l.tags) + "</div>" +
       (live ? "</a>" : "</div>");
-  });
-  box.innerHTML = out;
+  }
+  box.innerHTML = LIB.chapters.map(function (c) {
+    var mine = LIB.lessons.filter(function (l) { return l.ch === c.n; });
+    if (!mine.length) return "";
+    return '<div class="chap"><div class="chap-h"><span class="chap-n">Chapter ' + c.n + "</span>" +
+      "<h3>" + esc(c.title) + "</h3></div>" +
+      '<p class="chap-d">' + esc(c.dek) + "</p>" +
+      '<div class="grid">' + mine.map(card).join("") + "</div></div>";
+  }).join("");
   var live = LIB.lessons.filter(function (l) { return l.status === "published"; }).length;
-  document.getElementById("lcount").textContent = live + " of " + LIB.lessons.length + " written";
+  document.getElementById("lcount").textContent = live + " of " + LIB.lessons.length + " written · " + LIB.chapters.length + " chapters";
   document.getElementById("cnt").textContent = live + (live === 1 ? " lesson · " : " lessons · ") + Object.keys(TERMS).length + " terms · " + docs.length + " entries";
 })();
 
