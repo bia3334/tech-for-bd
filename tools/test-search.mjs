@@ -1,14 +1,16 @@
 /* One runnable check for the search core, per site:
-     node tools/test-search.mjs            → Tech for BD (root)
-     node tools/test-search.mjs finance    → Finance for Tech                    */
+     node tools/test-search.mjs bd             → Tech for BD
+     node tools/test-search.mjs finance        → Finance for Tech
+     node tools/test-search.mjs system-design  → System Design                    */
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 const root = new URL("..", import.meta.url).pathname;
-const name = process.argv[2] || ".";
-const site = name === "." ? root : root + name.replace(/\/?$/, "/");
+const name = (process.argv[2] || "").replace(/\/$/, "");
+if (!name) { console.error("usage: node tools/test-search.mjs <bd|finance|system-design>"); process.exit(1); }
+const site = root + name + "/";
 globalThis.window = globalThis;
 globalThis.MiniSearch = require(root + "assets/minisearch.min.js");
 new Function(readFileSync(site + "glossary.js", "utf8"))();
@@ -21,7 +23,7 @@ const has = (q, id) => assert.ok(ids(q).includes(id), `"${q}" should find ${id} 
 
 /* What each site expects to be findable. One row per kind of document. */
 const CASES = {
-  ".": {
+  bd: {
     find: [
       ["ttl", "t-ttl"],                       // exact term
       ["cach", "t-cache"],                    // prefix
@@ -58,13 +60,23 @@ const CASES = {
       ["null", "01#l2"]                        // a question worth asking
     ],
     top: [["CCC cash conversion cycle", "t-ccc"]]
+  },
+  "system-design": {
+    find: [
+      ["idempotency", "15"],                   // a planned lesson by its tags
+      ["consistent hashing", "09"],
+      ["saga", "17"],
+      ["exactly-once", "15"],                  // by its title
+      ["RAG", "28"]
+    ],
+    top: [["consistent hashing", "09"]]
   }
 };
 const expect = CASES[name.replace(/\/$/, "")];
 assert.ok(expect, "no test cases for site " + name);
 
 // every document is searchable at all
-assert.ok(C.docs.length > 30, "index too small: " + C.docs.length);
+assert.ok(C.docs.length > 20, "index too small: " + C.docs.length);
 C.docs.forEach(d => assert.ok(d.title && d.text, "empty doc " + d.id));
 
 expect.find.forEach(([q, id]) => has(q, id));

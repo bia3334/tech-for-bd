@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numbers you must be able to estimate</title>
+<meta name="description" content="Lesson 03 — latency numbers every engineer should know, QPS from daily users, storage from row sizes, bandwidth from both. The back-of-envelope discipline that tells you which part of the design is the hard part.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="03">
+<meta name="tfbd:tags" content="capacity estimation, back of the envelope, QPS, latency numbers, storage, bandwidth, peak, order of magnitude, DAU">
+<meta name="tfbd:level" content="Foundation">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+code{font-family:var(--ff-mono); font-size:.88em; color:var(--fast)}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- the loop ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+.arrow.back::before{content:"↺"; color:var(--slow)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)} .ev .a.off{color:var(--muted)}
+.ev.box .n{font-weight:500}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .hard{background:var(--fast-soft); color:var(--ink-2)}
+.flag .trade{background:var(--slow-soft); color:var(--ink-2)}
+.flag b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:3px}
+.flag .hard b{color:var(--fast)} .flag .trade b{color:var(--slow)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← System Design · <b>Lesson 03</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">What one request costs · Lesson 03</div>
+  <h1>Numbers you must be able to estimate</h1>
+  <p class="lede">"Will it hold on launch day?" is a question with a numerical answer, and the arithmetic takes a minute. A dozen constants, four multiplications and one honest rounding — and the design's hard part introduces itself before a line of it is written.</p>
+  <div class="facts"><span>18 min</span><span>No maths beyond multiplication</span><span>Ends with five lines worth stealing</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>A guess and an estimate look the same and are not</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline opens a plain explanation in English and Vietnamese, plus where that thing shows up once a system is actually running. Nothing here assumes you have met it before.</span></div>
+
+  <div class="stack">
+    <p>Somebody in a meeting says "we'll need a big database". Somebody else says "we should be fine on one server". Both sound like engineering. Neither is, yet — they are guesses, and the difference between a guess and an estimate is not confidence or experience. It is whether the inputs were written down and multiplied.</p>
+    <p>An estimate starts from one number almost every product has: <button class="t" data-t="dau">daily active users</button>. It multiplies that by what a user does in a day — how many things they create, how many they look at — and by how big each of those things is. Four results fall out, and they are the same four for every system ever designed: writes a second, reads a second, bytes a year, and bits a second leaving the building. Then each of the four is held up against what one machine, or one network link, can do. The one that is furthest past its limit is the hard part. Sometimes none of them is, and that is the most useful answer of all.</p>
+    <p>The whole thing is a minute of arithmetic, and it is worth more than an hour of architecture talk, because it turns "we'll need a big database" into "we'll write two hundred rows a second and store forty terabytes a day — the database is fine and the disks are the problem". Those are different projects. Only the arithmetic can tell you which one you are on.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">Start — users a day, and what each does</div><div class="ds">10 million people; each uploads 2 photos and looks at 50. Written down, with the assumptions labelled as assumptions.</div></div>
+    <div class="arrow">multiply, then divide by 86,400 — call it a hundred thousand</div>
+    <div class="node"><div class="nm">Rates — writes and reads a second</div><div class="ds">20 million uploads a day is ~230 a second; 500 million views is ~5,800. Times three for peak.</div></div>
+    <div class="arrow">multiply by the size of one thing</div>
+    <div class="node core"><div class="nm">Bytes — storage a year, bits out of the door</div><div class="ds">20 million × 2 MB = 40 TB a day, 15 PB a year. 17,000 views a second × 200 KB thumbnails = 27 Gbps out.</div></div>
+    <div class="arrow">compare each to one machine, one link</div>
+    <div class="node"><div class="nm">Verdict — the one that is furthest past its limit</div><div class="ds">QPS is fine. Storage is fifteen hundred times what one machine holds in a year. That is the design.</div></div>
+  </div>
+
+  <div class="stack">
+    <p class="vi"><b>In production</b>Every one of those four numbers has a graph once the system runs: requests a second on the load balancer, split by method; bytes on the storage dashboard; the egress line on the cloud bill. The estimate is a prediction of those four graphs. Comparing it to them a month after launch is how you find out whether you can estimate — and how your next estimate gets better.</p>
+    <p class="vi"><b>Tiếng Việt</b>Đoán và ước lượng khác nhau ở một chỗ: đầu vào có được viết ra và nhân lên hay không. Mọi ước lượng đều bắt đầu từ số người dùng mỗi ngày, nhân với việc mỗi người làm, nhân với kích thước mỗi thứ — ra bốn con số: ghi/giây, đọc/giây, byte/năm, bit/giây đi ra. So từng con số với sức của một máy; con số vượt xa nhất là phần khó.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>A dozen constants, and the discipline of rounding</h2>
+
+  <div class="stack">
+    <p>There is a short list of numbers that make estimation possible, and it is short enough to know by heart. Not to three digits — to the power of ten. Every one of them is a ratio waiting to be used: how much slower a disk is than memory, how much slower a network is than a disk, how many seconds a day has.</p>
+  </div>
+
+  <ul class="uses" style="margin-top:24px">
+    <li><span class="u">Main memory read — ~100 nanoseconds</span><span class="d">The baseline. Everything below is "how many times slower than this".</span></li>
+    <li><span class="u">SSD random read — ~100 microseconds</span><span class="d">A thousand times slower than memory. Tens of thousands of them a second — the <button class="t" data-t="iops">IOPS</button> figure.</span></li>
+    <li><span class="u">Round trip inside a datacenter — ~0.5 milliseconds</span><span class="d">Five thousand memory reads. The price of every call to another machine, before that machine does anything.</span></li>
+    <li><span class="u">Spinning disk seek — ~10 milliseconds</span><span class="d">A hundred times an SSD. A few hundred a second at most, which is why nobody puts a hot database on one any more.</span></li>
+    <li><span class="u">Round trip across a region — ~30 ms · across an ocean — ~150 ms</span><span class="d">Lesson 02. The only numbers here that no purchase order can change.</span></li>
+    <li><span class="u">Read 1 MB — memory ~0.1 ms · SSD ~1 ms · 1 Gbps network ~10 ms</span><span class="d">Size times medium. The reason a 2 MB photo costs more to serve than a 200-byte row costs to store.</span></li>
+    <li><span class="u">Seconds in a day — 86,400, call it 100,000</span><span class="d">Per-day to per-second is "divide by a hundred thousand". 20 million a day is 200 a second. Close enough, every time.</span></li>
+    <li><span class="u">A thousand, a million, a billion — KB, MB, GB; a trillion — TB</span><span class="d">Powers of a thousand, and 2<sup>10</sup>, 2<sup>20</sup>, 2<sup>30</sup> are close enough to them that the difference never changes a design.</span></li>
+    <li><span class="u">One well-run machine — a few thousand simple requests a second · a few hundred writes · about 10 TB of disk</span><span class="d">Round on purpose. If your number is ten times one of these, you have found the hard part; if it is a tenth, you have not.</span></li>
+  </ul>
+
+  <div class="stack" style="margin-top:28px">
+    <p>With those in hand, the method is four steps and one habit. Write the inputs down — users, actions per user, size per action — and label each as measured or assumed. Multiply to get the four outputs. Multiply the rates by two or three for <button class="t" data-t="peak">peak</button>, because traffic is not spread evenly across a day and a launch is not a typical day. Compare each output to one machine. And the habit: round everything to one significant figure as you go. 20 million uploads over 86,400 seconds is 231.48 a second, and every digit after the 2 is a lie about how well you know the inputs. Say two hundred. The <button class="t" data-t="orderofmagnitude">order of magnitude</button> is the answer; the rest is noise.</p>
+    <p>Two of the four outputs need a size to exist, and the size is where estimates most often go wrong by a factor of ten. A row with a few ids and timestamps is a couple of hundred bytes; a row with a text field is a kilobyte or more; a thumbnail is a couple of hundred kilobytes; a photo from a phone is two to five megabytes. The <button class="t" data-t="payload">payload</button> decides whether bytes are the hard part, and it is the input most worth checking against a real table before trusting.</p>
+    <p>The last output is the one engineers forget and finance departments do not. Reads a second times bytes per read is <button class="t" data-t="bandwidth">bandwidth</button>, and it is quoted in bits, so multiply by eight. Seventeen thousand thumbnail views a second at 200 KB each is 3.4 GB a second — 27 gigabits — out of the door, every second, at peak. No single link carries that, and even if one did, egress is the most expensive line on most cloud bills. The arithmetic that says "the request rate is modest" is the same arithmetic that says "we need a CDN", if you carry it one step further.</p>
+  </div>
+
+  <div class="pull"><q>An estimate without its inputs written down is a rumour with a number in it.</q></div>
+
+  <div class="stack">
+    <p>One more multiplier belongs in the kit. Not every item is read equally: a fifth of them get four fifths of the traffic — the <button class="t" data-t="hotset">hot set</button>. That is why a cache a tenth the size of the data can answer most requests, and it is how to size one: a day's worth of new items, times a fifth, times the size of each. And bytes a year is only a number on a disk once you know how many years — <button class="t" data-t="retention">retention</button> is a business decision, legal or product or cost, that the estimate has to ask about rather than assume.</p>
+    <p class="vi"><b>In production</b>The one-machine limits above are the reason a good design doc's capacity section ends in zeros: "~200 writes/s, ~6k reads/s, ~15 PB/yr". A reviewer can check each of those in their head against the constants. A doc that says 231.48 writes a second is telling you its author did not understand that the inputs were guesses.</p>
+    <p class="vi"><b>Tiếng Việt</b>Một tá hằng số nhớ theo bậc mười là đủ: bộ nhớ ~100 ns, SSD ~100 µs, một vòng trong datacenter ~0,5 ms, xuyên đại dương ~150 ms, một ngày ≈ 100.000 giây, một máy tốt chịu vài nghìn request/giây và ~10 TB. Phương pháp: viết đầu vào, nhân, nhân 2–3 cho đỉnh, so với một máy, và làm tròn về một chữ số có nghĩa. Đừng quên băng thông tính bằng bit — nhân tám.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Four ways an estimate lies, and one sanity check</h2>
+
+  <div class="stack">
+    <p>Estimates go wrong in a small number of repeatable ways, and none of them is arithmetic. They are all about what was multiplied, what was forgotten, and how the answer was dressed.</p>
+  </div>
+
+  <h3>Precision theatre</h3>
+  <p class="prose" style="margin-bottom:20px">"We will receive 231.48 uploads per second." The inputs were a guess at daily users and a guess at uploads per user, each probably wrong by half. Five significant figures on the product of two guesses is not rigour; it is a costume. Worse, it invites the reader to treat the number as measured, and to build to it. Round to one figure and say so — "about two hundred, could be a hundred or four" — and the estimate is honest about what it knows.</p>
+
+  <h3>The average day that never happens</h3>
+  <p class="prose" style="margin-bottom:20px">Dividing by 86,400 gives the rate on a perfectly flat day, and no day is flat. Evenings are busier than mornings; a sale, a launch or a news story can be ten times a normal hour. Design for two to three times the average as a matter of routine, and ask what the one-day-a-year peak looks like before deciding it is somebody else's problem. A system sized for the average is a system that fails on its most important day.</p>
+
+  <h3>The unit that quietly changed</h3>
+  <p class="prose" style="margin-bottom:20px">Per day where per second was meant. Megabytes where megabits were meant — a factor of eight, in the direction that makes the network look fine. Kilobytes where megabytes were meant, because "the photo is about 2,000" and nobody said of what. Every one of these is a factor of ten or more, and every one has shipped. Write the unit next to every number, including the intermediate ones, and the error has nowhere to hide.</p>
+
+  <h3>The size nobody checked</h3>
+  <p class="prose" style="margin-bottom:20px">"A row is about 100 bytes" — and then the row has a JSON column, and it is 4 KB, and the storage estimate was off by forty. The size of one thing is the input that is easiest to check and most often assumed. If a table exists, ask it for its average row size. If an object store exists, ask it for its average object. If neither exists yet, say "assumed" out loud and write down the number at which the assumption would change the design.</p>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never present an estimate without a sanity check against something real.</p>
+    <p class="sub">Every estimate should be held up against a system that already exists — one you run, or one whose scale is public knowledge. "Six thousand reads a second" means little on its own; "about what our current API does at lunchtime" or "a hundredth of a large social network" gives it a place in the world. If the estimate says a photo app for ten million people needs less storage than your laptop has, the estimate is wrong, and the check is the only thing that would have told you.</p>
+  </div>
+
+  <h3>Where the estimate shows up</h3>
+  <p class="prose" style="margin-bottom:20px">Four rooms where the same minute of arithmetic is the difference between an opinion and an answer.</p>
+  <ul class="uses">
+    <li><span class="u">The interview — three minutes of the forty-five</span><span class="d">Say the inputs aloud, round hard, keep the units. Interviewers are not checking your multiplication; they are checking that you know which of the four outputs matters.</span></li>
+    <li><span class="u">The design review</span><span class="d">The capacity paragraph. A reviewer who cannot find it assumes the boxes on the diagram were not earned — because without the numbers, they were not.</span></li>
+    <li><span class="u">The launch-readiness meeting</span><span class="d">"Will it hold?" answered as: which of the four is closest to its limit, by how much, and what we do if the peak is three times what we assumed.</span></li>
+    <li><span class="u">The cloud bill</span><span class="d">Storage a month and egress a month are the estimate's last two lines with a currency attached. The arithmetic that finds the hard part also finds the expensive part, and they are usually the same line.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>In production</b>A month after launch, put the estimate next to the graphs. Each of the four numbers will be off by some factor. The factor is the most valuable thing you learn that quarter, because it is the correction you apply to every estimate after it.</p>
+  <p class="vi"><b>Tiếng Việt</b>Ước lượng sai ở bốn chỗ lặp đi lặp lại: giả vờ chính xác (năm chữ số trên tích của hai lần đoán), quên đỉnh (ngày nào cũng "trung bình"), lẫn đơn vị (ngày/giây, bit/byte, KB/MB), và kích thước không ai kiểm. Luật: không đưa ra ước lượng nào mà chưa đối chiếu với một hệ thống có thật.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Estimate any system in a minute</h2>
+  <p class="prose" style="margin-bottom:14px">The knobs are the inputs — users, what each does, how big each thing is, how long it is kept. The four numbers underneath are the outputs, already multiplied by three for peak. The list is the working, one line per number, so that every result can be traced back to an input. At the bottom: which of the four is the hard part, and by how much.</p>
+  <p class="prose" style="margin-bottom:26px">Try the four presets. The shortener fits on one machine on every axis. The photo app has an easy request rate and an impossible storage line. The chat app stores almost nothing and writes constantly. The sensor fleet is a system with no readers at all.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="p-shortener">URL shortener</button>
+      <button class="ghost" id="p-photos">Photo sharing</button>
+      <button class="ghost" id="p-chat">Chat app</button>
+      <button class="ghost" id="p-sensors">Sensor fleet</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Daily active users<small>or devices — anything that generates traffic</small></span><span class="kv" id="vDau">—</span><input type="range" id="kDau" min="4" max="8" step="0.25" aria-label="Daily active users"></div>
+      <div class="knob"><span class="kl">Writes per user per day<small>things created: links, photos, messages, readings</small></span><span class="kv" id="vW">—</span><input type="range" id="kW" min="-2" max="4" step="0.25" aria-label="Writes per user per day"></div>
+      <div class="knob"><span class="kl">Reads per user per day<small>things looked at</small></span><span class="kv" id="vR">—</span><input type="range" id="kR" min="0" max="3" step="0.25" aria-label="Reads per user per day"></div>
+      <div class="knob"><span class="kl">Size of one write<small>a row, a message, a photo</small></span><span class="kv" id="vWB">—</span><input type="range" id="kWB" min="2" max="7" step="0.25" aria-label="Size of one write"></div>
+      <div class="knob"><span class="kl">Size of one read<small>what leaves the building per request</small></span><span class="kv" id="vRB">—</span><input type="range" id="kRB" min="2" max="7" step="0.25" aria-label="Size of one read"></div>
+      <div class="knob"><span class="kl">Years kept<small>retention — ask, do not assume</small></span><span class="kv" id="vY">—</span><input type="range" id="kY" min="1" max="10" step="1" aria-label="Years kept"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Writes a second, at peak</span><span class="v" id="stW">—</span></div>
+      <div class="stat"><span class="k">Reads a second, at peak</span><span class="v" id="stR">—</span></div>
+      <div class="stat"><span class="k">Storage, a year</span><span class="v" id="stB">—</span></div>
+      <div class="stat"><span class="k">Out of the door, at peak</span><span class="v" id="stE">—</span></div>
+    </div>
+    <ul class="evs" id="working"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">One machine is taken as 5,000 reads or 500 writes a second and 10 TB a year; one link as a gigabit. Peak is three times the average; the hot set is a fifth of a day's items. All round on purpose — the sim finds the order of magnitude, not the third digit. The maths lives in <code>system-design/sim-03.js</code> and has its own check: <code>node tools/test-sd-03.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in a launch-readiness meeting.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments where the arithmetic is the answer</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"What are we assuming? Let's write the inputs down first."</div><div class="use">Turns a guess into an estimate in one move. Users, actions per user, size per action — three numbers, each labelled measured or assumed, and now everyone in the room is multiplying the same things.</div></div></li>
+    <li><div><div class="say">"Per day, or per second?"</div><div class="use">The unit question, asked every time a rate is mentioned. The factor between them is a hundred thousand, and it has been lost in more meetings than anyone will admit.</div></div></li>
+    <li><div><div class="say">"And at peak — three times that?"</div><div class="use">No day is flat. Sizing for the average is sizing for the day that never happens; the launch, the sale and the news story are the days the system is actually for.</div></div></li>
+    <li><div><div class="say">"Which of the four is closest to its limit — reads, writes, bytes, or bandwidth?"</div><div class="use">The question the whole exercise exists to answer. One of the four is the hard part; the other three are not worth a diagram box until the numbers say so.</div></div></li>
+    <li><div><div class="say">"Does that match anything we already run?"</div><div class="use">The sanity check. An estimate that cannot be placed next to a real system — yours or a public one — is a number with no way to be wrong, which is the same as no number.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần nhớ chính xác hằng số nào. Chỉ cần nhớ chúng theo bậc mười, viết đầu vào ra trước khi nhân, giữ đơn vị bên cạnh mỗi con số, nhân ba cho đỉnh, và luôn hỏi: trong bốn con số, cái nào gần giới hạn nhất — và nó có khớp với thứ gì đang chạy thật không.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a capacity meeting.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>System Design — Lesson 03 of 28 · Next: make the server forget.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-03.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In production"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("sd-l3")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("sd-l3",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var E=window.ESTIMATE;
+var K={dau:document.getElementById("kDau"), w:document.getElementById("kW"), r:document.getElementById("kR"),
+       wb:document.getElementById("kWB"), rb:document.getElementById("kRB"), y:document.getElementById("kY")};
+var lg=Math.log10, pw=function(v){ return Math.pow(10,+v); };
+function round1(x){ var m=Math.pow(10,Math.floor(lg(x))); return Math.round(x/m)*m; }   /* one significant figure */
+function setKnobs(r){ K.dau.value=lg(r.dau); K.w.value=lg(r.writes); K.r.value=lg(r.reads); K.wb.value=lg(r.wbytes); K.rb.value=lg(r.rbytes); K.y.value=r.years; }
+function readKnobs(){ return { dau:round1(pw(K.dau.value)), writes:round1(pw(K.w.value)), reads:round1(pw(K.r.value)),
+                              wbytes:round1(pw(K.wb.value)), rbytes:round1(pw(K.rb.value)), years:+K.y.value }; }
+
+function evRow(d,n,a){
+  var li=document.createElement("li"); li.className="ev";
+  var s1=document.createElement("span"); s1.className="d"; s1.textContent=d;
+  var s2=document.createElement("span"); s2.className="n"; s2.textContent=n;
+  var s3=document.createElement("span"); s3.className="a"; s3.textContent=a;
+  li.appendChild(s1); li.appendChild(s2); li.appendChild(s3);
+  return li;
+}
+function render(){
+  var r=readKnobs(), e=E.estimate(r);
+  document.getElementById("vDau").textContent=E.fmtNum(r.dau);
+  document.getElementById("vW").textContent=E.fmtNum(r.writes);
+  document.getElementById("vR").textContent=E.fmtNum(r.reads);
+  document.getElementById("vWB").textContent=E.fmtBytes(r.wbytes);
+  document.getElementById("vRB").textContent=E.fmtBytes(r.rbytes);
+  document.getElementById("vY").textContent=r.years+(r.years===1?" yr":" yrs");
+  var by={}; e.ratios.forEach(function(x){ by[x.dim]=x.ratio; });
+  function put(id,txt,ratio){ var el=document.getElementById(id); el.textContent=txt; el.className="v"+(ratio>=1?" hot":" cool"); }
+  put("stW", E.fmtNum(e.writePeak), by.writes);
+  put("stR", E.fmtNum(e.readPeak), by.reads);
+  put("stB", E.fmtBytes(e.bytesPerYear), by.storage);
+  put("stE", E.fmtBps(e.egressBps), by.bandwidth);
+  var ul=document.getElementById("working"); ul.innerHTML="";
+  e.working.forEach(function(w,i){ ul.appendChild(evRow(String(i+1).padStart(2,"0"), w[0]+" — "+w[1], "")); });
+  var ratios=e.ratios.map(function(x){ return x.dim+" "+(x.ratio<0.1?"<0.1":x.ratio<10?x.ratio.toFixed(1):Math.round(x.ratio))+"×"; }).join(" · ");
+  document.getElementById("flag").innerHTML=
+    '<div class="'+(e.hard==="none"?"trade":"hard")+'"><b>The hard part</b>'+e.hardText+'</div>'+
+    '<div class="trade"><b>Each output against one machine</b>'+ratios+'</div>';
+}
+function touched(){ mark("sim"); render(); }
+[K.dau,K.w,K.r,K.wb,K.rb,K.y].forEach(function(k){ k.addEventListener("input", touched); });
+["shortener","photos","chat","sensors"].forEach(function(p){ document.getElementById("p-"+p).addEventListener("click",function(){ setKnobs(E.PRESETS[p]); touched(); }); });
+document.getElementById("reset").addEventListener("click",function(){ setKnobs(E.PRESETS.shortener); render(); });
+setKnobs(E.PRESETS.shortener); render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A product expects 20 million uploads a day. Roughly how many is that a second, and what is the fastest way to get there?",
+  o:["About 20,000 — divide by a thousand",
+     "About 200 — divide by a hundred thousand, since a day is 86,400 seconds",
+     "About 2 — divide by ten million",
+     "It cannot be known without the peak factor"],
+  a:1,
+  why:"A day is 86,400 seconds; call it a hundred thousand and the division is instant: 20 million becomes 200 a second (231, if you insist, and you should not). The peak factor comes next, not first — multiply the 200 by two or three and you have the number to design for. The habit of 'divide by a hundred thousand' is the single most-used move in estimation."},
+ {q:"The same product: 10 million daily users, each uploading 2 photos of about 2 MB. Which of the four outputs is the hard part?",
+  o:["Writes a second — 20 million a day is a lot",
+     "Reads a second — photos are viewed far more than uploaded",
+     "Storage — 40 TB a day, about 15 PB a year, thousands of times what one machine holds",
+     "None — 200 writes a second fits on one database"],
+  a:2,
+  why:"Two hundred writes a second is a quiet afternoon for one database, and the reads, though larger, are still within reach of a few machines and a cache. But 20 million × 2 MB is 40 terabytes a day, and a year of that is around 15 petabytes — fifteen hundred times the 10 TB a year one machine can be asked to hold. The request rate said 'easy'; the same inputs, carried one multiplication further, said 'this is a storage system that happens to have an API'."},
+ {q:"At peak, the photo app serves 17,000 thumbnail views a second at 200 KB each. What does that mean for the network, and why do people get this one wrong?",
+  o:["3.4 MB a second — trivial",
+     "About 3.4 GB a second, which is 27 gigabits — far beyond one link and the most expensive line on the bill; people forget to multiply by eight and confuse bits with bytes",
+     "27 MB a second — a gigabit link handles it",
+     "Bandwidth is not something an estimate can predict"],
+  a:1,
+  why:"17,000 × 200 KB is 3.4 gigabytes a second, and networks are quoted in bits, so that is 27 gigabits — more than twenty gigabit links, saturated, at peak, every day. A gigabit link carries about 125 megabytes a second, and the factor of eight between bits and bytes is the one that most often makes a network look fine on paper. This is the arithmetic that says 'we need a CDN' before anyone has drawn one."},
+ {q:"Your estimate says the average load is 200 writes a second. What should the system actually be sized for, and why?",
+  o:["200 — that is what the numbers say",
+     "Around 500 to 600 — two to three times the average, because traffic is not flat across the day, and a launch or a sale can be far above even that",
+     "2,000 — always add a factor of ten for safety",
+     "20 — most users are idle"],
+  a:1,
+  why:"The average is the rate on a perfectly flat day, and no day is flat: evenings beat mornings, and a launch, a sale or a news story can be ten times an ordinary hour. Two to three times the average is the routine allowance; the one-day-a-year peak deserves its own question. A flat factor of ten is not sizing, it is guessing with a bigger number, and it makes the design pay for capacity the estimate never justified."},
+ {q:"A colleague presents a capacity estimate: '231.48 writes per second, 14.6 PB per year'. What is wrong with it, and what would make it trustworthy?",
+  o:["Nothing — precise numbers show careful work",
+     "The precision is false: it is the product of guessed inputs, so round to one figure, show the inputs and their units, and compare the result to a system that already exists",
+     "The numbers are too small",
+     "It should be in a spreadsheet"],
+  a:1,
+  why:"Five significant figures on the product of two guesses is a costume, and it invites the reader to build to a number that was never measured. A trustworthy estimate shows its inputs with units, rounds to the order of magnitude — 'about 200 a second, about 15 PB a year' — and places the result next to something real: a system you run, or one whose scale is public. Without that sanity check the number has no way of being wrong, which is the same as having no number."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"The CTO — two weeks before launch",
+  line:'"Will it hold on launch day?"',
+  o:[{t:"Should be fine, we load-tested it.", v:"weak",
+      f:"A load test proves the system survives the traffic you pointed at it. The question was whether the traffic you pointed at it resembles launch day, and 'should be fine' contains no number anyone can check. The CTO now has reassurance and no information."},
+     {t:"At our assumptions — about a million users, ten reads each — we're at roughly a hundred reads a second average, three hundred at peak. One machine handles five thousand, so reads are fine by a wide margin. Storage is the number I'd watch: about 90 GB a year, which is nothing, unless the photo feature ships. If launch is three times what we assumed, we're still under a tenth of capacity.", v:"strong",
+      f:"You gave the inputs, the four outputs, the one that matters, the margin, and what happens if the assumptions are wrong by three. That is the whole answer to 'will it hold', and it took thirty seconds because the arithmetic was done in advance."},
+     {t:"We can always add servers if it gets slow.", v:"weak",
+      f:"True of the request rate and untrue of almost everything else. Storage, bandwidth and a database that is the bottleneck do not get fixed by adding a server at 9pm on launch day. The estimate exists precisely to find out which kind of problem you would have."}]},
+ {role:"The interviewer — five minutes in",
+  line:'"How much storage will this need over five years?"',
+  o:[{t:"A lot — probably terabytes. We'd use object storage.", v:"weak",
+      f:"You skipped the estimate and went to the box. The interviewer is not asking for a technology; they are asking whether you can turn users into bytes. Terabytes or petabytes is a thousandfold difference and you have not said which."},
+     {t:"Let me assume ten million daily users and two uploads each at about two megabytes — say so if you'd like different numbers. That's twenty million a day, forty terabytes a day, call it fifteen petabytes a year, seventy-five over five. So storage is the hard part of this system, not the request rate.", v:"strong",
+      f:"You stated the assumptions aloud and invited correction, multiplied in the open, rounded hard, and ended with the conclusion the number exists to reach: which part is hard. An interviewer can check every step, which is the point of doing it aloud."},
+     {t:"It depends on the retention policy.", v:"weak",
+      f:"It does, and you should ask — after the estimate, as the multiplier on the last line. Stopping at the question hands the work back to the interviewer. Assume five years, say so, and carry on; they will correct you if they want a different number."}]},
+ {role:"Your product manager — reviewing the infrastructure budget",
+  line:'"Why do we need a CDN? They\'re just images."',
+  o:[{t:"It's best practice for images.", v:"weak",
+      f:"Best practice is a reason to consider something, not a reason to pay for it. The PM asked for the number that earns the box, and you answered with a convention. Expect the line item to be cut."},
+     {t:"Because of the arithmetic on 'just images': at peak we serve about seventeen thousand of them a second at two hundred kilobytes each — that's three and a half gigabytes a second, twenty-seven gigabits, out of our own servers, every second. The CDN does that for a fraction of the egress price and closer to the user. It isn't a nicety; it's the cheapest way to move that many bytes.", v:"strong",
+      f:"You took the PM's own words — 'just images' — and carried them one multiplication further than they had. The box now has a number, the number has a price, and the price is lower with the box than without it. That is how a line item survives a budget review."},
+     {t:"We don't, really — we can serve them from the app servers for now.", v:"weak",
+      f:"At twenty-seven gigabits, 'for now' lasts until the first busy evening. Agreeing to remove a box that the arithmetic earned is the mirror image of adding one it did not, and it costs more, because it is found in production."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design is a loop, not a diagram</title>
+<meta name="description" content="Lesson 01 — requirements, estimate, sketch, deep-dive, trade-offs: the five moves of every design session, run once end to end on a URL shortener so the shape is familiar before the hard parts arrive.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="01">
+<meta name="tfbd:tags" content="design loop, requirements, functional vs non-functional, estimate, back of the envelope, URL shortener, interview framework, trade-off">
+<meta name="tfbd:level" content="Foundation">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+code{font-family:var(--ff-mono); font-size:.88em; color:var(--fast)}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- the loop ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+.arrow.back::before{content:"↺"; color:var(--slow)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)} .ev .a.off{color:var(--muted)}
+.ev.box .n{font-weight:500}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .hard{background:var(--fast-soft); color:var(--ink-2)}
+.flag .trade{background:var(--slow-soft); color:var(--ink-2)}
+.flag b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:3px}
+.flag .hard b{color:var(--fast)} .flag .trade b{color:var(--slow)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← System Design · <b>Lesson 01</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">What one request costs · Lesson 01</div>
+  <h1>Design is a loop, not a diagram</h1>
+  <p class="lede">Somebody says "design a URL shortener" and hands you a marker. What they are asking for is not a picture. It is five moves, made in order, each one allowed to send you back to the one before — and the picture is only what the moves leave on the board.</p>
+  <div class="facts"><span>16 min</span><span>No prior system design assumed</span><span>Ends with five lines worth stealing</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>The question is not the one it sounds like</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline opens a plain explanation in English and Vietnamese, plus where that thing shows up once a system is actually running. Nothing here assumes you have met it before.</span></div>
+
+  <div class="stack">
+    <p>Here is what usually happens. The marker is barely in your hand and there is already a box labelled <em>API</em>, an arrow to a box labelled <em>DB</em>, and — because everyone has seen the diagram before — a third box labelled <em>Cache</em> and a fourth labelled <em>Load balancer</em>. Four boxes in forty seconds. It looks like progress. It is the opposite: you have drawn the answer to a question nobody asked yet.</p>
+    <p>Because "design a URL shortener" is not one question. Shortening links for a team of twelve and shortening links for a social network are different products that happen to share a name. One of them is a weekend with a single database. The other has a redirect path that answers a hundred thousand times a second and a key generator that must never hand out the same key twice. You cannot know which one you are designing until you ask — and the asking is the first move, not a formality before the real work.</p>
+    <p>So a design session is a <em>loop</em>. You ask what the system must do and how well; you turn the answers into a few numbers; the numbers tell you which boxes are earned and which are decoration; you go one level deeper on the single box that is genuinely hard; and you say out loud what you gave up. Then, very often, the deep dive changes a number, and you go round again.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">1 · Requirements — what, and how well</div><div class="ds">Shorten, redirect, list my links. Then the numbers: how many users, how fast a redirect, how long a link lives, how many nines.</div></div>
+    <div class="arrow">turn the answers into arithmetic</div>
+    <div class="node"><div class="nm">2 · Estimate — a minute of maths</div><div class="ds">Users a day → requests a second → bytes a year. Good to a factor of three. Its only job is to point at the hard part.</div></div>
+    <div class="arrow">draw only what the numbers justify</div>
+    <div class="node"><div class="nm">3 · Sketch — five to eight boxes</div><div class="ds">Every box can say which number put it there. A box that cannot is decoration, and decoration is where the bugs go to hide.</div></div>
+    <div class="arrow">pick the one box that is hard</div>
+    <div class="node core"><div class="nm">4 · Deep dive — one level down, on one thing</div><div class="ds">The redirect path, or the key generator, or the click counter. Data model, failure cases, ten times the load. Not all three; the one that matters.</div></div>
+    <div class="arrow">say what it cost</div>
+    <div class="node"><div class="nm">5 · Trade-offs — what you gave up</div><div class="ds">"The cache makes redirects fast and lets a deleted link keep working for a minute." No trade-off stated, nothing designed.</div></div>
+    <div class="arrow back">and when the deep dive changes a number, back to move 2</div>
+  </div>
+
+  <div class="stack">
+    <p>The loop is the same in an interview, in a design document, and in the meeting where somebody asks whether the thing will hold up on launch day. The setting changes the amount of time you have. It never changes the moves.</p>
+    <p class="vi"><b>In production</b>The loop leaves fingerprints. A design doc has a requirements section with numbers in it, a capacity paragraph, a diagram, one component with its own deep section, and a heading called "Alternatives considered". When one of those is missing, the system usually reveals which one during its first incident.</p>
+    <p class="vi"><b>Tiếng Việt</b>"Thiết kế một URL shortener" không phải một câu hỏi mà là nhiều câu hỏi khác nhau, tuỳ quy mô. Vẽ ô ngay là trả lời một câu chưa ai hỏi. Thiết kế là một vòng lặp năm bước: hỏi yêu cầu, ước lượng, phác sơ đồ, đào sâu một chỗ khó, nêu đánh đổi — và bước sau có thể kéo bạn quay lại bước trước.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Five moves, run once on a URL shortener</h2>
+
+  <div class="stack">
+    <p><b>Move one — requirements.</b> There are two kinds and they are worth keeping apart. A <button class="t" data-t="functional">functional requirement</button> is a verb the product does: take a long URL and return a short one; redirect anyone who opens the short one; let a user see the links they made. Three verbs. Everything else — custom aliases, expiry dates, click statistics — you ask about explicitly, because each one you accept adds a box later. A <button class="t" data-t="nonfunctional">non-functional requirement</button> is how well, and it has to carry a number: a redirect in under 100 milliseconds at the 99th percentile; <button class="t" data-t="availability">available</button> 99.9% of the time; links kept for five years. "It should be fast" is not a requirement. It is a hope.</p>
+    <p><b>Move two — estimate.</b> Say a million people use it daily and one in ten makes a link. That is 100,000 new links a day, which over 86,400 seconds is barely more than one write a second. If each link is opened a hundred times, that is about 116 reads a second on average — call it 350 at peak. Five years of links at 500 bytes each is under 100 gigabytes. The <button class="t" data-t="estimate">back-of-the-envelope estimate</button> took a minute and it has already told you the most important thing about this system: at this size there is no hard part. One application server and one database will do it, and anybody who draws more is drawing for a different product.</p>
+    <p>Now change one input. A hundred million daily users. Writes go to about 116 a second — still easy. Reads go to eleven thousand a second, thirty-five thousand at peak. <em>That</em> is a number one database should not be asked to answer on its own, and it is the number that earns the cache. Notice the order: the box appeared because the arithmetic said so, not because the diagram looked lonely without it. The <button class="t" data-t="rwratio">read/write ratio</button> did the deciding.</p>
+    <p><b>Move three — sketch.</b> Client, load balancer, a row of stateless application servers, a cache in front of a database. For the big version, a separate service that hands out unique keys, so that generating a key and checking it is unused never happens inside the write. Six boxes. Each one can name the number that put it there — which is exactly the test of a good <button class="t" data-t="sketch">high-level design</button>.</p>
+  </div>
+
+  <div class="pull"><q>A box with no number behind it is not architecture. It is a guess wearing a rectangle.</q></div>
+
+  <div class="stack">
+    <p><b>Move four — deep dive.</b> Pick the one thing that is hard and go one level down. For the big shortener that is the redirect path: what exactly is in the cache, what happens on a miss, what the p99 <button class="t" data-t="latency">latency</button> looks like when the cache node restarts and every request falls through at once. Or it is the key generator: how does it never repeat, what happens when two servers ask for a key in the same microsecond, what if the service is down. You do not deep-dive everything. You deep-dive the <button class="t" data-t="bottleneck">bottleneck</button>, because the bottleneck is the only place where getting it wrong changes what the user feels.</p>
+    <p><b>Move five — trade-offs.</b> This is where most sessions end early, and it is the move that separates a design from a drawing. The cache made redirects fast — and it means a link somebody just deleted keeps resolving until its entry expires. Pre-generating keys took the collision check off the write path — and it added a service that can itself run dry or fall over. Say each one in a sentence. A <button class="t" data-t="tradeoff">trade-off</button> nobody said out loud is a surprise waiting for a production incident to introduce itself.</p>
+    <p class="vi"><b>In production</b>The two kinds of requirement live in two different places once the system is real: the functional ones are the endpoints in the router, the non-functional ones are the SLO dashboard and the alert thresholds. If one of the numbers from move one is not on a dashboard, the system is not meeting it, whatever the doc says.</p>
+    <p class="vi"><b>Tiếng Việt</b>Yêu cầu chức năng là động từ sản phẩm làm; yêu cầu phi chức năng là "tốt đến mức nào" và bắt buộc có con số. Ước lượng một phút cho biết phần nào khó — với một triệu người dùng thì không có phần khó, một server một database là đủ; với một trăm triệu thì đường redirect mới xứng đáng có cache. Ô nào trên sơ đồ cũng phải nói được con số nào đặt nó vào đó, và đánh đổi phải nói thành lời.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Three ways the loop gets skipped, and what each one costs</h2>
+
+  <div class="stack">
+    <p>Nobody skips the loop on purpose. It gets skipped because each move feels optional in the moment, and each skip has a specific bill that arrives later.</p>
+  </div>
+
+  <h3>Boxes before questions</h3>
+  <p class="prose" style="margin-bottom:20px">The forty-second diagram. Its cost is not that it is wrong — it may even be right — it is that you cannot tell. Without requirements, there is no test a diagram can fail, so the conversation drifts into taste: "I'd put Redis there." "I'd use Kafka." Nobody can win an argument about a system nobody has described. In an interview this reads as someone who has memorised diagrams; in a team it reads as someone who has already decided.</p>
+
+  <h3>An estimate you did not do</h3>
+  <p class="prose" style="margin-bottom:20px">Skip the arithmetic and every box becomes equally important, which means the deep dive lands on whichever part you happen to know best rather than the part that will break. The tell is a design that spends ten minutes on the database schema of a system whose database will be idle, and one sentence on the redirect path that carries 99% of the traffic. The estimate is what tells you where to spend your attention. Without it you spend it evenly, which is to say badly.</p>
+
+  <h3>A trade-off you never said</h3>
+  <p class="prose" style="margin-bottom:20px">Every choice in a design costs something, and the cost does not go away because it was not mentioned. A cache that nobody said could serve stale data is still serving stale data; the only difference is that the first person to find out is a user. The habit to build is mechanical: each time you add a box, finish the sentence "…and the price of that is". If you cannot finish it, you do not yet understand the box.</p>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never draw a box you cannot attach a number to.</p>
+    <p class="sub">A cache is earned by a read rate or a latency target. A queue is earned by work that must not block a user. A second database is earned by bytes or by writes per second. If the number that earns a box does not exist yet, leave the box off and write down the number at which you would add it. That sentence — "at ten thousand reads a second we add a cache" — is worth more than the box, because it is the box <em>and</em> the reason, and the reason is what the next engineer needs.</p>
+  </div>
+
+  <h3>Where the loop shows up</h3>
+  <p class="prose" style="margin-bottom:20px">Four rooms, one set of moves. The time available changes; the order does not.</p>
+  <ul class="uses">
+    <li><span class="u">The interview — 45 minutes</span><span class="d">Five minutes of questions, three of arithmetic, ten on the sketch, fifteen on one deep dive, the rest on trade-offs and what you would do at ten times the load. Interviewers score the moves, not the picture.</span></li>
+    <li><span class="u">The design document — a week</span><span class="d">The same five headings. Requirements with numbers, capacity, diagram, one component in depth, alternatives considered. Reviewers who cannot find a heading assume the move was skipped, because it usually was.</span></li>
+    <li><span class="u">The estimate meeting — an hour</span><span class="d">"Will this hold on launch day?" is move two asked by somebody who does not call it that. Answer with the arithmetic, and with which box is closest to its limit.</span></li>
+    <li><span class="u">The incident review — the morning after</span><span class="d">Every postmortem is the loop run backwards: which number was wrong, which box was missing, which trade-off was never said. Running it forwards is cheaper.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>In production</b>The unsaid trade-off is the most common root cause in postmortems that nobody writes down as a root cause. The report says "cache served stale data". The truth is "we added a cache without finishing the sentence".</p>
+  <p class="vi"><b>Tiếng Việt</b>Ba cách bỏ qua vòng lặp: vẽ ô trước khi hỏi (không có gì để sơ đồ sai được, nên tranh luận thành chuyện khẩu vị); không ước lượng (mọi ô quan trọng như nhau, nên đào sâu nhầm chỗ); không nêu đánh đổi (cái giá vẫn có, chỉ là người dùng phát hiện ra trước bạn). Luật không được vượt: không vẽ ô nào mà không gắn được một con số vào nó.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Run the loop yourself</h2>
+  <p class="prose" style="margin-bottom:14px">The knobs are move one — the questions you would ask. The numbers underneath are move two, done for you. The list of boxes is move three, and it is strict: a box only appears when a number earns it, and the row says which number. At the bottom, the one thing worth a deep dive, and the trade-off you would have to say out loud.</p>
+  <p class="prose" style="margin-bottom:26px">Start with a million users and watch the honest answer be "one server, one database". Then push the users up by a hundred and see which box appears first and why. Turn on click analytics and notice that the hard part moves — a write has just landed on the hottest read path in the system.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="preset-small">A team's internal tool</button>
+      <button class="ghost" id="preset-mid">A popular consumer app</button>
+      <button class="ghost" id="preset-big">A social network's links</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Daily active users<small>how many people open a short link on a typical day</small></span><span class="kv" id="vDau">—</span><input type="range" id="kDau" min="4" max="8" step="0.25" aria-label="Daily active users"></div>
+      <div class="knob"><span class="kl">Links created per user per day<small>most people only open links; a few make them</small></span><span class="kv" id="vW">—</span><input type="range" id="kW" min="0.01" max="1" step="0.01" aria-label="Links created per user per day"></div>
+      <div class="knob"><span class="kl">Reads per link<small>the read/write ratio — how many times each link is opened</small></span><span class="kv" id="vR">—</span><input type="range" id="kR" min="0" max="3" step="0.25" aria-label="Reads per link"></div>
+      <div class="knob"><span class="kl">Years a link is kept<small>storage is the only number that keeps growing after launch</small></span><span class="kv" id="vY">—</span><input type="range" id="kY" min="1" max="10" step="1" aria-label="Years a link is kept"></div>
+      <div class="knob"><span class="kl">Redirect latency target, p99<small>the one number users feel directly</small></span><span class="kv" id="vP">—</span><input type="range" id="kP" min="0" max="4" step="1" aria-label="Redirect latency target"></div>
+      <label class="sw"><input type="checkbox" id="kA"> Count every click for analytics</label>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">New links per second</span><span class="v" id="stW">—</span></div>
+      <div class="stat"><span class="k">Redirects per second, at peak</span><span class="v" id="stR">—</span></div>
+      <div class="stat"><span class="k">Rows kept</span><span class="v" id="stRows">—</span></div>
+      <div class="stat"><span class="k">Storage</span><span class="v" id="stB">—</span></div>
+    </div>
+    <ul class="evs" id="boxes"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Peak is taken as three times the daily average, a row as 500 bytes, and the thresholds are deliberately round — an estimate is good to a factor of two or three, so a threshold with more digits would be pretending. The maths lives in <code>system-design/sim-01.js</code> and has its own check: <code>node tools/test-sd-01.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong with a marker in your hand.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments where the loop is tested</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Before I draw anything — how many users, and how fast does a redirect have to be?"</div><div class="use">Say it in the first thirty seconds, every time. It signals that you know a shortener for twelve people and one for a hundred million are different products, and it buys you the numbers everything else depends on.</div></div></li>
+    <li><div><div class="say">"Which number put this box here?"</div><div class="use">Ask it of your own diagram before anyone else does. A box that can answer is architecture. A box that cannot is a guess, and the honest move is to erase it and write down the number at which it would come back.</div></div></li>
+    <li><div><div class="say">"Reads or writes — which one is the system actually made of?"</div><div class="use">The read/write ratio decides whether you optimise the path that stores or the path that serves. A shortener is a hundred to one for reads; a logging pipeline is the reverse. Get this wrong and every later decision optimises the quiet half.</div></div></li>
+    <li><div><div class="say">"Which one part is hard? Let's spend the time there."</div><div class="use">The estimate points at it. Spending equal time on every box is the most common way to run out of time before reaching the part that will break, and reviewers notice the sentence about the redirect path far more than the paragraph about the schema.</div></div></li>
+    <li><div><div class="say">"…and the price of that is?"</div><div class="use">Finish the sentence for every box you add. If you cannot, you do not yet understand the box. If you can, you have just written the line the next engineer will need most.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần thuộc sơ đồ nào cả. Chỉ cần đi đúng năm bước theo thứ tự, biết bước nào đang bị bỏ qua, và với mỗi ô trên bảng trả lời được hai câu: con số nào đặt nó vào đó, và cái giá của nó là gì.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a design session.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>System Design — Lesson 01 of 28 · Next: where 200 milliseconds go.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-01.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In production"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("sd-l1")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("sd-l1",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var L=window.LOOP, P99=[25,50,100,300,1000];
+var K={dau:document.getElementById("kDau"), w:document.getElementById("kW"), r:document.getElementById("kR"),
+       y:document.getElementById("kY"), p:document.getElementById("kP"), a:document.getElementById("kA")};
+
+function setKnobs(req){
+  K.dau.value=Math.log10(req.dau); K.w.value=req.writesPerUser; K.r.value=Math.log10(req.readRatio);
+  K.y.value=req.years; K.p.value=Math.max(0,P99.indexOf(req.p99ms)); K.a.checked=!!req.analytics;
+}
+function readKnobs(){
+  return { dau:Math.round(Math.pow(10,+K.dau.value)), writesPerUser:+K.w.value, readRatio:Math.round(Math.pow(10,+K.r.value)),
+           years:+K.y.value, p99ms:P99[+K.p.value], analytics:K.a.checked };
+}
+
+function evRow(d,n,a,cls){
+  var li=document.createElement("li"); li.className="ev"+(cls?" "+cls:"");
+  var s1=document.createElement("span"); s1.className="d"; s1.textContent=d;
+  var s2=document.createElement("span"); s2.className="n"; s2.textContent=n;
+  var s3=document.createElement("span"); s3.className="a"; s3.textContent=a;
+  li.appendChild(s1); li.appendChild(s2); li.appendChild(s3);
+  return li;
+}
+
+function render(){
+  var req=readKnobs(), s=L.sketch(req), e=s.est;
+  document.getElementById("vDau").textContent=L.fmtNum(req.dau);
+  document.getElementById("vW").textContent=req.writesPerUser.toFixed(2);
+  document.getElementById("vR").textContent=req.readRatio+"×";
+  document.getElementById("vY").textContent=req.years+(req.years===1?" yr":" yrs");
+  document.getElementById("vP").textContent=req.p99ms+" ms";
+
+  document.getElementById("stW").textContent=L.fmtNum(e.writeQps);
+  var r=document.getElementById("stR"); r.textContent=L.fmtNum(e.peakReadQps); r.className="v"+(e.peakReadQps>1000?" hot":" cool");
+  document.getElementById("stRows").textContent=L.fmtNum(e.rows);
+  var b=document.getElementById("stB"); b.textContent=L.fmtBytes(e.bytes); b.className="v"+(e.bytes>1e12?" hot":" cool");
+
+  var why={}; s.earned.forEach(function(x){ why[x[0]]=x[1]; });
+  var ul=document.getElementById("boxes"); ul.innerHTML="";
+  s.boxes.forEach(function(name){
+    var earned=why[name];
+    ul.appendChild(evRow(earned?"EARNED":"BASE", earned?name+" — "+earned:name+" — every system has one", "", "box"));
+  });
+
+  document.getElementById("flag").innerHTML=
+    '<div class="hard"><b>Worth a deep dive</b>'+s.hard+'</div>'+
+    '<div class="trade"><b>The trade-off you would have to say</b>'+s.tradeoff+'</div>';
+}
+function touched(){ mark("sim"); render(); }
+[K.dau,K.w,K.r,K.y,K.p].forEach(function(k){ k.addEventListener("input", touched); });
+K.a.addEventListener("change", touched);
+document.getElementById("preset-small").addEventListener("click",function(){ setKnobs({dau:1e4,writesPerUser:0.2,readRatio:10,years:3,p99ms:300,analytics:false}); touched(); });
+document.getElementById("preset-mid").addEventListener("click",function(){ setKnobs({dau:1e6,writesPerUser:0.1,readRatio:100,years:5,p99ms:100,analytics:false}); touched(); });
+document.getElementById("preset-big").addEventListener("click",function(){ setKnobs({dau:1e8,writesPerUser:0.1,readRatio:100,years:5,p99ms:50,analytics:true}); touched(); });
+document.getElementById("reset").addEventListener("click",function(){ setKnobs(L.BASE); render(); });
+setKnobs(L.BASE); render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"An interviewer says \"design a URL shortener\" and hands you the marker. What is the right first thing to do?",
+  o:["Draw the client, the API and the database, so there is something to talk about",
+     "Ask how many users, how fast a redirect must be, how long links live, and which extras are in scope",
+     "Explain how consistent hashing works, since a shortener is really a key-value store",
+     "Pick a database first, because everything else depends on it"],
+  a:1,
+  why:"A shortener for twelve people and one for a hundred million share a name and nothing else. Until you have the numbers there is no test a diagram can fail, and the conversation turns into taste. Asking first is not politeness; it is the move that makes every later move possible. The database choice, in particular, is a consequence of the read rate and the data size — it cannot come first."},
+ {q:"Which of these is a non-functional requirement written the way the loop needs it?",
+  o:["The redirect should be fast",
+     "The system must be highly available",
+     "A redirect completes in under 100 ms at the 99th percentile",
+     "We should use a cache for speed"],
+  a:2,
+  why:"Only one of them carries a number and a measurement. \"Fast\" and \"highly available\" cannot be met or missed, so they cannot shape a design. The fourth is not a requirement at all — it is a box, and a box that arrived before the number that would earn it. Rewrite the wishes as numbers and the design starts to have edges."},
+ {q:"A million daily users, one in ten makes a link, each link is opened a hundred times. Roughly what is the average read rate, and what does it tell you?",
+  o:["About 10,000 reads a second — a cache is essential",
+     "About 100 reads a second — one database handles it, so there is no hard part yet",
+     "About 1 read a second — the system is basically idle",
+     "It cannot be estimated without knowing the database"],
+  a:1,
+  why:"100,000 links a day over 86,400 seconds is just over one write a second; times a hundred reads per link is about 116 reads a second, a few hundred at peak. Any database answers that on one machine. The estimate's job was to find the hard part, and its honest answer is that at this size there is none — which is itself the design decision. The precision does not matter; the order of magnitude does, and it is nowhere near ten thousand."},
+ {q:"Same shortener, but now a hundred million daily users. Where in the loop does the cache belong?",
+  o:["In the sketch from the start — every shortener has one",
+     "In the sketch, but only because the estimate now shows ~35,000 reads a second at peak, which one database should not answer alone",
+     "In the deep dive, as an optimisation to mention if there is time",
+     "Nowhere — caching a redirect is premature optimisation"],
+  a:1,
+  why:"The box is the same; what changed is that a number now earns it. Thirty-five thousand reads a second at peak is more than one database should serve, so the cache goes on the sketch with that number written next to it. Drawing it by reflex at a million users would have been decoration; leaving it off at a hundred million would be the opposite mistake. The reason travels with the box."},
+ {q:"You have a diagram with six boxes and a deep dive on the redirect path. What is still missing before it counts as a design?",
+  o:["A choice of programming language",
+     "The trade-off each box costs, said out loud — for instance that the cache lets a deleted link keep resolving until its entry expires",
+     "A second deep dive on the database schema",
+     "Nothing — a diagram plus one deep dive is complete"],
+  a:1,
+  why:"A design is a set of choices, and a choice has a cost whether or not anyone mentions it. The cache that nobody said could serve stale data is still serving stale data; the only difference is who finds out first. Finishing the sentence \"…and the price of that is\" for every box is what turns a drawing into a design, and it is the part reviewers and interviewers listen for hardest. A second deep dive on an idle database is time spent on the quiet half of the system."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"The interviewer — thirty seconds in",
+  line:'"Design a URL shortener. Go."',
+  o:[{t:"Sure. So we have a client, an API layer, a database — and we'll want a cache in front of it and a load balancer for scale.", v:"weak",
+      f:"Four boxes in one breath, and every one of them a guess. The interviewer now has no way to tell whether you understand the system or have seen the diagram, and neither do you. Nothing you say next can be checked against a requirement, because there are none."},
+     {t:"Before I draw: roughly how many users a day, how fast does a redirect need to be, how long do links live, and are custom aliases or click stats in scope?", v:"strong",
+      f:"You have turned one vague sentence into four numbers and a scope, in fifteen seconds. Everything you draw from here on can be justified or challenged, and the interviewer has just learned the thing they were actually testing: that you know the question is not the one it sounds like."},
+     {t:"A URL shortener is basically a key-value store, so let me walk you through consistent hashing.", v:"weak",
+      f:"You have chosen the deep dive before the estimate, on a part that may not be hard at all. At a million users the whole thing fits on one database and consistent hashing is an answer to a question nobody has. The knowledge is real; the timing is what fails."}]},
+ {role:"Your product manager — kicking off a new service",
+  line:'"Can we just reuse the architecture from the last project? It worked fine."',
+  o:[{t:"Sure, same stack, same shape — saves a design phase.", v:"weak",
+      f:"The last project's shape was earned by the last project's numbers. Reusing it without re-running the estimate means every box arrives without a reason, and the first box that turns out to be missing — or unnecessary and expensive — will be found in production. You have skipped moves one and two and kept the cost."},
+     {t:"Probably most of it. Give me an hour to run the numbers for this one — users, reads against writes, how long we keep data — and I'll tell you which parts carry over and which box this project earns or drops.", v:"strong",
+      f:"You did not refuse and you did not comply blindly. You named the two moves that make reuse safe, put a time on them that a PM can accept, and promised an answer in their terms: what carries over. The estimate is the cheapest hour in the project."},
+     {t:"No — every system needs its own design from scratch.", v:"weak",
+      f:"True in spirit and unhelpful in the room. The PM hears a process objection, not a reason, and reuse is often exactly right. The loop is what tells you whether it is; saying so is the answer."}]},
+ {role:"A senior engineer — reviewing your design doc",
+  line:'"Why is there a Kafka in this diagram?"',
+  o:[{t:"For scalability — it decouples the services.", v:"weak",
+      f:"That is a property of Kafka, not a reason it is here. The reviewer asked which number earned the box, and you answered with a brochure. Expect the next question to be sharper, and expect the box to be removed if you cannot answer it."},
+     {t:"Honestly, it doesn't have a number behind it yet. At our write rate a plain queue or even a table would do. I'll take it off and note the throughput at which we'd bring it back.", v:"strong",
+      f:"You applied the rule to your own diagram before the reviewer had to, kept the useful part — the threshold — and lost nothing but a box. Reviewers trust a design more, not less, when its author can erase from it."},
+     {t:"It's what the other team uses, so we'd be consistent.", v:"weak",
+      f:"Consistency is a real value and it is not a number. The other team's Kafka was earned by the other team's traffic. If yours is a hundredth of theirs, you have inherited their operational cost and none of their reason."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

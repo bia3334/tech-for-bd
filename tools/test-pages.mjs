@@ -1,4 +1,4 @@
-/* Lint every page of both sites — the part node can check without a browser:
+/* Lint every page of every site — the part node can check without a browser:
      node tools/test-pages.mjs
    Catches: a syntax error in an inline script, getElementById pointing at an id that
    does not exist, data-t pointing at a term that is not in the glossary, unbalanced tags. */
@@ -6,11 +6,11 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import assert from "node:assert/strict";
 
 const root = new URL("..", import.meta.url).pathname;
-const sites = [".", "finance"];
+const sites = ["bd", "finance", "system-design"];
 let pages = 0;
 
 for (const name of sites) {
-  const dir = name === "." ? root : root + name + "/";
+  const dir = root + name + "/";
   globalThis.window = {};
   new Function(readFileSync(dir + "glossary.js", "utf8")).call(globalThis);
   /* terms/ holds new definitions from lessons still being written, before they are merged in */

@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nines, and what "consistent" actually means</title>
+<meta name="description" content="Lesson 05 — SLI, SLO, SLA and what 99.9% costs. Then the word consistent, which means three different things, and the theorem that says you cannot have all of them during a partition.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="05">
+<meta name="tfbd:tags" content="availability, nines, SLI, SLO, SLA, error budget, consistency, CAP, PACELC, partition, eventual consistency">
+<meta name="tfbd:level" content="Foundation">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+code{font-family:var(--ff-mono); font-size:.88em; color:var(--fast)}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- the loop ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+.arrow.back::before{content:"↺"; color:var(--slow)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)} .ev .a.off{color:var(--muted)}
+.ev.box .n{font-weight:500}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .hard{background:var(--fast-soft); color:var(--ink-2)}
+.flag .trade{background:var(--slow-soft); color:var(--ink-2)}
+.flag b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:3px}
+.flag .hard b{color:var(--fast)} .flag .trade b{color:var(--slow)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+.split{display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:stretch; padding:16px 18px; border-bottom:1px solid var(--line)}
+.side{border:1px solid var(--line); border-radius:3px; padding:14px 16px; background:var(--sunk)}
+.side .h{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:8px}
+.side .big{font-family:var(--ff-mono); font-size:22px; font-variant-numeric:tabular-nums; color:var(--ink)}
+.side .lbl{font-size:12.5px; color:var(--muted); margin-top:3px}
+.side.ok .big{color:var(--ok)} .side.bad .big{color:var(--no)}
+.gap{display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 14px; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; color:var(--no); text-align:center}
+.gap .cut{writing-mode:vertical-rl; border-left:2px dashed var(--no); height:100%; padding-left:8px; color:var(--no)}
+.after{padding:13px 18px; border-bottom:1px solid var(--line); font-size:13.5px; color:var(--muted); line-height:1.55; background:var(--sunk)}
+.after b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2); font-weight:500; display:block; margin-bottom:3px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← System Design · <b>Lesson 05</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">What one request costs · Lesson 05</div>
+  <h1>Nines, and what &ldquo;consistent&rdquo; actually means</h1>
+  <p class="lede">Two words end most design arguments before they start: "available" and "consistent". Both sound like things you simply want more of. Both have exact meanings, exact prices, and a theorem that says during the one moment it matters, you cannot have all of the second and keep the first.</p>
+  <div class="facts"><span>17 min</span><span>Closes chapter 1</span><span>Ends with five lines worth stealing</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>How much is a nine, and who is it a promise to</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline opens a plain explanation in English and Vietnamese, plus where that thing shows up once a system is actually running. Nothing here assumes you have met it before.</span></div>
+
+  <div class="stack">
+    <p>"The system should be highly available" is not a requirement, for the reason lesson 01 gave: it carries no number. The number is a count of nines. <b>99%</b> available sounds excellent and is a disaster — it allows three and a half <em>days</em> of downtime a year. <b>99.9%</b> — three nines — is about nine hours a year, or 43 minutes a month. <b>99.99%</b> is under an hour a year. <b>99.999%</b> — five nines, the figure people reach for without thinking — is five minutes a year, and buying it is roughly ten times harder and more expensive than the nine below it.</p>
+    <p>That measurement has three names, depending on who is being spoken to. The raw number — the fraction of requests that succeed — is an <button class="t" data-t="sli">SLI</button>, the indicator. The target you hold yourself to — "99.9% over 30 days" — is an <button class="t" data-t="slo">SLO</button>, the objective, an internal promise the team designs against. The same figure written into a customer contract with money attached, credits paid out if you miss it, is an <button class="t" data-t="sla">SLA</button>. The SLA is always set a little looser than the SLO, so that missing the target warns the team before it refunds the customer.</p>
+    <p>And the nine has a mirror image that is more useful than the nine itself: the <button class="t" data-t="errorbudget">error budget</button>. If the target is 99.9%, then 0.1% — about 43 minutes a month — is a budget of downtime you are allowed to spend, on risky deploys, on experiments, on the incident that was always going to happen. It reframes reliability from a wish into an amount. A team with budget left can move fast; a team that has spent it slows down and stops shipping until the month resets. The nine you promised and the risk you can take are the same number, read from two ends.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">99% — two nines</div><div class="ds">~3.65 days of downtime a year. Fine for an internal tool; a catastrophe for anything a customer pays for.</div></div>
+    <div class="node"><div class="nm">99.9% — three nines</div><div class="ds">~8.8 hours a year, ~43 minutes a month. The common target for a serious product, and the budget most SLOs are written at.</div></div>
+    <div class="node"><div class="nm">99.99% — four nines</div><div class="ds">~53 minutes a year. Now every dependency and every deploy has to be careful; the cost step is real.</div></div>
+    <div class="node core"><div class="nm">99.999% — five nines</div><div class="ds">~5 minutes a year. Rarely needed, often demanded, and each nine above costs about ten times the one below.</div></div>
+  </div>
+
+  <div class="stack">
+    <p class="vi"><b>In production</b>The SLO is the number a launch-readiness meeting is really asking about, and the error budget is the number that should decide whether this week's risky change ships now or waits. A team that tracks neither is not being more relaxed about reliability; it is being reliable by luck, and finding out the target only after it has been missed.</p>
+    <p class="vi"><b>Tiếng Việt</b>"Sẵn sàng cao" chưa phải yêu cầu — thiếu con số. Con số là số lượng số chín: 99% cho 3,65 ngày chết mỗi năm, 99,9% khoảng 43 phút mỗi tháng, 99,999% khoảng 5 phút mỗi năm và mỗi số chín thêm đắt gấp mười. Cùng con số đó có ba tên tuỳ người nghe: SLI (đo được), SLO (mục tiêu nội bộ), SLA (hợp đồng kèm tiền). Mặt kia của số chín là error budget — phần được phép chết, tiêu vào deploy mạo hiểm.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Availability is a chain, and consistency is three words in a coat</h2>
+
+  <div class="stack">
+    <p>The first trap in the nines is that they do not add — they multiply, downward. A request that has to pass through ten services to be answered is only available if <em>all ten</em> are up at once. Ten services at three nines each is not three nines end to end; it is 0.999 to the tenth power, about <b>99.0%</b> — a whole nine gone, from a chain where every single link met its target. This is why an end-to-end SLO forces every dependency's SLO <em>higher</em> than the promise: to deliver three nines through five services, each of the five needs closer to four. Every box you added in lesson 01 was also a subtraction from the availability you can promise, and nobody feels it until the chain is long.</p>
+    <p>The second word is worse, because it hides three different meanings under one coat. When a developer says a system is "consistent" they might mean any of: every reader sees the latest write the instant it happens (strong); readers might see an old value for a moment but all copies will agree soon (<button class="t" data-t="eventual">eventual</button>); or a single user at least sees their own writes even if others lag. These are not degrees of the same thing — they are different promises with different costs, and most consistency arguments are two people using the one word for two of them.</p>
+    <p>Which brings the two words into collision. Your data lives on more than one machine — it has to, for the availability above. Normally both copies agree and you have consistency and availability together. Then, rarely and briefly, the network between the copies breaks: a <button class="t" data-t="partitionnet">partition</button>. Both machines are alive; the wire between them is not. A write lands on the side a user can reach. Do you accept it — and let the two copies disagree until the wire heals — or refuse it, so nothing is ever wrong but this user cannot write? That is the whole of the <button class="t" data-t="cap">CAP theorem</button>, and it is not a menu of three. It is a forced choice between two, made only in the seconds the network is split.</p>
+  </div>
+
+  <div class="pull"><q>You do not choose CAP on a whiteboard. The network chooses the moment for you; all you decide in advance is which way you will fall.</q></div>
+
+  <div class="stack">
+    <p>Refuse the write and you have chosen <button class="t" data-t="cp">CP</button> — consistency during the partition. Users on the cut-off side get errors when they try to write, for as long as the split lasts, and in exchange no one anywhere ever reads a wrong value; when the wire heals there is nothing to reconcile, because nothing moved. That is the right default for anything where two truths is worse than a pause: money, inventory, a seat on a flight. Accept the write and you have chosen <button class="t" data-t="ap">AP</button> — availability during the partition. No one gets an error, writes are taken on whichever copy is reachable, and the price is that the copies disagree until the wire heals and then have to be merged — most fold together, a few genuinely collide and need a rule or a person to resolve. That is the right default for a like button, a status page, a feed, a cart you would rather keep than lose.</p>
+    <p>One refinement worth knowing by name, because interviewers ask for it: the choice does not only exist during a partition. Even when the network is perfectly healthy, keeping copies strongly consistent costs latency — every write has to wait for the other copies to confirm. That extension is <b>PACELC</b>: during a Partition, choose A or C; Else, in normal running, choose between Latency and Consistency. The same tension, present every day in small print, not only in the rare emergency. CAP is the headline; PACELC is the fuller sentence.</p>
+    <p class="vi"><b>In production</b>Every distributed database has already made this choice, and its documentation states it — usually on a page titled something like "behaviour during a network partition". Postgres with synchronous replication leans CP; Cassandra and DynamoDB lean AP and hand you conflict resolution; many let you choose per operation. Reading that page is how you find out what your database will do in the emergency, before the emergency.</p>
+    <p class="vi"><b>Tiếng Việt</b>Số chín nhân xuống, không cộng: mười dịch vụ 99,9% nối tiếp chỉ còn ~99,0% — mất một số chín dù link nào cũng đạt. "Nhất quán" là ba nghĩa trong một áo: mạnh (đọc thấy ngay), eventual (rồi sẽ nhất trí), và đọc-thấy-ghi-của-chính-mình. Khi mạng đứt (partition), CAP ép chọn: CP từ chối write để không bao giờ sai; AP nhận write để không bao giờ lỗi rồi hoà giải sau. PACELC nói thêm: cả lúc mạng lành, nhất quán mạnh vẫn đánh đổi bằng độ trễ.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>The nines you promised the wrong way</h2>
+
+  <div class="stack">
+    <p>Availability and consistency are where good intentions cost the most, because "more" sounds free and is not. Each of these is a real decision dressed as an obvious one.</p>
+  </div>
+
+  <h3>Buying nines you do not need</h3>
+  <p class="prose" style="margin-bottom:20px">Somebody says "let's aim for five nines" and it sounds like ambition. It is a bill. Five nines means five minutes of downtime a year, which means no single point of failure anywhere, multi-region everything, and an on-call culture that treats a five-minute blip as a crisis — an order of magnitude more expensive than the four nines almost every product actually needs. The honest first question is not "how available can we be" but "what does an hour of downtime actually cost us", and for most systems the answer makes three or four nines the correct, and much cheaper, target.</p>
+
+  <h3>Promising an SLO you cannot make, because your dependencies won't</h3>
+  <p class="prose" style="margin-bottom:20px">A team promises 99.9% and builds on five services that each promise 99.9%. The arithmetic already lost: five links at three nines is about 99.5% end to end, and that is before the team's own code fails once. An SLO is only real if every dependency underneath it is higher, and a promise made without checking the chain is a promise the multiplication has already broken. You cannot be more available than the things you depend on, added up the multiplying way.</p>
+
+  <h3>Choosing CP or AP by accident</h3>
+  <p class="prose" style="margin-bottom:20px">The most expensive version of this is not choosing at all — taking whatever the database does by default and finding out which it was during the incident. A payment system that turns out to be AP sells the same thing twice when the network blips. A social feed that turns out to be CP goes down entirely because two datacenters could not talk for four seconds, to protect data that nobody would have minded being a moment stale. Both are the right mechanism attached to the wrong kind of data. The choice is per feature, not per company: the same system should usually be CP for its ledger and AP for its "who's online" indicator.</p>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never let a like button take the whole site down to stay consistent, and never let money stay available by disagreeing with itself.</p>
+    <p class="sub">Sort every piece of data by one question: is a brief disagreement, healed in seconds, worse than a brief outage? For money, inventory and bookings the answer is yes — choose CP and accept that a partition means some writes are refused. For likes, views, presence, feeds and drafts the answer is no — choose AP and accept that a partition means some reads are stale and a few edits must be merged. Getting this backwards is not a small mistake; it is either lost money or a self-inflicted outage, and both are found in production during the one rare minute the network is split.</p>
+  </div>
+
+  <h3>Where the choice shows up</h3>
+  <p class="prose" style="margin-bottom:20px">Four rooms where "available" and "consistent" stop being adjectives and start being decisions with a price.</p>
+  <ul class="uses">
+    <li><span class="u">The SLO review</span><span class="d">How many nines, measured how, over what window — and what the error budget buys the team the freedom to do. The number, not the adjective.</span></li>
+    <li><span class="u">The dependency map</span><span class="d">Every service your request touches, with its own SLO, multiplied. The end-to-end number is always smaller than the smallest link, and usually smaller than people expect.</span></li>
+    <li><span class="u">The database choice</span><span class="d">Its partition behaviour is a fixed property you are opting into. Read the page that says what it does when a replica cannot be reached — lessons 08 and 16 go deeper.</span></li>
+    <li><span class="u">The incident review</span><span class="d">"We were down because two regions could not talk" is a CP system meeting a partition. "We charged twice" is an AP system meeting one. The postmortem is where an accidental choice becomes a visible one.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>In production</b>The worst version of the consistency choice is the one nobody made: the default was accepted, the data's real need was never asked, and the mismatch surfaces as either double-charged customers or an outage over a four-second network blip. The choice is cheap to make on purpose and expensive to discover by accident.</p>
+  <p class="vi"><b>Tiếng Việt</b>Ba cái bẫy: mua số chín không cần (năm nhân đắt gấp mười bốn nhân — hỏi "một giờ chết tốn bao nhiêu" trước); hứa SLO mà phụ thuộc không đỡ nổi (năm link 99,9% chỉ còn ~99,5%); và chọn CP/AP bằng cách không chọn — lấy mặc định của database rồi biết nó là gì trong lúc sự cố. Luật: đừng để nút like hạ cả site để giữ nhất quán, đừng để tiền "sẵn sàng" bằng cách tự mâu thuẫn. Chọn theo từng loại dữ liệu, không theo cả công ty.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>The nine, the chain, and the partition</h2>
+  <p class="prose" style="margin-bottom:14px">Two things to feel here. Move the target and watch downtime fall by tenfold per nine; add dependencies and watch a chain of good services add up to a worse one. Then split the network and choose which way to fall — refuse writes and stay correct, or accept them and reconcile later.</p>
+  <p class="prose" style="margin-bottom:26px">There is no setting that gives you both during the split. That is not a limitation of the sim; it is the theorem.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="p-cp">Money: refuse, stay correct</button>
+      <button class="ghost" id="p-ap">Likes: accept, reconcile later</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Availability target<small>each nine is ten times less downtime and roughly ten times the cost</small></span><span class="kv" id="vNine">—</span><input type="range" id="kNine" min="0" max="3" step="1" aria-label="Availability target"></div>
+      <div class="knob"><span class="kl">Services in the chain<small>the request is only up if every one is</small></span><span class="kv" id="vDep">—</span><input type="range" id="kDep" min="1" max="12" step="1" aria-label="Services in the chain"></div>
+      <div class="knob"><span class="kl">During a partition, this data chooses<small>consistency (refuse) or availability (accept)</small></span><span class="kv" id="vMode">—</span><input type="range" id="kMode" min="0" max="1" step="1" aria-label="CP or AP"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">Downtime a year, one service</span><span class="v" id="stDt">—</span></div>
+      <div class="stat"><span class="k">End to end, whole chain</span><span class="v" id="stChain">—</span></div>
+      <div class="stat"><span class="k">Its downtime a year</span><span class="v" id="stChainDt">—</span></div>
+      <div class="stat"><span class="k">Nines, end to end</span><span class="v" id="stChainN">—</span></div>
+    </div>
+    <div class="split">
+      <div class="side ok" id="sideNear"><div class="h">Reachable side · writes attempted</div><div class="big" id="nearBig">—</div><div class="lbl" id="nearLbl">—</div></div>
+      <div class="gap"><div class="cut">NETWORK SPLIT</div></div>
+      <div class="side bad" id="sideFar"><div class="h">Far side · what readers see</div><div class="big" id="farBig">—</div><div class="lbl" id="farLbl">—</div></div>
+    </div>
+    <div class="after" id="after"></div>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Downtime is (1 − target) × minutes in a year; the chain is the target raised to the number of services. The partition assumes 100 writes attempted on the reachable side during the split, with about 5% of AP writes genuinely colliding. The maths lives in <code>system-design/sim-05.js</code> and has its own check: <code>node tools/test-sd-05.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in an SLA negotiation.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments where the words become decisions</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"How many nines, and what does an hour of downtime actually cost us?"</div><div class="use">Turns "highly available" into a number, and the number into a budget decision. The cost of downtime is what tells you whether three nines or five is the honest target — and five is almost never it.</div></div></li>
+    <li><div><div class="say">"What's our error budget, and how much is left this month?"</div><div class="use">The nine read from the other end. A budget with room means ship the risky change; a spent budget means slow down. It is the single number that should govern how fast a team moves.</div></div></li>
+    <li><div><div class="say">"What's the end-to-end availability once you multiply the dependencies?"</div><div class="use">Nines multiply downward. A chain of three-nines services is a two-nines system, and an SLO promised without doing this multiplication is already broken. You cannot be more available than your dependencies, combined.</div></div></li>
+    <li><div><div class="say">"When you say consistent — do you mean strong, eventual, or read-your-own-writes?"</div><div class="use">Three different promises, three different costs, one overloaded word. Ask it the first time and you save the argument where two people mean two things and both think they agree.</div></div></li>
+    <li><div><div class="say">"During a partition, does this data refuse the write or accept it?"</div><div class="use">The CAP choice, made on purpose. Money refuses and stays correct; a like button accepts and reconciles. The disaster is answering "whatever the database does by default" and finding out during the incident.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần chứng minh định lý nào. Chỉ cần biến "sẵn sàng" thành số chín và số chín thành ngân sách, nhân chuỗi phụ thuộc trước khi hứa, hỏi "nhất quán nghĩa nào" mỗi lần nghe từ đó, và với mỗi loại dữ liệu chọn trước: lúc mạng đứt, từ chối write hay nhận write.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before an SLO review.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>System Design — Lesson 05 of 28 · Chapter 1 complete · Next: choosing a database is choosing what it will be bad at.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-05.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In production"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("sd-l5")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("sd-l5",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var NC=window.NINES_CAP, TARGETS=[0.999,0.9999,0.99999,0.999999].map(function(x){return x;}); // placeholder, real below
+TARGETS=[0.999,0.9999,0.99999,0.999999];
+var NINELBL=["99.9%","99.99%","99.999%","99.9999%"];
+/* keep it to the four familiar rungs */
+TARGETS=[0.99,0.999,0.9999,0.99999]; NINELBL=["99%","99.9%","99.99%","99.999%"];
+var K={nine:document.getElementById("kNine"), dep:document.getElementById("kDep"), mode:document.getElementById("kMode")};
+function fmtDt(mins){
+  if(mins>=1440) return (mins/1440).toFixed(1)+" days/yr";
+  if(mins>=60) return (mins/60).toFixed(1)+" hrs/yr";
+  return mins.toFixed(1)+" min/yr";
+}
+function ninesOf(p){ var s=(p*100).toFixed(5).replace(/0+$/,"").replace(/\.$/,""); return s+"%"; }
+function render(){
+  var p=TARGETS[+K.nine.value], n=+K.dep.value, mode=+K.mode.value===0?"CP":"AP";
+  document.getElementById("vNine").textContent=NINELBL[+K.nine.value];
+  document.getElementById("vDep").textContent=n+(n===1?" service":" services");
+  document.getElementById("vMode").textContent=mode==="CP"?"consistency (refuse)":"availability (accept)";
+
+  var dt1=NC.downtime(p).perYear, chain=NC.chain(p,n), dtc=NC.downtime(chain).perYear;
+  document.getElementById("stDt").textContent=fmtDt(dt1);
+  var c=document.getElementById("stChain"); c.textContent=ninesOf(chain); c.className="v"+(chain<p?" hot":" cool");
+  document.getElementById("stChainDt").textContent=fmtDt(dtc);
+  document.getElementById("stChainN").textContent=(n>1?"↓ from "+ninesOf(p):"—");
+
+  var out=NC.partition(mode,{writes:100,conflictRate:0.05});
+  var near=document.getElementById("sideNear"), far=document.getElementById("sideFar");
+  if(mode==="CP"){
+    near.className="side bad"; document.getElementById("nearBig").textContent="0 of 100";
+    document.getElementById("nearLbl").textContent="writes accepted — the rest error until the split heals";
+    far.className="side ok"; document.getElementById("farBig").textContent="correct";
+    document.getElementById("farLbl").textContent="never a wrong value; nothing to reconcile after";
+  } else {
+    near.className="side ok"; document.getElementById("nearBig").textContent="100 of 100";
+    document.getElementById("nearLbl").textContent="writes accepted — nobody sees an error";
+    far.className="side bad"; document.getElementById("farBig").textContent="stale";
+    document.getElementById("farLbl").textContent="100 stale reads · "+out.conflicts+" real conflicts to merge after";
+  }
+  document.getElementById("after").innerHTML="<b>When the wire heals</b>"+out.afterHeal;
+  document.getElementById("flag").innerHTML=
+    '<div class="'+(mode==="CP"?"trade":"hard")+'"><b>'+out.choice+'</b>'+out.felt+' · Right for '+out.good+'; wrong for '+out.bad+'.</div>';
+}
+function touched(){ mark("sim"); render(); }
+[K.nine,K.dep,K.mode].forEach(function(k){ k.addEventListener("input", touched); });
+document.getElementById("p-cp").addEventListener("click",function(){ K.nine.value=2; K.dep.value=5; K.mode.value=0; touched(); });
+document.getElementById("p-ap").addEventListener("click",function(){ K.nine.value=1; K.dep.value=3; K.mode.value=1; touched(); });
+document.getElementById("reset").addEventListener("click",function(){ K.nine.value=1; K.dep.value=1; K.mode.value=0; render(); });
+K.nine.value=1; K.dep.value=1; K.mode.value=0; render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A stakeholder says 'let's aim for five nines'. Before agreeing, what is the number that should actually decide the target?",
+  o:["The number of servers you can afford",
+     "The competitor's uptime page",
+     "What an hour of downtime actually costs the business — because five nines (five minutes a year) costs about ten times four nines, and most products do not need it",
+     "The number the database vendor advertises"],
+  a:2,
+  why:"Each extra nine is roughly a tenfold jump in cost: five nines means no single point of failure anywhere, multi-region everything, and treating a five-minute blip as a crisis. Whether that is worth it depends entirely on what downtime costs you. For most products an hour of downtime is expensive but survivable, which makes three or four nines the honest, far cheaper target. 'Five nines' chosen as a slogan rather than from that cost is a bill nobody priced."},
+ {q:"Your service promises 99.9%. It depends on five other services, each also promising 99.9%. What is your real end-to-end availability, and what does that mean for your promise?",
+  o:["99.9% — the dependencies don't change your own number",
+     "About 99.5% — nines multiply, so five three-nines dependencies already put you below your own target before your code runs",
+     "99.99% — combining services improves availability",
+     "It can't be calculated"],
+  a:1,
+  why:"Availability multiplies, not adds: 0.999 to the fifth power is about 0.995, and that is before your own code fails once. You cannot be more available than the product of everything you depend on. A three-nines promise built on three-nines dependencies is already broken by arithmetic; to deliver three nines through five services, each of them needs to be closer to four. The multiplication is the first thing to do, not the last."},
+ {q:"Two engineers argue about whether the system is 'consistent'. One means readers always see the latest write; the other means all copies agree within a few seconds. What is going on?",
+  o:["One of them is simply wrong",
+     "They are using one word for two different promises — strong consistency and eventual consistency — with different costs, which is why the argument goes in circles",
+     "They are talking about availability, not consistency",
+     "The system cannot be either"],
+  a:1,
+  why:"'Consistent' hides at least three promises: strong (every read sees the latest write immediately), eventual (reads may be briefly stale but all copies converge), and read-your-own-writes (a user at least sees their own changes). These are not degrees of one thing; they are different guarantees with different prices. Most consistency arguments are exactly this — two people meaning two of the three and each assuming the other agrees. The fix is to ask which one, first."},
+ {q:"During a rare network partition, a payment system must decide whether to accept a charge it cannot confirm across the split. Which choice fits money, and what is the cost of that choice?",
+  o:["Accept it (AP) — never show the user an error",
+     "Accept it and hope the copies don't actually diverge",
+     "There is no choice to make; the database handles it",
+     "Refuse it (CP) — stay correct, at the cost that users on the cut-off side get errors on writes until the split heals"],
+  a:3,
+  why:"For money, two truths is worse than a pause: charging or not-charging must never disagree across copies. That is CP — refuse writes that cannot be confirmed, so nothing is ever wrong, and accept that some users cannot pay during the split. The cost is real (errors, briefly) and it is the right cost. AP here would mean accepting charges on both sides and reconciling later, which for money means double charges or a seat sold twice. The database does have a default, and accepting it blindly is exactly how this goes wrong."},
+ {q:"A social feed goes completely down for four seconds because two datacenters briefly couldn't talk to each other. What was misconfigured, and what should it have done?",
+  o:["Nothing — an outage is correct when the network splits",
+     "It was CP for data that should be AP: it refused to serve rather than show a slightly stale feed, when a like or a post being a moment old harms no one",
+     "The datacenters should never lose contact",
+     "The feed needed five nines"],
+  a:1,
+  why:"A feed is the textbook AP case: a brief disagreement — a like that shows up a second late, a post momentarily missing — costs nothing, while an outage costs everything. Configuring it CP means it protects consistency nobody needed by sacrificing the availability everybody did, and a four-second partition becomes a full outage. The mechanism is fine; it is attached to the wrong data. The choice is per feature: the same company's ledger should be CP and its feed AP."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"The CEO — in a planning meeting",
+  line:'"Our competitor advertises five nines. Let\'s match them."',
+  o:[{t:"Agreed, I\'ll make five nines the target.", v:"weak",
+      f:"You have accepted a tenfold cost increase from a slogan on someone else's marketing page. Five nines means multi-region everything and treating five minutes a year as a crisis, and you have not yet asked whether an hour of downtime even hurts this business. The budget for that decision is enormous and nobody has seen the number."},
+     {t:"We can, but each nine is about ten times the cost of the one below, so before we commit: what does an hour of downtime actually cost us? If it's survivable, three or four nines gets us most of the value for a fraction of the price — and we can advertise the real number honestly.", v:"strong",
+      f:"You did not refuse and you did not rubber-stamp. You priced the ambition, asked the one question that decides the target, and offered a cheaper honest number instead of an expensive borrowed one. Reliability is a spend, and you made the spend visible before agreeing to it."},
+     {t:"Five nines is impossible for a team our size.", v:"weak",
+      f:"It is not impossible, it is expensive, and 'impossible' invites an argument you will lose the moment someone names a company that does it. Price it instead. The cost, set against what downtime actually costs you, makes the decision on its own — and usually makes it for a lower number."}]},
+ {role:"A backend engineer — designing a new service",
+  line:'"We\'ll promise 99.9%. Our dependencies are all 99.9% too, so we\'re fine."',
+  o:[{t:"Sounds consistent, ship it.", v:"weak",
+      f:"The arithmetic already failed and it was never done. Each dependency at three nines, multiplied down the chain, puts you below your own promise before your code runs once. 'All 99.9%' does not add up to 99.9%; it multiplies down to less. You have promised a number your own dependencies make impossible."},
+     {t:"Careful — nines multiply. Five dependencies at three nines each is about 99.5% end to end, under our own target before we've failed once. To promise three nines we need each dependency closer to four, or fewer of them on the critical path. Let me map the chain.", v:"strong",
+      f:"You caught the multiplication, showed the number it produces, and named both fixes — raise the dependencies or shorten the chain. An SLO is a promise about the whole chain, and you are the only one in the room who checked whether the chain can keep it."},
+     {t:"Let's just promise 99% to be safe.", v:"weak",
+      f:"Sandbagging is the mirror of the mistake, not the fix. 99% is 3.65 days of downtime a year, which may be well below what the product needs, and you have chosen it to avoid arithmetic rather than because it is right. Do the multiplication and promise the number the chain can actually support."}]},
+ {role:"Your architect — reviewing the data design",
+  line:'"Just use the database\'s default consistency everywhere. One setting, simpler."',
+  o:[{t:"Agreed, one setting is easier to reason about.", v:"weak",
+      f:"One setting means the ledger and the 'who's online' dot get the same guarantee, and one of them is now wrong. If the default is AP, a partition can double-charge; if it is CP, a partition takes the feed down to protect likes nobody minds being stale. Simpler to configure, more expensive in the incident."},
+     {t:"Simpler to configure, but the choice is per data, not per system. The ledger has to be CP — a partition should refuse writes, not risk two truths about money. Presence and the feed should be AP — an outage to protect a stale 'online' dot is a bad trade. Let me split them.", v:"strong",
+      f:"You accepted the appeal of one setting and then showed why it costs more than it saves: correctness and availability are wanted in different amounts by different data. Choosing per feature is slightly more config and exactly the right amount of it."},
+     {t:"The default is fine; partitions basically never happen.", v:"weak",
+      f:"They are rare and they are certain, and 'basically never' is the assumption every partition postmortem opens with. The choice costs almost nothing to make on purpose now and a double-charge or a self-inflicted outage to discover by accident later. Rare is not the same as ignorable when the cost of being wrong is money."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where 200 milliseconds go</title>
+<meta name="description" content="Lesson 02 — DNS, TLS, load balancer, app server, database, back. One request traced hop by hop, with the time each hop actually takes and the two hops where almost all of it is spent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="02">
+<meta name="tfbd:tags" content="request path, DNS, TLS, latency, round trip, keep-alive, N+1, tail latency, load balancer">
+<meta name="tfbd:level" content="Foundation">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+code{font-family:var(--ff-mono); font-size:.88em; color:var(--fast)}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- the loop ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+.arrow.back::before{content:"↺"; color:var(--slow)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)} .ev .a.off{color:var(--muted)}
+.ev.box .n{font-weight:500}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .hard{background:var(--fast-soft); color:var(--ink-2)}
+.flag .trade{background:var(--slow-soft); color:var(--ink-2)}
+.flag b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:3px}
+.flag .hard b{color:var(--fast)} .flag .trade b{color:var(--slow)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+.ev .bar{height:5px; background:var(--fast); border-radius:1px; margin-top:6px; min-width:2px; transition:width .3s ease}
+.ev.cold .bar{background:var(--slow)} .ev.db .bar{background:var(--no)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← System Design · <b>Lesson 02</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">What one request costs · Lesson 02</div>
+  <h1>Where 200 milliseconds go</h1>
+  <p class="lede">A user taps a button and, a fifth of a second later, a screen appears. Everything you will ever do about performance depends on knowing what happened in that fifth of a second — and the honest answer is that two hops took nearly all of it, and neither of them was your code.</p>
+  <div class="facts"><span>15 min</span><span>No networking assumed</span><span>Ends with five lines worth stealing</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>One tap, eight hops</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline opens a plain explanation in English and Vietnamese, plus where that thing shows up once a system is actually running. Nothing here assumes you have met it before.</span></div>
+
+  <div class="stack">
+    <p>Follow one request from a phone in Hanoi to a server in Singapore and back. Before the server hears anything, the phone has to turn a name into an address — a <button class="t" data-t="dns">DNS lookup</button> — then open a connection with a TCP handshake, then agree on encryption keys with a <button class="t" data-t="tlshandshake">TLS handshake</button>. Each of those is a conversation, and a conversation with somebody 2,000 kilometres away takes at least one <button class="t" data-t="rtt">round trip</button>: out and back, about 30 milliseconds each, because light in fibre is fast but not free.</p>
+    <p>Only then does the actual request leave. It arrives at a <button class="t" data-t="loadbalancer">load balancer</button>, which spends half a millisecond choosing one of the application servers behind it. The server parses the request, checks who is asking, runs the business logic — a few milliseconds, on a normal day. It asks the database for a row: half a millisecond across the datacenter network, two milliseconds for an indexed lookup, half a millisecond back. The response is assembled and sent, and takes the same 30 milliseconds to reach the phone that the request took to leave it.</p>
+    <p>Add it up and the shape is unmistakable. The trip across the wide-area network shows up once on a warm connection and four times on a cold one. The database shows up once per query. Everything else — the load balancer, the application code, the datacenter hops — is loose change. Two kinds of hop carry the time, and both of them are round trips.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">DNS · TCP · TLS — only on a cold connection</div><div class="ds">Three conversations before the request can leave. About 20 ms, then one round trip, then one more. On the second request they are gone.</div></div>
+    <div class="arrow">the request finally leaves the phone</div>
+    <div class="node core"><div class="nm">Across the wide-area network — one round trip</div><div class="ds">Hanoi to Singapore and back: ~30 ms. To Frankfurt and back: ~150. No code changes this number; only distance and the count of trips do.</div></div>
+    <div class="arrow">inside the datacenter now — sub-millisecond hops</div>
+    <div class="node"><div class="nm">Load balancer · application server</div><div class="ds">0.5 ms to pick a server, ~3 ms to do the work. The part everyone wants to optimise, and the part that is already fast.</div></div>
+    <div class="arrow">once per query</div>
+    <div class="node core"><div class="nm">Database — a datacenter hop plus the query</div><div class="ds">~2.5 ms for an indexed read. Forty of them, one after another, is 100 ms — more than the ocean.</div></div>
+    <div class="arrow">the response takes the same road back</div>
+  </div>
+
+  <div class="stack">
+    <p class="vi"><b>In production</b>The browser's network panel draws exactly this as a waterfall: DNS, connect, TLS, waiting, download. Server logs start at "waiting" and end before "download". The two never agree on how long a request took, and the browser is the one telling the truth, because it is measuring from where the user sits.</p>
+    <p class="vi"><b>Tiếng Việt</b>Một request đi qua tám chặng: DNS, bắt tay TCP, bắt tay TLS (chỉ ở kết nối lạnh), băng qua mạng diện rộng, load balancer, mã ứng dụng, database, rồi quay về. Cộng lại thì hai loại chặng chiếm gần hết thời gian — chuyến đi-về qua mạng diện rộng và database — và cả hai đều là những vòng đi-về, không phải code của bạn.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>The unit of latency is the round trip, not the line of code</h2>
+
+  <div class="stack">
+    <p>Light travels about 200 kilometres per millisecond in fibre, and a packet rarely takes the straight line. Hanoi to Singapore is a round trip of roughly 30 ms; to Frankfurt, 150 or more. That number is a property of geography. You can shrink it in exactly two ways — put the server closer to the user, or cross the gap fewer times — and neither of those is a faster algorithm.</p>
+    <p>That is why the count of round trips matters more than almost anything you do inside the server. A cold connection costs three extra conversations before the first byte of your request moves: DNS, TCP, TLS. On a connection kept open — <button class="t" data-t="keepalive">keep-alive</button> — the second request pays for none of them. For a user on the far side of an ocean, that single configuration flag is worth 300 milliseconds, more than every optimisation you could make to the code combined.</p>
+    <p>The same arithmetic applies inside the datacenter, on a smaller scale. A round trip to the database is half a millisecond plus the query. That sounds like nothing, and it is nothing — once. A screen that lists forty orders and then fetches each order's customer with its own query makes forty-one trips, one after another. At 2.5 ms each, the database has just cost more than the ocean did. The database is not slow. It is being asked forty-one times when once would do. That pattern has a name, the <button class="t" data-t="nplusone">N+1 query</button>, and it is the most common performance bug in existence because it is invisible in code that looks perfectly reasonable.</p>
+  </div>
+
+  <div class="pull"><q>You cannot make light faster. You can only ask for fewer trips, or make them shorter.</q></div>
+
+  <div class="stack">
+    <p>So the budget for a 200 ms request, written honestly, looks like this. One trip across the wide-area network: 30 to 150 ms, depending on where the user is. One trip to the database: 2 to 3 ms if the query is indexed, 40 or more if it is not. Load balancer, application code, serialisation: 3 or 4 ms in total. On a cold connection, add three more wide-area trips at the top. Everything you will ever be asked to "make faster" is one of those lines, and the first job is to find out which.</p>
+    <p>There is one more number the average hides. Measure a thousand requests and most take 40 ms — but ten of them take 900. That is <button class="t" data-t="tail">tail latency</button>, and it comes from things that happen occasionally: a garbage-collection pause, a lock held a moment too long, a cache that had to be refilled, a retry. A user who loads a screen with ten requests on it meets the slow one about one time in ten. Design for the p99, not the mean, because the p99 is what a real person feels.</p>
+    <p class="vi"><b>In production</b>Connection pools are keep-alive by another name: the HTTP client keeps a few sockets open to each host, the database driver keeps a few connections to the database, and the handshake happens once per pool rather than once per request. When the pool is missing or too small, the waterfall shows a handshake on every request and nobody can explain why the service is slow "even though the code is fast".</p>
+    <p class="vi"><b>Tiếng Việt</b>Đơn vị của độ trễ là vòng đi-về, không phải dòng code. Khoảng cách địa lý không code nào rút ngắn được; chỉ có hai cách: đặt server gần hơn, hoặc đi qua khoảng cách đó ít lần hơn. Kết nối giữ mở (keep-alive) bỏ được ba vòng đi-về ở request thứ hai. Bên trong trung tâm dữ liệu cũng vậy: N+1 truy vấn biến database "nhanh" thành chặng chậm nhất. Và đo p99, không đo trung bình.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>Every hop lies about itself</h2>
+
+  <div class="stack">
+    <p>Each component reports its own time, and each report is true. The application server says 3 ms. The database says 2 ms per query. The load balancer says half a millisecond. Add up what the components say and you get 6 ms; the user experienced 200. The missing 194 are in the gaps between the reports — the round trips — and no single component owns them. That is why performance work done from inside one component so often changes nothing the user can feel.</p>
+  </div>
+
+  <h3>The chatty server</h3>
+  <p class="prose" style="margin-bottom:20px">The code is clean: load the list, then for each item load its details. Each query is 2 ms, so the reasoning goes, and the database is "fine". The list has forty items today and four hundred next year, and the screen's load time grows in a straight line with it. Nobody wrote a slow query; somebody wrote forty-one fast ones, in sequence. The fix is not a faster database. It is one query with a join, or one query with all forty ids, or — if they genuinely must be separate — firing them together so the round trips overlap instead of stacking.</p>
+
+  <h3>The cold path nobody measured</h3>
+  <p class="prose" style="margin-bottom:20px">The load test ran from a machine in the same datacenter, with a client that reused its connection, and reported 8 ms. The first real user was on a phone on the far side of the world, on a connection that had to be built from nothing. Three handshakes, four wide-area round trips, 600 ms — and a support ticket saying the app is slow. The test was accurate. It just measured a different request from the one the user makes.</p>
+
+  <h3>The average that hides the user</h3>
+  <p class="prose" style="margin-bottom:20px">A dashboard shows a mean of 40 ms and everyone relaxes. The p99 is 900 ms and nobody looked. The slow one-in-a-hundred is not random noise; it is a specific thing happening — a pause, a lock, a cold cache, a retry — and it is happening to a real person every few seconds at any reasonable traffic. Averages are what components report. Percentiles are what users experience.</p>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never optimise a hop you have not measured from the user's side.</p>
+    <p class="sub">Open the waterfall before opening the profiler. Find the two biggest bars, name the round trips behind them, and only then decide what to change. Shaving a millisecond off code that runs for three, while a request crosses an ocean four times, is work that feels productive and changes nothing. The two hops that carry the time are almost never the ones the code owns.</p>
+  </div>
+
+  <h3>Where the hops show up</h3>
+  <p class="prose" style="margin-bottom:20px">Four places, each showing a different slice of the same request. Only the first one shows all of it.</p>
+  <ul class="uses">
+    <li><span class="u">The browser's network waterfall</span><span class="d">DNS, connect, TLS, waiting, download — one bar each, measured from the user's chair. The only view that includes the wide-area round trips.</span></li>
+    <li><span class="u">The server's access log</span><span class="d">Starts when the request arrives and stops when the response leaves. Everything before and after is invisible, which is most of it.</span></li>
+    <li><span class="u">The database's slow-query log</span><span class="d">Shows the 40 ms scan clearly, and says nothing about the forty fast queries that added up to more.</span></li>
+    <li><span class="u">A distributed trace</span><span class="d">One span per hop, nested, with the gaps drawn as gaps. The closest thing to seeing the whole request at once — lesson 22.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>In production</b>The commonest performance incident has this shape: a screen got slower over months, no single query is slow, no single component is loaded, and the fix is one query instead of N. Nobody is surprised at the end, and nobody could see it from inside any one box.</p>
+  <p class="vi"><b>Tiếng Việt</b>Mỗi thành phần báo đúng thời gian của mình, cộng lại vẫn thiếu — phần thiếu là các vòng đi-về nằm giữa chúng, không ai sở hữu. Ba cái bẫy: server "nói nhiều" (N+1), đường lạnh không ai đo (test trong cùng datacenter), và trung bình che mất p99. Luật: không tối ưu chặng nào chưa đo từ phía người dùng.</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>One request, hop by hop</h2>
+  <p class="prose" style="margin-bottom:14px">Move the user further away, close the connection between requests, or make the screen fetch one row at a time, and watch which bar grows. The two biggest hops are named at the top; the note at the bottom says what you would actually do about them.</p>
+  <p class="prose" style="margin-bottom:26px">Notice that the application code is 3 ms in every scenario. It is the one number here that never decides anything.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="p-healthy">A healthy request</button>
+      <button class="ghost" id="p-cold">First visit from another continent</button>
+      <button class="ghost" id="p-n1">A list screen with N+1</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Where the user is<small>same city · same region · another continent</small></span><span class="kv" id="vDist">—</span><input type="range" id="kDist" min="0" max="2" step="1" aria-label="Distance to the user"></div>
+      <div class="knob"><span class="kl">Queries this request makes<small>one — or one per row on the screen</small></span><span class="kv" id="vQ">—</span><input type="range" id="kQ" min="1" max="50" step="1" aria-label="Number of database queries"></div>
+      <label class="sw"><input type="checkbox" id="kWarm" checked> Connection already open (keep-alive)</label>
+      <label class="sw"><input type="checkbox" id="kIdx" checked> Queries use an index</label>
+      <label class="sw"><input type="checkbox" id="kPar"> Fire the queries together instead of one after another</label>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="k">The user waits</span><span class="v" id="stTotal">—</span></div>
+      <div class="stat"><span class="k">Biggest hop</span><span class="v" id="stTop1">—</span></div>
+      <div class="stat"><span class="k">Second biggest</span><span class="v" id="stTop2">—</span></div>
+      <div class="stat"><span class="k">Those two, share of the total</span><span class="v" id="stShare">—</span></div>
+    </div>
+    <ul class="evs" id="hops"></ul>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">Round trips: 5 ms across a city, 30 across a region, 150 across an ocean; a cold DNS lookup 20 ms; TLS 1.3 at one round trip (1.2 would be two); 0.5 ms for a datacenter hop; 2 ms for an indexed query, 40 for a scan. Typical shapes, not measurements of any one system. The maths lives in <code>system-design/sim-02.js</code> and has its own check: <code>node tools/test-sd-02.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong in a performance review.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments where the hops matter</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"Where does the time actually go? Show me the waterfall."</div><div class="use">The first sentence in any performance conversation. It moves the discussion from opinions about code to bars on a chart, and the two biggest bars are usually not where anyone was looking.</div></div></li>
+    <li><div><div class="say">"How many round trips is that?"</div><div class="use">Ask it of a cold connection, of a screen load, of a service that calls another service. Round trips are the unit; a design that makes fewer of them beats one that makes each one faster.</div></div></li>
+    <li><div><div class="say">"Is that per request, or per row?"</div><div class="use">The question that finds N+1 before it ships. A 2 ms query is nothing once and a hundred milliseconds forty times, and the code that does it looks perfectly clean.</div></div></li>
+    <li><div><div class="say">"What's the p99, not the average?"</div><div class="use">Averages are what components report; percentiles are what a person feels. A mean of 40 ms with a p99 of 900 is a slow system with a flattering dashboard.</div></div></li>
+    <li><div><div class="say">"Which of these hops can we move closer, and which can we skip?"</div><div class="use">The only two levers that work on the wide-area network. Everything else is 3 ms of application code that was never the problem.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần biết hết về mạng. Chỉ cần nhìn được waterfall từ phía người dùng, đếm được số vòng đi-về, hỏi "mỗi request hay mỗi dòng?", và nhớ rằng hai chặng lớn nhất gần như không bao giờ là code của bạn.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before a performance review.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>System Design — Lesson 02 of 28 · Next: numbers you must be able to estimate.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-02.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In production"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("sd-l2")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("sd-l2",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var T=window.TRACE, DIST=["city","region","continent"], DISTL=["same city","same region","another continent"];
+var K={dist:document.getElementById("kDist"), q:document.getElementById("kQ"), warm:document.getElementById("kWarm"),
+       idx:document.getElementById("kIdx"), par:document.getElementById("kPar")};
+function setKnobs(r){ K.dist.value=DIST.indexOf(r.distance); K.q.value=r.queries; K.warm.checked=r.warm; K.idx.checked=r.query==="indexed"; K.par.checked=r.parallel; }
+function readKnobs(){ return { distance:DIST[+K.dist.value], queries:+K.q.value, warm:K.warm.checked, query:K.idx.checked?"indexed":"scan", parallel:K.par.checked }; }
+function ms(x){ return (x>=100?Math.round(x):x.toFixed(1))+" ms"; }
+
+function render(){
+  var r=readKnobs(), t=T.trace(r);
+  document.getElementById("vDist").textContent=DISTL[+K.dist.value];
+  document.getElementById("vQ").textContent=r.queries;
+  var tot=document.getElementById("stTotal"); tot.textContent=ms(t.total); tot.className="v"+(t.total>200?" hot":" cool");
+  document.getElementById("stTop1").textContent=ms(t.top2[0].ms);
+  document.getElementById("stTop2").textContent=ms(t.top2[1].ms);
+  document.getElementById("stShare").textContent=Math.round(t.share*100)+"%";
+  var ul=document.getElementById("hops"); ul.innerHTML="";
+  t.hops.forEach(function(h){
+    var li=document.createElement("li"); li.className="ev "+h.kind;
+    var d=document.createElement("span"); d.className="d"; d.textContent=h.kind==="cold"?"COLD":h.kind==="wan"?"WAN":h.kind==="db"?"DB":"DC";
+    var n=document.createElement("span"); n.className="n"; n.textContent=h.hop;
+    var bar=document.createElement("div"); bar.className="bar"; bar.style.width=Math.max(1,h.ms/t.total*100)+"%"; n.appendChild(bar);
+    var a=document.createElement("span"); a.className="a"+(h===t.top2[0]||h===t.top2[1]?" out":""); a.textContent=ms(h.ms);
+    li.appendChild(d); li.appendChild(n); li.appendChild(a); ul.appendChild(li);
+  });
+  document.getElementById("flag").innerHTML='<div class="hard"><b>What you would actually do</b>'+t.advice+'</div>';
+}
+function touched(){ mark("sim"); render(); }
+[K.dist,K.q].forEach(function(k){ k.addEventListener("input", touched); });
+[K.warm,K.idx,K.par].forEach(function(k){ k.addEventListener("change", touched); });
+document.getElementById("p-healthy").addEventListener("click",function(){ setKnobs(T.BASE); touched(); });
+document.getElementById("p-cold").addEventListener("click",function(){ setKnobs({distance:"continent",warm:false,queries:1,query:"indexed",parallel:false}); touched(); });
+document.getElementById("p-n1").addEventListener("click",function(){ setKnobs({distance:"region",warm:true,queries:40,query:"indexed",parallel:false}); touched(); });
+document.getElementById("reset").addEventListener("click",function(){ setKnobs(T.BASE); render(); });
+setKnobs(T.BASE); render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"A warm request from a user in the same region takes about 36 ms: 30 across the network, 3 in the application, 2.5 at the database. Which two hops should a performance review look at first, and why?",
+  o:["The application code and the load balancer — they are the parts we control",
+     "The wide-area round trip and the database — they are round trips, and round trips are where the time is",
+     "The load balancer and the database — they are shared infrastructure",
+     "None of them; 36 ms is fast enough"],
+  a:1,
+  why:"Thirty of the thirty-six milliseconds are one trip across the network, and the next biggest is the one trip to the database. Both are round trips, which is the unit latency is actually made of. The application code is three milliseconds in every scenario in this lesson, and it is the part everyone instinctively opens first. Whether 36 ms is fast enough is a requirement question, not a performance one — but if it has to get faster, only the two round trips can give it."},
+ {q:"The same user, but on a brand-new connection: DNS, TCP handshake, TLS 1.3 handshake, then the request. Roughly how much does the cold start add across an ocean, and what removes it?",
+  o:["About 3 ms — handshakes are fast; nothing to do",
+     "About 300 ms or more — one lookup plus two extra round trips at 150 ms each; keep the connection alive and resume TLS sessions so the second request pays none of it",
+     "About 50 ms — upgrade to HTTP/2",
+     "It cannot be measured from the server"],
+  a:1,
+  why:"A cold DNS lookup is tens of milliseconds, and TCP and TLS 1.3 each cost a full round trip — across an ocean that is 150 ms apiece, and TLS 1.2 would cost two. Connection reuse makes all three vanish on every request after the first, which is why it is the cheapest latency fix that exists: a configuration flag worth more than any code change. The last option is half right — the server genuinely cannot see the handshakes, which is exactly why they have to be measured from the browser."},
+ {q:"A screen lists 40 orders and then fetches each order's customer with its own query. Each query is 2.5 ms including the datacenter hop. What does the database cost this screen, and what is the fix?",
+  o:["2.5 ms — each query is fast, so the database is fine",
+     "40 ms — add an index",
+     "About 100 ms, because the 41 queries run one after another — fetch the customers in one query, or at least fire the queries together",
+     "It depends on the database engine"],
+  a:2,
+  why:"Forty-one trips of 2.5 ms, in sequence, is just over a hundred milliseconds — more than the ocean crossing in the previous question. No single query is slow, which is why nobody notices until the list grows. The fix is fewer trips: a join, a single query with all forty ids, or overlapping the round trips by firing them together. An index would not help; the queries are already indexed. That is the N+1 pattern, and it hides in code that looks entirely reasonable."},
+ {q:"Users in Europe report that the app is slow; users in Vietnam do not. The servers are in Singapore. What is the most likely cause, and what actually fixes it?",
+  o:["European users have slower phones — nothing to fix",
+     "The distance: a round trip from Europe is 150 ms or more, and each request pays it at least once — serve from somewhere closer, or make fewer round trips per screen",
+     "The application code — profile it and optimise the hot path",
+     "The load balancer is overloaded — add a bigger one"],
+  a:1,
+  why:"Light in fibre covers about 200 km a millisecond and rarely goes straight, so a European round trip to Singapore is around 150 ms, five times a Vietnamese one. Every request pays it at least once and a cold one pays it four times. The application code is the same 3 ms for both groups; profiling it cannot explain a difference between countries. The only levers that move a wide-area round trip are distance and count."},
+ {q:"A service reports a mean latency of 40 ms and a p99 of 900 ms. What is the p99 telling you that the mean is not?",
+  o:["Nothing — 1% of requests do not matter",
+     "That the network is unreliable",
+     "That the mean was calculated wrongly",
+     "That one request in a hundred hits something occasional — a pause, a lock, a cold cache, a retry — and a user loading a screen with ten requests on it meets it about one time in ten"],
+  a:3,
+  why:"The slow tail is not noise; it is a specific thing happening rarely, and at any real traffic it is happening to somebody every few seconds. Because a screen is usually many requests, a person's chance of meeting the slow one is far higher than 1%. Averages are what components report about themselves; percentiles are what a user experiences. Design and alert on the p99."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"Your product manager — after a customer complaint",
+  line:'"The API is slow. Can you optimise the code?"',
+  o:[{t:"Sure, I'll profile the handlers and see what I can squeeze out.", v:"weak",
+      f:"You have agreed to work on the 3 ms before finding out where the other 197 went. A profiler will find something — it always does — and shaving it will change nothing the customer can feel, because the time is in round trips the code does not own."},
+     {t:"Probably not the code — let me look at the waterfall from the customer's side first. If it's what it usually is, the time is in the network round trips or in the number of database calls, and those are fixed differently.", v:"strong",
+      f:"You did not refuse and you did not comply blindly. You named where the time usually is, committed to measuring from the user's chair, and set the expectation that the fix may not be code at all. That is the whole discipline in three sentences."},
+     {t:"The code is already fast — it's the customer's internet.", v:"weak",
+      f:"Possibly true, and it lands as a shrug. Even if the round trip is the problem, a cold connection paying it four times is yours to fix, and a screen making forty calls across it is yours too. Blaming the network ends the conversation exactly where the useful work begins."}]},
+ {role:"A teammate — in a code review",
+  line:'"Each query is 2 ms. The database can\'t be the problem."',
+  o:[{t:"Agreed, must be something else.", v:"weak",
+      f:"Each query is 2 ms and the loop runs it once per row. Forty rows is a hundred milliseconds of database time in a request that has no slow query anywhere in it. You just approved the most common performance bug there is, and it will be found by a user with a long list."},
+     {t:"Per query, yes. How many times does this run per request? If it's once per row, forty rows is a hundred milliseconds — can we fetch them in one query, or at least fire them together?", v:"strong",
+      f:"You accepted the number and asked the only question that matters about it: how many times. Then you offered both fixes, in order of preference. The database was never slow; the trip count was."},
+     {t:"We should switch to a faster database.", v:"weak",
+      f:"A faster database makes each trip 1.5 ms instead of 2. Forty-one of them in sequence is still sixty milliseconds and still growing with the list. You have proposed a migration to fix a loop."}]},
+ {role:"The CTO — reading a support thread from Europe",
+  line:'"Users in Europe say it\'s slow. Let\'s move to bigger servers."',
+  o:[{t:"Good idea — more CPU should help.", v:"weak",
+      f:"The application code is three milliseconds of a request that takes three hundred for a European user. Doubling the CPU halves the three. You have agreed to spend money on the one hop that was already fast."},
+     {t:"Bigger servers would cut about 3 ms of that. The rest is distance — a round trip from Europe to Singapore is around 150 ms and a cold connection pays it four times. We can either serve them from a closer region, or cut the number of round trips per screen. Let me measure which would help more.", v:"strong",
+      f:"You gave the number that shows why the proposal does not work, named the real cause, offered the only two levers that move it, and kept the decision on evidence. Nobody has to be wrong; the arithmetic just points elsewhere."},
+     {t:"Europe is only 5% of users; it's not worth it.", v:"weak",
+      f:"That may even be the right business call, but it is not yours to make in a sentence, and it skips the cheap fix: connection reuse and fewer calls per screen cost nothing and help every user, including the 95%."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

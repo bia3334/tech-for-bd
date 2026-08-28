@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make the server forget</title>
+<meta name="description" content="Lesson 04 — the first real scaling move is to let any server answer any request. Stateless services, where the session went, what the load balancer actually does, and health checks that lie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="tfbd:n" content="04">
+<meta name="tfbd:tags" content="stateless, horizontal scaling, load balancer, session, health check, sticky sessions, rolling deploy">
+<meta name="tfbd:level" content="Foundation">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../assets/tokens.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--ff-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--ff-display); font-weight:600; text-wrap:balance; line-height:1.15; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+.wrap{max-width:720px; margin:0 auto; padding:0 24px}
+.prose{max-width:64ch}
+code{font-family:var(--ff-mono); font-size:.88em; color:var(--fast)}
+
+.top{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.top-in{max-width:720px; margin:0 auto; padding:10px 24px; display:flex; align-items:center; gap:16px}
+.brand{text-decoration:none; font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.brand b{color:var(--ink); font-weight:500}
+.prog{margin-left:auto; display:flex; align-items:center; gap:8px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.08em}
+.dots{display:flex; gap:5px}
+.dot{width:9px; height:9px; border-radius:50%; border:1.5px solid var(--line); background:transparent; transition:background .3s, border-color .3s}
+.dot.on{background:var(--accent); border-color:var(--accent)}
+
+.hero{padding:72px 0 56px}
+.eyebrow{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--fast); margin-bottom:20px}
+.hero h1{font-size:clamp(36px,6.4vw,56px); letter-spacing:-.02em}
+.hero .lede{margin-top:22px; font-size:19px; color:var(--ink-2); max-width:56ch}
+.facts{margin-top:32px; padding-top:18px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px 26px; font-family:var(--ff-mono); font-size:12px; color:var(--muted); letter-spacing:.04em}
+
+section{padding:52px 0; border-top:1px solid var(--line)}
+.sec-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:flex; gap:12px}
+.sec-no b{color:var(--ink); font-weight:500}
+h2{font-size:clamp(25px,4vw,32px); letter-spacing:-.01em; margin-bottom:22px}
+h3{font-size:18px; margin:34px 0 10px}
+.stack{display:flex; flex-direction:column; gap:20px}
+.stack p{max-width:64ch}
+.vi{font-size:14.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:14px; max-width:60ch}
+.vi b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--fast); font-weight:500; display:block; margin-bottom:2px}
+
+/* ---- tappable term ---- */
+button.t{
+  font:inherit; color:inherit; background:transparent; border:0; padding:0; margin:0; cursor:pointer;
+  border-bottom:1.5px dotted var(--fast); line-height:inherit; text-align:left;
+}
+button.t:hover{background:var(--fast-soft)}
+button.t[aria-expanded="true"]{background:var(--fast-soft); border-bottom-style:solid}
+.def{
+  margin:14px 0; padding:16px 18px; background:var(--surface); border:1px solid var(--fast);
+  border-radius:2px; box-shadow:var(--shadow); max-width:64ch;
+}
+.def .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); letter-spacing:.02em; margin-bottom:7px}
+.def .p{font-size:15.5px; color:var(--ink); line-height:1.6}
+.def .v{margin-top:10px; font-size:14px; color:var(--muted); line-height:1.6}
+.def .r{margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14px; color:var(--ink-2); line-height:1.6}
+.def .r i{font-style:normal; font-family:var(--ff-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:3px}
+.hint{
+  display:flex; gap:11px; align-items:flex-start; padding:14px 17px; background:var(--fast-soft);
+  border-radius:2px; font-size:15px; color:var(--ink-2); line-height:1.55; max-width:64ch; margin-bottom:28px;
+}
+.hint span:first-child{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--fast); padding-top:4px; flex:none}
+
+/* ---- the loop ---- */
+.flow{display:flex; flex-direction:column; gap:0; margin:32px 0; max-width:64ch}
+.node{background:var(--surface); border:1px solid var(--line); border-radius:2px; padding:16px 20px; box-shadow:var(--shadow)}
+.node .nm{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink); letter-spacing:.02em}
+.node .ds{font-size:14.5px; color:var(--muted); margin-top:4px}
+.node.core{border-color:var(--slow)} .node.core .nm{color:var(--slow)}
+.arrow{display:flex; align-items:center; gap:12px; padding:9px 20px; font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.arrow::before{content:"↓"; font-size:16px; color:var(--fast)}
+.arrow.back::before{content:"↺"; color:var(--slow)}
+
+.pull{margin:36px 0; padding:28px 30px; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--fast); border-radius:2px; box-shadow:var(--shadow)}
+.pull q{font-family:var(--ff-display); font-size:23px; line-height:1.35; quotes:none; display:block}
+
+.rule{margin:34px 0; padding:24px 26px; background:var(--no-soft); border:1px solid var(--no); border-radius:2px}
+.rule .lbl{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--no); margin-bottom:8px}
+.rule p{font-family:var(--ff-display); font-size:20px; line-height:1.4; color:var(--ink)}
+.rule .sub{font-family:var(--ff-body); font-size:15px; color:var(--ink-2); margin-top:12px; line-height:1.6}
+
+.uses{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.uses li{background:var(--surface); padding:16px 20px}
+.uses .u{font-size:15.5px; color:var(--ink); display:block}
+.uses .d{font-size:14.5px; color:var(--muted); display:block; margin-top:5px}
+
+/* ---- simulator ---- */
+.sim{background:var(--surface); border:1px solid var(--line); border-radius:3px; box-shadow:var(--shadow); overflow:hidden}
+.sim-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:16px 18px; border-bottom:1px solid var(--line); background:var(--sunk)}
+button{font:inherit; cursor:pointer; border-radius:2px; border:1px solid transparent; transition:opacity .15s, background .15s, border-color .15s}
+button:disabled{opacity:.45; cursor:not-allowed}
+.btn{background:var(--ink); color:var(--paper); padding:9px 18px; font-size:14.5px; font-weight:500}
+.ghost{background:transparent; color:var(--ink-2); border-color:var(--line); padding:9px 14px; font-size:13.5px}
+.ghost:hover:not(:disabled){border-color:var(--muted)}
+.knobs{padding:6px 18px 14px; border-bottom:1px solid var(--line)}
+.knob{display:grid; grid-template-columns:minmax(0,1fr) 92px; align-items:center; gap:14px; padding:9px 0}
+.knob .kl{font-size:14.5px; color:var(--ink-2)}
+.knob .kl small{display:block; color:var(--muted); font-size:12.5px; margin-top:2px}
+.knob input[type=range]{grid-column:1/-1; width:100%; accent-color:var(--fast); margin:0}
+.knob .kv{font-family:var(--ff-mono); font-size:15px; text-align:right; color:var(--ink); font-variant-numeric:tabular-nums}
+.sw{display:inline-flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-2); cursor:pointer; user-select:none; padding:12px 0 4px}
+.sw input{appearance:none; width:36px; height:20px; border-radius:10px; background:var(--line); position:relative; cursor:pointer; transition:background .2s; margin:0; flex:none}
+.sw input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:15px; height:15px; border-radius:50%; background:var(--surface); transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sw input:checked{background:var(--fast)}
+.sw input:checked::after{transform:translateX(16px)}
+
+.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-bottom:1px solid var(--line)}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:14px 18px}
+.stat .k{display:block; font-size:12px; color:var(--muted); line-height:1.4}
+.stat .v{display:block; font-family:var(--ff-mono); font-size:21px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.stat .v.hot{color:var(--no)} .stat .v.cool{color:var(--ok)}
+
+.evs{list-style:none; margin:0; padding:0; border-top:1px solid var(--line); display:grid; gap:1px; background:var(--line)}
+.ev{background:var(--surface); display:grid; grid-template-columns:70px minmax(0,1fr) auto; gap:12px; padding:11px 18px; font-size:14px; align-items:baseline}
+.ev .d{font-family:var(--ff-mono); font-size:12px; color:var(--muted)}
+.ev .a{font-family:var(--ff-mono); font-size:13.5px; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+.ev .a.in{color:var(--ok)} .ev .a.out{color:var(--no)} .ev .a.off{color:var(--muted)}
+.ev.box .n{font-weight:500}
+.flag{border-top:1px solid var(--line)}
+.flag div{padding:14px 18px; font-size:14.5px; line-height:1.6}
+.flag .hard{background:var(--fast-soft); color:var(--ink-2)}
+.flag .trade{background:var(--slow-soft); color:var(--ink-2)}
+.flag b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:3px}
+.flag .hard b{color:var(--fast)} .flag .trade b{color:var(--slow)}
+.sim-note{padding:14px 18px 18px; font-size:13px; line-height:1.6; color:var(--muted); border-top:1px solid var(--line)}
+
+.q{background:var(--surface); border:1px solid var(--line); border-radius:3px; padding:22px 24px; margin-bottom:14px; box-shadow:var(--shadow)}
+.q-no{font-family:var(--ff-mono); font-size:11px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.q-t{margin:8px 0 16px; font-size:17.5px; font-weight:500; max-width:58ch}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{text-align:left; background:transparent; border:1px solid var(--line); color:var(--ink); padding:11px 15px; font-size:15px; line-height:1.45; display:flex; gap:11px; align-items:baseline}
+.opt:hover:not(:disabled){border-color:var(--muted)}
+.opt .ltr{font-family:var(--ff-mono); font-size:12px; color:var(--muted); flex:none}
+.opt.right{border-color:var(--ok); background:var(--ok-soft)} .opt.right .ltr{color:var(--ok)}
+.opt.wrong{border-color:var(--no); background:var(--no-soft)} .opt.wrong .ltr{color:var(--no)}
+.why{margin-top:14px; padding:13px 16px; background:var(--sunk); border-radius:2px; font-size:15px; color:var(--ink-2); display:none; line-height:1.6}
+.why.show{display:block}
+.why b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px}
+.why.good b{color:var(--ok)} .why.bad b{color:var(--no)}
+.score{margin-top:18px; font-family:var(--ff-mono); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+.scene{background:var(--surface); border:1px solid var(--line); border-radius:3px; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden}
+.who{padding:16px 22px; background:var(--sunk); border-bottom:1px solid var(--line)}
+.who .role{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.who .line{margin-top:7px; font-family:var(--ff-display); font-size:19.5px; line-height:1.35}
+.scene .opts{padding:18px 22px}
+.verdict{margin:0 22px 20px; padding:14px 17px; border-radius:2px; font-size:15px; display:none; line-height:1.6}
+.verdict.show{display:block}
+.verdict b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:5px}
+.verdict.strong{background:var(--ok-soft); color:var(--ink-2)} .verdict.strong b{color:var(--ok)}
+.verdict.weak{background:var(--no-soft); color:var(--ink-2)} .verdict.weak b{color:var(--no)}
+
+.lines{list-style:none; margin:0; padding:0; counter-reset:l}
+.lines li{counter-increment:l; display:grid; grid-template-columns:34px minmax(0,1fr); gap:14px; padding:18px 0; border-bottom:1px solid var(--line)}
+.lines li::before{content:counter(l,decimal-leading-zero); font-family:var(--ff-mono); font-size:12px; color:var(--muted); padding-top:5px}
+.lines .say{font-family:var(--ff-display); font-size:18.5px; line-height:1.4}
+.lines .use{margin-top:7px; font-size:14.5px; color:var(--muted); max-width:56ch}
+
+.gloss{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.gl{background:var(--surface); padding:18px 20px}
+.gl .w{font-family:var(--ff-mono); font-size:12.5px; color:var(--ink)}
+.gl .p{font-size:15px; color:var(--ink-2); margin-top:6px; line-height:1.6}
+.gl .v{font-size:13.5px; color:var(--muted); margin-top:7px; line-height:1.6}
+.gl .r{font-family:var(--ff-mono); font-size:12.5px; color:var(--fast); margin-top:7px; line-height:1.6}
+
+footer{padding:44px 0 72px; font-family:var(--ff-mono); font-size:11.5px; color:var(--muted); letter-spacing:.04em; line-height:1.8}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+.rack{display:grid; grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); gap:10px; padding:16px 18px; border-bottom:1px solid var(--line)}
+.srv{border:1px solid var(--line); border-radius:3px; padding:11px 12px; background:var(--sunk); text-align:center; transition:opacity .2s, border-color .2s}
+.srv .nm{font-family:var(--ff-mono); font-size:11px; color:var(--muted); letter-spacing:.06em}
+.srv .load{font-family:var(--ff-mono); font-size:19px; font-variant-numeric:tabular-nums; margin-top:5px; color:var(--ink)}
+.srv .sess{font-size:11px; color:var(--muted); margin-top:3px}
+.srv.dead{opacity:.4; border-color:var(--no)} .srv.dead .load{color:var(--no)}
+.srv.restarted{border-color:var(--slow)}
+.srv.hot{border-color:var(--no)} .srv.hot .load{color:var(--no)}
+.costline{padding:13px 18px; border-bottom:1px solid var(--line); font-size:13.5px; color:var(--muted); line-height:1.55; background:var(--sunk)}
+.costline b{font-family:var(--ff-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2); font-weight:500; display:block; margin-bottom:3px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../index.html">← System Design · <b>Lesson 04</b></a>
+    <span class="prog"><span class="dots"><i class="dot" id="d0"></i><i class="dot" id="d1"></i><i class="dot" id="d2"></i></span><span id="progTxt">0 / 3</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div class="eyebrow">What one request costs · Lesson 04</div>
+  <h1>Make the server forget</h1>
+  <p class="lede">The first real scaling move is not a bigger machine. It is making every machine interchangeable, so a request can land anywhere and be answered. The thing standing in the way is almost always one small habit: a server that remembers something only it knows.</p>
+  <div class="facts"><span>15 min</span><span>Builds on lessons 01–03</span><span>Ends with five lines worth stealing</span></div>
+</div>
+
+<section id="s01">
+  <div class="sec-no"><b>01</b><span>Ground floor</span></div>
+  <h2>The second server breaks the login</h2>
+
+  <div class="hint"><span>TAP</span><span>Any word with a dotted underline opens a plain explanation in English and Vietnamese, plus where that thing shows up once a system is actually running. Nothing here assumes you have met it before.</span></div>
+
+  <div class="stack">
+    <p>One server, and everything is simple. A user logs in, and the server writes a note to itself — <em>this person is authenticated, here is who they are</em> — and keeps it in memory. Every request that user makes comes back to the same server, finds the note, and is served. It works perfectly, right up to the day one server is not enough.</p>
+    <p>So you add a second server and put a <button class="t" data-t="loadbalancer">load balancer</button> in front to share the traffic. Now the user logs in — the load balancer sends that request to server A, which writes its note. The next request goes to server B, which has never heard of this user, and asks them to log in again. The request after that goes back to A, which knows them. The user is logged in and logged out at random, and nothing in the code is broken. The note is just in the wrong place: in the memory of one server, in a world that now has two.</p>
+    <p>That note has a name — the <button class="t" data-t="session">session</button> — and where it lives is the single decision this whole lesson is about. Keep it in one server's memory and you can never have a second server. Move it somewhere every server can reach, and something larger becomes true: any server can answer any request, which means you can add servers, lose servers, and replace servers without a single user noticing. That property is called being <button class="t" data-t="stateless">stateless</button>, and it is the foundation every later scaling technique is built on.</p>
+  </div>
+
+  <div class="flow">
+    <div class="node"><div class="nm">The habit — a note in local memory</div><div class="ds">"This user is logged in." Fast, free, and invisible — it costs nothing until there are two servers.</div></div>
+    <div class="arrow">a second server arrives, traffic is shared</div>
+    <div class="node"><div class="nm">The break — the next request lands elsewhere</div><div class="ds">Server B has no note. The user is a stranger again. Half their requests now fail the login they already passed.</div></div>
+    <div class="arrow">move the note out of the server</div>
+    <div class="node core"><div class="nm">The fix — the note lives somewhere shared</div><div class="ds">A store both servers read, or a signed token the user carries. Now any server can answer, and the count of servers is free to change.</div></div>
+  </div>
+
+  <div class="stack">
+    <p class="vi"><b>In production</b>The session is not the only note a server is tempted to keep. An uploaded file held on local disk, a cart in memory, a rate-limit counter, a scheduled job's "have I run yet" flag — each is the same bug waiting for the second server. The test is one question asked of every piece of in-process state: <em>if the next request lands on a different server, does this still work?</em></p>
+    <p class="vi"><b>Tiếng Việt</b>Một server thì đơn giản: ghi chú "đã đăng nhập" vào bộ nhớ, mọi request quay lại đúng server đó. Thêm server thứ hai và đặt load balancer phía trước, request tiếp theo rơi sang server chưa biết người dùng — thế là đăng nhập rồi vẫn bị hỏi đăng nhập. Code không sai; ghi chú nằm nhầm chỗ. Ghi chú đó là session, và chuyển nó ra chỗ mọi server với tới được chính là stateless — nền của mọi kỹ thuật scale sau này.</p>
+  </div>
+</section>
+
+<section id="s02">
+  <div class="sec-no"><b>02</b><span>The idea</span></div>
+  <h2>Four places to keep the note, in the order people try them</h2>
+
+  <div class="stack">
+    <p><b>One — leave it in memory, and pin the user.</b> The load balancer can be told to send every request from one user back to the same server: <button class="t" data-t="sticky">sticky sessions</button>. The note is found because the user always returns to where it was written. This works, and it is a crutch. Load drifts uneven, because users are not evenly busy and nothing rebalances them. A server that dies takes its users' sessions with it. And a deploy — which restarts every server — empties every memory anyway. Sticky sessions are a fine bridge for a week. They are not where you stop.</p>
+    <p><b>Two — put it in a shared store.</b> Move the note to a small fast database both servers read — Redis is the usual choice. Now the login is written once and found by whichever server gets the next request. Any server answers any request; the server is stateless. The cost is honest and worth saying: the store is now a thing that must not die, one more box to run and watch, and every request pays one <button class="t" data-t="rtt">round trip</button> to it. For most systems that is a trade worth making, and it is the standard answer.</p>
+    <p><b>Three — put it in the client.</b> Instead of storing the note on the server, hand it to the user in a signed token — a JWT is the common form. The user sends it with every request; any server checks the signature and trusts the contents, with no store and no round trip. The catch is the sharp edge of the whole lesson: a token cannot be un-issued. Once signed, it is valid until it expires, so a "log out everywhere" or a "ban this user now" needs a deny-list the servers check — which is a small shared store again, arriving through the back door. Tokens trade a storage problem for a revocation problem.</p>
+  </div>
+
+  <div class="pull"><q>A server that remembers something only it knows cannot be replaced. A server that forgets can be multiplied.</q></div>
+
+  <div class="stack">
+    <p>Once the session is out of the way, being stateless is what makes the rest of scaling possible. <button class="t" data-t="horizontal">Horizontal scaling</button> — adding servers rather than buying a bigger one — only works when servers are interchangeable, and interchangeable is exactly what stateless means. A bigger machine eventually does not exist; a tenth identical machine always does. Autoscaling can add a server for the evening peak and remove it at midnight, because no user's session was living on the one it removed. And a <button class="t" data-t="rollingdeploy">rolling deploy</button> can replace servers one at a time with no downtime — but only if a restart loses nothing a request needs. If the session was in memory, that same rolling deploy is the event that logs every single user out, once per release.</p>
+    <p>The load balancer earns a closer look, because it is the one part that has to know something about the servers: which of them are alive. It asks each server every few seconds — a <button class="t" data-t="healthcheck">health check</button> — and stops sending traffic to any that stop answering. That check is trickier than it looks, and it is the subject of the next section, because a check that lies in either direction is worse than no check at all.</p>
+    <p class="vi"><b>In production</b>The shared store for sessions is the most common first use of Redis in a system, and it usually arrives before Redis is used as a cache (lesson 11). The two jobs are different: a lost cache entry is recomputed, a lost session logs somebody out. Size and protect the session store for the second standard, not the first.</p>
+    <p class="vi"><b>Tiếng Việt</b>Bốn chỗ để session, theo thứ tự người ta hay thử: (1) sticky — ghim người dùng vào một server, chạy được nhưng là cái nạng; (2) kho dùng chung (Redis) — server nào cũng đọc được, đây là câu trả lời chuẩn, đổi lại một round trip và một hộp không được chết; (3) token có chữ ký ở client — không cần kho, nhưng không thu hồi được trước khi hết hạn, nên logout/ban lại cần deny-list. Stateless là điều kiện để scale ngang, autoscale và rolling deploy hoạt động.</p>
+  </div>
+</section>
+
+<section id="s03">
+  <div class="sec-no"><b>03</b><span>The danger</span></div>
+  <h2>The state you forgot you were keeping</h2>
+
+  <div class="stack">
+    <p>Nobody sets out to build a server that cannot be replaced. It happens one convenient line at a time — a value kept in memory because it was right there, on a day when there was only one server. Each one is invisible until the second server, the first crash, or the next deploy makes it visible, all at once, in production.</p>
+  </div>
+
+  <h3>The file on local disk</h3>
+  <p class="prose" style="margin-bottom:20px">A user uploads a photo; the server saves it to a folder and returns success. The next request — resize it, show it, attach it — lands on a different server, where the folder is empty. The upload "worked" and the file is gone. Local disk is per-server memory with a longer name. Anything a later request needs goes to shared storage the moment there is more than one server, and that is every real system.</p>
+
+  <h3>The health check that says 200 while the house burns</h3>
+  <p class="prose" style="margin-bottom:20px">A <button class="t" data-t="healthcheck">health check</button> that answers "OK" as long as the process is running will keep a server in rotation long after it has lost its database and is failing every real request. Traffic keeps arriving; every request errors; the dashboard is green because the health endpoint never touched the database. The check has to test what the server actually needs to do its job, or it is measuring the wrong thing and lying about the answer.</p>
+
+  <h3>The health check that takes everyone down together</h3>
+  <p class="prose" style="margin-bottom:20px">Overcorrect, and the opposite trap is waiting. Make every server's health check fail whenever the shared database is briefly unreachable, and one database blip marks <em>every</em> server unhealthy at the same instant. The load balancer now has nothing to send traffic to and takes the whole system down — over a hiccup the servers could have ridden out. A health check should report whether <em>this</em> server is fit to work, not whether a shared dependency it does not own is having a bad second.</p>
+
+  <div class="rule">
+    <div class="lbl">The line you never cross</div>
+    <p>Never keep anything in one server that a later request cannot find somewhere else.</p>
+    <p class="sub">Before you add the second server, walk every place the code holds state between requests — the session, an uploaded file, a cart, a counter, a cached computation, a "have I already done this" flag — and for each one answer: if the next request lands on a different server, does this still work? Whatever answers no is moved to a shared store or handed to the client, now, while there is still only one server and the bug is theoretical. After the second server it is an incident, and it arrives on the same day as three others.</p>
+  </div>
+
+  <h3>Where the state hides</h3>
+  <p class="prose" style="margin-bottom:20px">Five hiding places, in rough order of how often they are missed.</p>
+  <ul class="uses">
+    <li><span class="u">The session in memory</span><span class="d">The classic. Fixed by a shared store or a signed token — the whole of section 2.</span></li>
+    <li><span class="u">An uploaded file on local disk</span><span class="d">Works until the next request lands elsewhere. Goes to object storage; the server keeps only a URL.</span></li>
+    <li><span class="u">A rate-limit or counter in memory</span><span class="d">Each server counts its own share, so the real limit is silently multiplied by the number of servers. Belongs in the shared store — lesson 20.</span></li>
+    <li><span class="u">A background job's "have I run?" flag</span><span class="d">Every server thinks it is the one, so the nightly job runs N times. Needs a lease, not a local boolean — lesson 16.</span></li>
+    <li><span class="u">An in-memory cache of a slow computation</span><span class="d">Not a correctness bug — each server just has its own copy and a lower hit rate. The one kind of local state that is usually fine, on purpose.</span></li>
+  </ul>
+  <p class="vi" style="margin-top:24px"><b>In production</b>The tell that state is hiding is a bug that only appears under load or after a deploy and cannot be reproduced on one machine. "Works locally, fails in production" with an intermittent login or a missing file is almost always a note kept in a place the next request could not reach.</p>
+  <p class="vi"><b>Tiếng Việt</b>Không ai cố tình viết server không thay thế được — nó đến từng dòng tiện tay một. Ba cái bẫy: file lưu trên đĩa local (request sau rơi sang server khác là mất), health check nông (trả 200 trong khi đã mất database), và health check quá sâu (một cú chớp của database chung hạ toàn bộ server cùng lúc). Luật: trước khi thêm server thứ hai, với mỗi state giữa các request, hỏi "request sau rơi sang server khác có còn chạy không?".</p>
+</section>
+
+<section id="s04">
+  <div class="sec-no"><b>04</b><span>See it</span></div>
+  <h2>Where the session lives, and what breaks</h2>
+  <p class="prose" style="margin-bottom:14px">Add servers, then choose where the session lives, then throw an event at it: a burst of ordinary traffic, one server dying, or a rolling deploy that restarts them all. Watch the login survive or not, and watch the load spread evenly or pile onto one box.</p>
+  <p class="prose" style="margin-bottom:26px">Start where every system starts — one server, session in memory, nothing wrong. Add a second and the same choice that was invisible a moment ago decides whether your users stay logged in.</p>
+
+  <div class="sim">
+    <div class="sim-bar">
+      <button class="btn" id="p-naive">Two servers, memory</button>
+      <button class="ghost" id="p-sticky">Sticky sessions</button>
+      <button class="ghost" id="p-store">Shared store</button>
+      <button class="ghost" id="reset">Reset</button>
+    </div>
+    <div class="knobs">
+      <div class="knob"><span class="kl">Servers behind the load balancer<small>the number that was 1 yesterday</small></span><span class="kv" id="vN">—</span><input type="range" id="kN" min="1" max="6" step="1" aria-label="Number of servers"></div>
+      <div class="knob"><span class="kl">Where the session lives<small>memory · sticky · shared store · signed token</small></span><span class="kv" id="vS">—</span><input type="range" id="kS" min="0" max="3" step="1" aria-label="Where the session lives"></div>
+      <div class="knob"><span class="kl">What happens<small>ordinary traffic · one server dies · a rolling deploy</small></span><span class="kv" id="vE">—</span><input type="range" id="kE" min="0" max="2" step="1" aria-label="What happens"></div>
+    </div>
+    <div class="rack" id="rack"></div>
+    <div class="costline" id="cost"></div>
+    <div class="stats">
+      <div class="stat"><span class="k">Asked to log in again</span><span class="v" id="stRe">—</span></div>
+      <div class="stat"><span class="k">Sessions lost for good</span><span class="v" id="stLost">—</span></div>
+      <div class="stat"><span class="k">Load spread</span><span class="v" id="stSpread">—</span></div>
+      <div class="stat"><span class="k">Can any server answer?</span><span class="v" id="stAny">—</span></div>
+    </div>
+    <div class="flag" id="flag"></div>
+    <p class="sim-note">"Asked to log in again" counts sessions lost outright plus users whose next request lands on a server that never had their note; with even balancing that is 1 − 1/servers. Sticky load uses a fixed skew so one server always runs hot. The maths lives in <code>system-design/sim-04.js</code> and has its own check: <code>node tools/test-sd-04.mjs</code>.</p>
+  </div>
+</section>
+
+<section id="s05">
+  <div class="sec-no"><b>05</b><span>Test it</span></div>
+  <h2>Five questions</h2>
+  <p class="prose" style="margin-bottom:26px">Pick an answer to see why it works or fails. Getting one wrong here is cheaper than getting it wrong on the day you add the second server.</p>
+  <div id="quiz"></div>
+  <p class="score" id="score">0 / 5 answered</p>
+</section>
+
+<section id="s06">
+  <div class="sec-no"><b>06</b><span>Use it</span></div>
+  <h2>Three moments where the state shows</h2>
+  <p class="prose" style="margin-bottom:26px">Three sentences you will actually hear, from three different people. Choose what you would really say.</p>
+  <div id="play"></div>
+</section>
+
+<section id="s07">
+  <div class="sec-no"><b>07</b><span>Take away</span></div>
+  <h2>Five questions worth asking</h2>
+  <ol class="lines">
+    <li><div><div class="say">"If the next request lands on a different server, does this still work?"</div><div class="use">The one question that finds hidden state. Ask it of the session, the uploaded file, the counter, the cached value — everything the code keeps between requests. Whatever answers no is the bug the second server will expose.</div></div></li>
+    <li><div><div class="say">"Where does the session live — memory, a store, or the token?"</div><div class="use">Three answers with three different failure modes. Memory cannot survive a second server; a store is a box that must not die; a token cannot be revoked before it expires. There is no free option, only the one whose cost you can live with.</div></div></li>
+    <li><div><div class="say">"Are we sticky? When do we take it off?"</div><div class="use">Sticky sessions are a bridge, not a destination. If the answer to the second half is "we hadn't thought about it", the crutch has quietly become the design, and a deploy still logs everyone out.</div></div></li>
+    <li><div><div class="say">"What does our health check actually test?"</div><div class="use">If it only proves the process is up, it will keep a broken server taking traffic. If it fails on every shared-dependency blip, one blip takes the whole fleet down. It should test what this server needs to do its own job — no less, no more.</div></div></li>
+    <li><div><div class="say">"Can we lose a server right now without anyone noticing?"</div><div class="use">The definition of stateless, phrased as a dare. If the honest answer is yes, autoscaling, rolling deploys and surviving a crash all come for free. If it is no, find the note that only one server is keeping.</div></div></li>
+  </ol>
+  <p class="vi" style="margin-top:26px"><b>Tiếng Việt</b>Bạn không cần thuộc kỹ thuật nào. Chỉ cần một câu hỏi cho mọi state giữa các request — "request sau rơi sang server khác có còn chạy không?" — biết session đang ở đâu và cái giá của nơi đó, và trả lời được câu: mất một server ngay bây giờ có ai nhận ra không.</p>
+</section>
+
+<section id="s08">
+  <div class="sec-no"><b>08</b><span>Reference</span></div>
+  <h2>Every word, in plain English</h2>
+  <p class="prose" style="margin-bottom:26px">Nothing new here — the same explanations, collected in one place to read again before adding a server.</p>
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<footer>System Design — Lesson 04 of 28 · Next: nines, and what "consistent" actually means.</footer>
+</main>
+
+<script src="../glossary.js"></script>
+<script src="../sim-04.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- glossary ---------- */
+var TERMS = window.TERMS;
+
+var open=null;
+function closeDef(){
+  if(!open) return;
+  open.panel.remove();
+  open.btn.setAttribute("aria-expanded","false");
+  open=null;
+}
+function showDef(btn){
+  var key=btn.dataset.t, t=TERMS[key];
+  if(!t) return;
+  if(open && open.btn===btn){ closeDef(); return; }
+  closeDef();
+  var host=btn.closest("p,li,dd,.sub") || btn.parentElement;
+  var d=document.createElement("div"); d.className="def";
+  var h=document.createElement("div"); h.className="w"; h.textContent=t.w; d.appendChild(h);
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p; d.appendChild(p);
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v; d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; var i=document.createElement("i"); i.textContent="In production"; r.appendChild(i); r.appendChild(document.createTextNode(t.r)); d.appendChild(r); }
+  host.after(d);
+  btn.setAttribute("aria-expanded","true");
+  open={btn:btn, panel:d};
+}
+document.querySelectorAll("button.t").forEach(function(b){
+  b.setAttribute("aria-expanded","false");
+  b.addEventListener("click", function(){ showDef(b); });
+});
+
+var gl=document.getElementById("gloss");
+Object.keys(TERMS).forEach(function(k){
+  var t=TERMS[k], d=document.createElement("div"); d.className="gl";
+  var w=document.createElement("div"); w.className="w"; w.textContent=t.w;
+  var p=document.createElement("div"); p.className="p"; p.textContent=t.p;
+  var v=document.createElement("div"); v.className="v"; v.textContent=t.v;
+  d.appendChild(w); d.appendChild(p); d.appendChild(v);
+  if(t.r){ var r=document.createElement("div"); r.className="r"; r.textContent=t.r; d.appendChild(r); }
+  gl.appendChild(d);
+});
+
+/* ---------- progress ---------- */
+var done={sim:false,quiz:false,play:false};
+try{ done=Object.assign(done, JSON.parse(localStorage.getItem("sd-l4")||"{}")); }catch(e){}
+function paint(){
+  var n=0;
+  ["sim","quiz","play"].forEach(function(k,i){ if(done[k]){n++; document.getElementById("d"+i).classList.add("on");} });
+  document.getElementById("progTxt").textContent=n+" / 3";
+}
+function mark(k){ if(done[k])return; done[k]=true; try{localStorage.setItem("sd-l4",JSON.stringify(done));}catch(e){} paint(); }
+paint();
+
+/* ---------- simulator ---------- */
+var SS=window.SESSIONS, STATES=["memory","sticky","store","token"], STATEL=["memory","sticky","shared store","signed token"];
+var EVENTS=["traffic","kill","deploy"], EVENTL=["ordinary traffic","one server dies","a rolling deploy"];
+var K={n:document.getElementById("kN"), s:document.getElementById("kS"), e:document.getElementById("kE")};
+function readKnobs(){ return { servers:+K.n.value, state:STATES[+K.s.value], event:EVENTS[+K.e.value] }; }
+function pct(x){ return Math.round(x*100)+"%"; }
+
+function render(){
+  var r=readKnobs(), out=SS.simulate(r);
+  document.getElementById("vN").textContent=r.servers;
+  document.getElementById("vS").textContent=STATEL[+K.s.value];
+  document.getElementById("vE").textContent=EVENTL[+K.e.value];
+
+  var rack=document.getElementById("rack"); rack.innerHTML="";
+  var maxShare=Math.max.apply(null, out.shares);
+  out.status.forEach(function(st,i){
+    var hot = r.state==="sticky" && st!=="dead" && out.shares[i]===maxShare && r.servers>1;
+    var d=document.createElement("div"); d.className="srv"+(st==="dead"?" dead":st==="restarted"?" restarted":"")+(hot?" hot":"");
+    var nm=document.createElement("div"); nm.className="nm"; nm.textContent="Server "+(i+1);
+    var load=document.createElement("div"); load.className="load"; load.textContent=st==="dead"?"—":pct(out.shares[i]);
+    var sess=document.createElement("div"); sess.className="sess";
+    sess.textContent = st==="dead" ? "down" : st==="restarted" ? "restarted" :
+      (r.state==="store"||r.state==="token") ? "no local session" :
+      r.state==="sticky" ? "its own users" : "its own logins";
+    d.appendChild(nm); d.appendChild(load); d.appendChild(sess); rack.appendChild(d);
+  });
+
+  document.getElementById("cost").innerHTML="<b>"+out.stateName+"</b>"+out.cost;
+  var re=document.getElementById("stRe"); re.textContent=pct(out.relogin); re.className="v"+(out.relogin>0?" hot":" cool");
+  var lost=document.getElementById("stLost"); lost.textContent=pct(out.lost); lost.className="v"+(out.lost>0?" hot":" cool");
+  document.getElementById("stSpread").textContent=out.spread;
+  var any=document.getElementById("stAny");
+  var stateless = r.state==="store"||r.state==="token";
+  any.textContent=stateless?"yes":"no"; any.className="v"+(stateless?" cool":" hot");
+  document.getElementById("flag").innerHTML='<div class="'+(out.relogin>0?"hard":"trade")+'"><b>What happens</b>'+out.verdict+'</div>';
+}
+function touched(){ mark("sim"); render(); }
+[K.n,K.s,K.e].forEach(function(k){ k.addEventListener("input", touched); });
+document.getElementById("p-naive").addEventListener("click",function(){ K.n.value=2; K.s.value=0; K.e.value=0; touched(); });
+document.getElementById("p-sticky").addEventListener("click",function(){ K.n.value=4; K.s.value=1; K.e.value=0; touched(); });
+document.getElementById("p-store").addEventListener("click",function(){ K.n.value=4; K.s.value=2; K.e.value=2; touched(); });
+document.getElementById("reset").addEventListener("click",function(){ K.n.value=1; K.s.value=0; K.e.value=0; render(); });
+K.n.value=1; K.s.value=0; K.e.value=0; render();
+
+/* ---------- quiz ---------- */
+var QUIZ=[
+ {q:"Logins keep dropping after the team added a second server. A user is logged in on some requests and logged out on others, at random. What is happening?",
+  o:["The database is too slow to check the password each time",
+     "The session lives in one server's memory, and the load balancer sends the user's requests to whichever server is free — only one of which has their note",
+     "The load balancer is misconfigured and dropping requests",
+     "The password hashing is failing intermittently"],
+  a:1,
+  why:"Nothing in the code broke; the note about being logged in is in the memory of the server that handled the login, and the next request lands on a server that never wrote it. With two servers a user hits the right one about half the time. The fix is not a faster database or a different load balancer — it is moving the session somewhere both servers can read, or handing it to the client in a signed token."},
+ {q:"To fix the flapping logins quickly, a colleague enables sticky sessions on the load balancer. What has that actually solved, and what has it not?",
+  o:["It solves everything — the session is now reliable",
+     "It solves the flapping — each user returns to the server that has their note — but load drifts uneven, a dead server still takes its users' sessions, and a deploy still logs everyone out",
+     "It solves nothing; sticky sessions do not affect where requests go",
+     "It makes the system stateless"],
+  a:1,
+  why:"Sticky sessions pin each user to one server, so the note is found again — the immediate bug is gone. But the session is still in memory, so all three of memory's problems remain: users are not evenly busy, so one server runs hot with nothing to rebalance it; a server that dies takes its users' logins with it; and a rolling deploy restarts every server, emptying every memory. Sticky is a fine bridge for a week, but it is not statelessness and it is not where you stop."},
+ {q:"The team moves sessions into a shared Redis store. What property does the system gain, and what new responsibility comes with it?",
+  o:["It becomes stateless, and Redis is now a component that must not die and adds one round trip per request",
+     "It becomes faster, with no downside",
+     "It no longer needs a load balancer",
+     "Sessions can never be lost again under any circumstances"],
+  a:0,
+  why:"With the session in a store both servers read, any server can answer any request — that is what stateless means, and it is what makes adding servers, losing servers and rolling deploys safe. The honest cost is that the store is now on the critical path: it is one more thing to run and keep alive, and every request that checks the session pays a round trip to it. For most systems that trade is worth making, which is why it is the standard answer."},
+ {q:"A signed token (JWT) in the client avoids the store and the round trip entirely. What is the sharp edge that a store does not have?",
+  o:["Tokens are slower to verify than a store lookup",
+     "A token cannot be revoked before it expires, so 'log out everywhere' or 'ban this user now' needs a deny-list — which is a small shared store again",
+     "Tokens cannot hold who the user is",
+     "Tokens only work with one server"],
+  a:1,
+  why:"Because any server can verify a token's signature and trust its contents, there is no store to consult and no round trip — that is the appeal. But that same property means nothing on the server can take the token back: once signed, it is valid until it expires. Immediate revocation — logout everywhere, an urgent ban — requires the servers to check a deny-list, and a deny-list is a small shared store arriving through the back door. Tokens trade a storage problem for a revocation problem, not for nothing."},
+ {q:"A server has lost its database connection and is failing every real request, but its health check still returns 200 and the load balancer keeps sending it traffic. What is wrong, and what is the opposite mistake?",
+  o:["Nothing is wrong; a health check should always be shallow",
+     "The check only proves the process is up, not that it can work — but making it fail on every shared-dependency blip is the opposite trap, marking every server unhealthy at once over one hiccup",
+     "The load balancer is broken and should be replaced",
+     "The database should never be a dependency"],
+  a:1,
+  why:"A health check that only proves the process is running keeps a useless server in rotation, so every request routed to it errors while the dashboard stays green. The fix is to test what the server needs to do its job. But overcorrecting is its own outage: if every server's check fails whenever the shared database blinks, one blip marks the entire fleet unhealthy simultaneously and the load balancer has nowhere to send traffic. A good check reports whether this server is fit to work, not whether a shared dependency it does not own is having a bad second."}
+];
+var answered=0, correct=0, quizBox=document.getElementById("quiz");
+QUIZ.forEach(function(item,qi){
+  var d=document.createElement("div"); d.className="q";
+  var no=document.createElement("div"); no.className="q-no"; no.textContent="Question "+(qi+1); d.appendChild(no);
+  var t=document.createElement("p"); t.className="q-t"; t.textContent=item.q; d.appendChild(t);
+  var box=document.createElement("div"); box.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  item.o.forEach(function(txt,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABCD"[oi];
+    b.querySelector(".tx").textContent=txt;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      var right=oi===item.a;
+      b.classList.add(right?"right":"wrong");
+      if(!right) box.querySelectorAll(".opt")[item.a].classList.add("right");
+      why.className="why show "+(right?"good":"bad");
+      why.innerHTML="<b></b>";
+      why.querySelector("b").textContent = right?"Correct":"Not quite";
+      why.appendChild(document.createTextNode(item.why));
+      answered++; if(right) correct++;
+      document.getElementById("score").textContent=answered+" / "+QUIZ.length+" answered · "+correct+" correct";
+      if(answered===QUIZ.length) mark("quiz");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(why); quizBox.appendChild(d);
+});
+
+/* ---------- roleplay ---------- */
+var PLAY=[
+ {role:"A teammate — the day traffic outgrew one server",
+  line:'"I added a second server and now half the logins are failing. Load balancer bug?"',
+  o:[{t:"Yeah, probably the load balancer — let me check its config.", v:"weak",
+      f:"You are about to spend an afternoon in the load balancer, which is doing exactly its job: spreading requests across both servers. The bug is that the session only exists on one of them. Chasing the balancer is chasing the messenger."},
+     {t:"It's doing what it should — sending requests to both servers. The problem is the session's in one server's memory, so the other doesn't recognise the user. We move it to a shared store or a signed token; sticky sessions get us through today if we need a bridge.", v:"strong",
+      f:"You cleared the load balancer of the wrong charge, named where the state actually is, gave the real fix and the stopgap, and did it in three sentences. That is the whole lesson delivered at the moment it is needed."},
+     {t:"Roll back to one server — two clearly doesn't work.", v:"weak",
+      f:"Two servers work fine; the session placement does not. Rolling back buys a day and guarantees the same fire when traffic forces the second server again, which it will. You have treated the symptom and scheduled the relapse."}]},
+ {role:"Your tech lead — in a design review",
+  line:'"Let\'s just use sticky sessions. It\'s one setting and the logins stop flapping."',
+  o:[{t:"Agreed, simplest fix, let\'s ship it.", v:"weak",
+      f:"It does stop the flapping, and if nobody writes down that it is temporary, the crutch becomes the design. Load will pile onto one server, a crash will still log its users out, and the next deploy will log everyone out — and by then 'temporary' has been true for a year."},
+     {t:"Good bridge for now — let's do it and put a date on taking it off, because it doesn't survive a server dying or a deploy. The real fix is sessions in a shared store; sticky just buys us the week to do it properly.", v:"strong",
+      f:"You said yes to the fast fix and refused to let it become permanent, naming exactly what it does not survive. A bridge with a demolition date is engineering; a bridge without one is debt with a nicer name."},
+     {t:"No, sticky sessions are an anti-pattern, we should do it right.", v:"weak",
+      f:"Sometimes the bridge is the correct call for a week, and 'anti-pattern' shuts down a reasonable option without a reason the lead can act on. Name what it costs and when it has to go, and let the trade-off make the argument."}]},
+ {role:"On-call, 3am — the pager just went off",
+  line:'"Every server just got marked unhealthy at the same second. The whole site is down."',
+  o:[{t:"Restart all the servers — that usually clears it.", v:"weak",
+      f:"The servers are probably fine; they all failed the same health check at the same instant, which points at something they share, not at the servers themselves. Restarting them changes nothing if their check still fails the moment they come back, and now you are also down for the restart."},
+     {t:"All at once points at a shared dependency, not the servers — most likely the health check fails whenever the database blinks, so one blip took the whole fleet out. Check the database, and after this, make the check not fail on a dependency the server doesn't own.", v:"strong",
+      f:"You read the signal correctly: simultaneous failure is a shared cause. You named the likely mechanism, said where to look now, and named the fix that stops it recurring. That is an incident diagnosed from the shape of the failure, not from guessing."},
+     {t:"Take the health checks off so the servers stay in rotation.", v:"weak",
+      f:"Now a genuinely broken server also stays in rotation, and you have traded a total outage you understand for a partial one you cannot see. The check is not the enemy; a check that fails on someone else's hiccup is. Fix what it tests, do not remove it."}]}
+];
+var playBox=document.getElementById("play"), played=0;
+PLAY.forEach(function(sc){
+  var d=document.createElement("div"); d.className="scene";
+  var w=document.createElement("div"); w.className="who";
+  w.innerHTML='<div class="role"></div><div class="line"></div>';
+  w.querySelector(".role").textContent=sc.role; w.querySelector(".line").textContent=sc.line;
+  d.appendChild(w);
+  var box=document.createElement("div"); box.className="opts";
+  var v=document.createElement("div"); v.className="verdict";
+  sc.o.forEach(function(op,oi){
+    var b=document.createElement("button"); b.type="button"; b.className="opt";
+    b.innerHTML='<span class="ltr"></span><span class="tx"></span>';
+    b.querySelector(".ltr").textContent="ABC"[oi];
+    b.querySelector(".tx").textContent=op.t;
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+      b.classList.add(op.v==="strong"?"right":"wrong");
+      if(op.v!=="strong") sc.o.forEach(function(o2,i2){ if(o2.v==="strong") box.querySelectorAll(".opt")[i2].classList.add("right"); });
+      v.className="verdict show "+op.v;
+      v.innerHTML="<b></b>";
+      v.querySelector("b").textContent = op.v==="strong" ? "Strong answer" : "Weak answer — the highlighted one lands better";
+      v.appendChild(document.createTextNode(op.f));
+      played++; if(played===PLAY.length) mark("play");
+    });
+    box.appendChild(b);
+  });
+  d.appendChild(box); d.appendChild(v); playBox.appendChild(d);
+});
+})();
+</script>
+</body>
+</html>

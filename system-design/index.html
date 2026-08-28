@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Finance for Tech — Library</title>
-<meta name="description" content="A searchable library for developers building financial systems. Lessons, a plain-English glossary, and the table each term maps to in the sme-finance-scm codebase.">
+<title>System Design — Library</title>
+<meta name="description" content="A searchable library on system design for engineers. Lessons written as claims, a plain-English glossary, and — for every term — where it shows up once the system is running.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
@@ -123,7 +123,7 @@ footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; f
 
 <header class="top">
   <div class="top-in">
-    <span class="brand">Finance for Tech · <b>Library</b></span>
+    <span class="brand">System Design · <b>Library</b></span>
     <span class="top-r">
       <a href="../index.html" style="color:var(--fast)">← All books</a>
       <span id="cnt"></span>
@@ -135,15 +135,15 @@ footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; f
 <main class="wrap">
 
   <div class="hero">
-    <div class="eyebrow">For people who build financial systems</div>
-    <h1>Know the words before they cost you a bug.</h1>
-    <p>Lessons that assume no accounting, a glossary in plain English and Vietnamese, and — for every term — the table, entity and FRS code it maps to in <b>sme-finance-scm</b>. Search it the way you would ask a colleague.</p>
+    <div class="eyebrow">For people who build systems that have to stay up</div>
+    <h1>Every box on the diagram is a decision.</h1>
+    <p>Lessons that assume you can build an API and a database and want to know what happens at ten times the load, a glossary in plain English and Vietnamese, and — for every term — where it shows up once the system is in production. Search it the way you would ask a colleague.</p>
   </div>
 
   <div class="searchwrap">
     <div class="field">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="cash flow, DSO, receivable, &ldquo;profitable but broke&rdquo;, chiết khấu hoá đơn…" aria-label="Search the library">
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="idempotency, replication lag, consistent hashing, &ldquo;exactly once&rdquo;, hàng đợi…" aria-label="Search the library">
       <button id="clr" type="button">clear</button>
     </div>
     <div class="chips" id="chips"></div>
@@ -152,7 +152,7 @@ footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; f
   <div id="results" hidden>
     <div class="meta" id="rmeta"></div>
     <div class="hits" id="hits"></div>
-    <div class="empty" id="none" hidden><b>Nothing matches that.</b>All fifteen lessons and ninety-two terms are searchable, so a miss usually means a different word for the same thing. Try a plainer one — <em>cash flow</em>, <em>DSO</em>, <em>invoice</em>, <em>limit</em>, <em>bù trừ</em> — or clear the search and browse by chapter.</div>
+    <div class="empty" id="none" hidden><b>Nothing matches that.</b>All twenty-eight lessons are searchable, so a miss usually means a different word for the same thing. Try a plainer one — <em>cache</em>, <em>queue</em>, <em>retry</em>, <em>shard</em>, <em>SLO</em> — or clear the search and browse by chapter.</div>
   </div>
 
   <div id="browse">
@@ -162,16 +162,16 @@ footer{border-top:1px solid var(--line); margin-top:20px; padding:30px 0 60px; f
     </section>
 
     <section class="sec">
-      <div class="sec-h"><h2>Glossary</h2><span>Tap a word · English + Tiếng Việt + where it lives in code</span></div>
+      <div class="sec-h"><h2>Glossary</h2><span>Tap a word · English + Tiếng Việt + where it shows up in production</span></div>
       <div class="gwrap" id="gloss"></div>
       <div id="gdef"></div>
     </section>
   </div>
 
-  <footer>Finance for Tech — an internal study library for the sme-finance-scm project. Lessons are written to be read in order, but the search is there because refinement meetings are not.</footer>
+  <footer>System Design — a study library for engineers. Lessons are written to be read in order, but the search is there because incidents are not.</footer>
 </main>
 
-<script>window.UI = { ns: "f4t", room: "In the code" };</script>
+<script>window.UI = { ns: "sd", room: "In production" };</script>
 <script src="../assets/minisearch.min.js"></script>
 <script src="glossary.js"></script>
 <script src="data/lessons.js"></script>
